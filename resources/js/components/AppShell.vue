@@ -21,7 +21,7 @@ const handleSidebarChange = (open: boolean) => {
 </script>
 
 <template>
-    <div v-if="variant === 'header'" class="flex min-h-screen w-full flex-col">
+    <div class="flex min-h-screen w-full flex-col" v-if="variant === 'header'">
         <slot />
     </div>
     <SidebarProvider v-else :default-open="isOpen" :open="isOpen" @update:open="handleSidebarChange">
