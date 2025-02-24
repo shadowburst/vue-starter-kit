@@ -29,18 +29,18 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 <template>
     <div
         v-if="collapsible === 'none'"
-        :class="cn('flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground', props.class)"
         v-bind="$attrs"
+        :class="cn('flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground', props.class)"
     >
         <slot />
     </div>
 
-    <Sheet v-else-if="isMobile" :open="openMobile" v-bind="$attrs" @update:open="setOpenMobile">
+    <Sheet v-else-if="isMobile" v-bind="$attrs" :open="openMobile" @update:open="setOpenMobile">
         <SheetContent
+            class="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
             data-sidebar="sidebar"
             data-mobile="true"
             :side="side"
-            class="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
             :style="{
                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
             }"
@@ -52,8 +52,8 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
     </Sheet>
 
     <div
-        v-else
         class="group peer hidden md:block"
+        v-else
         :data-state="state"
         :data-collapsible="state === 'collapsed' ? collapsible : ''"
         :data-variant="variant"
@@ -73,6 +73,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             "
         />
         <div
+            v-bind="$attrs"
             :class="
                 cn(
                     'fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex',
@@ -86,11 +87,10 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
                     props.class,
                 )
             "
-            v-bind="$attrs"
         >
             <div
-                data-sidebar="sidebar"
                 class="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+                data-sidebar="sidebar"
             >
                 <slot />
             </div>
