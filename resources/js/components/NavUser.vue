@@ -17,15 +17,18 @@ const { isMobile, state } = useSidebar();
         <SidebarMenuItem>
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
-                    <SidebarMenuButton size="lg" class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                    <SidebarMenuButton
+                        class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        size="lg"
+                    >
                         <UserInfo :user="user" />
                         <ChevronsUpDown class="ml-auto size-4" />
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                    class="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg" 
+                <DropdownMenuContent
+                    class="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                     :side="isMobile ? 'bottom' : state === 'collapsed' ? 'left' : 'bottom'"
-                    align="end" 
+                    align="end"
                     :side-offset="4"
                 >
                     <UserMenuContent :user="user" />
