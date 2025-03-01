@@ -20,7 +20,7 @@ class PasswordController extends Controller
     {
         return Inertia::render('settings/Password', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => $request->session()->get('status'),
+            'status'          => $request->session()->get('status'),
         ]);
     }
 
@@ -31,7 +31,7 @@ class PasswordController extends Controller
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'password'         => ['required', Password::defaults(), 'confirmed'],
         ]);
 
         $request->user()->update([
