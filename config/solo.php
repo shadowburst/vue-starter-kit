@@ -23,7 +23,7 @@ return [
 
     'themes' => [
         'light' => Themes\LightTheme::class,
-        'dark' => Themes\DarkTheme::class,
+        'dark'  => Themes\DarkTheme::class,
     ],
 
     /*
@@ -48,11 +48,11 @@ return [
         'Logs' => EnhancedTailCommand::file(storage_path('logs/laravel.log')),
 
         // Lazy commands do no automatically start when Solo starts.
-        'Dumps' => Command::from('php artisan solo:dumps')->lazy(),
+        'Dumps'  => Command::from('php artisan solo:dumps')->lazy(),
         'Reverb' => Command::from('php artisan reverb:start --debug')->lazy(),
-        'Pint' => Command::from('./vendor/bin/pint --ansi')->lazy(),
-        'Queue' => Command::from('php artisan queue:work')->lazy(),
-        'Tests' => Command::from('php artisan test --colors=always')->withEnv(['APP_ENV' => 'testing'])->lazy(),
+        'Pint'   => Command::from('./vendor/bin/pint --ansi')->lazy(),
+        'Queue'  => Command::from('php artisan queue:work')->lazy(),
+        'Tests'  => Command::from('php artisan test --colors=always')->withEnv(['APP_ENV' => 'testing'])->lazy(),
     ],
 
     /*
