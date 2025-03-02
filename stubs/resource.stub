@@ -1,0 +1,14 @@
+<?php
+
+namespace {{ namespace }};
+
+use Spatie\LaravelData\Resource;
+use Spatie\TypeScriptTransformer\Attributes\TypeScript;
+
+#[TypeScript]
+class {{ class }} extends Resource
+{
+    public function __construct(
+        //
+    ) {}
+}
