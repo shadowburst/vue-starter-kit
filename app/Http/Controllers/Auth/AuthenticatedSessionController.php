@@ -41,6 +41,6 @@ class AuthenticatedSessionController extends Controller
     {
         $this->authService->logout->execute();
 
-        return to_route('dashboard');
+        return to_route('home');
     }
 }
