@@ -15,7 +15,7 @@ class LoginRequest extends Data
         #[Email]
         public string $email,
         public string $password,
-        public bool $remember,
+        public ?bool $remember = false,
     ) {}
 
     public static function attributes(): array
