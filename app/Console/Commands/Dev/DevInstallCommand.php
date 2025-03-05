@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
+use function Laravel\Prompts\alert;
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\text;
+
 class DevInstallCommand extends Command
 {
     /**
@@ -39,16 +43,25 @@ class DevInstallCommand extends Command
             $this->call('ide-helper:generate');
         }
 
-        if ($this->components->confirm('Reset database ?')) {
+        if (app()->isProduction()) {
+            alert('Database will be ignored in production');
+
+            return self::SUCCESS;
+        }
+
+        if (confirm('Reset database ?')) {
             $this->call('migrate:fresh');
         } else {
             $this->call('migrate');
         }
-
         $this->call('db:seed');
 
-        if ($this->components->confirm('Generate fake data')) {
-            $count = $this->components->askWithCompletion('How many items to create per model ?', [25, 50, 100]);
+        if (confirm('Generate fake data ?')) {
+            $count = text(
+                label: 'How many items to create per model ?',
+                default: 50,
+                validate: fn (string $value) => is_int($value),
+            );
             User::factory($count)->create();
         }
 
