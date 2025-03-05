@@ -14,6 +14,9 @@
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
+pest()->extend(Tests\TestCase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->in('Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +39,7 @@ pest()->extend(Tests\TestCase::class)
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+function mockProduction(): string
+{
+    return app()->detectEnvironment(fn () => 'production');
+}
