@@ -1,43 +1,54 @@
 <?php
 
 use App\Models\User;
+use Tests\TestCase;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('can render the login page')->get('/login')->assertOk();
-
-test('users can authenticate using the login screen', function () {
-    /** @var User $user */
-    $user = User::factory()->create();
-
-    $response = $this->post('/login', [
-        'email'    => $user->email,
-        'password' => 'password',
-    ]);
-
-    $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+it('can render the login page', function () {
+    /** @var TestCase $this */
+    $this->get(route('login'))
+        ->assertOk();
 });
 
-test('users can not authenticate with invalid password', function () {
+it('can authenticate users using the login screen', function () {
+    /** @var TestCase $this */
+
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this->post('/login', [
-        'email'    => $user->email,
-        'password' => 'wrong-password',
-    ]);
+    $this
+        ->post(route('login'), [
+            'email'    => $user->email,
+            'password' => 'password',
+        ])
+        ->assertRedirect(route('dashboard', absolute: false));
+    $this->assertAuthenticatedAs($user);
+});
 
+it('cannot authenticate users with an invalid password', function () {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    $this
+        ->post(route('login'), [
+            'email'    => $user->email,
+            'password' => 'wrong-password',
+        ]);
     $this->assertGuest();
 });
 
-test('users can logout', function () {
+it('lets users logout', function () {
+    /** @var TestCase $this */
+
     /** @var User $user */
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->post('/logout');
+    $this->actingAs($user)
+        ->post(route('logout'))
+        ->assertRedirect('/');
 
     $this->assertGuest();
-    $response->assertRedirect('/');
 });
-

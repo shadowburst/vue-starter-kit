@@ -6,54 +6,58 @@ use Illuminate\Support\Facades\Notification;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-test('reset password link screen can be rendered', function () {
-    $response = $this->get('/forgot-password');
-
-    $response->assertStatus(200);
+it('can render the reset password link screen', function () {
+    /** @var TestCase $this */
+    $this->get(route('password.request'))
+        ->assertStatus(200);
 });
 
-test('reset password link can be requested', function () {
+it('lets users request a reset password link', function () {
+    /** @var TestCase $this */
     Notification::fake();
 
+    /** @var User $user */
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    $this->post(route('password.email'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class);
 });
 
-test('reset password screen can be rendered', function () {
+it('can render the reset password screen', function () {
+    /** @var TestCase $this */
     Notification::fake();
 
+    /** @var User $user */
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    $this->post(route('password.request'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-        $response = $this->get('/reset-password/'.$notification->token);
-
-        $response->assertStatus(200);
+        $this->get(route('password.reset', ['token' => $notification->token]))
+            ->assertStatus(200);
 
         return true;
     });
 });
 
-test('password can be reset with valid token', function () {
+it('can reset password with valid token', function () {
+    /** @var TestCase $this */
     Notification::fake();
 
+    /** @var User $user */
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    $this->post(route('password.request'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-        $response = $this->post('/reset-password', [
-            'token'                 => $notification->token,
-            'email'                 => $user->email,
-            'password'              => 'password',
-            'password_confirmation' => 'password',
-        ]);
-
-        $response
+        $this
+            ->post(route('password.store'), [
+                'token'                 => $notification->token,
+                'email'                 => $user->email,
+                'password'              => 'password',
+                'password_confirmation' => 'password',
+            ])
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('login'));
 
