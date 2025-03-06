@@ -23,7 +23,8 @@ createServer((page) =>
             };
 
             // Create route function...
-            const route = (name: string, params?: any, absolute?: boolean) => ziggyRoute(name, params, absolute, ziggyConfig);
+            const route = (name: string, params?: any, absolute?: boolean) =>
+                ziggyRoute(name, params, absolute, ziggyConfig);
 
             // Make route function available globally...
             app.config.globalProperties.route = route;
