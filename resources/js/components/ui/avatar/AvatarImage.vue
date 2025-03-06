@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { AvatarImage, type AvatarImageProps } from 'radix-vue';
+import type { AvatarImageProps } from 'reka-ui'
+import { AvatarImage } from 'reka-ui'
 
-const props = defineProps<AvatarImageProps>();
+const props = defineProps<AvatarImageProps>()
 </script>
 
 <template>
-    <AvatarImage class="h-full w-full object-cover" v-bind="props" />
+  <AvatarImage v-bind="props" class="h-full w-full object-cover">
+    <slot />
+  </AvatarImage>
 </template>
