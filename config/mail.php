@@ -113,4 +113,8 @@ return [
         'name'    => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'debug' => [
+        'address' => env('MAIL_DEBUG_ADDRESS'),
+    ],
+
 ];
