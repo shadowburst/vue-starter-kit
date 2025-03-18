@@ -12,6 +12,7 @@
         "php": "^8.2",
         "getbrevo/brevo-php": "^2.0",
         "inertiajs/inertia-laravel": "^2.0",
+        "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "spatie/laravel-data": "^4.13",

@@ -3,27 +3,38 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Requests\Auth\VerifyCodeRequest;
+use App\Services\AuthService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
+use URL;
 
 class VerifyEmailController extends Controller
 {
+    public function __construct(
+        protected AuthService $authService,
+    ) {}
+
     /**
      * Mark the authenticated user's email address as verified.
      */
-    public function __invoke(EmailVerificationRequest $request): RedirectResponse
+    public function code(VerifyCodeRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        /** @var \App\Models\User $user */
+        $user = $this->authService->user();
+
+        if (! $this->authService->verifyCode->execute($user, $request)) {
+            throw ValidationException::withMessages([
+                'code' => __('auth.verification.code.failed'),
+            ]);
         }
 
-        if ($request->user()->markEmailAsVerified()) {
-            /** @var \Illuminate\Contracts\Auth\MustVerifyEmail $user */
-            $user = $request->user();
-            event(new Verified($user));
-        }
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)],
+        );
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return redirect($verificationUrl);
     }
 }

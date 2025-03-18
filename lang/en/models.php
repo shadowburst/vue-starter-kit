@@ -12,6 +12,12 @@ return [
     |
     */
 
+    'email_verification_token' => [
+        'fields' => [
+            'code' => 'code',
+        ],
+    ],
+
     'user' => [
         'name' => [
             'one'  => 'user',

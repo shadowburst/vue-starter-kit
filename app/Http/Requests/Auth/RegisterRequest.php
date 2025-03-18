@@ -21,17 +21,19 @@ class RegisterRequest extends Data
         public string $last_name,
         #[Email, Unique(User::class), Lowercase]
         public string $email,
-        #[Confirmed, Password(min: 8)]
+        #[Confirmed, Password(default: true)]
         public string $password,
+        public string $password_confirmation,
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'first_name' => __('models.user.fields.first_name'),
-            'last_name'  => __('models.user.fields.last_name'),
-            'email'      => __('models.user.fields.email'),
-            'password'   => __('models.user.fields.password'),
+            'first_name'            => __('models.user.fields.first_name'),
+            'last_name'             => __('models.user.fields.last_name'),
+            'email'                 => __('models.user.fields.email'),
+            'password'              => __('models.user.fields.password'),
+            'password_confirmation' => __('models.user.fields.password'),
         ];
     }
 
