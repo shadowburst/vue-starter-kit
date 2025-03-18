@@ -17,7 +17,7 @@ class VerifyEmailNotification extends Notification implements SendsToBrevo
      * Create a new notification instance.
      */
     public function __construct(
-        #[SensitiveParameter] protected string $token,
+        #[SensitiveParameter] protected string $code,
     ) {}
 
     /**
@@ -33,6 +33,6 @@ class VerifyEmailNotification extends Notification implements SendsToBrevo
     public function toBrevo(object $notifiable): BrevoMessage
     {
         return BrevoMessage::template(1)
-            ->parameter('token', $this->token);
+            ->parameter('code', $this->code);
     }
 }

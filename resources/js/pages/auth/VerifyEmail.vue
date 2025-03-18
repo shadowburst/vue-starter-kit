@@ -1,41 +1,59 @@
-<script setup lang="ts">
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
-import AuthLayout from '@/layouts/AuthLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
-
-defineProps<{
-    status?: string;
-}>();
-
-const form = useForm({});
-
-const submit = () => {
-    form.post(route('verification.send'));
-};
-</script>
-
 <template>
-    <AuthLayout
-        title="Verify email"
-        description="Please verify your email address by clicking on the link we just emailed to you."
-    >
-        <Head title="Email verification" />
+    <Head title="Email verification" />
 
-        <div class="mb-4 text-center text-sm font-medium text-green-600" v-if="status === 'verification-link-sent'">
-            A new verification link has been sent to the email address you provided during registration.
-        </div>
+    <Form @submit="resend()">
+        <LoadingButton type="submit" variant="secondary" :loading="resendForm.processing">
+            Resend verification email
+        </LoadingButton>
+        <Link :href="route('logout')" method="post" as="button"> Log out </Link>
+    </Form>
 
-        <form class="space-y-6 text-center" @submit.prevent="submit">
-            <Button :disabled="form.processing" variant="secondary">
-                <LoaderCircle class="h-4 w-4 animate-spin" v-if="form.processing" />
-                Resend verification email
-            </Button>
-
-            <TextLink class="mx-auto block text-sm" :href="route('logout')" method="post" as="button">
-                Log out
-            </TextLink>
-        </form>
-    </AuthLayout>
+    <Form @submit="submit()">
+        <PinInput
+            v-model="form.code"
+            type="number"
+            required
+            otp
+            placeholder="○"
+            ref="codeRef"
+            :disabled="form.processing"
+            @complete="submit()"
+        >
+            <PinInputGroup>
+                <PinInputInput class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
+            </PinInputGroup>
+        </PinInput>
+    </Form>
 </template>
+
+<script setup lang="ts">
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form } from '@/components/ui/form';
+import { Link } from '@/components/ui/link';
+import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
+import { SharedData } from '@/types';
+import { VerifyCodeRequest } from '@/types/backend';
+import { Head, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+type Props = SharedData;
+defineProps<Props>();
+
+const resendForm = useForm({});
+
+function resend() {
+    resendForm.post(route('verification.send'));
+}
+
+const codeRef = ref<HTMLInputElement>();
+
+const form = useForm({
+    code: [] as string[],
+}).transform((data): VerifyCodeRequest => ({ code: data.code.join('') }));
+
+function submit() {
+    form.post(route('verification.code'), {
+        onError: () => form.reset(),
+    });
+}
+</script>

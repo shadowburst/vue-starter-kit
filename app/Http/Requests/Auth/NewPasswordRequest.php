@@ -15,15 +15,17 @@ class NewPasswordRequest extends Data
     public function __construct(
         public string $token,
         public string $email,
-        #[Confirmed, Password(min: 8)]
+        #[Confirmed, Password(default: true)]
         public string $password,
+        public string $password_confirmation,
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'email'    => __('models.user.fields.email'),
-            'password' => __('models.user.fields.password'),
+            'email'                 => __('models.user.fields.email'),
+            'password'              => __('models.user.fields.password'),
+            'password_confirmation' => __('models.user.fields.password'),
         ];
     }
 

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Hash;
+use Nette\Utils\Random;
 
 /**
  * @property int $id
@@ -17,6 +19,9 @@ use Illuminate\Notifications\Notification;
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_confirmed_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -36,6 +41,9 @@ use Illuminate\Notifications\Notification;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -104,7 +112,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmailNotification);
+        $code = Random::generate(6, '0-9');
+
+        EmailVerificationToken::query()
+            ->whereEmail($this->email)
+            ->delete();
+        EmailVerificationToken::query()
+            ->create([
+                'email'      => $this->email,
+                'token'      => Hash::make($code),
+                'expires_at' => now()->addMinutes(30),
+            ]);
+
+        $this->notify(new VerifyEmailNotification($code));
     }
 
     public function routeNotificationForBrevo(?Notification $notification): array|string

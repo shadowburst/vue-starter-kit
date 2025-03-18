@@ -1,13 +1,56 @@
+<template>
+    <Head title="Log in" />
+
+    <div class="mb-4 text-center text-sm font-medium text-green-600" v-if="status">
+        {{ status }}
+    </div>
+
+    <Form @submit="submit()">
+        <FormField name="email" required>
+            <FormLabel class="after:!content-['']">Email address</FormLabel>
+            <FormControl>
+                <Input v-model="form.email" type="email" autofocus :tabindex="1" autocomplete="email" />
+            </FormControl>
+            <FormError :message="form.errors.email" />
+        </FormField>
+        <FormField name="password" required>
+            <div class="flex items-center justify-between">
+                <FormLabel class="after:!content-['']">Password</FormLabel>
+                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')" :tabindex="5">
+                    Forgot password?
+                </Link>
+            </div>
+            <FormControl>
+                <Input v-model="form.password" type="password" :tabindex="2" autocomplete="current-password" />
+            </FormControl>
+            <FormError :message="form.errors.password" />
+        </FormField>
+
+        <FormField name="remember">
+            <FormLabel>
+                <FormControl>
+                    <Checkbox v-model="form.remember" :tabindex="4" />
+                </FormControl>
+                <span>Remember me</span>
+            </FormLabel>
+        </FormField>
+
+        <LoadingButton type="submit" :loading="form.processing" :tabindex="4"> Log in </LoadingButton>
+
+        <div class="text-center text-sm text-muted-foreground">
+            Don't have an account?
+            <Link :href="route('register')" :tabindex="5">Sign up</Link>
+        </div>
+    </Form>
+</template>
+
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AuthBase from '@/layouts/AuthLayout.vue';
+import { Link } from '@/components/ui/link';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
 
 defineProps<{
     status?: string;
@@ -26,73 +69,3 @@ const submit = () => {
     });
 };
 </script>
-
-<template>
-    <AuthBase title="Log in to your account" description="Enter your email and password below to log in">
-        <Head title="Log in" />
-
-        <div class="mb-4 text-center text-sm font-medium text-green-600" v-if="status">
-            {{ status }}
-        </div>
-
-        <form class="flex flex-col gap-6" @submit.prevent="submit">
-            <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
-                    <Input
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        required
-                        autofocus
-                        :tabindex="1"
-                        autocomplete="email"
-                        placeholder="email@example.com"
-                    />
-                    <InputError :message="form.errors.email" />
-                </div>
-
-                <div class="grid gap-2">
-                    <div class="flex items-center justify-between">
-                        <Label for="password">Password</Label>
-                        <TextLink
-                            class="text-sm"
-                            v-if="canResetPassword"
-                            :href="route('password.request')"
-                            :tabindex="5"
-                        >
-                            Forgot password?
-                        </TextLink>
-                    </div>
-                    <Input
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        required
-                        :tabindex="2"
-                        autocomplete="current-password"
-                        placeholder="Password"
-                    />
-                    <InputError :message="form.errors.password" />
-                </div>
-
-                <div class="flex items-center justify-between" :tabindex="3">
-                    <Label class="flex items-center space-x-3" for="remember">
-                        <Checkbox id="remember" v-model:checked="form.remember" :tabindex="4" />
-                        <span>Remember me</span>
-                    </Label>
-                </div>
-
-                <Button class="mt-4 w-full" type="submit" :tabindex="4" :disabled="form.processing">
-                    <LoaderCircle class="h-4 w-4 animate-spin" v-if="form.processing" />
-                    Log in
-                </Button>
-            </div>
-
-            <div class="text-center text-sm text-muted-foreground">
-                Don't have an account?
-                <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
-            </div>
-        </form>
-    </AuthBase>
-</template>
