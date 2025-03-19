@@ -4,7 +4,7 @@ namespace App\Actions\Toast;
 
 use Spatie\QueueableAction\QueueableAction;
 
-class ToastDanger
+class ToastError
 {
     use QueueableAction;
 
@@ -20,6 +20,6 @@ class ToastDanger
      */
     public function execute(string $message): void
     {
-        $this->toastMessage->execute($message, 'danger');
+        $this->toastMessage->execute($message, 'error');
     }
 }
