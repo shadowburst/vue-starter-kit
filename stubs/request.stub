@@ -1,6 +1,6 @@
 <?php
 
-namespace {{ namespace }};
+namespace DummyNamespace;
 
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
@@ -8,7 +8,7 @@ use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript, MergeValidationRules]
-class {{ class }} extends Data
+class DummyClass extends Data
 {
     public function __construct(
         //
