@@ -1,0 +1,21 @@
+<?php
+
+namespace DummyNamespace;
+
+class DummyClass
+{
+    /**
+     * Create a new action instance.
+     */
+    public function __construct(
+        //
+    ) {}
+
+    /**
+     * Execute the action.
+     */
+    public function execute()
+    {
+        // The business logic goes here.
+    }
+}
