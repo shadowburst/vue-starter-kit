@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Data\Auth\VerifyEmail\VerifyEmailRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\VerifyCodeRequest;
 use App\Services\AuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
@@ -18,12 +18,12 @@ class VerifyEmailController extends Controller
     /**
      * Mark the authenticated user's email address as verified.
      */
-    public function code(VerifyCodeRequest $request): RedirectResponse
+    public function code(VerifyEmailRequest $request): RedirectResponse
     {
         /** @var \App\Models\User $user */
         $user = $this->authService->user();
 
-        if (! $this->authService->verifyCode->execute($user, $request)) {
+        if (! $this->authService->verifyEmailCode->execute($user, $request)) {
             throw ValidationException::withMessages([
                 'code' => __('auth.verification.code.failed'),
             ]);

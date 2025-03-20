@@ -2,13 +2,13 @@
 
 namespace App\Actions\Auth;
 
-use App\Http\Requests\Auth\VerifyCodeRequest;
+use App\Data\Auth\VerifyEmail\VerifyEmailRequest;
 use App\Models\EmailVerificationToken;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\QueueableAction\QueueableAction;
 
-class VerifyCode
+class VerifyEmailCode
 {
     use QueueableAction;
 
@@ -22,7 +22,7 @@ class VerifyCode
     /**
      * Execute the action.
      */
-    public function execute(User $user, VerifyCodeRequest $request): bool
+    public function execute(User $user, VerifyEmailRequest $request): bool
     {
         /** @var ?EmailVerificationToken $token */
         $token = EmailVerificationToken::query()

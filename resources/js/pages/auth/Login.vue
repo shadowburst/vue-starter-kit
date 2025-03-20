@@ -6,40 +6,40 @@
     </div>
 
     <Form @submit="submit()">
-        <FormField name="email" required>
+        <FormField id="email" required>
             <FormLabel class="after:!content-['']">Email address</FormLabel>
             <FormControl>
-                <Input v-model="form.email" type="email" autofocus :tabindex="1" autocomplete="email" />
+                <Input v-model="form.email" type="email" autofocus autocomplete="email" />
             </FormControl>
             <FormError :message="form.errors.email" />
         </FormField>
-        <FormField name="password" required>
+        <FormField id="password" required>
             <div class="flex items-center justify-between">
                 <FormLabel class="after:!content-['']">Password</FormLabel>
-                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')" :tabindex="5">
+                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')">
                     Forgot password?
                 </Link>
             </div>
             <FormControl>
-                <Input v-model="form.password" type="password" :tabindex="2" autocomplete="current-password" />
+                <Input v-model="form.password" type="password" autocomplete="current-password" />
             </FormControl>
             <FormError :message="form.errors.password" />
         </FormField>
 
-        <FormField name="remember">
+        <FormField id="remember">
             <FormLabel>
                 <FormControl>
-                    <Checkbox v-model="form.remember" :tabindex="4" />
+                    <Checkbox v-model="form.remember" />
                 </FormControl>
                 <span>Remember me</span>
             </FormLabel>
         </FormField>
 
-        <LoadingButton type="submit" :loading="form.processing" :tabindex="4"> Log in </LoadingButton>
+        <LoadingButton type="submit" :loading="form.processing"> Log in </LoadingButton>
 
         <div class="text-center text-sm text-muted-foreground">
             Don't have an account?
-            <Link :href="route('register')" :tabindex="5">Sign up</Link>
+            <Link :href="route('register')">Sign up</Link>
         </div>
     </Form>
 </template>
@@ -50,22 +50,21 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
+import { LoginProps, LoginRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
-defineProps<{
-    status?: string;
-    canResetPassword: boolean;
-}>();
+type Props = SharedData & LoginProps;
+defineProps<Props>();
 
-const form = useForm({
+const form = useForm<LoginRequest>({
     email: '',
     password: '',
     remember: false,
 });
 
-const submit = () => {
+function submit() {
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
-};
+}
 </script>

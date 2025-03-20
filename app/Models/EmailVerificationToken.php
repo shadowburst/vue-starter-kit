@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string $email
- * @property string $token
- * @property \Illuminate\Support\Carbon|null $created_at
+ * 
  *
+ * @property int $email
+ * @property string $token
+ * @property \Illuminate\Support\Carbon|null $expires_at
  * @method static \Database\Factories\EmailVerificationTokenFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken whereExpiresAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EmailVerificationToken whereToken($value)
- *
  * @mixin \Eloquent
  */
 class EmailVerificationToken extends Model

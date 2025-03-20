@@ -6,6 +6,11 @@ use App\Actions\Auth\CreateNewUser;
 use App\Actions\Auth\ResetUserPassword;
 use App\Actions\Auth\UpdateUserPassword;
 use App\Actions\Auth\UpdateUserProfileInformation;
+use App\Data\Auth\ForgotPassword\ForgotPasswordProps;
+use App\Data\Auth\Login\LoginProps;
+use App\Data\Auth\Register\RegisterProps;
+use App\Data\Auth\ResetPassword\ResetPasswordProps;
+use App\Data\Auth\VerifyEmail\VerifyEmailProps;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -30,22 +35,36 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Fortify::loginView(
-            fn () => inertia('auth/Login', [
+            fn (Request $request) => inertia('auth/Login', LoginProps::from([
+                'status'           => $request->session()->get('status'),
                 'canResetPassword' => Features::enabled(Features::resetPasswords()),
-            ]),
+            ])),
         );
         Fortify::registerView(
-            fn () => inertia('auth/Register'),
+            fn (Request $request) => inertia('auth/Register', RegisterProps::from([
+                'status' => $request->session()->get('status'),
+            ])),
         );
         Fortify::createUsersUsing(CreateNewUser::class);
 
         Fortify::requestPasswordResetLinkView(
-            fn () => inertia('auth/ForgotPassword'),
+            fn (Request $request) => inertia('auth/ForgotPassword', ForgotPasswordProps::from([
+                'status' => $request->session()->get('status'),
+            ])),
+        );
+        Fortify::resetPasswordView(
+            fn (Request $request) => inertia('auth/ResetPassword', ResetPasswordProps::from([
+                'status' => $request->session()->get('status'),
+                'token'  => $request->route('token'),
+                'email'  => $request->get('email'),
+            ])),
         );
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         Fortify::verifyEmailView(
-            fn () => inertia('auth/VerifyEmail'),
+            fn (Request $request) => inertia('auth/VerifyEmail', VerifyEmailProps::from([
+                'status' => $request->session()->get('status'),
+            ])),
         );
 
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

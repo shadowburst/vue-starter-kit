@@ -9,34 +9,28 @@
     </Form>
 
     <Form @submit="submit()">
-        <PinInput
-            v-model="form.code"
-            type="number"
-            required
-            otp
-            placeholder="○"
-            ref="codeRef"
-            :disabled="form.processing"
-            @complete="submit()"
-        >
-            <PinInputGroup>
-                <PinInputInput class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
-            </PinInputGroup>
-        </PinInput>
+        <FormField id="code" required :disabled="form.processing">
+            <FormControl>
+                <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
+                    <PinInputGroup>
+                        <PinInputInput class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
+                    </PinInputGroup>
+                </PinInput>
+            </FormControl>
+            <FormError :message="form.errors.code" />
+        </FormField>
     </Form>
 </template>
 
 <script setup lang="ts">
 import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form } from '@/components/ui/form';
+import { Form, FormControl, FormError, FormField } from '@/components/ui/form';
 import { Link } from '@/components/ui/link';
 import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
-import { SharedData } from '@/types';
-import { VerifyCodeRequest } from '@/types/backend';
+import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 
-type Props = SharedData;
+type Props = SharedData & VerifyEmailProps;
 defineProps<Props>();
 
 const resendForm = useForm({});
@@ -45,13 +39,12 @@ function resend() {
     resendForm.post(route('verification.send'));
 }
 
-const codeRef = ref<HTMLInputElement>();
-
 const form = useForm({
     code: [] as string[],
-}).transform((data): VerifyCodeRequest => ({ code: data.code.join('') }));
+}).transform((data): VerifyEmailRequest => ({ code: data.code.join('') }));
 
 function submit() {
+    form.clearErrors();
     form.post(route('verification.code'), {
         onError: () => form.reset(),
     });

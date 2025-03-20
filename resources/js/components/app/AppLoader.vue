@@ -1,20 +1,14 @@
 <template>
-    <form :class="cn('grid gap-4')" @submit.prevent="$emit('submit')">
-        <slot />
-    </form>
+    <LoaderCircleIcon :class="cn('size-8 animate-spin text-primary', props.class)" />
 </template>
 
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
+import { LoaderCircleIcon } from 'lucide-vue-next';
 import { HTMLAttributes } from 'vue';
 
 type Props = {
     class?: HTMLAttributes['class'];
 };
-defineProps<Props>();
-
-type Emits = {
-    submit: [];
-};
-defineEmits<Emits>();
+const props = defineProps<Props>();
 </script>
