@@ -1,10 +1,11 @@
 import vue from '@vitejs/plugin-vue';
 import autoprefixer from 'autoprefixer';
 import laravel from 'laravel-vite-plugin';
+import { resolve } from 'node:path';
 import path from 'path';
 import tailwindcss from 'tailwindcss';
-import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import { watch } from 'vite-plugin-watch';
 
 export default defineConfig({
     plugins: [
@@ -20,6 +21,18 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+        }),
+        watch({
+            pattern: 'app/{Data,Enums}/**/*.php',
+            command: 'php artisan typescript:transform -q',
+        }),
+        watch({
+            pattern: 'database/migrations/*.php',
+            command: 'php artisan ide-helper:models -q -R -W',
+        }),
+        watch({
+            pattern: 'routes/**/*.php',
+            command: 'php artisan ziggy:generate -q --types',
         }),
     ],
     resolve: {
