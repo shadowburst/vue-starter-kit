@@ -1,10 +1,7 @@
-import type { PageProps } from '@inertiajs/core';
+import type { ErrorBag, Errors } from '@inertiajs/core';
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
-
-export interface Auth {
-    user: User;
-}
+import { AuthUserResource } from './backend.d.ts';
 
 export interface BreadcrumbItem {
     title: string;
@@ -18,20 +15,15 @@ export interface NavItem {
     isActive?: boolean;
 }
 
-export interface SharedData extends PageProps {
+export type SharedData = {
     name: string;
-    auth: Auth;
+    auth: {
+        user: AuthUserResource;
+    };
+    errors: Errors & ErrorBag;
     ziggy: Config & { location: string };
-}
-
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-}
+};
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export * from './backend.d.ts';

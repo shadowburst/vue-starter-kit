@@ -8,7 +8,7 @@ use App\Notifications\Brevo\SendsToBrevo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-class VerifyEmailNotification extends Notification implements SendsToBrevo
+class ResetPasswordNotification extends Notification implements SendsToBrevo
 {
     use Queueable;
 
@@ -16,7 +16,7 @@ class VerifyEmailNotification extends Notification implements SendsToBrevo
      * Create a new notification instance.
      */
     public function __construct(
-        #[\SensitiveParameter] protected string $code,
+        #[\SensitiveParameter] protected string $token,
     ) {}
 
     /**
@@ -31,7 +31,14 @@ class VerifyEmailNotification extends Notification implements SendsToBrevo
 
     public function toBrevo(object $notifiable): BrevoMessage
     {
-        return BrevoMessage::template(1)
-            ->parameter('code', $this->code);
+        $url = url(
+            route('password.reset', [
+                'token' => $this->token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false),
+        );
+
+        return BrevoMessage::template(2)
+            ->parameter('url', $url);
     }
 }

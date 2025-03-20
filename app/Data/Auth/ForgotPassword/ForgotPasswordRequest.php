@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Data\Auth\ForgotPassword;
 
 use Spatie\LaravelData\Attributes\MergeValidationRules;
+use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript, MergeValidationRules]
-class ConfirmPasswordRequest extends Data
+class ForgotPasswordRequest extends Data
 {
     public function __construct(
-        public string $password,
+        #[Email]
+        public string $email,
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'password' => __('models.user.fields.password'),
+            'email' => __('models.user.fields.email'),
         ];
     }
 

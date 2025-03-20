@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+import { toRefs } from '@vueuse/core';
 import { createContext } from 'reka-ui';
 
 type FormFieldContext = {
@@ -23,21 +24,19 @@ export const [injectFormFieldContext, provideFormFieldContext] = createContext<F
 
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
-import { computed, HTMLAttributes, ref, Ref, useId } from 'vue';
+import { computed, HTMLAttributes, ref, Ref } from 'vue';
 
 type Props = {
-    name: string;
-    id?: string;
+    id: string;
+    name?: string;
     required?: boolean;
     disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
 
-const id = computed((): string => props.id ?? useId());
-const name = computed((): string => props.name);
-const required = computed((): boolean => props.required);
-const disabled = computed((): boolean => props.disabled);
+const { id, required, disabled } = toRefs(props);
+const name = computed((): string => props.name ?? id.value);
 const descriptionId = computed((): string => `${id.value}-description`);
 const errorId = computed((): string => `${id.value}-error`);
 const error = ref<string>();

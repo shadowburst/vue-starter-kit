@@ -4,7 +4,7 @@
         :aria-required="field.required.value"
         :class="
             cn(
-                `flex items-center gap-2 aria-required:after:text-destructive aria-required:after:content-['_*']`,
+                `flex items-center gap-2 aria-required:after:text-destructive aria-required:after:content-['*']`,
                 props.class,
             )
         "

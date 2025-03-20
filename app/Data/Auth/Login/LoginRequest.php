@@ -1,26 +1,29 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Data\Auth\Login;
 
 use Spatie\LaravelData\Attributes\MergeValidationRules;
-use Spatie\LaravelData\Attributes\Validation\Digits;
-use Spatie\LaravelData\Attributes\Validation\Numeric;
+use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript, MergeValidationRules]
-class VerifyCodeRequest extends Data
+class LoginRequest extends Data
 {
     public function __construct(
-        #[Numeric, Digits(6)]
-        public string $code,
+        #[Email]
+        public string $email,
+        public string $password,
+        public ?bool $remember = false,
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'code' => __('models.email_verification_token.fields.code'),
+            'email'    => __('models.user.email'),
+            'password' => __('models.user.password'),
+            'remember' => __('models.user.remember'),
         ];
     }
 

@@ -2,6 +2,8 @@
     <Slot
         :id="field.id.value"
         :name="field.name.value"
+        :required="field.required.value"
+        :disabled="field.disabled.value"
         :aria-describedby="
             !field.error.value ? `${field.descriptionId.value}` : `${field.descriptionId.value} ${field.errorId.value}`
         "

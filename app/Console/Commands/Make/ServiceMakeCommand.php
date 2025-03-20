@@ -10,6 +10,10 @@ use Symfony\Component\Console\Input\InputOption;
 #[AsCommand(name: 'make:service', description: 'Create a new service class')]
 class ServiceMakeCommand extends GeneratorCommand
 {
+    protected $name = 'make:service';
+
+    protected $description = 'Create a new service class';
+
     protected $type = 'Service';
 
     protected function getStub(): string

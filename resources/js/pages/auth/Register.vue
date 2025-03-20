@@ -1,97 +1,74 @@
 <template>
     <Head title="Register" />
 
-    <form class="flex flex-col gap-6" @submit.prevent="submit">
-        <div class="grid gap-6">
-            <div class="grid gap-2">
-                <Label for="name">Name</Label>
-                <Input
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    required
-                    autofocus
-                    :tabindex="1"
-                    autocomplete="name"
-                    placeholder="Full name"
-                />
-                <InputError :message="form.errors.name" />
-            </div>
+    <Form @submit="submit()">
+        <FormField id="first_name" required>
+            <FormLabel>First name</FormLabel>
+            <FormControl>
+                <Input v-model="form.first_name" autofocus autocomplete="given-name" />
+            </FormControl>
+            <FormError :message="form.errors.first_name" />
+        </FormField>
+        <FormField id="last_name" required>
+            <FormLabel>Last name</FormLabel>
+            <FormControl>
+                <Input v-model="form.last_name" autocomplete="family-name" />
+            </FormControl>
+            <FormError :message="form.errors.last_name" />
+        </FormField>
+        <FormField id="email" required>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+                <Input v-model="form.email" type="email" autocomplete="email" />
+            </FormControl>
+            <FormError :message="form.errors.email" />
+        </FormField>
+        <FormField id="password" required>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+                <Input v-model="form.password" type="password" autocomplete="new-password" />
+            </FormControl>
+            <FormError :message="form.errors.password" />
+        </FormField>
+        <FormField id="password_confirmation" required>
+            <FormLabel>Confirm password</FormLabel>
+            <FormControl>
+                <Input v-model="form.password_confirmation" type="password" autocomplete="new-password" />
+            </FormControl>
+            <FormError :message="form.errors.password_confirmation" />
+        </FormField>
 
-            <div class="grid gap-2">
-                <Label for="email">Email address</Label>
-                <Input
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    required
-                    :tabindex="2"
-                    autocomplete="email"
-                    placeholder="email@example.com"
-                />
-                <InputError :message="form.errors.email" />
-            </div>
-
-            <div class="grid gap-2">
-                <Label for="password">Password</Label>
-                <Input
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    required
-                    :tabindex="3"
-                    autocomplete="new-password"
-                    placeholder="Password"
-                />
-                <InputError :message="form.errors.password" />
-            </div>
-
-            <div class="grid gap-2">
-                <Label for="password_confirmation">Confirm password</Label>
-                <Input
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    required
-                    :tabindex="4"
-                    autocomplete="new-password"
-                    placeholder="Confirm password"
-                />
-                <InputError :message="form.errors.password_confirmation" />
-            </div>
-
-            <Button class="mt-2 w-full" type="submit" tabindex="5" :disabled="form.processing">
-                <LoaderCircle class="h-4 w-4 animate-spin" v-if="form.processing" />
-                Create account
-            </Button>
-        </div>
+        <LoadingButton type="submit" :loading="form.processing"> Create account </LoadingButton>
 
         <div class="text-center text-sm text-muted-foreground">
             Already have an account?
-            <TextLink class="underline underline-offset-4" :href="route('login')" :tabindex="6">Log in</TextLink>
+            <Link :href="route('login')">Log in</Link>
         </div>
-    </form>
+    </Form>
 </template>
 
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Link } from '@/components/ui/link';
+import { RegisterProps, RegisterRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
 
-const form = useForm({
-    name: '',
+type Props = SharedData & RegisterProps;
+defineProps<Props>();
+
+const form = useForm<RegisterRequest>({
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     password_confirmation: '',
 });
 
-const submit = () => {
+function submit() {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
-};
+}
 </script>

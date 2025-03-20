@@ -5,55 +5,40 @@
         {{ status }}
     </div>
 
-    <div class="space-y-6">
-        <form @submit.prevent="submit">
-            <div class="grid gap-2">
-                <Label for="email">Email address</Label>
-                <Input
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    name="email"
-                    autocomplete="off"
-                    autofocus
-                    placeholder="email@example.com"
-                />
-                <InputError :message="form.errors.email" />
-            </div>
+    <Form @submit="submit()">
+        <FormField id="email" required>
+            <FormLabel>Email address</FormLabel>
+            <FormControl>
+                <Input v-model="form.email" type="email" autocomplete="off" autofocus />
+            </FormControl>
+            <FormError :message="form.errors.email" />
+        </FormField>
 
-            <div class="my-6 flex items-center justify-start">
-                <Button class="w-full" :disabled="form.processing">
-                    <LoaderCircle class="h-4 w-4 animate-spin" v-if="form.processing" />
-                    Email password reset link
-                </Button>
-            </div>
-        </form>
+        <LoadingButton type="submit" :loading="form.processing"> Email password reset link </LoadingButton>
 
         <div class="space-x-1 text-center text-sm text-muted-foreground">
             <span>Or, return to</span>
-            <TextLink :href="route('login')">log in</TextLink>
+            <Link :href="route('login')">log in</Link>
         </div>
-    </div>
+    </Form>
 </template>
 
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Link } from '@/components/ui/link';
+import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
 
-defineProps<{
-    status?: string;
-}>();
+type Props = SharedData & ForgotPasswordProps;
+defineProps<Props>();
 
-const form = useForm({
+const form = useForm<ForgotPasswordRequest>({
     email: '',
 });
 
-const submit = () => {
+function submit() {
     form.post(route('password.email'));
-};
+}
 </script>

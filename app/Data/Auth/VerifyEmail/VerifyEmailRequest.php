@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Data\Auth\VerifyEmail;
 
 use Spatie\LaravelData\Attributes\MergeValidationRules;
-use Spatie\LaravelData\Attributes\Validation\Email;
+use Spatie\LaravelData\Attributes\Validation\Digits;
+use Spatie\LaravelData\Attributes\Validation\Numeric;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript, MergeValidationRules]
-class PasswordResetRequest extends Data
+class VerifyEmailRequest extends Data
 {
     public function __construct(
-        #[Email]
-        public string $email,
+        #[Numeric, Digits(6)]
+        public string $code,
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'email' => __('models.user.fields.email'),
+            'code' => __('models.email_verification_token.fields.code'),
         ];
     }
 
