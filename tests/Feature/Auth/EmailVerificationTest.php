@@ -35,7 +35,7 @@ it('can verify email', function () {
 
     $this->actingAs($user)
         ->get($verificationUrl)
-        ->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+        ->assertRedirect(config('fortify.home').'?verified=1');
 
     Event::assertDispatched(Verified::class);
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();

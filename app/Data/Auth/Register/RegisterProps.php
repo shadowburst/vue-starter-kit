@@ -9,6 +9,6 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class RegisterProps extends Resource
 {
     public function __construct(
-        public ?string $status,
+        //
     ) {}
 }

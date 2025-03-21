@@ -9,6 +9,6 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class VerifyEmailProps extends Resource
 {
     public function __construct(
-        public ?string $status,
+        //
     ) {}
 }

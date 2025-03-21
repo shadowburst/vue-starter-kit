@@ -1,9 +1,45 @@
-<template>
-    <Head title="Log in" />
+<script setup lang="ts">
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Link } from '@/components/ui/link';
+import { useLayout } from '@/composables/useLayout';
+import { LoginProps, LoginRequest, SharedData } from '@/types';
+import { Head, useForm } from '@inertiajs/vue3';
+import { CheckIcon } from 'lucide-vue-next';
 
-    <div class="mb-4 text-center text-sm font-medium text-green-600" v-if="status">
-        {{ status }}
-    </div>
+type Props = SharedData & LoginProps;
+defineProps<Props>();
+
+useLayout({
+    title: 'Log in to your account',
+    description: 'Enter your email and password below to log in',
+});
+
+const form = useForm<LoginRequest>({
+    email: '',
+    password: '',
+    remember: false,
+});
+
+function submit() {
+    form.post(route('login'), {
+        onFinish: () => form.reset('password'),
+    });
+}
+</script>
+
+<template>
+    <Head title="Login" />
+
+    <Alert class="mb-6" v-if="status" variant="primary">
+        <CheckIcon class="size-4" />
+        <AlertTitle>
+            {{ status }}
+        </AlertTitle>
+    </Alert>
 
     <Form @submit="submit()">
         <FormField id="email" required>
@@ -43,28 +79,3 @@
         </div>
     </Form>
 </template>
-
-<script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
-import { LoginProps, LoginRequest, SharedData } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-
-type Props = SharedData & LoginProps;
-defineProps<Props>();
-
-const form = useForm<LoginRequest>({
-    email: '',
-    password: '',
-    remember: false,
-});
-
-function submit() {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
-}
-</script>

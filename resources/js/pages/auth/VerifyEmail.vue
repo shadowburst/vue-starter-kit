@@ -1,3 +1,38 @@
+<script setup lang="ts">
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form, FormControl, FormError, FormField } from '@/components/ui/form';
+import { Link } from '@/components/ui/link';
+import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
+import { useLayout } from '@/composables/useLayout';
+import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
+import { Head, useForm } from '@inertiajs/vue3';
+
+type Props = SharedData & VerifyEmailProps;
+defineProps<Props>();
+
+useLayout({
+    title: 'Verify email',
+    description: 'Please verify your email address with the code we just emailed to you.',
+});
+
+const resendForm = useForm({});
+
+function resend() {
+    resendForm.post(route('verification.send'));
+}
+
+const form = useForm({
+    code: [] as string[],
+}).transform((data): VerifyEmailRequest => ({ code: data.code.join('') }));
+
+function submit() {
+    form.clearErrors();
+    form.post(route('verification.code'), {
+        onError: () => form.reset(),
+    });
+}
+</script>
+
 <template>
     <Head title="Email verification" />
 
@@ -21,32 +56,3 @@
         </FormField>
     </Form>
 </template>
-
-<script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form, FormControl, FormError, FormField } from '@/components/ui/form';
-import { Link } from '@/components/ui/link';
-import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
-import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-
-type Props = SharedData & VerifyEmailProps;
-defineProps<Props>();
-
-const resendForm = useForm({});
-
-function resend() {
-    resendForm.post(route('verification.send'));
-}
-
-const form = useForm({
-    code: [] as string[],
-}).transform((data): VerifyEmailRequest => ({ code: data.code.join('') }));
-
-function submit() {
-    form.clearErrors();
-    form.post(route('verification.code'), {
-        onError: () => form.reset(),
-    });
-}
-</script>

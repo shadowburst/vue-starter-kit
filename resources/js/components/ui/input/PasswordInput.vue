@@ -2,7 +2,7 @@
     <div class="relative w-full">
         <BaseInput class="pr-10" v-bind="forwarded" :type />
         <Button class="absolute inset-y-0 end-0" variant="ghost" size="icon" @click="toggle()">
-            <component class="size-6" :is="hidden ? EyeIcon : EyeOffIcon" />
+            <component class="size-6" :is="hidden ? EyeOffIcon : EyeIcon" />
         </Button>
     </div>
 </template>

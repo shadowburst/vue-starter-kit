@@ -3,6 +3,7 @@
 namespace App\Data\Auth\ConfirmPassword;
 
 use Spatie\LaravelData\Attributes\MergeValidationRules;
+use Spatie\LaravelData\Attributes\Validation\CurrentPassword;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
@@ -11,6 +12,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class ConfirmPasswordRequest extends Data
 {
     public function __construct(
+        #[CurrentPassword]
         public string $password,
     ) {}
 

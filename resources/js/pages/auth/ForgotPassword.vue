@@ -1,9 +1,41 @@
+<script setup lang="ts">
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Alert } from '@/components/ui/alert';
+import AlertTitle from '@/components/ui/alert/AlertTitle.vue';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Link } from '@/components/ui/link';
+import { useLayout } from '@/composables/useLayout';
+import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';
+import { Head, useForm } from '@inertiajs/vue3';
+import { CheckIcon } from 'lucide-vue-next';
+
+type Props = SharedData & ForgotPasswordProps;
+defineProps<Props>();
+
+useLayout({
+    title: 'Forgot password',
+    description: 'Enter your email to receive a password reset link',
+});
+
+const form = useForm<ForgotPasswordRequest>({
+    email: '',
+});
+
+function submit() {
+    form.post(route('password.email'));
+}
+</script>
+
 <template>
     <Head title="Forgot password" />
 
-    <div class="mb-4 text-center text-sm font-medium text-green-600" v-if="status">
-        {{ status }}
-    </div>
+    <Alert class="mb-6" v-if="status" variant="primary">
+        <CheckIcon class="size-4" />
+        <AlertTitle>
+            {{ status }}
+        </AlertTitle>
+    </Alert>
 
     <Form @submit="submit()">
         <FormField id="email" required>
@@ -22,23 +54,3 @@
         </div>
     </Form>
 </template>
-
-<script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
-import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-
-type Props = SharedData & ForgotPasswordProps;
-defineProps<Props>();
-
-const form = useForm<ForgotPasswordRequest>({
-    email: '',
-});
-
-function submit() {
-    form.post(route('password.email'));
-}
-</script>

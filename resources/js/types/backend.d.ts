@@ -5,6 +5,7 @@ export type AuthUserResource = {
     full_name: string;
     email: string;
 };
+export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {
     password: string;
 };
@@ -23,9 +24,7 @@ export type LoginRequest = {
     password: string;
     remember?: boolean;
 };
-export type RegisterProps = {
-    status?: string;
-};
+export type RegisterProps = {};
 export type RegisterRequest = {
     first_name: string;
     last_name: string;
@@ -36,7 +35,6 @@ export type RegisterRequest = {
 export type ResetPasswordProps = {
     token: string;
     email: string;
-    status?: string;
 };
 export type ResetPasswordRequest = {
     token: string;
@@ -44,9 +42,7 @@ export type ResetPasswordRequest = {
     password: string;
     password_confirmation: string;
 };
-export type VerifyEmailProps = {
-    status?: string;
-};
+export type VerifyEmailProps = {};
 export type VerifyEmailRequest = {
     code: string;
 };
