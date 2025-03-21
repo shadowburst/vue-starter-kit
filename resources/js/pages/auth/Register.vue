@@ -1,3 +1,35 @@
+<script setup lang="ts">
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Link } from '@/components/ui/link';
+import { useLayout } from '@/composables/useLayout';
+import { RegisterProps, RegisterRequest, SharedData } from '@/types';
+import { Head, useForm } from '@inertiajs/vue3';
+
+type Props = SharedData & RegisterProps;
+defineProps<Props>();
+
+useLayout({
+    title: 'Create an account',
+    description: 'Enter your details below to create your account',
+});
+
+const form = useForm<RegisterRequest>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+});
+
+function submit() {
+    form.post(route('register'), {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+    });
+}
+</script>
+
 <template>
     <Head title="Register" />
 
@@ -46,29 +78,3 @@
         </div>
     </Form>
 </template>
-
-<script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
-import { RegisterProps, RegisterRequest, SharedData } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-
-type Props = SharedData & RegisterProps;
-defineProps<Props>();
-
-const form = useForm<RegisterRequest>({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-});
-
-function submit() {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-}
-</script>

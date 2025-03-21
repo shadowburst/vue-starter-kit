@@ -1,3 +1,35 @@
+<script setup lang="ts">
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useLayout } from '@/composables/useLayout';
+import { ResetPasswordProps, ResetPasswordRequest, SharedData } from '@/types';
+import { Head, useForm } from '@inertiajs/vue3';
+
+type Props = SharedData & ResetPasswordProps;
+const props = defineProps<Props>();
+
+useLayout({
+    title: 'Reset password',
+    description: 'Please enter your new password below',
+});
+
+const form = useForm<ResetPasswordRequest>({
+    token: props.token,
+    email: props.email,
+    password: '',
+    password_confirmation: '',
+});
+
+function submit() {
+    form.post(route('password.update'), {
+        onFinish: () => {
+            form.reset('password', 'password_confirmation');
+        },
+    });
+}
+</script>
+
 <template>
     <Head title="Reset password" />
 
@@ -27,29 +59,3 @@
         <LoadingButton type="submit" :loading="form.processing">Reset password</LoadingButton>
     </Form>
 </template>
-
-<script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ResetPasswordProps, ResetPasswordRequest, SharedData } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-
-type Props = SharedData & ResetPasswordProps;
-const props = defineProps<Props>();
-
-const form = useForm<ResetPasswordRequest>({
-    token: props.token,
-    email: props.email,
-    password: '',
-    password_confirmation: '',
-});
-
-function submit() {
-    form.post(route('password.update'), {
-        onFinish: () => {
-            form.reset('password', 'password_confirmation');
-        },
-    });
-}
-</script>

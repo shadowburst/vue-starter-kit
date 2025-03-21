@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Data\Auth\ResetPassword;
+namespace App\Data\Auth\ConfirmPassword;
 
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class ResetPasswordProps extends Resource
+class ConfirmPasswordProps extends Resource
 {
     public function __construct(
-        public string $token,
-        public string $email,
+        //
     ) {}
 }

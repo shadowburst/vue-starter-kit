@@ -5,13 +5,13 @@ use Tests\TestCase;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('can render the login page', function () {
+it('should render the login page', function () {
     /** @var TestCase $this */
     $this->get(route('login'))
         ->assertOk();
 });
 
-it('can authenticate users using the login screen', function () {
+it('should authenticate users using their password', function () {
     /** @var TestCase $this */
 
     /** @var User $user */
@@ -22,11 +22,11 @@ it('can authenticate users using the login screen', function () {
             'email'    => $user->email,
             'password' => 'password',
         ])
-        ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect(config('fortify.home'));
     $this->assertAuthenticatedAs($user);
 });
 
-it('cannot authenticate users with an invalid password', function () {
+it('should not authenticate users with an invalid password', function () {
     /** @var TestCase $this */
 
     /** @var User $user */
@@ -40,7 +40,7 @@ it('cannot authenticate users with an invalid password', function () {
     $this->assertGuest();
 });
 
-it('lets users logout', function () {
+it('should logout users', function () {
     /** @var TestCase $this */
 
     /** @var User $user */

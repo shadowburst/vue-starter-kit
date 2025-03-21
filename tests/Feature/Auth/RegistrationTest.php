@@ -2,7 +2,7 @@
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('can render the registration screen', function () {
+it('should render the registration screen', function () {
     $this->get(route('register'))
         ->assertStatus(200);
 });
@@ -16,7 +16,7 @@ it('lets new users register', function () {
             'password'              => 'password',
             'password_confirmation' => 'password',
         ])
-        ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect(route('verification.notice', absolute: false));
 
     $this->assertAuthenticated();
 });

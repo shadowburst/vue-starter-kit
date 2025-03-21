@@ -6,6 +6,7 @@ use App\Actions\Auth\CreateNewUser;
 use App\Actions\Auth\ResetUserPassword;
 use App\Actions\Auth\UpdateUserPassword;
 use App\Actions\Auth\UpdateUserProfileInformation;
+use App\Data\Auth\ConfirmPassword\ConfirmPasswordProps;
 use App\Data\Auth\ForgotPassword\ForgotPasswordProps;
 use App\Data\Auth\Login\LoginProps;
 use App\Data\Auth\Register\RegisterProps;
@@ -40,6 +41,7 @@ class FortifyServiceProvider extends ServiceProvider
                 'canResetPassword' => Features::enabled(Features::resetPasswords()),
             ])),
         );
+
         Fortify::registerView(
             fn (Request $request) => inertia('auth/Register', RegisterProps::from([
                 'status' => $request->session()->get('status'),
@@ -60,6 +62,12 @@ class FortifyServiceProvider extends ServiceProvider
             ])),
         );
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
+        Fortify::confirmPasswordView(
+            fn (Request $request) => inertia('auth/ConfirmPassword', ConfirmPasswordProps::from([
+                'status' => $request->session()->get('status'),
+            ])),
+        );
 
         Fortify::verifyEmailView(
             fn (Request $request) => inertia('auth/VerifyEmail', VerifyEmailProps::from([
