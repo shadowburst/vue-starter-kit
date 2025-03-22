@@ -28,7 +28,6 @@ it('should let users confirm their password', function () {
 });
 
 it('should not confirm an invalid password', function () {
-
     /** @var User $user */
     $user = User::factory()->create();
 

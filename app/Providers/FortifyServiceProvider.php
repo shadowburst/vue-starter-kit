@@ -43,9 +43,7 @@ class FortifyServiceProvider extends ServiceProvider
         );
 
         Fortify::registerView(
-            fn (Request $request) => inertia('auth/Register', RegisterProps::from([
-                'status' => $request->session()->get('status'),
-            ])),
+            fn () => inertia('auth/Register', RegisterProps::from([])),
         );
         Fortify::createUsersUsing(RegisterUser::class);
 
@@ -64,15 +62,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         Fortify::confirmPasswordView(
-            fn (Request $request) => inertia('auth/ConfirmPassword', ConfirmPasswordProps::from([
-                'status' => $request->session()->get('status'),
-            ])),
+            fn () => inertia('auth/ConfirmPassword', ConfirmPasswordProps::from([])),
         );
 
         Fortify::verifyEmailView(
-            fn (Request $request) => inertia('auth/VerifyEmail', VerifyEmailProps::from([
-                'status' => $request->session()->get('status'),
-            ])),
+            fn () => inertia('auth/VerifyEmail', VerifyEmailProps::from([])),
         );
 
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

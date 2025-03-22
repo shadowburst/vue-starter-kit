@@ -1,50 +1,44 @@
-<template>
-    <Head title="Confirm password" />
-
-    <form @submit.prevent="submit">
-        <div class="space-y-6">
-            <div class="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                    class="mt-1 block w-full"
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                    autofocus
-                />
-
-                <InputError :message="form.errors.password" />
-            </div>
-
-            <div class="flex items-center">
-                <Button class="w-full" :disabled="form.processing">
-                    <LoaderCircle class="h-4 w-4 animate-spin" v-if="form.processing" />
-                    Confirm Password
-                </Button>
-            </div>
-        </div>
-    </form>
-</template>
-
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
+import LoadingButton from '@/components/app/button/LoadingButton.vue';
+import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useLayout } from '@/composables/useLayout';
+import { ConfirmPasswordProps, ConfirmPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
 
-const form = useForm({
+type Props = SharedData & ConfirmPasswordProps;
+defineProps<Props>();
+
+useLayout({
+    title: 'Confirm your password',
+    description: 'This is a secure area of the application. Please confirm your password before continuing.',
+});
+
+const form = useForm<ConfirmPasswordRequest>({
     password: '',
 });
 
-const submit = () => {
+function submit() {
     form.post(route('password.confirm'), {
         onFinish: () => {
             form.reset();
         },
     });
-};
+}
 </script>
+
+<template>
+    <Head title="Confirm password" />
+
+    <Form @submit="submit()">
+        <FormField id="email" required>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+                <Input v-model="form.password" type="password" autocomplete="current-password" autofocus />
+            </FormControl>
+            <FormError :message="form.errors.password" />
+        </FormField>
+
+        <LoadingButton type="submit" :loading="form.processing">Confirm password</LoadingButton>
+    </Form>
+</template>
