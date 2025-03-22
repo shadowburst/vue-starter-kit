@@ -12,9 +12,9 @@ use function Pest\Laravel\post;
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('should render the login page', function () {
-    get(route('login'))
-        ->assertOk();
-});
+get(route('login'))
+->assertOk();
+    });
 
 it('should authenticate users using their password', function () {
     /** @var User $user */
