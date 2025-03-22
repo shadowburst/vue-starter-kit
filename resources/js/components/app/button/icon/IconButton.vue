@@ -16,8 +16,7 @@ import { IconButtonProps } from './interface';
 const { icon, ...props } = defineProps<IconButtonProps>();
 
 const delegatedProps = computed(() => {
-    const { class: _, ...delegated } = props;
-    return delegated;
+    return { ...props, class: undefined };
 });
 
 const forwarded = useForwardProps(delegatedProps);
