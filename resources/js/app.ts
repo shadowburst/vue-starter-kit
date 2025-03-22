@@ -6,6 +6,7 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
+import AppLayout from './layouts/AppLayout.vue';
 import AuthLayout from './layouts/AuthLayout.vue';
 
 // Extend ImportMeta interface for Vite...
@@ -32,8 +33,14 @@ createInertiaApp({
 
                 switch (space) {
                     case 'auth':
-                    default:
                         page.default.layout = AuthLayout;
+                        break;
+
+                    case 'app':
+                        page.default.layout = AppLayout;
+                        break;
+
+                    default:
                         break;
                 }
 

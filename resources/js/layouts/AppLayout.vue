@@ -1,18 +1,19 @@
 <script setup lang="ts">
+import { useLayout } from '@/composables/useLayout';
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
 
-interface Props {
-    breadcrumbs?: BreadcrumbItemType[];
-}
+const breadcrumbs = defineModel<BreadcrumbItemType[]>('breadcrumbs', {
+    default: () => [],
+});
 
-withDefaults(defineProps<Props>(), {
-    breadcrumbs: () => [],
+useLayout((data: { breadcrumbs?: BreadcrumbItemType[] }) => {
+    breadcrumbs.value = data.breadcrumbs ?? [];
 });
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <AppLayout :breadcrumbs>
         <slot />
     </AppLayout>
 </template>
