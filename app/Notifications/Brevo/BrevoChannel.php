@@ -14,6 +14,7 @@ use Brevo\Client\Model\SendSmtpEmailTo;
 use GuzzleHttp\Client;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Notification;
 
 class BrevoChannel
 {
@@ -112,6 +113,10 @@ class BrevoChannel
         if (! empty($message->parameters)) {
             $smptEmail
                 ->setParams($message->parameters);
+        }
+
+        if (Notification::isFake()) {
+            return;
         }
 
         $api = new TransactionalEmailsApi(

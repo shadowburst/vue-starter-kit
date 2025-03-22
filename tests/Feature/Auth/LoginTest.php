@@ -1,54 +1,58 @@
 <?php
 
+use App\Data\Auth\Login\LoginRequest;
 use App\Models\User;
-use Tests\TestCase;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertAuthenticatedAs;
+use function Pest\Laravel\assertGuest;
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('should render the login page', function () {
-    /** @var TestCase $this */
-    $this->get(route('login'))
+    get(route('login'))
         ->assertOk();
 });
 
 it('should authenticate users using their password', function () {
-    /** @var TestCase $this */
-
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this
-        ->post(route('login'), [
+    post(
+        route('login'),
+        LoginRequest::from([
             'email'    => $user->email,
             'password' => 'password',
-        ])
-        ->assertRedirect(config('fortify.home'));
-    $this->assertAuthenticatedAs($user);
+        ])->toArray(),
+    )->assertRedirectToRoute('dashboard');
+
+    assertAuthenticatedAs($user);
 });
 
 it('should not authenticate users with an invalid password', function () {
-    /** @var TestCase $this */
-
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this
-        ->post(route('login'), [
+    post(
+        route('login'),
+        LoginRequest::from([
             'email'    => $user->email,
             'password' => 'wrong-password',
-        ]);
-    $this->assertGuest();
+        ])->toArray(),
+    );
+
+    assertGuest();
 });
 
 it('should logout users', function () {
-    /** @var TestCase $this */
-
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->post(route('logout'))
-        ->assertRedirect('/');
+        ->assertRedirectToRoute('home');
 
-    $this->assertGuest();
+    assertGuest();
 });

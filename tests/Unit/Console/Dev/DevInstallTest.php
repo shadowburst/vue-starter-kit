@@ -1,19 +1,17 @@
 <?php
 
-use Tests\TestCase;
+use function Pest\Laravel\artisan;
 
-it('runs', function () {
-    /** @var TestCase $this */
-    $this->artisan('dev:install')
+it('should complete successfully', function () {
+    artisan('dev:install')
         ->expectsConfirmation('Reset database ?')
         ->expectsConfirmation('Generate fake data ?')
         ->assertSuccessful();
 });
 
-it('will not touch the database in production', function () {
-    /** @var TestCase $this */
+it('should not change the database in production', function () {
     mockProduction();
-    $this->artisan('dev:install')
+    artisan('dev:install')
         ->expectsOutputToContain('Database will be ignored in production')
         ->doesntExpectOutput('Reset database ?')
         ->doesntExpectOutput('Generate fake data ?')

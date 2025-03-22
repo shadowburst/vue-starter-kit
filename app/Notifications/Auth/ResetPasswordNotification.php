@@ -16,7 +16,7 @@ class ResetPasswordNotification extends Notification implements SendsToBrevo
      * Create a new notification instance.
      */
     public function __construct(
-        #[\SensitiveParameter] protected string $token,
+        #[\SensitiveParameter] public string $token,
     ) {}
 
     /**

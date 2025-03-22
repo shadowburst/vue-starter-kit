@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Actions\Auth\CreateNewUser;
+use App\Actions\Auth\RegisterUser;
 use App\Actions\Auth\ResetUserPassword;
 use App\Actions\Auth\UpdateUserPassword;
 use App\Actions\Auth\UpdateUserProfileInformation;
@@ -47,7 +47,7 @@ class FortifyServiceProvider extends ServiceProvider
                 'status' => $request->session()->get('status'),
             ])),
         );
-        Fortify::createUsersUsing(CreateNewUser::class);
+        Fortify::createUsersUsing(RegisterUser::class);
 
         Fortify::requestPasswordResetLinkView(
             fn (Request $request) => inertia('auth/ForgotPassword', ForgotPasswordProps::from([

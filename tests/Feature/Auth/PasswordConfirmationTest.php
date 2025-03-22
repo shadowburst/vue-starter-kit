@@ -1,28 +1,25 @@
 <?php
 
 use App\Models\User;
-use Tests\TestCase;
+
+use function Pest\Laravel\actingAs;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('can render the confirm password screen', function () {
-    /** @var TestCase $this */
-
+it('should render the confirm password screen', function () {
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->get(route('password.confirm'))
-        ->assertStatus(200);
+        ->assertOk();
 });
 
-it('can confirm password', function () {
-    /** @var TestCase $this */
-
+it('should let users confirm their password', function () {
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->post(route('password.confirm'), [
             'password' => 'password',
         ])
@@ -30,13 +27,12 @@ it('can confirm password', function () {
         ->assertSessionHasNoErrors();
 });
 
-it('cannot confirm password with invalid password', function () {
-    /** @var TestCase $this */
+it('should not confirm an invalid password', function () {
 
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    actingAs($user)
         ->post(route('password.confirm'), [
             'password' => 'wrong-password',
         ])

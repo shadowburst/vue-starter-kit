@@ -1,23 +1,22 @@
 <?php
 
 use App\Models\User;
-use Tests\TestCase;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('redirects guests to the login page', function () {
-    /** @var TestCase $this */
-    $this->get(route('dashboard'))
+it('should redirect guests to the login page', function () {
+    get(route('dashboard'))
         ->assertRedirect(route('login'));
 });
 
-it('lets authenticated users visit the dashboard', function () {
-    /** @var TestCase $this */
-
+it('should let authenticated users visit the dashboard', function () {
     /** @var User $user */
     $user = User::factory()->create();
 
-    $this->actingAs($user)
-        ->get('/dashboard')
-        ->assertStatus(200);
+    actingAs($user)
+        ->get(route('dashboard'))
+        ->assertOk();
 });

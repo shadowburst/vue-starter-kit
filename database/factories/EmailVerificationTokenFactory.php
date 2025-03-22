@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EmailVerificationTokenFactory extends Factory
 {
-    protected static ?string $code;
+    protected static ?string $token;
 
     /**
      * Define the model's default state.
@@ -20,8 +21,8 @@ class EmailVerificationTokenFactory extends Factory
     {
         return [
             'email'      => fake()->unique()->safeEmail(),
-            'token'      => static::$code ??= bcrypt('123456'),
-            'created_at' => now(),
+            'token'      => static::$token ??= Hash::make('123456'),
+            'expires_at' => now()->addMinutes(30),
         ];
     }
 }
