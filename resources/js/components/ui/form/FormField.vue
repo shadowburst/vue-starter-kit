@@ -1,9 +1,3 @@
-<template>
-    <div :class="cn('grid gap-2', props.class)">
-        <slot />
-    </div>
-</template>
-
 <script lang="ts">
 import { toRefs } from '@vueuse/core';
 import { createContext } from 'reka-ui';
@@ -54,3 +48,9 @@ provideFormFieldContext({
     },
 });
 </script>
+
+<template>
+    <div :class="cn('grid gap-2', props.class)">
+        <slot />
+    </div>
+</template>

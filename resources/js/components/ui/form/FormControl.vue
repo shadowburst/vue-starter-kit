@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { Slot } from 'reka-ui';
+import { injectFormFieldContext } from './FormField.vue';
+
+const field = injectFormFieldContext();
+</script>
+
 <template>
     <Slot
         :id="field.id.value"
@@ -12,10 +19,3 @@
         <slot />
     </Slot>
 </template>
-
-<script setup lang="ts">
-import { Slot } from 'reka-ui';
-import { injectFormFieldContext } from './FormField.vue';
-
-const field = injectFormFieldContext();
-</script>

@@ -1,8 +1,3 @@
-<template>
-    <PasswordInput v-if="type === 'password'" v-bind="forwarded" />
-    <BaseInput v-else v-bind="forwarded" :type />
-</template>
-
 <script setup lang="ts">
 import { useForwardPropsEmits } from 'reka-ui';
 import BaseInput from './BaseInput.vue';
@@ -15,3 +10,8 @@ const emits = defineEmits<InputEmits>();
 
 const forwarded = useForwardPropsEmits(props, emits);
 </script>
+
+<template>
+    <PasswordInput v-if="type === 'password'" v-bind="forwarded" />
+    <BaseInput v-else v-bind="forwarded" :type />
+</template>

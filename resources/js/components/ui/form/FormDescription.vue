@@ -1,9 +1,3 @@
-<template>
-    <p :id="field.descriptionId.value" :class="cn('text-sm text-muted-foreground', props.class)">
-        <slot />
-    </p>
-</template>
-
 <script lang="ts" setup>
 import { cn } from '@/lib/utils';
 import type { HTMLAttributes } from 'vue';
@@ -16,3 +10,9 @@ const props = defineProps<Props>();
 
 const field = injectFormFieldContext();
 </script>
+
+<template>
+    <p :id="field.descriptionId.value" :class="cn('text-sm text-muted-foreground', props.class)">
+        <slot />
+    </p>
+</template>

@@ -1,12 +1,3 @@
-<template>
-    <div class="relative w-full">
-        <BaseInput class="pr-10" v-bind="forwarded" :type />
-        <Button class="absolute inset-y-0 end-0" variant="ghost" size="icon" @click="toggle()">
-            <component class="size-6" :is="hidden ? EyeOffIcon : EyeIcon" />
-        </Button>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { EyeIcon, EyeOffIcon } from 'lucide-vue-next';
@@ -27,3 +18,12 @@ function toggle() {
     type.value = hidden.value ? 'text' : 'password';
 }
 </script>
+
+<template>
+    <div class="relative w-full">
+        <BaseInput class="pr-10" v-bind="forwarded" :type />
+        <Button class="absolute inset-y-0 end-0" variant="ghost" size="icon" @click="toggle()">
+            <component class="size-6" :is="hidden ? EyeOffIcon : EyeIcon" />
+        </Button>
+    </div>
+</template>

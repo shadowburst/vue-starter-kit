@@ -1,18 +1,3 @@
-<template>
-    <Label
-        :for="props.for ?? field.id.value"
-        :aria-required="field.required.value"
-        :class="
-            cn(
-                `flex items-center gap-2 aria-required:after:text-destructive aria-required:after:content-['*']`,
-                props.class,
-            )
-        "
-    >
-        <slot />
-    </Label>
-</template>
-
 <script setup lang="ts">
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -27,3 +12,18 @@ const props = defineProps<Props>();
 
 const field = injectFormFieldContext();
 </script>
+
+<template>
+    <Label
+        :for="props.for ?? field.id.value"
+        :aria-required="field.required.value"
+        :class="
+            cn(
+                `flex items-center gap-2 aria-required:after:text-destructive aria-required:after:content-['*']`,
+                props.class,
+            )
+        "
+    >
+        <slot />
+    </Label>
+</template>
