@@ -6,17 +6,20 @@ import { Form, FormControl, FormError, FormField, FormLabel } from '@/components
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables/useLayout';
+import { AuthLayout } from '@/layouts';
 import { LoginProps, LoginRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { CheckIcon } from 'lucide-vue-next';
 
+defineOptions({
+    layout: useLayout(AuthLayout, {
+        title: 'Log in to your account',
+        description: 'Enter your email and password below to log in',
+    }),
+});
+
 type Props = SharedData & LoginProps;
 defineProps<Props>();
-
-useLayout({
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
-});
 
 const form = useForm<LoginRequest>({
     email: '',

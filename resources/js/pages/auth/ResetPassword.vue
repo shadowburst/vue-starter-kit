@@ -3,16 +3,19 @@ import LoadingButton from '@/components/app/button/LoadingButton.vue';
 import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables/useLayout';
+import { AuthLayout } from '@/layouts';
 import { ResetPasswordProps, ResetPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
+defineOptions({
+    layout: useLayout(AuthLayout, {
+        title: 'Reset password',
+        description: 'Please enter your new password below',
+    }),
+});
+
 type Props = SharedData & ResetPasswordProps;
 const props = defineProps<Props>();
-
-useLayout({
-    title: 'Reset password',
-    description: 'Please enter your new password below',
-});
 
 const form = useForm<ResetPasswordRequest>({
     token: props.token,

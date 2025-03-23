@@ -6,17 +6,20 @@ import { Form, FormControl, FormError, FormField, FormLabel } from '@/components
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables/useLayout';
+import { AuthLayout } from '@/layouts';
 import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { CheckIcon } from 'lucide-vue-next';
 
+defineOptions({
+    layout: useLayout(AuthLayout, {
+        title: 'Forgot password',
+        description: 'Enter your email to receive a password reset link',
+    }),
+});
+
 type Props = SharedData & ForgotPasswordProps;
 defineProps<Props>();
-
-useLayout({
-    title: 'Forgot password',
-    description: 'Enter your email to receive a password reset link',
-});
 
 const form = useForm<ForgotPasswordRequest>({
     email: '',

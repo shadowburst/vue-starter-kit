@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { useLayout } from '@/composables/useLayout';
+import { AppLayout } from '@/layouts';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 
-useLayout({
-    breadcrumbs: [
-        {
-            title: 'Dashboard',
-            href: '/dashboard',
-        },
-    ] as BreadcrumbItem[],
+defineOptions({
+    layout: useLayout(AppLayout, {
+        breadcrumbs: [
+            {
+                title: 'Dashboard',
+                href: '/dashboard',
+            },
+        ] as BreadcrumbItem[],
+    }),
 });
 </script>
 

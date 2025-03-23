@@ -27,3 +27,4 @@ export type SharedData = {
 export type BreadcrumbItemType = BreadcrumbItem;
 
 export * from './backend.d.ts';
+export * from './utility.d.ts';

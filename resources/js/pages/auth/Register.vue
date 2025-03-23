@@ -4,16 +4,19 @@ import { Form, FormControl, FormError, FormField, FormLabel } from '@/components
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables/useLayout';
+import { AuthLayout } from '@/layouts';
 import { RegisterProps, RegisterRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
+defineOptions({
+    layout: useLayout(AuthLayout, {
+        title: 'Create an account',
+        description: 'Enter your details below to create your account',
+    }),
+});
+
 type Props = SharedData & RegisterProps;
 defineProps<Props>();
-
-useLayout({
-    title: 'Create an account',
-    description: 'Enter your details below to create your account',
-});
 
 const form = useForm<RegisterRequest>({
     first_name: '',

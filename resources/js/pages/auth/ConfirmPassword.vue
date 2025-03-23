@@ -3,16 +3,19 @@ import LoadingButton from '@/components/app/button/LoadingButton.vue';
 import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables/useLayout';
+import { AuthLayout } from '@/layouts';
 import { ConfirmPasswordProps, ConfirmPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
+defineOptions({
+    layout: useLayout(AuthLayout, {
+        title: 'Confirm your password',
+        description: 'This is a secure area of the application. Please confirm your password before continuing.',
+    }),
+});
+
 type Props = SharedData & ConfirmPasswordProps;
 defineProps<Props>();
-
-useLayout({
-    title: 'Confirm your password',
-    description: 'This is a secure area of the application. Please confirm your password before continuing.',
-});
 
 const form = useForm<ConfirmPasswordRequest>({
     password: '',

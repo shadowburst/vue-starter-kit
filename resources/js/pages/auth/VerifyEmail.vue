@@ -4,16 +4,19 @@ import { Form, FormControl, FormError, FormField } from '@/components/ui/form';
 import { Link } from '@/components/ui/link';
 import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables/useLayout';
+import { AuthLayout } from '@/layouts';
 import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
+defineOptions({
+    layout: useLayout(AuthLayout, {
+        title: 'Verify email',
+        description: 'Please verify your email address with the code we just emailed to you.',
+    }),
+});
+
 type Props = SharedData & VerifyEmailProps;
 defineProps<Props>();
-
-useLayout({
-    title: 'Verify email',
-    description: 'Please verify your email address with the code we just emailed to you.',
-});
 
 const resendForm = useForm({});
 
