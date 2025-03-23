@@ -28,7 +28,7 @@ export default defineConfig({
         }),
         watch({
             pattern: 'database/migrations/*.php',
-            command: 'php artisan ide-helper:models -q -R -W',
+            command: ['php artisan ide-helper:models -q -R -W', 'vendor/bin/pint -q app/Models'],
         }),
         watch({
             pattern: 'routes/**/*.php',
