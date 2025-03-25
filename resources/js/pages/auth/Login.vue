@@ -48,19 +48,19 @@ function submit() {
         <FormField id="email" required>
             <FormLabel class="after:!content-['']">Email address</FormLabel>
             <FormControl>
-                <Input v-model="form.email" type="email" autofocus autocomplete="email" :tabindex="1" />
+                <Input v-model="form.email" type="email" autofocus autocomplete="email" />
             </FormControl>
             <FormError :message="form.errors.email" />
         </FormField>
         <FormField id="password" required>
             <div class="flex items-center justify-between">
                 <FormLabel class="after:!content-['']">Password</FormLabel>
-                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')" :tabindex="2">
+                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')">
                     Forgot password?
                 </Link>
             </div>
             <FormControl>
-                <Input v-model="form.password" type="password" autocomplete="current-password" :tabindex="1" />
+                <Input v-model="form.password" type="password" autocomplete="current-password" />
             </FormControl>
             <FormError :message="form.errors.password" />
         </FormField>
@@ -68,17 +68,17 @@ function submit() {
         <FormField id="remember">
             <FormLabel>
                 <FormControl>
-                    <Checkbox v-model="form.remember" :tabindex="1" />
+                    <Checkbox v-model="form.remember" />
                 </FormControl>
                 <span>Remember me</span>
             </FormLabel>
         </FormField>
 
-        <LoadingButton type="submit" :loading="form.processing" :tabindex="1"> Log in </LoadingButton>
+        <LoadingButton type="submit" :loading="form.processing"> Log in </LoadingButton>
 
         <div class="text-center text-sm text-muted-foreground">
             Don't have an account?
-            <Link :href="route('register')" :tabindex="2">Sign up</Link>
+            <Link :href="route('register')">Sign up</Link>
         </div>
     </Form>
 </template>
