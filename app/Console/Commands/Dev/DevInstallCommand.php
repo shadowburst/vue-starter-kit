@@ -39,9 +39,6 @@ class DevInstallCommand extends Command
         if (! File::exists(public_path('storage'))) {
             $this->call('storage:link');
         }
-        if (! File::exists(base_path('_ide_helper.php'))) {
-            $this->call('ide-helper:generate');
-        }
 
         if (app()->isProduction()) {
             alert('Database will be ignored in production');
@@ -55,6 +52,10 @@ class DevInstallCommand extends Command
             $this->call('migrate');
         }
         $this->call('db:seed');
+
+        if (! File::exists(base_path('_ide_helper.php'))) {
+            $this->call('ide-helper:generate');
+        }
 
         if (confirm('Generate fake data ?')) {
             $count = text(
