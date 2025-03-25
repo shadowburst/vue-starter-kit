@@ -3,7 +3,7 @@ import LoadingButton from '@/components/app/button/LoadingButton.vue';
 import { Form, FormControl, FormError, FormField } from '@/components/ui/form';
 import { Link } from '@/components/ui/link';
 import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
-import { useLayout } from '@/composables/useLayout';
+import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';

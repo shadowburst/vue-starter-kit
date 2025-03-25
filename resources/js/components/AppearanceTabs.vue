@@ -30,7 +30,7 @@ const tabs = [
                     : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60',
             ]"
         >
-            <component class="-ml-1 h-4 w-4" :is="Icon" />
+            <component class="-ml-1 size-4" :is="Icon" />
             <span class="ml-1.5 text-sm">{{ label }}</span>
         </button>
     </div>

@@ -32,9 +32,8 @@ declare module 'ziggy-js' {
     "password.confirm": [],
     "password.confirmation": [],
     "password.confirm.store": [],
-    "home": [],
     "verification.code": [],
-    "dashboard": [],
+    "home": [],
     "storage.local": [
         {
             "name": "path",

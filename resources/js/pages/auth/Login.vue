@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
-import { useLayout } from '@/composables/useLayout';
+import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { LoginProps, LoginRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
@@ -48,19 +48,19 @@ function submit() {
         <FormField id="email" required>
             <FormLabel class="after:!content-['']">Email address</FormLabel>
             <FormControl>
-                <Input v-model="form.email" type="email" autofocus autocomplete="email" />
+                <Input v-model="form.email" type="email" autofocus autocomplete="email" :tabindex="1" />
             </FormControl>
             <FormError :message="form.errors.email" />
         </FormField>
         <FormField id="password" required>
             <div class="flex items-center justify-between">
                 <FormLabel class="after:!content-['']">Password</FormLabel>
-                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')">
+                <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')" :tabindex="2">
                     Forgot password?
                 </Link>
             </div>
             <FormControl>
-                <Input v-model="form.password" type="password" autocomplete="current-password" />
+                <Input v-model="form.password" type="password" autocomplete="current-password" :tabindex="1" />
             </FormControl>
             <FormError :message="form.errors.password" />
         </FormField>
@@ -68,17 +68,17 @@ function submit() {
         <FormField id="remember">
             <FormLabel>
                 <FormControl>
-                    <Checkbox v-model="form.remember" />
+                    <Checkbox v-model="form.remember" :tabindex="1" />
                 </FormControl>
                 <span>Remember me</span>
             </FormLabel>
         </FormField>
 
-        <LoadingButton type="submit" :loading="form.processing"> Log in </LoadingButton>
+        <LoadingButton type="submit" :loading="form.processing" :tabindex="1"> Log in </LoadingButton>
 
         <div class="text-center text-sm text-muted-foreground">
             Don't have an account?
-            <Link :href="route('register')">Sign up</Link>
+            <Link :href="route('register')" :tabindex="2">Sign up</Link>
         </div>
     </Form>
 </template>

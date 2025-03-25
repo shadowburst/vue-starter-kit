@@ -1,10 +1,3 @@
-<template>
-    <Button v-bind="forwarded" :class="cn('relative', props.class)">
-        <IconButtonIcon v-if="icon" :as="icon" />
-        <slot />
-    </Button>
-</template>
-
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -21,3 +14,10 @@ const delegatedProps = computed(() => {
 
 const forwarded = useForwardProps(delegatedProps);
 </script>
+
+<template>
+    <Button v-bind="forwarded" :class="cn('relative', props.class)">
+        <IconButtonIcon v-if="icon" :as="icon" />
+        <slot />
+    </Button>
+</template>

@@ -2,10 +2,11 @@
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Link } from '@inertiajs/vue3';
 
-defineProps<{
-    title?: string;
-    description?: string;
-}>();
+type Props = {
+    title: string;
+    description: string;
+};
+defineProps<Props>();
 </script>
 
 <template>
@@ -14,7 +15,7 @@ defineProps<{
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-4">
                     <Link class="flex flex-col items-center gap-2 font-medium" :href="route('home')">
-                        <div class="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
+                        <div class="mb-1 flex size-9 items-center justify-center rounded-md">
                             <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
                         </div>
                         <span class="sr-only">{{ title }}</span>

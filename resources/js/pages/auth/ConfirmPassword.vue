@@ -2,7 +2,7 @@
 import LoadingButton from '@/components/app/button/LoadingButton.vue';
 import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useLayout } from '@/composables/useLayout';
+import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ConfirmPasswordProps, ConfirmPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';

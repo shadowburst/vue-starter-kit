@@ -3,7 +3,7 @@ import LoadingButton from '@/components/app/button/LoadingButton.vue';
 import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
-import { useLayout } from '@/composables/useLayout';
+import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { RegisterProps, RegisterRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';

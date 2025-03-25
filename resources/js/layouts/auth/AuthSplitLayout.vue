@@ -5,10 +5,11 @@ import { Link, usePage } from '@inertiajs/vue3';
 const page = usePage();
 const name = page.props.name;
 
-defineProps<{
-    title?: string;
-    description?: string;
-}>();
+type Props = {
+    title: string;
+    description: string;
+};
+defineProps<Props>();
 </script>
 
 <template>

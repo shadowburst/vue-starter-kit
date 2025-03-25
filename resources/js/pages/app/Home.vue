@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
-import { useLayout } from '@/composables/useLayout';
+import { useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
@@ -10,7 +10,7 @@ defineOptions({
         breadcrumbs: [
             {
                 title: 'Dashboard',
-                href: '/dashboard',
+                href: route('home'),
             },
         ] as BreadcrumbItem[],
     }),
@@ -39,7 +39,7 @@ defineOptions({
             </div>
         </div>
         <div
-            class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min"
+            class="relative min-h-screen flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min"
         >
             <PlaceholderPattern />
         </div>
