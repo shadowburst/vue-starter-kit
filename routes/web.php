@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
 use App\Http\Controllers\Settings\ProfileSettingsController;
 use App\Http\Controllers\Settings\SecuritySettingsController;
@@ -24,8 +25,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/', 'update')->name('update');
         });
 
-        Route::get('/appearance', function () {
-            return inertia('settings/Appearance');
-        })->name('appearance');
+        Route::get('/appearance', [AppearanceSettingsController::class, 'edit'])->name('appearance.edit');
     });
 });

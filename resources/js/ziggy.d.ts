@@ -38,7 +38,7 @@ declare module 'ziggy-js' {
     "settings.profile.destroy": [],
     "settings.security.edit": [],
     "settings.password.update": [],
-    "settings.appearance": [],
+    "settings.appearance.edit": [],
     "storage.local": [
         {
             "name": "path",
