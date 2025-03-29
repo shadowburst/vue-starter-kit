@@ -1,0 +1,67 @@
+# Changelog
+
+## 1.0.0 (2025-03-29)
+
+
+### Features
+
+* add prettier config & format ([60f86c7](https://github.com/shadowburst/vue-starter-kit/commit/60f86c7a3cd196459941cf5676b04efe5c52cada))
+* **app:** settings pages and better form components ([da12a48](https://github.com/shadowburst/vue-starter-kit/commit/da12a481bd0eb3dca7a7ba917b4042ed81f45eec))
+* **auth:** add fortify and email verification token system ([669a061](https://github.com/shadowburst/vue-starter-kit/commit/669a06128121397f0de1a67c6df218b26b9fce67))
+* **auth:** add most props/request data and forms ([1764034](https://github.com/shadowburst/vue-starter-kit/commit/17640341edeaffb8f80f8286d5afe85ad4e7dc74))
+* **auth:** cleaner views and fix titles ([7e23e27](https://github.com/shadowburst/vue-starter-kit/commit/7e23e27338e2453b7e61d344bea105263967d389))
+* **auth:** move to actions ([e8d31df](https://github.com/shadowburst/vue-starter-kit/commit/e8d31df5cb332902d079a87978bc538bc9d05547))
+* **auth:** move to actions ([ea70d86](https://github.com/shadowburst/vue-starter-kit/commit/ea70d862a460bf233a99b64fe0d41a31f1f1d6c2))
+* **build:** add make ([82477a8](https://github.com/shadowburst/vue-starter-kit/commit/82477a8c9ca0e0c2ebc641963206fea1feb035c3))
+* **dev:** add install command ([37fd029](https://github.com/shadowburst/vue-starter-kit/commit/37fd02955be7d0b46a36708531e18492b5870836))
+* **dev:** add php / typescript type generation ([6141196](https://github.com/shadowburst/vue-starter-kit/commit/6141196eebdff7f92b83f19d0365ba60acc3af0a))
+* **dev:** add solo ([1f74b45](https://github.com/shadowburst/vue-starter-kit/commit/1f74b45f0153b325e2b263de280d8b136c9bf533))
+* **dev:** add user command ([8878c57](https://github.com/shadowburst/vue-starter-kit/commit/8878c579876472ede588588cc60a3fb059e945e4))
+* **dev:** add watchers to run generation tasks with vite ([05a87be](https://github.com/shadowburst/vue-starter-kit/commit/05a87bea49dac291c75de1fa1e09af665e6de7f5))
+* **dev:** better commands and stubs ([87416aa](https://github.com/shadowburst/vue-starter-kit/commit/87416aa5c69e28566cb22c0d27685b2a3c83b938))
+* **dev:** format models after generating ide-helper data ([ea3df60](https://github.com/shadowburst/vue-starter-kit/commit/ea3df605dfc6ecee2bf7e3bcabf1affca8d9bcc5))
+* **frontend:** upgrade to reka ui ([d710ea2](https://github.com/shadowburst/vue-starter-kit/commit/d710ea217e381a53453074cbda36666d129c0ff5))
+* **github:** add ci ([e73e75b](https://github.com/shadowburst/vue-starter-kit/commit/e73e75b21c90ceb9c4e8c6456efed85eced910d7))
+* **github:** add pr template ([6a896a9](https://github.com/shadowburst/vue-starter-kit/commit/6a896a9996e8e8750bc7093590072f4810275fb0))
+* initial commit ([52943f8](https://github.com/shadowburst/vue-starter-kit/commit/52943f8634263d4f7f18b1f4bcb174b9e0b8ad38))
+* **mail:** add brevo ([f62e422](https://github.com/shadowburst/vue-starter-kit/commit/f62e422dd9152117c550f3d636467e7ee74c6618))
+* **php:** add toast service ([f7e2efc](https://github.com/shadowburst/vue-starter-kit/commit/f7e2efc6f4878adb9f85ea6d8786aa7523ca62ec))
+* **php:** better stubs and make:service command ([21a7f6a](https://github.com/shadowburst/vue-starter-kit/commit/21a7f6a4888552ba7033da69072c80e0240a1639))
+* **test:** move to pest ([1a7cd8d](https://github.com/shadowburst/vue-starter-kit/commit/1a7cd8db1c17ec98794bd06e45c7b9f2b78d2cd9))
+* **ui:** blue theme by default ([fa41e70](https://github.com/shadowburst/vue-starter-kit/commit/fa41e7066894d18752aa770fcb54fa7d9bd91de0))
+* **ui:** clean way to set layout ([8953a4e](https://github.com/shadowburst/vue-starter-kit/commit/8953a4ec99179d5de7893a0fe7306047dca452dc))
+* **ui:** cleaner layout ([56b4f09](https://github.com/shadowburst/vue-starter-kit/commit/56b4f09b2c694093d2004b99f9adb38aee7204a0))
+
+
+### Bug Fixes
+
+* Active indicator in app header layout ([#48](https://github.com/shadowburst/vue-starter-kit/issues/48)) ([57f145f](https://github.com/shadowburst/vue-starter-kit/commit/57f145fa12f1d4b12f14843087f45d9f5e6409e6))
+* add gap to DialogFooter in DeleteUser component ([#37](https://github.com/shadowburst/vue-starter-kit/issues/37)) ([1ccb709](https://github.com/shadowburst/vue-starter-kit/commit/1ccb7091a0f4bd8e9003927e1f5b0b9b6de62de2))
+* **app:** default layout ([c082dae](https://github.com/shadowburst/vue-starter-kit/commit/c082dae51a21b7f01291d1020ffd6adeb996fe66))
+* **auth:** remove tabindex from login ([fd1d37e](https://github.com/shadowburst/vue-starter-kit/commit/fd1d37ed8e3dea89e5b72e839746beae35f7ce26))
+* **auth:** update confirm password page ([0b088eb](https://github.com/shadowburst/vue-starter-kit/commit/0b088ebbe4362aa3896fffa5a090f9d9f6bf4f81))
+* **auth:** update tests ([ff3c57e](https://github.com/shadowburst/vue-starter-kit/commit/ff3c57e3f8b29cb9a56ecf6fc25826f0e3ed5931))
+* Breadcrumb not displayed on the header layout ([#32](https://github.com/shadowburst/vue-starter-kit/issues/32)) ([aba3270](https://github.com/shadowburst/vue-starter-kit/commit/aba32703bae1979ef1f97439aa734999fa32186f))
+* change type of route() to Router ([#83](https://github.com/shadowburst/vue-starter-kit/issues/83)) ([5ae6361](https://github.com/shadowburst/vue-starter-kit/commit/5ae6361cf130fe96347e7384053c7eff192f204e))
+* **ci:** add test to unit folder ([0f2811d](https://github.com/shadowburst/vue-starter-kit/commit/0f2811d66f267e041574c8d7d7e2fd49aa843e28))
+* correct className to class in AppHeader.vue ([#14](https://github.com/shadowburst/vue-starter-kit/issues/14)) ([9deac17](https://github.com/shadowburst/vue-starter-kit/commit/9deac1785e179f74f8a02f743a70bb26d645141c))
+* **css:** ring variable was broken ([d63cd06](https://github.com/shadowburst/vue-starter-kit/commit/d63cd0619fd017065d4ec7708c6e801d8dbce4bb))
+* **dev:** generate ide helper after migrate ([eb862f7](https://github.com/shadowburst/vue-starter-kit/commit/eb862f7b7a6ce527e72f951c215feb11a2b13302))
+* esbuild vulnerability ([#44](https://github.com/shadowburst/vue-starter-kit/issues/44)) ([596adac](https://github.com/shadowburst/vue-starter-kit/commit/596adac1423a3bd5433011e60e2d17079684d989))
+* Explicitly Initialize Input Refs with null for Better Type Safety ([#31](https://github.com/shadowburst/vue-starter-kit/issues/31)) ([00d7ca6](https://github.com/shadowburst/vue-starter-kit/commit/00d7ca6f7904e715c463f35ff7cf9012cd2a8119))
+* **frontend:** broken header ([67cfc5c](https://github.com/shadowburst/vue-starter-kit/commit/67cfc5caf6f57b12b6edeb540f68b2333bf67665))
+* **lint:** js warnings ([74e7d1f](https://github.com/shadowburst/vue-starter-kit/commit/74e7d1f4b97b5f862cf319d3929ea0d11e24abb7))
+* **settings:** duplicate classes after rebase ([414a01c](https://github.com/shadowburst/vue-starter-kit/commit/414a01c30e5ab5b71a80e0105c1c3dbd5a70eeca))
+* sidebar dropdown open position ([#71](https://github.com/shadowburst/vue-starter-kit/issues/71)) ([6fa726e](https://github.com/shadowburst/vue-starter-kit/commit/6fa726e63faabfeb4c4f144d28f87dd02cd4eb31))
+* **ui:** add ring to link ([244f1be](https://github.com/shadowburst/vue-starter-kit/commit/244f1be4834759756ec75fa17ea4bd7dfbaf913f))
+* update autocomplete attribute in Profile.vue ([#29](https://github.com/shadowburst/vue-starter-kit/issues/29)) ([a67bfbb](https://github.com/shadowburst/vue-starter-kit/commit/a67bfbbee649ba96c6e5ab5fda6b800adaba884f))
+* Vue type checking for AvatarImage component ([#33](https://github.com/shadowburst/vue-starter-kit/issues/33)) ([c22e63e](https://github.com/shadowburst/vue-starter-kit/commit/c22e63ed6384af858712016dd5359f975a4294b5))
+
+
+### Miscellaneous Chores
+
+* **auth:** remove deprecated controllers ([d9c8535](https://github.com/shadowburst/vue-starter-kit/commit/d9c85357ebab84d7d764de2a569cb9bf370e167b))
+* reorder imports in resources/js/types/index.ts ([#50](https://github.com/shadowburst/vue-starter-kit/issues/50)) ([7f4662e](https://github.com/shadowburst/vue-starter-kit/commit/7f4662e814a1d41c052a6913252a984259d2e6fe))
+* **settings:** remove base ([7d85468](https://github.com/shadowburst/vue-starter-kit/commit/7d85468fa886b278a11f8e2a22b046c02511482c))
+* **style:** auto-format ([df1eeb3](https://github.com/shadowburst/vue-starter-kit/commit/df1eeb3295445a9f8153f2efc532064ab135e5a3))
+* **style:** auto-format ([33c700a](https://github.com/shadowburst/vue-starter-kit/commit/33c700a88c72396d7380c8e12379be64629b3f78))
