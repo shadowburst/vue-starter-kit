@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Actions\Auth\RegisterUser;
 use App\Actions\Auth\ResetUserPassword;
-use App\Actions\Auth\UpdateUserPassword;
-use App\Actions\Auth\UpdateUserProfileInformation;
 use App\Data\Auth\ConfirmPassword\ConfirmPasswordProps;
 use App\Data\Auth\ForgotPassword\ForgotPasswordProps;
 use App\Data\Auth\Login\LoginProps;
@@ -68,9 +66,6 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::verifyEmailView(
             fn () => inertia('auth/VerifyEmail', VerifyEmailProps::from([])),
         );
-
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());

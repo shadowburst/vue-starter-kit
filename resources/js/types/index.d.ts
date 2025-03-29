@@ -13,4 +13,3 @@ export type SharedData = {
 
 export * from './backend.d.ts';
 export * from './ui.d.ts';
-export * from './utility.d.ts';

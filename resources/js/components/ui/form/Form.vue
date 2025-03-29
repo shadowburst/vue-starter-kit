@@ -5,7 +5,7 @@ import { HTMLAttributes } from 'vue';
 type Props = {
     class?: HTMLAttributes['class'];
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 
 type Emits = {
     submit: [];
@@ -14,7 +14,7 @@ defineEmits<Emits>();
 </script>
 
 <template>
-    <form :class="cn('grid gap-4')" @submit.prevent="$emit('submit')">
+    <form :class="cn('grid gap-8', props.class)" @submit.prevent="$emit('submit')">
         <slot />
     </form>
 </template>

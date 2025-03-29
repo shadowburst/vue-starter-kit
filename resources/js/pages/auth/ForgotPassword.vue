@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Alert } from '@/components/ui/alert';
-import AlertTitle from '@/components/ui/alert/AlertTitle.vue';
-import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables';
@@ -41,19 +40,22 @@ function submit() {
     </Alert>
 
     <Form @submit="submit()">
-        <FormField id="email" required>
-            <FormLabel>Email address</FormLabel>
-            <FormControl>
-                <Input v-model="form.email" type="email" autocomplete="off" autofocus />
-            </FormControl>
-            <FormError :message="form.errors.email" />
-        </FormField>
+        <FormContent>
+            <FormField id="email" required>
+                <FormLabel>Email address</FormLabel>
+                <FormControl>
+                    <Input v-model="form.email" type="email" autocomplete="off" autofocus />
+                </FormControl>
+                <FormError :message="form.errors.email" />
+            </FormField>
+        </FormContent>
 
-        <LoadingButton type="submit" :loading="form.processing"> Email password reset link </LoadingButton>
-
-        <div class="space-x-1 text-center text-sm text-muted-foreground">
-            <span>Or, return to</span>
-            <Link :href="route('login')">log in</Link>
+        <div class="grid gap-2">
+            <Button type="submit" :loading="form.processing"> Email password reset link </Button>
+            <div class="space-x-1 text-center text-sm text-muted-foreground">
+                <span>Or, return to</span>
+                <Link :href="route('login')">log in</Link>
+            </div>
         </div>
     </Form>
 </template>

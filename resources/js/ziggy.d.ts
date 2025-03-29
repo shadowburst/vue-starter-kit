@@ -27,13 +27,18 @@ declare module 'ziggy-js' {
         }
     ],
     "verification.send": [],
-    "user-profile-information.update": [],
-    "user-password.update": [],
     "password.confirm": [],
     "password.confirmation": [],
     "password.confirm.store": [],
     "verification.code": [],
     "home": [],
+    "settings.index": [],
+    "settings.profile.edit": [],
+    "settings.profile.update": [],
+    "settings.profile.destroy": [],
+    "settings.security.edit": [],
+    "settings.password.update": [],
+    "settings.appearance": [],
     "storage.local": [
         {
             "name": "path",

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -34,14 +34,16 @@ function submit() {
     <Head title="Confirm password" />
 
     <Form @submit="submit()">
-        <FormField id="email" required>
-            <FormLabel>Password</FormLabel>
-            <FormControl>
-                <Input v-model="form.password" type="password" autocomplete="current-password" autofocus />
-            </FormControl>
-            <FormError :message="form.errors.password" />
-        </FormField>
+        <FormContent>
+            <FormField id="email" required>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                    <Input v-model="form.password" type="password" autocomplete="current-password" autofocus />
+                </FormControl>
+                <FormError :message="form.errors.password" />
+            </FormField>
+        </FormContent>
 
-        <LoadingButton type="submit" :loading="form.processing">Confirm password</LoadingButton>
+        <Button type="submit" :loading="form.processing">Confirm password</Button>
     </Form>
 </template>

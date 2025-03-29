@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LoadingButton from '@/components/app/button/LoadingButton.vue';
-import { Form, FormControl, FormError, FormField } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
 import { Link } from '@/components/ui/link';
 import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
@@ -11,7 +11,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 defineOptions({
     layout: useLayout(AuthLayout, {
         title: 'Verify email',
-        description: 'Please verify your email address with the code we just emailed to you.',
+        description: 'Please verify your email address with the code we emailed you.',
     }),
 });
 
@@ -39,23 +39,31 @@ function submit() {
 <template>
     <Head title="Email verification" />
 
-    <Form @submit="resend()">
-        <LoadingButton type="submit" variant="secondary" :loading="resendForm.processing">
-            Resend verification email
-        </LoadingButton>
-        <Link :href="route('logout')" method="post" as="button"> Log out </Link>
-    </Form>
-
     <Form @submit="submit()">
-        <FormField id="code" required :disabled="form.processing">
-            <FormControl>
-                <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
-                    <PinInputGroup>
-                        <PinInputInput class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
-                    </PinInputGroup>
-                </PinInput>
-            </FormControl>
-            <FormError :message="form.errors.code" />
-        </FormField>
+        <FormContent>
+            <FormField id="code" required :disabled="form.processing">
+                <FormControl>
+                    <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
+                        <PinInputGroup>
+                            <PinInputInput class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
+                        </PinInputGroup>
+                    </PinInput>
+                </FormControl>
+                <FormError :message="form.errors.code" />
+            </FormField>
+        </FormContent>
+
+        <div class="grid gap-2">
+            <Form @submit="resend()">
+                <Button type="submit" variant="secondary" :loading="resendForm.processing">
+                    Resend verification email
+                </Button>
+            </Form>
+
+            <div class="space-x-1 text-center text-sm text-muted-foreground">
+                <span>Not you ? </span>
+                <Link :href="route('logout')" method="post" as="button"> log out </Link>
+            </div>
+        </div>
     </Form>
 </template>

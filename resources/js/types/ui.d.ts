@@ -1,3 +1,5 @@
+import { LucideIcon } from 'lucide-vue-next';
+
 export type BreadcrumbItem = {
     title: string;
     href: string;

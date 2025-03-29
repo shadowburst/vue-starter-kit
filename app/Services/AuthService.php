@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Actions\Auth\VerifyEmailCode;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
@@ -15,7 +14,7 @@ class AuthService
 
     public function user(): ?User
     {
-        return Auth::user();
+        return request()->user();
     }
 
     public function session(): Session

@@ -2,9 +2,11 @@
 import Breadcrumbs from '@/components/app/shell/Breadcrumbs.vue';
 import AppSidebar from '@/components/app/shell/sidebar/AppSidebar.vue';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { useLocalStorage } from '@vueuse/core';
 import { LayoutGridIcon } from 'lucide-vue-next';
+import { Slot } from 'reka-ui';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -16,14 +18,14 @@ function onSidebarOpenChange(open: boolean) {
     sidebarOpen.value = open;
 }
 
-const items: NavItem[] = [
+const items = useRouterComputed((): NavItem[] => [
     {
         title: 'Dashboard',
         href: route('home'),
         icon: LayoutGridIcon,
         isActive: route().current('home'),
     },
-];
+]);
 </script>
 
 <template>
@@ -38,7 +40,9 @@ const items: NavItem[] = [
                     <Breadcrumbs v-if="breadcrumbs.length > 0" :breadcrumbs />
                 </div>
             </header>
-            <slot />
+            <Slot class="px-4 py-6">
+                <slot />
+            </Slot>
         </SidebarInset>
     </SidebarProvider>
 </template>

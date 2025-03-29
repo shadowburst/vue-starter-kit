@@ -26,7 +26,7 @@ const auth = useAuth();
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
         <DropdownMenuItem as-child>
-            <Link class="block w-full" :href="route('home')" as="button">
+            <Link class="block w-full" :href="route('settings.index')" as="button">
                 <SettingsIcon class="mr-2 size-4" />
                 Settings
             </Link>

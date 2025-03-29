@@ -24,10 +24,12 @@ return [
             'many' => 'users',
         ],
         'fields' => [
-            'first_name' => 'first name',
-            'last_name'  => 'last name',
-            'email'      => 'email',
-            'password'   => 'password',
+            'first_name'            => 'first name',
+            'last_name'             => 'last name',
+            'email'                 => 'email',
+            'current_password'      => 'current password',
+            'password'              => 'password',
+            'password_confirmation' => 'confirm password',
         ],
     ],
 
