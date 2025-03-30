@@ -34,7 +34,8 @@ return [
     'keybinding' => env('SOLO_KEYBINDING', 'default'),
 
     'keybindings' => [
-        'default' => Hotkeys\VimHotkeys::class,
+        'default' => Hotkeys\DefaultHotkeys::class,
+        'vim'     => Hotkeys\VimHotkeys::class,
     ],
 
     /*
@@ -54,6 +55,14 @@ return [
         'Queue'  => Command::from('php artisan queue:work')->lazy(),
         'Tests'  => Command::from('php artisan test --colors=always')->withEnv(['APP_ENV' => 'testing'])->lazy(),
     ],
+
+    /**
+     * By default, we prefer to use GNU Screen as an intermediary between Solo
+     * and the underlying process. This helps us with many issues, including
+     * PTY and some ANSI rendering things. Not all environments have Screen,
+     * so you can turn it off for a slightly degraded experience.
+     */
+    'use_screen' => (bool) env('SOLO_USE_SCREEN', false),
 
     /*
     |--------------------------------------------------------------------------
