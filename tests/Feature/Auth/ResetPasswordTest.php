@@ -14,9 +14,9 @@ use function Pest\Laravel\post;
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('should render the reset password link screen', function () {
-get(route('password.request'))
-->assertOk();
-    });
+    get(route('password.request'))
+        ->assertOk();
+});
 
 it('should let users request a reset password link', function () {
     Notification::fake();
@@ -53,17 +53,17 @@ it('should render the reset password screen', function () {
         $user,
         ResetPasswordNotification::class,
         function (ResetPasswordNotification $notification) use ($user) {
-        get(
-            route(
-                'password.reset',
-                ResetPasswordProps::from([
-                    'token' => $notification->token,
-                    'email' => $user->email,
-                ])->toArray(),
-            ),
-        )->assertOk();
+            get(
+                route(
+                    'password.reset',
+                    ResetPasswordProps::from([
+                        'token' => $notification->token,
+                        'email' => $user->email,
+                    ])->toArray(),
+                ),
+            )->assertOk();
 
-        return true;
+            return true;
         });
 });
 

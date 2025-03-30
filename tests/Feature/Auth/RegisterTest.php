@@ -10,8 +10,8 @@ use function Pest\Laravel\post;
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('should render the registration screen', function () {
-get(route('register'))->assertOk();
-    });
+    get(route('register'))->assertOk();
+});
 
 it('should let new users register', function () {
     Notification::fake();
@@ -25,7 +25,7 @@ it('should let new users register', function () {
             'password'              => 'password',
             'password_confirmation' => 'password',
         ])->toArray(),
-    )->assertRedirectToRoute('dashboard');
+    )->assertRedirectToRoute('home');
 
     assertAuthenticated();
 });

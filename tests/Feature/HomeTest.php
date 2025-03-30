@@ -8,15 +8,15 @@ use function Pest\Laravel\get;
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('should redirect guests to the login page', function () {
-get(route('dashboard'))
-->assertRedirect(route('login'));
-    });
+    get(route('home'))
+        ->assertRedirect(route('login'));
+});
 
 it('should let authenticated users visit the dashboard', function () {
     /** @var User $user */
     $user = User::factory()->create();
 
     actingAs($user)
-        ->get(route('dashboard'))
+        ->get(route('home'))
         ->assertOk();
 });
