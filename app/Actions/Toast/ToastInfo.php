@@ -4,7 +4,7 @@ namespace App\Actions\Toast;
 
 use Spatie\QueueableAction\QueueableAction;
 
-class ToastMessage
+class ToastInfo
 {
     use QueueableAction;
 
@@ -12,14 +12,14 @@ class ToastMessage
      * Create a new action instance.
      */
     public function __construct(
-        //
+        protected ToastMessage $toastMessage,
     ) {}
 
     /**
      * Execute the action.
      */
-    public function execute(string $message, string $type): void
+    public function execute(string $message): void
     {
-        session()->flash($type, $message);
+        $this->toastMessage->execute($message, 'info');
     }
 }

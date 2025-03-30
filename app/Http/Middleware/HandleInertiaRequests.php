@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Data\Auth\AuthUserResource;
 use App\Models\User;
+use App\Services\ToastService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -38,6 +39,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $toast = app(ToastService::class);
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -47,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                     $request->user(),
                 ),
             ],
+            'toast' => $toast->get(),
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

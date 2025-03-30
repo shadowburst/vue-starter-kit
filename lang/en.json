@@ -1,3 +1,9 @@
 {
-    "save": "save"
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "error": "error",
+    "info": "information",
+    "save": "save",
+    "success": "success",
+    "warning": "warning"
 }

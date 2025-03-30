@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppShell from '@/components/app/shell/AppShell.vue';
 import Breadcrumbs from '@/components/app/shell/Breadcrumbs.vue';
 import AppSidebar from '@/components/app/shell/sidebar/AppSidebar.vue';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -40,9 +41,11 @@ const items = useRouterComputed((): NavItem[] => [
                     <Breadcrumbs v-if="breadcrumbs.length > 0" :breadcrumbs />
                 </div>
             </header>
-            <Slot class="px-4 py-6">
-                <slot />
-            </Slot>
+            <AppShell>
+                <Slot class="px-4 py-6">
+                    <slot />
+                </Slot>
+            </AppShell>
         </SidebarInset>
     </SidebarProvider>
 </template>

@@ -47,6 +47,12 @@ export type ResetPasswordRequest = {
     password: string;
     password_confirmation: string;
 };
+export type ToastMessagesData = {
+    info?: string;
+    success?: string;
+    warning?: string;
+    error?: string;
+};
 export type UpdatePasswordSettingsRequest = {
     current_password: string;
     password: string;
