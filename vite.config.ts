@@ -1,10 +1,9 @@
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
-import autoprefixer from 'autoprefixer';
 import laravel from 'laravel-vite-plugin';
 import i18n from 'laravel-vue-i18n/vite';
 import { resolve } from 'node:path';
 import path from 'path';
-import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 import { watch } from 'vite-plugin-watch';
 
@@ -24,6 +23,7 @@ export default defineConfig({
             },
         }),
         i18n(),
+        tailwindcss(),
         watch({
             pattern: 'app/{Data,Enums}/**/*.php',
             command: 'php artisan typescript:transform -q',
@@ -41,11 +41,6 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
-        },
-    },
-    css: {
-        postcss: {
-            plugins: [tailwindcss, autoprefixer],
         },
     },
 });

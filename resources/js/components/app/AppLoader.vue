@@ -10,5 +10,5 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <LoaderCircleIcon :class="cn('size-8 animate-spin text-primary', props.class)" />
+    <LoaderCircleIcon :class="cn('text-primary size-8 animate-spin', props.class)" />
 </template>

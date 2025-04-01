@@ -52,7 +52,7 @@ function submit() {
 
         <div class="grid gap-2">
             <Button type="submit" :loading="form.processing"> Email password reset link </Button>
-            <div class="space-x-1 text-center text-sm text-muted-foreground">
+            <div class="text-muted-foreground space-x-1 text-center text-sm">
                 <span>Or, return to</span>
                 <Link :href="route('login')">log in</Link>
             </div>

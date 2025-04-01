@@ -19,7 +19,7 @@ const field = injectFormFieldContext();
         :aria-required="field.required.value"
         :class="
             cn(
-                `first-letter:uppercase aria-required:after:text-destructive aria-required:after:content-['_*']`,
+                `aria-required:after:text-destructive first-letter:uppercase aria-required:after:content-['_*']`,
                 props.class,
             )
         "

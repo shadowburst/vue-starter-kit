@@ -77,7 +77,7 @@ function submit() {
 
         <div class="grid gap-2">
             <Button type="submit" :loading="form.processing"> Create account </Button>
-            <div class="text-center text-sm text-muted-foreground">
+            <div class="text-muted-foreground text-center text-sm">
                 Already have an account?
                 <Link :href="route('login')">Log in</Link>
             </div>

@@ -12,7 +12,7 @@ const field = injectFormFieldContext();
 </script>
 
 <template>
-    <p :id="field.descriptionId.value" :class="cn('text-sm text-muted-foreground', props.class)">
+    <p :id="field.descriptionId.value" :class="cn('text-muted-foreground text-sm', props.class)">
         <slot />
     </p>
 </template>

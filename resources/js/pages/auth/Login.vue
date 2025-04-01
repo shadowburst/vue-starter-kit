@@ -47,7 +47,7 @@ function submit() {
     <Form @submit="submit()">
         <FormContent>
             <FormField id="email" required>
-                <FormLabel class="after:!content-['']">Email address</FormLabel>
+                <FormLabel class="after:content-['']!">Email address</FormLabel>
                 <FormControl>
                     <Input v-model="form.email" type="email" autofocus autocomplete="email" />
                 </FormControl>
@@ -55,7 +55,7 @@ function submit() {
             </FormField>
             <FormField id="password" required>
                 <div class="flex items-center justify-between">
-                    <FormLabel class="after:!content-['']">Password</FormLabel>
+                    <FormLabel class="after:content-['']!">Password</FormLabel>
                     <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')">
                         Forgot password?
                     </Link>
@@ -78,7 +78,7 @@ function submit() {
 
         <div class="grid gap-2">
             <Button type="submit" :loading="form.processing"> Log in </Button>
-            <div class="text-center text-sm text-muted-foreground">
+            <div class="text-muted-foreground text-center text-sm">
                 Don't have an account?
                 <Link :href="route('register')">Sign up</Link>
             </div>

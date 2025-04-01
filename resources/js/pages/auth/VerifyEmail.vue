@@ -62,7 +62,7 @@ function submit() {
                 </FormContent>
             </Form>
 
-            <div class="space-x-1 text-center text-sm text-muted-foreground">
+            <div class="text-muted-foreground space-x-1 text-center text-sm">
                 <span>Not you ? </span>
                 <Link :href="route('logout')" method="post" as="button"> log out </Link>
             </div>
