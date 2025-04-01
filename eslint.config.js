@@ -1,5 +1,4 @@
 import prettier from 'eslint-config-prettier';
-import tailwind from 'eslint-plugin-tailwindcss';
 import vue from 'eslint-plugin-vue';
 
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
@@ -7,7 +6,6 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 export default defineConfigWithVueTs(
     vue.configs['flat/essential'],
     vueTsConfigs.recommended,
-    tailwind.configs['flat/recommended'],
     {
         ignores: [
             'vendor',
