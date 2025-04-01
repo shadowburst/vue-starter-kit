@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppToaster from '@/components/app/AppToaster.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -26,6 +27,8 @@ defineProps<Props>();
                     </div>
                 </div>
                 <slot />
+
+                <AppToaster />
             </div>
         </div>
     </div>

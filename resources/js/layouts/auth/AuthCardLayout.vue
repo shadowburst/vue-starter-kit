@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppToaster from '@/components/app/AppToaster.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@inertiajs/vue3';
@@ -29,6 +30,8 @@ defineProps<Props>();
                     </CardHeader>
                     <CardContent class="px-10 py-8">
                         <slot />
+
+                        <AppToaster />
                     </CardContent>
                 </Card>
             </div>

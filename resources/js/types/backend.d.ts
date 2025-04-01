@@ -9,6 +9,9 @@ export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {
     password: string;
 };
+export type DeleteProfileSettingsRequest = {
+    password: string;
+};
 export type EditAppearanceSettingsProps = {};
 export type EditProfileSettingsProps = {
     mustVerifyEmail: boolean;

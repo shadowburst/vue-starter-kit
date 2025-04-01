@@ -24,7 +24,7 @@ const form = useForm<UpdatePasswordSettingsRequest>({
 });
 
 function submit() {
-    form.post(route('settings.password.update'), {
+    form.patch(route('settings.password.update'), {
         onFinish: () => form.reset(),
     });
 }

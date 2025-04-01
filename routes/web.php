@@ -16,13 +16,13 @@ Route::middleware(['auth'])->group(function () {
         Route::redirect('/', '/settings/profile')->name('index');
         Route::prefix('/profile')->name('profile.')->controller(ProfileSettingsController::class)->group(function () {
             Route::get('/', 'edit')->name('edit');
-            Route::post('/', 'update')->name('update');
+            Route::patch('/', 'update')->name('update');
             Route::delete('/', 'destroy')->name('destroy');
         });
         Route::get('/security', [SecuritySettingsController::class, 'edit'])->name('security.edit');
 
         Route::prefix('/password')->name('password.')->controller(PasswordSettingsController::class)->group(function () {
-            Route::post('/', 'update')->name('update');
+            Route::patch('/', 'update')->name('update');
         });
 
         Route::get('/appearance', [AppearanceSettingsController::class, 'edit'])->name('appearance.edit');

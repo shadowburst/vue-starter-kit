@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Heading from '@/components/Heading.vue';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -43,36 +42,32 @@ const sidebarNavItems = useRouterComputed((): NavItem[] => [
 </script>
 
 <template>
-    <div>
-        <Heading title="Settings" description="Manage your profile and account settings" />
+    <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+        <aside class="w-full max-w-xl lg:w-48">
+            <nav class="flex flex-col space-x-0 space-y-1">
+                <Button
+                    v-for="item in sidebarNavItems"
+                    :key="item.href"
+                    variant="ghost"
+                    :class="['w-full justify-start', { 'bg-muted': item.isActive }]"
+                    as-child
+                >
+                    <Link :href="item.href">
+                        <component class="size-5" :is="item.icon" />
+                        <Capitalize>
+                            {{ item.title }}
+                        </Capitalize>
+                    </Link>
+                </Button>
+            </nav>
+        </aside>
 
-        <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside class="w-full max-w-xl lg:w-48">
-                <nav class="flex flex-col space-x-0 space-y-1">
-                    <Button
-                        v-for="item in sidebarNavItems"
-                        :key="item.href"
-                        variant="ghost"
-                        :class="['w-full justify-start', { 'bg-muted': item.isActive }]"
-                        as-child
-                    >
-                        <Link :href="item.href">
-                            <component class="size-5" :is="item.icon" />
-                            <Capitalize>
-                                {{ item.title }}
-                            </Capitalize>
-                        </Link>
-                    </Button>
-                </nav>
-            </aside>
+        <Separator class="md:hidden" />
 
-            <Separator class="md:hidden" />
-
-            <div class="flex-1 md:max-w-2xl">
-                <section class="max-w-xl space-y-12">
-                    <slot />
-                </section>
-            </div>
+        <div class="flex-1 md:max-w-2xl">
+            <section class="max-w-xl space-y-8">
+                <slot />
+            </section>
         </div>
     </div>
 </template>

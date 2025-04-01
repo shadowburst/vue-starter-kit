@@ -55,9 +55,11 @@ function submit() {
 
         <div class="grid gap-2">
             <Form @submit="resend()">
-                <Button type="submit" variant="secondary" :loading="resendForm.processing">
-                    Resend verification email
-                </Button>
+                <FormContent>
+                    <Button type="submit" variant="secondary" :loading="resendForm.processing">
+                        Resend verification email
+                    </Button>
+                </FormContent>
             </Form>
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">

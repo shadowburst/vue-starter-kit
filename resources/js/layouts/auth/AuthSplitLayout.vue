@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppToaster from '@/components/app/AppToaster.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
@@ -30,6 +31,8 @@ defineProps<Props>();
                     <p class="text-sm text-muted-foreground" v-if="description">{{ description }}</p>
                 </div>
                 <slot />
+
+                <AppToaster />
             </div>
         </div>
     </div>

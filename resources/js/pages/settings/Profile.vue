@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,7 +28,7 @@ const form = useForm<UpdateProfileSettingsRequest>({
 });
 
 function submit() {
-    form.post(route('settings.profile.update'));
+    form.patch(route('settings.profile.update'));
 }
 </script>
 
@@ -37,8 +38,12 @@ function submit() {
     <Form @submit="submit()">
         <Card>
             <CardHeader>
-                <CardTitle> Profile information </CardTitle>
-                <CardDescription>Update your name and email address</CardDescription>
+                <CardTitle>
+                    {{ $t('pages.settings.profile.information.title') }}
+                </CardTitle>
+                <CardDescription>
+                    {{ $t('pages.settings.profile.information.description') }}
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <FormContent>
@@ -86,4 +91,18 @@ function submit() {
             </CardFooter>
         </Card>
     </Form>
+
+    <Card>
+        <CardHeader>
+            <CardTitle class="text-destructive">
+                {{ $t('pages.settings.profile.delete.title') }}
+            </CardTitle>
+            <CardDescription>
+                {{ $t('pages.settings.profile.delete.description') }}
+            </CardDescription>
+        </CardHeader>
+        <CardFooter>
+            <DeleteProfileDialog />
+        </CardFooter>
+    </Card>
 </template>

@@ -5,7 +5,7 @@ export type AppAlertDialogState = {
     title?: string;
     description?: string;
     footnote?: string;
-    callback?: Function;
+    callback?: () => void;
 };
 
 export const [useAlert, provideAppAlertDialog] =

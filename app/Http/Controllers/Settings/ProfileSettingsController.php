@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Data\Auth\ConfirmPassword\ConfirmPasswordRequest;
 use App\Data\Settings\Profile\EditProfileSettingsProps;
 use App\Data\Settings\Profile\UpdateProfileSettingsRequest;
 use App\Http\Controllers\Controller;
@@ -52,7 +53,7 @@ class ProfileSettingsController extends Controller
     /**
      * Delete the user's profile.
      */
-    public function destroy()
+    public function destroy(ConfirmPasswordRequest $data)
     {
         $success = $this->settingsService->deleteProfile->execute();
 

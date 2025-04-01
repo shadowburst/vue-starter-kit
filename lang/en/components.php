@@ -22,4 +22,13 @@ return [
             ],
         ],
     ],
+    'settings' => [
+        'profile' => [
+            'delete_dialog' => [
+                'title'       => 'Are you sure you want to delete your account?',
+                'description' => 'Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
+                'action'      => 'Delete your account',
+            ],
+        ],
+    ],
 ];
