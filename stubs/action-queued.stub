@@ -2,8 +2,12 @@
 
 namespace {{ namespace }};
 
+use Spatie\QueueableAction\QueueableAction;
+
 class {{ class }}
 {
+    use QueueableAction;
+
     /**
      * Create a new action instance.
      */
