@@ -2,6 +2,7 @@
 
 namespace App\Data\Auth;
 
+use App\Data\Media\MediaResource;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -13,6 +14,8 @@ class AuthUserResource extends Resource
         public string $first_name,
         public string $last_name,
         public string $full_name,
+        public string $initials,
         public string $email,
+        public ?MediaResource $avatar,
     ) {}
 }

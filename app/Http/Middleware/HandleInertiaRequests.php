@@ -46,7 +46,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => value(
-                    fn (?User $user) => $user ? AuthUserResource::from($user) : null,
+                    fn (?User $user) => $user ? AuthUserResource::from($user->load(['avatar'])) : null,
                     $request->user(),
                 ),
             ],

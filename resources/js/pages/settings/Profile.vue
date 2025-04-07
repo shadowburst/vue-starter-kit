@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import UserAvatar from '@/components/app/user/UserAvatar.vue';
+import MediaInput from '@/components/media/MediaInput.vue';
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
@@ -21,11 +23,17 @@ defineProps<Props>();
 
 const auth = useAuth();
 
-const form = useForm<UpdateProfileSettingsRequest>({
+const form = useForm({
     first_name: auth.value.user.first_name,
     last_name: auth.value.user.last_name,
     email: auth.value.user.email,
-});
+    avatar: auth.value.user.avatar,
+}).transform(
+    (data): UpdateProfileSettingsRequest => ({
+        ...data,
+        avatar: data.avatar?.uuid,
+    }),
+);
 
 function submit() {
     form.patch(route('settings.profile.update'));
@@ -47,6 +55,24 @@ function submit() {
             </CardHeader>
             <CardContent>
                 <FormContent>
+                    <FormField id="avatar">
+                        <FormLabel>
+                            {{ $t('models.user.fields.avatar') }}
+                        </FormLabel>
+                        <FormControl>
+                            <MediaInput
+                                v-model="form.avatar"
+                                v-model:error="form.errors.avatar"
+                                model-type="user"
+                                :model-id="auth.user.id"
+                                collection="avatar"
+                                type="image"
+                            >
+                                <UserAvatar size="lg" :user="{ ...auth.user, avatar: form.avatar }" />
+                            </MediaInput>
+                        </FormControl>
+                        <FormError :message="form.errors.avatar" />
+                    </FormField>
                     <FormField id="first_name" required>
                         <FormLabel>
                             {{ $t('models.user.fields.first_name') }}

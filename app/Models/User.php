@@ -4,16 +4,21 @@ namespace App\Models;
 
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
+use App\Traits\InteractsWithMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
 use Nette\Utils\Random;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $first_name
  * @property string $last_name
@@ -26,10 +31,13 @@ use Nette\Utils\Random;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Media|null $avatar
  * @property-read mixed $full_name
+ * @property-read mixed $initials
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -46,12 +54,15 @@ use Nette\Utils\Random;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use InteractsWithMedia;
+    use Notifiable;
+
+    public const string COLLECTION_AVATAR = 'avatar';
 
     /**
      * The attributes that are mass assignable.
@@ -104,11 +115,23 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    protected function initials(): Attribute
+    {
+        return Attribute::get(
+            fn ($value, array $attributes) => strtoupper("{$attributes['first_name'][0]} {$attributes['last_name'][0]}"),
+        );
+    }
+
     protected function fullName(): Attribute
     {
         return Attribute::get(
             fn ($value, array $attributes) => "{$attributes['first_name']} {$attributes['last_name']}",
         );
+    }
+
+    public function avatar(): MorphOne
+    {
+        return $this->media()->one()->latestOfMany()->withAttributes('collection_name', static::COLLECTION_AVATAR);
     }
 
     public function routeNotificationForBrevo(?Notification $notification): array|string
@@ -136,5 +159,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification(#[\SensitiveParameter] $token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::COLLECTION_AVATAR)
+            ->acceptsMimeTypes(['image/jpeg', 'image/png'])
+            ->singleFile();
     }
 }

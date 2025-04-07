@@ -1,7 +1,5 @@
 <?php
 
-use Spatie\TypeScriptTransformer\Formatters\PrettierFormatter;
-
 return [
     /*
      * The paths where typescript-transformer will look for PHP classes
@@ -41,11 +39,12 @@ return [
      */
 
     'default_type_replacements' => [
-        DateTime::class               => 'string',
-        DateTimeImmutable::class      => 'string',
-        Carbon\CarbonInterface::class => 'string',
-        Carbon\CarbonImmutable::class => 'string',
-        Carbon\Carbon::class          => 'string',
+        DateTime::class                      => 'string',
+        DateTimeImmutable::class             => 'string',
+        Carbon\CarbonInterface::class        => 'string',
+        Carbon\CarbonImmutable::class        => 'string',
+        Carbon\Carbon::class                 => 'string',
+        \Illuminate\Http\UploadedFile::class => 'File',
     ],
 
     /*
@@ -68,7 +67,7 @@ return [
      * The generated TypeScript will not be formatted when no formatter was set.
      */
 
-    'formatter' => PrettierFormatter::class,
+    'formatter' => Spatie\TypeScriptTransformer\Formatters\PrettierFormatter::class,
 
     /*
      * Enums can be transformed into types or native TypeScript enums, by default

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
 use App\Http\Controllers\Settings\ProfileSettingsController;
@@ -11,6 +12,10 @@ Route::post('/verification/code', [VerifyEmailController::class, 'code'])->name(
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', fn () => inertia('app/Home'))->name('home');
+
+    Route::prefix('/media')->name('media.')->controller(MediaController::class)->group(function () {
+        Route::post('/{modelType}/{modelId}/{collection}', 'store')->name('store');
+    });
 
     Route::prefix('/settings')->name('settings.')->group(function () {
         Route::redirect('/', '/settings/profile')->name('index');

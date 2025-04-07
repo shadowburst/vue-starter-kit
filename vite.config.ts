@@ -5,7 +5,7 @@ import i18n from 'laravel-vue-i18n/vite';
 import { resolve } from 'node:path';
 import path from 'path';
 import { defineConfig } from 'vite';
-import { watch } from 'vite-plugin-watch';
+import { run } from 'vite-plugin-run';
 
 export default defineConfig({
     plugins: [
@@ -24,18 +24,30 @@ export default defineConfig({
         }),
         i18n(),
         tailwindcss(),
-        watch({
-            pattern: 'app/{Data,Enums}/**/*.php',
-            command: 'php artisan typescript:transform -q',
-        }),
-        watch({
-            pattern: 'database/migrations/*.php',
-            command: ['php artisan ide-helper:models -q -R -W', 'vendor/bin/pint -q app/Models'],
-        }),
-        watch({
-            pattern: 'routes/**/*.php',
-            command: 'php artisan ziggy:generate -q --types',
-        }),
+        run([
+            {
+                name: 'typescript transform',
+                run: ['php', 'artisan', 'typescript:transform'],
+                pattern: ['app/Data/**/*.php', 'app/Enums/**/*.php'],
+            },
+            {
+                name: 'ide helper',
+                run: ['php', 'artisan', 'ide-helper:models', '-RW'],
+                pattern: ['database/migrations/**/*.php'],
+            },
+            {
+                name: 'ide helper',
+                run: ['vendor/bin/pint', 'app/Models'],
+                pattern: ['database/migrations/**/*.php'],
+                delay: 100,
+            },
+            {
+                name: 'ziggy',
+                run: ['php', 'artisan', 'ziggy:generate ', '--types'],
+                pattern: ['routes/**/*.php'],
+                delay: 100,
+            },
+        ]),
     ],
     resolve: {
         alias: {

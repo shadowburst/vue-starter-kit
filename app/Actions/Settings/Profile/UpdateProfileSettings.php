@@ -4,6 +4,7 @@ namespace App\Actions\Settings\Profile;
 
 use App\Data\Settings\Profile\UpdateProfileSettingsRequest;
 use App\Models\User;
+use App\Services\MediaService;
 use Spatie\QueueableAction\QueueableAction;
 
 class UpdateProfileSettings
@@ -14,7 +15,7 @@ class UpdateProfileSettings
      * Create a new action instance.
      */
     public function __construct(
-        //
+        protected MediaService $mediaService,
     ) {}
 
     /**
@@ -26,6 +27,10 @@ class UpdateProfileSettings
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
+        }
+
+        if (! $this->mediaService->updateOne->execute($user, User::COLLECTION_AVATAR, $data->avatar)) {
+            return false;
         }
 
         return $user->save();

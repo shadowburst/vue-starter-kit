@@ -21,6 +21,12 @@ return [
                 'danger'  => 'Erreur',
             ],
         ],
+        'media' => [
+            'input' => [
+                'upload' => 'Upload a file',
+                'delete' => 'Remove file',
+            ],
+        ],
     ],
     'settings' => [
         'profile' => [

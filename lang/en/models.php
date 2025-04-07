@@ -18,6 +18,12 @@ return [
         ],
     ],
 
+    'media' => [
+        'fields' => [
+
+        ],
+    ],
+
     'user' => [
         'name' => [
             'one'  => 'user',
@@ -30,6 +36,7 @@ return [
             'current_password'      => 'current password',
             'password'              => 'password',
             'password_confirmation' => 'confirm password',
+            'avatar'                => 'avatar',
         ],
     ],
 

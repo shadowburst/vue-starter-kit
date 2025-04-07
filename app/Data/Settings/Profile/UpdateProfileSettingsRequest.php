@@ -2,6 +2,7 @@
 
 namespace App\Data\Settings\Profile;
 
+use App\Attributes\Media;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
@@ -18,6 +19,9 @@ class UpdateProfileSettingsRequest extends Data
         public string $last_name,
         #[Email]
         public string $email,
+        #[Media]
+        public ?string $avatar,
+
     ) {}
 
     public static function attributes(): array
@@ -26,6 +30,7 @@ class UpdateProfileSettingsRequest extends Data
             'first_name' => __('models.user.fields.first_name'),
             'last_name'  => __('models.user.fields.last_name'),
             'email'      => __('models.user.fields.email'),
+            'avatar'     => __('models.user.fields.avatar'),
         ];
     }
 
