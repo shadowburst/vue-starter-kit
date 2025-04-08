@@ -15,6 +15,7 @@
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "sentry/sentry-laravel": "^4.13",
         "spatie/laravel-data": "^4.13",
         "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-queueable-action": "^2.16",

@@ -54,7 +54,7 @@ return [
 
         'stack' => [
             'driver'            => 'stack',
-            'channels'          => explode(',', env('LOG_STACK', 'single')),
+            'channels'          => explode(',', env('LOG_STACK', 'single,sentry')),
             'ignore_exceptions' => false,
         ],
 
@@ -92,6 +92,12 @@ return [
                 'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
+        ],
+
+        'sentry' => [
+            'driver' => 'sentry',
+            'level'  => env('LOG_LEVEL', 'error'),
+            'bubble' => true,
         ],
 
         'stderr' => [
