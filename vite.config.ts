@@ -26,26 +26,25 @@ export default defineConfig({
         tailwindcss(),
         run([
             {
-                name: 'typescript transform',
+                name: 'generate typescript types',
                 run: ['php', 'artisan', 'typescript:transform'],
                 pattern: ['app/Data/**/*.php', 'app/Enums/**/*.php'],
             },
             {
-                name: 'ide helper',
+                name: 'generate ide helper',
                 run: ['php', 'artisan', 'ide-helper:models', '-RW'],
                 pattern: ['database/migrations/**/*.php'],
             },
             {
-                name: 'ide helper',
-                run: ['vendor/bin/pint', 'app/Models'],
+                name: 'format ide helper',
+                run: ['php', 'vendor/bin/pint', 'app/Models'],
                 pattern: ['database/migrations/**/*.php'],
                 delay: 100,
             },
             {
-                name: 'ziggy',
-                run: ['php', 'artisan', 'ziggy:generate ', '--types'],
+                name: 'generate ziggy',
+                run: ['php', 'artisan', 'ziggy:generate', '--types'],
                 pattern: ['routes/**/*.php'],
-                delay: 100,
             },
         ]),
     ],
