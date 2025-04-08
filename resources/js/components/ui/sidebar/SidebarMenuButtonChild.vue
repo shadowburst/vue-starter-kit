@@ -21,6 +21,7 @@ const props = withDefaults(defineProps<SidebarMenuButtonProps>(), {
 <template>
     <Primitive
         v-bind="$attrs"
+        data-slot="sidebar-menu-button"
         data-sidebar="menu-button"
         :data-size="size"
         :data-active="isActive"

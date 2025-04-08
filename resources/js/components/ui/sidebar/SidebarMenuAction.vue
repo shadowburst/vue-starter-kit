@@ -18,6 +18,7 @@ const props = withDefaults(
 
 <template>
     <Primitive
+        data-slot="sidebar-menu-action"
         data-sidebar="menu-action"
         :class="
             cn(

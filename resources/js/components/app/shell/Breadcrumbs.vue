@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TextLink from '@/components/TextLink.vue';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -7,7 +8,6 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Link } from '@/components/ui/link';
 import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
 type Props = {
@@ -23,7 +23,7 @@ defineProps<Props>();
                 <BreadcrumbItem>
                     <BreadcrumbPage v-if="index === breadcrumbs.length - 1">{{ item.title }}</BreadcrumbPage>
                     <BreadcrumbLink v-else as-child>
-                        <Link :href="item.href ?? '#'">{{ item.title }}</Link>
+                        <TextLink :href="item.href ?? '#'">{{ item.title }}</TextLink>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator v-if="index !== breadcrumbs.length - 1" />

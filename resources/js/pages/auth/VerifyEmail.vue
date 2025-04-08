@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
-import { Link } from '@/components/ui/link';
 import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -64,7 +64,7 @@ function submit() {
 
             <div class="text-muted-foreground space-x-1 text-center text-sm">
                 <span>Not you ? </span>
-                <Link :href="route('logout')" method="post" as="button"> log out </Link>
+                <TextLink :href="route('logout')" method="post" as="button"> log out </TextLink>
             </div>
         </div>
     </Form>

@@ -14,7 +14,11 @@ const width = computed(() => {
 </script>
 
 <template>
-    <div data-sidebar="menu-skeleton" :class="cn('flex h-8 items-center gap-2 rounded-md px-2', props.class)">
+    <div
+        data-slot="sidebar-menu-skeleton"
+        data-sidebar="menu-skeleton"
+        :class="cn('flex h-8 items-center gap-2 rounded-md px-2', props.class)"
+    >
         <Skeleton class="size-4 rounded-md" v-if="showIcon" data-sidebar="menu-skeleton-icon" />
 
         <Skeleton

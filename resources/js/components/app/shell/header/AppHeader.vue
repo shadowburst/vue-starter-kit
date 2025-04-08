@@ -2,7 +2,6 @@
 import AppLogo from '@/components/app/AppLogo.vue';
 import Breadcrumbs from '@/components/app/shell/Breadcrumbs.vue';
 import UserDropdownMenuContent from '@/components/app/shell/UserDropdownMenuContent.vue';
-import UserAvatar from '@/components/app/user/UserAvatar.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -14,6 +13,7 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth } from '@/composables';
 import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';

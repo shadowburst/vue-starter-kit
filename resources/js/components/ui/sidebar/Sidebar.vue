@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import SheetDescription from '@/components/ui/sheet/SheetDescription.vue';
+import SheetHeader from '@/components/ui/sheet/SheetHeader.vue';
+import SheetTitle from '@/components/ui/sheet/SheetTitle.vue';
 import { cn } from '@/lib/utils';
-import { VisuallyHidden } from 'reka-ui';
 import type { SidebarProps } from '.';
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './utils';
 
@@ -22,6 +24,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
     <div
         v-if="collapsible === 'none'"
         v-bind="$attrs"
+        data-slot="sidebar"
         :class="cn('bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col', props.class)"
     >
         <slot />
@@ -31,18 +34,17 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
         <SheetContent
             class="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
             data-sidebar="sidebar"
+            data-slot="sidebar"
             data-mobile="true"
             :side="side"
             :style="{
                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
             }"
         >
-            <VisuallyHidden>
-                <SheetHeader>
-                    <SheetTitle>Sidebar</SheetTitle>
-                    <SheetDescription> App sidebar </SheetDescription>
-                </SheetHeader>
-            </VisuallyHidden>
+            <SheetHeader class="sr-only">
+                <SheetTitle>Sidebar</SheetTitle>
+                <SheetDescription>Displays the mobile sidebar.</SheetDescription>
+            </SheetHeader>
             <div class="flex h-full w-full flex-col">
                 <slot />
             </div>
@@ -50,8 +52,9 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
     </Sheet>
 
     <div
-        class="group peer hidden md:block"
+        class="group peer text-sidebar-foreground hidden md:block"
         v-else
+        data-slot="sidebar"
         :data-state="state"
         :data-collapsible="state === 'collapsed' ? collapsible : ''"
         :data-variant="variant"
@@ -61,7 +64,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
         <div
             :class="
                 cn(
-                    'relative h-svh w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
+                    'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
                     'group-data-[collapsible=offcanvas]:w-0',
                     'group-data-[side=right]:rotate-180',
                     variant === 'floating' || variant === 'inset'
@@ -87,7 +90,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             "
         >
             <div
-                class="bg-sidebar text-sidebar-foreground group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
+                class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
                 data-sidebar="sidebar"
             >
                 <slot />

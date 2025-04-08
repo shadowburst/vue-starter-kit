@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import UserAvatar from '@/components/app/user/UserAvatar.vue';
 import MediaInput from '@/components/media/MediaInput.vue';
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
+import TextLink from '@/components/TextLink.vue';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormContent, FormControl, FormDescription, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
+import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
 import { EditProfileSettingsProps, SharedData, UpdateProfileSettingsRequest } from '@/types';
@@ -101,9 +101,9 @@ function submit() {
                         <FormError :message="form.errors.email" />
                         <FormDescription v-if="mustVerifyEmail">
                             Your email address is unverified.
-                            <Link :href="route('verification.notice')">
+                            <TextLink :href="route('verification.notice')">
                                 Click here to resend the verification email.
-                            </Link>
+                            </TextLink>
                         </FormDescription>
                     </FormField>
                 </FormContent>

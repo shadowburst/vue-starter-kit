@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import TextLink from '@/components/TextLink.vue';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { LoginProps, LoginRequest, SharedData } from '@/types';
@@ -56,9 +56,9 @@ function submit() {
             <FormField id="password" required>
                 <div class="flex items-center justify-between">
                     <FormLabel class="after:content-['']!">Password</FormLabel>
-                    <Link class="text-sm" v-if="canResetPassword" :href="route('password.request')">
+                    <TextLink class="text-sm" v-if="canResetPassword" :href="route('password.request')">
                         Forgot password?
-                    </Link>
+                    </TextLink>
                 </div>
                 <FormControl>
                     <Input v-model="form.password" type="password" autocomplete="current-password" />
@@ -80,7 +80,7 @@ function submit() {
             <Button type="submit" :loading="form.processing"> Log in </Button>
             <div class="text-muted-foreground text-center text-sm">
                 Don't have an account?
-                <Link :href="route('register')">Sign up</Link>
+                <TextLink :href="route('register')">Sign up</TextLink>
             </div>
         </div>
     </Form>

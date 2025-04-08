@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { RegisterProps, RegisterRequest, SharedData } from '@/types';
@@ -79,7 +79,7 @@ function submit() {
             <Button type="submit" :loading="form.processing"> Create account </Button>
             <div class="text-muted-foreground text-center text-sm">
                 Already have an account?
-                <Link :href="route('login')">Log in</Link>
+                <TextLink :href="route('login')">Log in</TextLink>
             </div>
         </div>
     </Form>

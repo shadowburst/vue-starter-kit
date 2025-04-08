@@ -21,6 +21,7 @@ const props = withDefaults(
 
 <template>
     <Primitive
+        data-slot="sidebar-menu-sub-button"
         data-sidebar="menu-sub-button"
         :as="as"
         :as-child="asChild"

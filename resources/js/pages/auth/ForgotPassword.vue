@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import TextLink from '@/components/TextLink.vue';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Link } from '@/components/ui/link';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';
@@ -54,7 +54,7 @@ function submit() {
             <Button type="submit" :loading="form.processing"> Email password reset link </Button>
             <div class="text-muted-foreground space-x-1 text-center text-sm">
                 <span>Or, return to</span>
-                <Link :href="route('login')">log in</Link>
+                <TextLink :href="route('login')">log in</TextLink>
             </div>
         </div>
     </Form>

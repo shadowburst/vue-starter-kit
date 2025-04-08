@@ -13,7 +13,11 @@ const delegatedProps = computed(() => {
 </script>
 
 <template>
-    <DialogTitle v-bind="delegatedProps" :class="cn('text-foreground text-lg font-semibold', props.class)">
+    <DialogTitle
+        v-bind="delegatedProps"
+        data-slot="sheet-title"
+        :class="cn('text-foreground font-semibold', props.class)"
+    >
         <slot />
     </DialogTitle>
 </template>

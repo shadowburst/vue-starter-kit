@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import UserAvatar from '@/components/app/user/UserAvatar.vue';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth } from '@/composables';
 import { Link } from '@inertiajs/vue3';
 import { LogOutIcon, SettingsIcon } from 'lucide-vue-next';

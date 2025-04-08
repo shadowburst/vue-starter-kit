@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import UserDropdownMenuContent from '@/components/app/shell/UserDropdownMenuContent.vue';
-import UserAvatar from '@/components/app/user/UserAvatar.vue';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
+import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth } from '@/composables';
 import { ChevronsUpDownIcon } from 'lucide-vue-next';
 
@@ -28,7 +28,7 @@ const auth = useAuth();
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        class="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                        class="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
                         :side="isMobile ? 'bottom' : state === 'collapsed' ? 'left' : 'bottom'"
                         align="end"
                         :side-offset="4"

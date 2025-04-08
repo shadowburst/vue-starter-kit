@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLogo from '@/components/app/AppLogo.vue';
-import { Link } from '@/components/ui/link';
 import { SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
