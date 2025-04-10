@@ -4,8 +4,8 @@ import Breadcrumbs from '@/components/app/shell/Breadcrumbs.vue';
 import AppSidebar from '@/components/app/shell/sidebar/AppSidebar.vue';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useRouterComputed } from '@/composables';
-import type { BreadcrumbItem, NavItem } from '@/types';
-import { useLocalStorage } from '@vueuse/core';
+import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
+import { usePage } from '@inertiajs/vue3';
 import { LayoutGridIcon } from 'lucide-vue-next';
 import { Slot } from 'reka-ui';
 
@@ -14,10 +14,7 @@ type Props = {
 };
 const { breadcrumbs = [] } = defineProps<Props>();
 
-const sidebarOpen = useLocalStorage<boolean>('sidebar', true);
-function onSidebarOpenChange(open: boolean) {
-    sidebarOpen.value = open;
-}
+const sidebarOpen = usePage<SharedData>().props.sidebarOpen;
 
 const items = useRouterComputed((): NavItem[] => [
     {
@@ -30,7 +27,7 @@ const items = useRouterComputed((): NavItem[] => [
 </script>
 
 <template>
-    <SidebarProvider :default-open="sidebarOpen" :open="sidebarOpen" @update:open="onSidebarOpenChange">
+    <SidebarProvider :default-open="sidebarOpen">
         <AppSidebar :items />
         <SidebarInset>
             <header
