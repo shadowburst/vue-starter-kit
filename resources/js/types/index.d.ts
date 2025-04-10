@@ -4,7 +4,7 @@ import { AuthUserResource, ToastMessagesData } from './backend';
 
 export type SharedData = {
     name: string;
-    auth: {
+    auth?: {
         user: AuthUserResource;
     };
     toast: ToastMessagesData;

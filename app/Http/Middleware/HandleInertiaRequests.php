@@ -44,12 +44,12 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'auth' => [
-                'user' => value(
-                    fn (?User $user) => $user ? AuthUserResource::from($user->load(['avatar'])) : null,
-                    $request->user(),
-                ),
-            ],
+            'auth' => value(
+                fn (?User $user) => ! $user ? null : [
+                    'user' => AuthUserResource::from($user->load(['avatar'])),
+                ],
+                $request->user(),
+            ),
             'toast' => $toast->get(),
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
