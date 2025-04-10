@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
 import { InertiaLinkProps, Link } from '@inertiajs/vue3';
+import { reactiveOmit } from '@vueuse/core';
 import { useForwardProps } from 'reka-ui';
-import { computed, HTMLAttributes } from 'vue';
+import { HTMLAttributes } from 'vue';
 
 type Props = InertiaLinkProps & {
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
 
-const delegatedProps = computed(() => {
-    const { class: _, ...delegated } = props;
-    return delegated;
-});
+const delegatedProps = reactiveOmit(props, 'class');
 
 const forwarded = useForwardProps(delegatedProps);
 </script>

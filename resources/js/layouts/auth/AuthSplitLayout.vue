@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppToaster from '@/components/app/AppToaster.vue';
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
 const page = usePage();

@@ -31,5 +31,5 @@ const dark = useDark();
 </script>
 
 <template>
-    <Toaster position="top-center" rich-colors :theme="dark ? 'dark' : 'light'" />
+    <Toaster position="top-right" :theme="dark ? 'dark' : 'light'" />
 </template>

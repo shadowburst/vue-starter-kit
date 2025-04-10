@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppInput from '@/components/input/AppInput.vue';
-import MediaInput from '@/components/media/MediaInput.vue';
+import MediaInput from '@/components/input/MediaInput.vue';
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Capitalize } from '@/components/typography';

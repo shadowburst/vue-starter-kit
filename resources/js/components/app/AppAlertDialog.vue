@@ -1,32 +1,4 @@
-<template>
-    <AlertDialog v-model:open="open">
-        <slot />
-
-        <AlertDialogContent>
-            <AlertDialogHeader v-if="hasHeader">
-                <AlertDialogTitle>
-                    {{ state.title ?? $t(`components.app.alert_dialog.title.${state.type}`) }}
-                </AlertDialogTitle>
-                <AlertDialogDescription v-if="state.description">
-                    {{ state.description }}
-                </AlertDialogDescription>
-                <AlertDialogDescription class="text-xs italic" v-if="state.footnote">
-                    {{ state.footnote }}
-                </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel>
-                    {{ $t('cancel') }}
-                </AlertDialogCancel>
-                <AlertDialogAction @click="state.callback?.()">
-                    {{ $t('confirm') }}
-                </AlertDialogAction>
-            </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>
-</template>
-
-<script lang="ts" setup>
+<script setup lang="ts">
 import {
     AlertDialog,
     AlertDialogAction,
@@ -59,3 +31,31 @@ function alert(options: Partial<AppAlertDialogState>) {
 
 provideAppAlertDialog(alert);
 </script>
+
+<template>
+    <AlertDialog v-model:open="open">
+        <slot />
+
+        <AlertDialogContent>
+            <AlertDialogHeader v-if="hasHeader">
+                <AlertDialogTitle>
+                    {{ state.title ?? $t(`components.app.alert_dialog.title.${state.type}`) }}
+                </AlertDialogTitle>
+                <AlertDialogDescription v-if="state.description">
+                    {{ state.description }}
+                </AlertDialogDescription>
+                <AlertDialogDescription class="text-xs italic" v-if="state.footnote">
+                    {{ state.footnote }}
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel>
+                    {{ $t('cancel') }}
+                </AlertDialogCancel>
+                <AlertDialogAction @click="state.callback?.()">
+                    {{ $t('confirm') }}
+                </AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
+</template>

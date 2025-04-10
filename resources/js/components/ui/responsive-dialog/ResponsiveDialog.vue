@@ -7,7 +7,7 @@
     </Drawer>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { Dialog } from '@/components/ui/dialog';
 import { Drawer } from '@/components/ui/drawer';
 import { useIsDesktop } from '@/composables';

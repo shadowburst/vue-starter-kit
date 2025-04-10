@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AppLogo from '@/components/app/AppLogo.vue';
+import AppLogo from '@/components/AppLogo.vue';
 import Breadcrumbs from '@/components/app/shell/Breadcrumbs.vue';
 import UserDropdownMenuContent from '@/components/app/shell/UserDropdownMenuContent.vue';
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import {
