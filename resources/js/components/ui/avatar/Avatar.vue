@@ -5,7 +5,7 @@ import { AvatarProps, avatarVariant } from '.';
 
 const props = withDefaults(defineProps<AvatarProps>(), {
     size: 'sm',
-    shape: 'circle',
+    shape: 'square',
 });
 </script>
 

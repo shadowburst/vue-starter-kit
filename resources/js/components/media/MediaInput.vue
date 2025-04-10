@@ -14,6 +14,10 @@ import { AxiosError } from 'axios';
 import { PencilIcon } from 'lucide-vue-next';
 import { computed, HTMLAttributes, ref } from 'vue';
 
+defineOptions({
+    inheritAttrs: false,
+});
+
 type Props = {
     modelType: string;
     modelId: number;
@@ -76,9 +80,9 @@ async function submit(event: Event) {
 
 <template>
     <DropdownMenu>
-        <DropdownMenuTrigger :class="cn('relative w-min', props.class)">
+        <DropdownMenuTrigger :class="cn('relative w-min p-3', props.class)">
             <slot />
-            <Button class="absolute right-0 bottom-0 size-8" variant="outline" size="icon">
+            <Button class="absolute right-0 bottom-0 size-8" v-bind="$attrs" variant="outline" size="icon">
                 <PencilIcon />
             </Button>
         </DropdownMenuTrigger>

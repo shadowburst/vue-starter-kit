@@ -68,7 +68,7 @@ function submit() {
                                 collection="avatar"
                                 type="image"
                             >
-                                <UserAvatar size="lg" :user="{ ...auth.user, avatar: form.avatar }" />
+                                <UserAvatar size="lg" shape="circle" :user="{ ...auth.user, avatar: form.avatar }" />
                             </MediaInput>
                         </FormControl>
                         <FormError :message="form.errors.avatar" />
