@@ -3,6 +3,9 @@
     "confirm": "confirm",
     "error": "error",
     "info": "information",
+    "login": "log in",
+    "logout": "log out",
+    "register": "sign up",
     "save": "save",
     "success": "success",
     "warning": "warning"

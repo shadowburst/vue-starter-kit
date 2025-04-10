@@ -6,10 +6,11 @@ import { SettingsLayout } from '@/layouts';
 import { EditAppearanceSettingsProps, SharedData } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { useColorMode, type BasicColorSchema } from '@vueuse/core';
+import { trans } from 'laravel-vue-i18n';
 import { LucideIcon, MonitorIcon, MoonIcon, SunIcon } from 'lucide-vue-next';
 
 defineOptions({
-    layout: useLayout(SettingsLayout, {}),
+    layout: useLayout(SettingsLayout, () => ({})),
 });
 
 type Props = SharedData & EditAppearanceSettingsProps;
@@ -23,19 +24,23 @@ type AppearanceOption = {
     label: string;
 };
 const tabs: AppearanceOption[] = [
-    { value: 'light', icon: SunIcon, label: 'Light' },
-    { value: 'auto', icon: MonitorIcon, label: 'System' },
-    { value: 'dark', icon: MoonIcon, label: 'Dark' },
+    { value: 'light', icon: SunIcon, label: trans('pages.settings.appearance.colors.light') },
+    { value: 'auto', icon: MonitorIcon, label: trans('pages.settings.appearance.colors.system') },
+    { value: 'dark', icon: MoonIcon, label: trans('pages.settings.appearance.colors.dark') },
 ] as const;
 </script>
 
 <template>
-    <Head title="Appearance settings" />
+    <Head :title="$t('pages.settings.appearance.title')" />
 
     <Card>
         <CardHeader>
-            <CardTitle> Appearance settings </CardTitle>
-            <CardDescription>Update your account's appearance settings</CardDescription>
+            <CardTitle>
+                {{ $t('pages.settings.appearance.title') }}
+            </CardTitle>
+            <CardDescription>
+                {{ $t('pages.settings.appearance.description') }}
+            </CardDescription>
         </CardHeader>
         <CardContent>
             <ToggleGroup class="max-sm:flex-col max-sm:items-stretch" v-model="store" type="single" variant="outline">

@@ -15,7 +15,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { SaveIcon } from 'lucide-vue-next';
 
 defineOptions({
-    layout: useLayout(SettingsLayout, {}),
+    layout: useLayout(SettingsLayout, () => ({})),
 });
 
 type Props = SharedData & EditProfileSettingsProps;
@@ -41,7 +41,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Profile settings" />
+    <Head :title="$t('pages.settings.profile.title')" />
 
     <Form @submit="submit()">
         <Card>
@@ -100,9 +100,9 @@ function submit() {
                         </FormControl>
                         <FormError :message="form.errors.email" />
                         <FormDescription v-if="mustVerifyEmail">
-                            Your email address is unverified.
+                            {{ $t('pages.settings.profile.information.unverified_email') }}
                             <TextLink :href="route('verification.notice')">
-                                Click here to resend the verification email.
+                                {{ $t('pages.settings.profile.information.verify_email') }}
                             </TextLink>
                         </FormDescription>
                     </FormField>

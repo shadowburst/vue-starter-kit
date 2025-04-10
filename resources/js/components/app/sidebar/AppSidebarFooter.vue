@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UserDropdownMenuContent from '@/components/app/shell/UserDropdownMenuContent.vue';
+import AppUserDropdown from '@/components/app/AppUserDropdown.vue';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
 import UserAvatar from '@/components/user/UserAvatar.vue';
@@ -33,7 +33,7 @@ const auth = useAuth();
                         align="end"
                         :side-offset="4"
                     >
-                        <UserDropdownMenuContent />
+                        <AppUserDropdown />
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuItem>

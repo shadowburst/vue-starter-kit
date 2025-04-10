@@ -6,12 +6,13 @@ import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ConfirmPasswordProps, ConfirmPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 
 defineOptions({
-    layout: useLayout(AuthLayout, {
-        title: 'Confirm your password',
-        description: 'This is a secure area of the application. Please confirm your password before continuing.',
-    }),
+    layout: useLayout(AuthLayout, () => ({
+        title: trans('pages.auth.confirm_password.title'),
+        description: trans('pages.auth.confirm_password.description'),
+    })),
 });
 
 type Props = SharedData & ConfirmPasswordProps;
@@ -31,7 +32,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Confirm password" />
+    <Head :title="trans('pages.auth.confirm_password.title')" />
 
     <Form @submit="submit()">
         <FormContent>

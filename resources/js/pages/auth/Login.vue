@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppInput from '@/components/input/AppInput.vue';
 import TextLink from '@/components/TextLink.vue';
+import { Capitalize } from '@/components/typography';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -9,13 +10,14 @@ import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { LoginProps, LoginRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 import { CheckIcon } from 'lucide-vue-next';
 
 defineOptions({
-    layout: useLayout(AuthLayout, {
-        title: 'Log in to your account',
-        description: 'Enter your email and password below to log in',
-    }),
+    layout: useLayout(AuthLayout, () => ({
+        title: trans('pages.auth.login.title'),
+        description: trans('pages.auth.login.description'),
+    })),
 });
 
 type Props = SharedData & LoginProps;
@@ -35,7 +37,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Login" />
+    <Head :title="trans('pages.auth.login.title')" />
 
     <Alert class="mb-6" v-if="status" variant="primary">
         <CheckIcon class="size-4" />
@@ -47,7 +49,9 @@ function submit() {
     <Form @submit="submit()">
         <FormContent>
             <FormField id="email" required>
-                <FormLabel class="after:content-['']!">Email address</FormLabel>
+                <FormLabel class="after:content-['']!">
+                    {{ $t('models.user.fields.email') }}
+                </FormLabel>
                 <FormControl>
                     <AppInput v-model="form.email" type="email" autofocus autocomplete="email" />
                 </FormControl>
@@ -55,9 +59,11 @@ function submit() {
             </FormField>
             <FormField id="password" required>
                 <div class="flex items-center justify-between">
-                    <FormLabel class="after:content-['']!">Password</FormLabel>
+                    <FormLabel class="after:content-['']!">
+                        {{ $t('models.user.fields.password') }}
+                    </FormLabel>
                     <TextLink class="text-sm" v-if="canResetPassword" :href="route('password.request')">
-                        Forgot password?
+                        {{ $t('pages.auth.login.forgot_password') }}
                     </TextLink>
                 </div>
                 <FormControl>
@@ -71,7 +77,9 @@ function submit() {
                     <FormControl>
                         <Checkbox v-model="form.remember" />
                     </FormControl>
-                    <span>Remember me</span>
+                    <span>
+                        {{ $t('pages.auth.login.remember_me') }}
+                    </span>
                 </FormLabel>
             </FormField>
         </FormContent>
@@ -79,8 +87,12 @@ function submit() {
         <div class="grid gap-2">
             <Button type="submit" :loading="form.processing"> Log in </Button>
             <div class="text-muted-foreground text-center text-sm">
-                Don't have an account?
-                <TextLink :href="route('register')">Sign up</TextLink>
+                {{ $t('pages.auth.login.no_account') }}
+                <Capitalize>
+                    <TextLink :href="route('register')">
+                        {{ $t('register') }}
+                    </TextLink>
+                </Capitalize>
             </div>
         </div>
     </Form>

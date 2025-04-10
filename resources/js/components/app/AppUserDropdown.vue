@@ -27,16 +27,16 @@ const auth = useAuth();
     <DropdownMenuGroup>
         <DropdownMenuItem as-child>
             <Link class="block w-full" :href="route('settings.index')" as="button">
-                <SettingsIcon class="mr-2 size-4" />
-                Settings
+                <SettingsIcon />
+                {{ $t('components.app.user_dropdown.settings') }}
             </Link>
         </DropdownMenuItem>
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuItem as-child>
         <Link class="block w-full" method="post" :href="route('logout')" as="button">
-            <LogOutIcon class="mr-2 size-4" />
-            Log out
+            <LogOutIcon />
+            {{ $t('components.app.user_dropdown.logout') }}
         </Link>
     </DropdownMenuItem>
 </template>

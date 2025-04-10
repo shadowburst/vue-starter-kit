@@ -89,12 +89,12 @@ async function submit(event: Event) {
         <DropdownMenuContent align="end">
             <DropdownMenuItem as-child>
                 <label>
-                    {{ $t('components.app.media.input.upload') }}
+                    {{ $t('components.input.media.upload') }}
                     <input class="sr-only" type="file" :accept @change="submit($event)" />
                 </label>
             </DropdownMenuItem>
             <DropdownMenuItem @click="model = undefined">
-                {{ $t('components.app.media.input.delete') }}
+                {{ $t('components.input.media.delete') }}
             </DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>

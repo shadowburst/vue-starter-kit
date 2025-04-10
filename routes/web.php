@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/verification/code', [VerifyEmailController::class, 'code'])->name('verification.code')->middleware(['auth']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', fn () => inertia('app/Home'))->name('home');
+    Route::get('/', fn () => inertia('Home'))->name('home');
 
     Route::prefix('/media')->name('media.')->controller(MediaController::class)->group(function () {
         Route::post('/{modelType}/{modelId}/{collection}', 'store')->name('store');

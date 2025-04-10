@@ -21,13 +21,19 @@ return [
                 'danger'  => 'Erreur',
             ],
         ],
-        'media' => [
-            'input' => [
-                'upload' => 'Upload a file',
-                'delete' => 'Remove file',
-            ],
+        'user_dropdown' => [
+            'settings' => 'Settings',
+            'logout'   => 'Log out',
         ],
     ],
+
+    'input' => [
+        'media' => [
+            'upload' => 'Upload a file',
+            'delete' => 'Remove file',
+        ],
+    ],
+
     'settings' => [
         'profile' => [
             'delete_dialog' => [

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TextLink from '@/components/TextLink.vue';
+import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
@@ -7,12 +8,13 @@ import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 
 defineOptions({
-    layout: useLayout(AuthLayout, {
-        title: 'Verify email',
-        description: 'Please verify your email address with the code we emailed you.',
-    }),
+    layout: useLayout(AuthLayout, () => ({
+        title: trans('pages.auth.verify_email.title'),
+        description: trans('pages.auth.verify_email.description'),
+    })),
 });
 
 type Props = SharedData & VerifyEmailProps;
@@ -37,7 +39,7 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Email verification" />
+    <Head :title="trans('pages.auth.verify_email.title')" />
 
     <Form @submit="submit()">
         <FormContent>
@@ -57,14 +59,18 @@ function submit() {
             <Form @submit="resend()">
                 <FormContent>
                     <Button type="submit" variant="secondary" :loading="resendForm.processing">
-                        Resend verification email
+                        {{ $t('pages.auth.verify_email.resend_email') }}
                     </Button>
                 </FormContent>
             </Form>
 
             <div class="text-muted-foreground space-x-1 text-center text-sm">
-                <span>Not you ? </span>
-                <TextLink :href="route('logout')" method="post" as="button"> log out </TextLink>
+                {{ $t('pages.auth.verify_email.not_you') }}
+                <Capitalize>
+                    <TextLink :href="route('logout')" method="post" as="button">
+                        {{ $t('logout') }}
+                    </TextLink>
+                </Capitalize>
             </div>
         </div>
     </Form>

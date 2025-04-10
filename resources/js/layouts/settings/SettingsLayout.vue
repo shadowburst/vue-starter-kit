@@ -6,34 +6,35 @@ import { useLayout, useRouterComputed } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 import { PaletteIcon, ShieldPlusIcon, UserIcon } from 'lucide-vue-next';
 
 defineOptions({
-    layout: useLayout(AppLayout, {
+    layout: useLayout(AppLayout, () => ({
         breadcrumbs: [
             {
-                title: 'Settings',
+                title: trans('pages.settings.title'),
                 href: route('settings.index'),
             },
         ],
-    }),
+    })),
 });
 
 const sidebarNavItems = useRouterComputed((): NavItem[] => [
     {
-        title: 'Profile',
+        title: trans('layouts.settings.profile'),
         href: route('settings.profile.edit'),
         icon: UserIcon,
         isActive: route().current('settings.profile.edit'),
     },
     {
-        title: 'Security',
+        title: trans('layouts.settings.security'),
         href: route('settings.security.edit'),
         icon: ShieldPlusIcon,
         isActive: route().current('settings.security.edit'),
     },
     {
-        title: 'Appearance',
+        title: trans('layouts.settings.appearance'),
         href: route('settings.appearance.edit'),
         icon: PaletteIcon,
         isActive: route().current('settings.appearance.edit'),

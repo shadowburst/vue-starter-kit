@@ -11,7 +11,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { SaveIcon } from 'lucide-vue-next';
 
 defineOptions({
-    layout: useLayout(SettingsLayout, {}),
+    layout: useLayout(SettingsLayout, () => ({})),
 });
 
 type Props = SharedData & EditSecuritySettingsProps;
@@ -31,13 +31,17 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Security settings" />
+    <Head :title="$t('pages.settings.security.title')" />
 
     <Form @submit="submit()">
         <Card>
             <CardHeader>
-                <CardTitle> Password </CardTitle>
-                <CardDescription> Ensure your account is using a long, random password to stay secure </CardDescription>
+                <CardTitle>
+                    {{ $t('pages.settings.security.password.title') }}
+                </CardTitle>
+                <CardDescription>
+                    {{ $t('pages.settings.security.password.description') }}
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <FormContent>

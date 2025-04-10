@@ -10,7 +10,7 @@ type Layout = Component & {
     layout?: Renderer<ParentLayout>;
 };
 
-export function useLayout<T extends Layout>(layout: T, props: ComponentProps<T>): Renderer<VNode> {
+export function useLayout<T extends Layout>(layout: T, props: () => ComponentProps<T>): Renderer<VNode> {
     return (h, page) => {
         const parents: ParentLayout[] = [];
 
@@ -23,7 +23,7 @@ export function useLayout<T extends Layout>(layout: T, props: ComponentProps<T>)
             (child, current) => {
                 return h(current, current.props ?? {}, () => child);
             },
-            h(layout, props, () => page),
+            h(layout, props(), () => page),
         );
     };
 }

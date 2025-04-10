@@ -4,21 +4,22 @@ import { useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 
 defineOptions({
-    layout: useLayout(AppLayout, {
+    layout: useLayout(AppLayout, () => ({
         breadcrumbs: [
             {
-                title: 'Dashboard',
+                title: trans('pages.home.title'),
                 href: route('home'),
             },
         ] as BreadcrumbItem[],
-    }),
+    })),
 });
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="trans('pages.home.title')" />
 
     <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">

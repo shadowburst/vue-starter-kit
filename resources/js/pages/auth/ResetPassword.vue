@@ -6,12 +6,13 @@ import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ResetPasswordProps, ResetPasswordRequest, SharedData } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
 
 defineOptions({
-    layout: useLayout(AuthLayout, {
-        title: 'Reset password',
-        description: 'Please enter your new password below',
-    }),
+    layout: useLayout(AuthLayout, () => ({
+        title: trans('pages.auth.reset_password.title'),
+        description: trans('pages.auth.reset_password.description'),
+    })),
 });
 
 type Props = SharedData & ResetPasswordProps;
@@ -34,26 +35,32 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Reset password" />
+    <Head :title="trans('pages.auth.reset_password.title')" />
 
     <Form @submit="submit()">
         <FormContent>
             <FormField id="email" required>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>
+                    {{ $t('models.user.fields.email') }}
+                </FormLabel>
                 <FormControl>
                     <AppInput v-model="form.email" type="email" autocomplete="email" readonly />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
             <FormField id="password" required>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>
+                    {{ $t('models.user.fields.password') }}
+                </FormLabel>
                 <FormControl>
                     <AppInput v-model="form.password" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>
             <FormField id="password_confirmation" required>
-                <FormLabel>Confirm password</FormLabel>
+                <FormLabel>
+                    {{ $t('models.user.fields.password_confirmation') }}
+                </FormLabel>
                 <FormControl>
                     <AppInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />
                 </FormControl>
@@ -61,6 +68,8 @@ function submit() {
             </FormField>
         </FormContent>
 
-        <Button type="submit" :loading="form.processing">Reset password</Button>
+        <Button type="submit" :loading="form.processing">
+            {{ $t('pages.auth.reset_password.action') }}
+        </Button>
     </Form>
 </template>

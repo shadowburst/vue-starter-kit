@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppShell from '@/components/app/shell/AppShell.vue';
-import Breadcrumbs from '@/components/app/shell/Breadcrumbs.vue';
-import AppSidebar from '@/components/app/shell/sidebar/AppSidebar.vue';
+import Breadcrumbs from '@/components/app/AppBreadcrumbs.vue';
+import AppShell from '@/components/app/AppShell.vue';
+import AppSidebar from '@/components/app/sidebar/AppSidebar.vue';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
