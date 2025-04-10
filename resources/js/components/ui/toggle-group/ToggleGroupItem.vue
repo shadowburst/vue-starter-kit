@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { toggleVariants } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
+import { reactiveOmit } from '@vueuse/core';
 import type { VariantProps } from 'class-variance-authority';
 import { ToggleGroupItem, type ToggleGroupItemProps, useForwardProps } from 'reka-ui';
-import { computed, type HTMLAttributes, inject } from 'vue';
+import { type HTMLAttributes, inject } from 'vue';
 
 type ToggleGroupVariants = VariantProps<typeof toggleVariants>;
 
@@ -17,23 +18,23 @@ const props = defineProps<
 
 const context = inject<ToggleGroupVariants>('toggleGroup');
 
-const delegatedProps = computed(() => {
-    const { class: _, variant, size, ...delegated } = props;
-    return delegated;
-});
-
+const delegatedProps = reactiveOmit(props, 'class', 'size', 'variant');
 const forwardedProps = useForwardProps(delegatedProps);
 </script>
 
 <template>
     <ToggleGroupItem
         v-bind="forwardedProps"
+        data-slot="toggle-group-item"
+        :data-variant="context?.variant || variant"
+        :data-size="context?.size || size"
         :class="
             cn(
                 toggleVariants({
                     variant: context?.variant || variant,
                     size: context?.size || size,
                 }),
+                'min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-md last:rounded-r-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l',
                 props.class,
             )
         "

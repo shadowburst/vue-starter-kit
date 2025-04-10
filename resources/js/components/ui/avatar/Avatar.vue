@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<AvatarProps>(), {
 </script>
 
 <template>
-    <AvatarRoot :class="cn(avatarVariant({ size, shape }), props.class)">
+    <AvatarRoot data-slot="avatar" :class="cn(avatarVariant({ size, shape }), props.class)">
         <slot />
     </AvatarRoot>
 </template>

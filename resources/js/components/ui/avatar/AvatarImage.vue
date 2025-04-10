@@ -6,7 +6,7 @@ const props = defineProps<AvatarImageProps>();
 </script>
 
 <template>
-    <AvatarImage class="h-full w-full object-cover" v-bind="props">
+    <AvatarImage class="aspect-square size-full" v-bind="props" data-slot="avatar-image">
         <slot />
     </AvatarImage>
 </template>

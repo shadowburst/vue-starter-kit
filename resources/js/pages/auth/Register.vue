@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import AppInput from '@/components/input/AppInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { RegisterProps, RegisterRequest, SharedData } from '@/types';
@@ -41,35 +41,35 @@ function submit() {
             <FormField id="first_name" required>
                 <FormLabel>First name</FormLabel>
                 <FormControl>
-                    <Input v-model="form.first_name" autofocus autocomplete="given-name" />
+                    <AppInput v-model="form.first_name" autofocus autocomplete="given-name" />
                 </FormControl>
                 <FormError :message="form.errors.first_name" />
             </FormField>
             <FormField id="last_name" required>
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
-                    <Input v-model="form.last_name" autocomplete="family-name" />
+                    <AppInput v-model="form.last_name" autocomplete="family-name" />
                 </FormControl>
                 <FormError :message="form.errors.last_name" />
             </FormField>
             <FormField id="email" required>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                    <Input v-model="form.email" type="email" autocomplete="email" />
+                    <AppInput v-model="form.email" type="email" autocomplete="email" />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
             <FormField id="password" required>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                    <Input v-model="form.password" type="password" autocomplete="new-password" />
+                    <AppInput v-model="form.password" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>
             <FormField id="password_confirmation" required>
                 <FormLabel>Confirm password</FormLabel>
                 <FormControl>
-                    <Input v-model="form.password_confirmation" type="password" autocomplete="new-password" />
+                    <AppInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password_confirmation" />
             </FormField>

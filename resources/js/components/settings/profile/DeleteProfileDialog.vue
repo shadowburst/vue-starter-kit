@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import AppInput from '@/components/input/AppInput.vue';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import {
     ResponsiveDialog,
     ResponsiveDialogClose,
@@ -58,7 +58,7 @@ function submit() {
                     <FormField id="password" required>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                            <Input
+                            <AppInput
                                 v-model="form.password"
                                 ref="password"
                                 type="password"

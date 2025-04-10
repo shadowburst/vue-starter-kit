@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { EyeIcon, EyeOffIcon } from 'lucide-vue-next';
 import { useForwardExpose, useForwardPropsEmits } from 'reka-ui';
 import { computed, ref } from 'vue';
-import BaseInput from './BaseInput.vue';
 import { InputEmits, InputProps } from './interface';
 
 defineOptions({
@@ -27,9 +27,9 @@ const { forwardRef } = useForwardExpose();
 
 <template>
     <div class="relative w-full">
-        <BaseInput class="pr-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
+        <Input class="pr-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
         <Button class="absolute inset-y-0 end-0" variant="ghost" size="icon" @click="toggle()">
-            <component class="size-6" :is="hidden ? EyeOffIcon : EyeIcon" />
+            <component class="size-4" :is="hidden ? EyeOffIcon : EyeIcon" />
         </Button>
     </div>
 </template>

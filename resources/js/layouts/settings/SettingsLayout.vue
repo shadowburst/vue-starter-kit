@@ -53,7 +53,7 @@ const sidebarNavItems = useRouterComputed((): NavItem[] => [
                     as-child
                 >
                     <Link :href="item.href">
-                        <component class="size-5" :is="item.icon" />
+                        <component :is="item.icon" />
                         <Capitalize>
                             {{ item.title }}
                         </Capitalize>

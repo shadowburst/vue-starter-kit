@@ -2,7 +2,7 @@
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
-import { PinInput, PinInputGroup, PinInputInput } from '@/components/ui/pin-input';
+import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
@@ -45,7 +45,7 @@ function submit() {
                 <FormControl>
                     <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
                         <PinInputGroup>
-                            <PinInputInput class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
+                            <PinInputSlot class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
                         </PinInputGroup>
                     </PinInput>
                 </FormControl>

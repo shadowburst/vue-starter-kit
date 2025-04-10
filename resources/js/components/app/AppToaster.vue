@@ -1,25 +1,10 @@
 <script setup lang="ts">
-import { toast, Toaster, ToastVariants } from '@/components/ui/toast';
+import { Toaster } from '@/components/ui/sonner';
 import { SharedData, ToastMessagesData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
-import { trans } from 'laravel-vue-i18n';
+import { useDark } from '@vueuse/core';
 import { computed, watch } from 'vue';
-
-type ToastType = keyof ToastMessagesData;
-
-const titles: Record<ToastType, string> = {
-    info: trans('info'),
-    success: trans('success'),
-    warning: trans('warning'),
-    error: trans('error'),
-};
-
-const variants: Record<ToastType, ToastVariants['variant']> = {
-    info: 'default',
-    success: 'primary',
-    warning: 'warning',
-    error: 'destructive',
-};
+import { toast } from 'vue-sonner';
 
 const data = computed((): ToastMessagesData => usePage<SharedData>().props.toast);
 watch(
@@ -29,20 +14,22 @@ watch(
             .filter((key) => data.value[key as keyof ToastMessagesData])
             .forEach((key, i) => {
                 const type = key as keyof ToastMessagesData;
+                const message = data.value[type];
+                if (!message) {
+                    return;
+                }
 
                 setTimeout(() => {
-                    toast({
-                        title: titles[type],
-                        description: data.value[type],
-                        variant: variants[type],
-                    });
+                    toast[type](message, {});
                 }, 250 * i);
             });
     },
     { immediate: true },
 );
+
+const dark = useDark();
 </script>
 
 <template>
-    <Toaster />
+    <Toaster position="top-center" rich-colors :theme="dark ? 'dark' : 'light'" />
 </template>

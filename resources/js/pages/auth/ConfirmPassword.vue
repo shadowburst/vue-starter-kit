@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import AppInput from '@/components/input/AppInput.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ConfirmPasswordProps, ConfirmPasswordRequest, SharedData } from '@/types';
@@ -38,7 +38,7 @@ function submit() {
             <FormField id="email" required>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                    <Input v-model="form.password" type="password" autocomplete="current-password" autofocus />
+                    <AppInput v-model="form.password" type="password" autocomplete="current-password" autofocus />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>

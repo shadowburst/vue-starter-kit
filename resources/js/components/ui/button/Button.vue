@@ -5,19 +5,20 @@ import { Primitive } from 'reka-ui';
 import { buttonVariants } from '.';
 import { ButtonProps } from './interface';
 
-const { as = 'button', type = 'button', loading, icon, disabled, ...props } = defineProps<ButtonProps>();
+const { as = 'button', type = 'button', ...props } = defineProps<ButtonProps>();
 </script>
 
 <template>
     <Primitive
-        v-bind="props"
-        :type
+        data-slot="button"
         :as
+        :type
+        :as-child
         :disabled="disabled || loading"
         :class="cn(buttonVariants({ variant, size }), props.class)"
     >
-        <LoaderCircleIcon class="size-5 animate-spin" v-if="loading" />
-        <component class="size-5" v-else-if="icon" :is="icon" />
+        <LoaderCircleIcon class="animate-spin" v-if="loading" />
+        <component v-else-if="icon" :is="icon" />
         <slot />
     </Primitive>
 </template>

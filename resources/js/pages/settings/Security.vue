@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import AppInput from '@/components/input/AppInput.vue';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
 import { EditSecuritySettingsProps, SharedData, UpdatePasswordSettingsRequest } from '@/types';
@@ -46,7 +46,7 @@ function submit() {
                             {{ $t('models.user.fields.current_password') }}
                         </FormLabel>
                         <FormControl>
-                            <Input v-model="form.current_password" type="password" autocomplete="current-password" />
+                            <AppInput v-model="form.current_password" type="password" autocomplete="current-password" />
                         </FormControl>
                         <FormError :message="form.errors.current_password" />
                     </FormField>
@@ -55,7 +55,7 @@ function submit() {
                             {{ $t('models.user.fields.password') }}
                         </FormLabel>
                         <FormControl>
-                            <Input v-model="form.password" type="password" autocomplete="new-password" />
+                            <AppInput v-model="form.password" type="password" autocomplete="new-password" />
                         </FormControl>
                         <FormError :message="form.errors.password" />
                     </FormField>
@@ -64,7 +64,11 @@ function submit() {
                             {{ $t('models.user.fields.password_confirmation') }}
                         </FormLabel>
                         <FormControl>
-                            <Input v-model="form.password_confirmation" type="password" autocomplete="new-password" />
+                            <AppInput
+                                v-model="form.password_confirmation"
+                                type="password"
+                                autocomplete="new-password"
+                            />
                         </FormControl>
                         <FormError :message="form.errors.password_confirmation" />
                     </FormField>

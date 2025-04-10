@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import AppInput from '@/components/input/AppInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';
@@ -44,7 +44,7 @@ function submit() {
             <FormField id="email" required>
                 <FormLabel>Email address</FormLabel>
                 <FormControl>
-                    <Input v-model="form.email" type="email" autocomplete="off" autofocus />
+                    <AppInput v-model="form.email" type="email" autocomplete="off" autofocus />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>

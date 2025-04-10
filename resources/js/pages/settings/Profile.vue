@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppInput from '@/components/input/AppInput.vue';
 import MediaInput from '@/components/media/MediaInput.vue';
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -6,7 +7,6 @@ import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormContent, FormControl, FormDescription, FormError, FormField, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
@@ -78,7 +78,7 @@ function submit() {
                             {{ $t('models.user.fields.first_name') }}
                         </FormLabel>
                         <FormControl>
-                            <Input v-model="form.first_name" autocomplete="given-name" />
+                            <AppInput v-model="form.first_name" autocomplete="given-name" />
                         </FormControl>
                         <FormError :message="form.errors.first_name" />
                     </FormField>
@@ -87,7 +87,7 @@ function submit() {
                             {{ $t('models.user.fields.last_name') }}
                         </FormLabel>
                         <FormControl>
-                            <Input v-model="form.last_name" autocomplete="family-name" />
+                            <AppInput v-model="form.last_name" autocomplete="family-name" />
                         </FormControl>
                         <FormError :message="form.errors.last_name" />
                     </FormField>
@@ -96,7 +96,7 @@ function submit() {
                             {{ $t('models.user.fields.email') }}
                         </FormLabel>
                         <FormControl>
-                            <Input v-model="form.email" type="email" autocomplete="email" />
+                            <AppInput v-model="form.email" type="email" autocomplete="email" />
                         </FormControl>
                         <FormError :message="form.errors.email" />
                         <FormDescription v-if="mustVerifyEmail">
