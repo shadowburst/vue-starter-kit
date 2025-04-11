@@ -19,17 +19,17 @@ const sidebarOpen = usePage<SharedData>().props.sidebarOpen;
 
 const items = useRouterComputed((): NavItem[] => [
     {
-        title: trans('layouts.app.sidebar.items.home'),
-        href: route('home'),
+        title: trans('layouts.admin.sidebar.items.home'),
+        href: route('admin.home'),
         icon: LayoutGridIcon,
-        isActive: route().current('home'),
+        isActive: route().current('admin.home'),
     },
 ]);
 </script>
 
 <template>
     <SidebarProvider :default-open="sidebarOpen">
-        <AppSidebar :content-label="$t('platform')" :items />
+        <AppSidebar :content-label="$t('backend')" :items />
         <SidebarInset>
             <header
                 class="border-sidebar-border/70 flex h-16 shrink-0 items-center gap-2 border-b px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4"

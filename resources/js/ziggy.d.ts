@@ -53,6 +53,7 @@ declare module 'ziggy-js' {
     "settings.security.edit": [],
     "settings.password.update": [],
     "settings.appearance.edit": [],
+    "admin.home": [],
     "storage.local": [
         {
             "name": "path",

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Capitalize } from '@/components/typography';
 import {
     SidebarContent,
     SidebarGroup,
@@ -11,6 +12,7 @@ import type { NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 
 type Props = {
+    label: string;
     items: NavItem[];
 };
 defineProps<Props>();
@@ -19,7 +21,11 @@ defineProps<Props>();
 <template>
     <SidebarContent>
         <SidebarGroup class="px-2 py-0">
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+            <SidebarGroupLabel>
+                <Capitalize>
+                    {{ label }}
+                </Capitalize>
+            </SidebarGroupLabel>
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
                     <SidebarMenuButton as-child :is-active="item.isActive" :tooltip="item.title">
@@ -31,5 +37,6 @@ defineProps<Props>();
                 </SidebarMenuItem>
             </SidebarMenu>
         </SidebarGroup>
+        <slot />
     </SidebarContent>
 </template>

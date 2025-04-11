@@ -1,5 +1,12 @@
+<script setup lang="ts">
+import { Primitive, PrimitiveProps } from 'reka-ui';
+
+type Props = PrimitiveProps;
+const { as = 'span', ...props } = defineProps<Props>();
+</script>
+
 <template>
-    <span class="inline-block first-letter:uppercase">
+    <Primitive class="inline-block first-letter:uppercase" v-bind="props" :as>
         <slot />
-    </span>
+    </Primitive>
 </template>

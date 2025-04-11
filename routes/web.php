@@ -33,3 +33,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/appearance', [AppearanceSettingsController::class, 'edit'])->name('appearance.edit');
     });
 });
+
+require __DIR__.'/admin.php';

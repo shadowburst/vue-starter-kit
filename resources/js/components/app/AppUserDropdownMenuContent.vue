@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth } from '@/composables';
 import { Link } from '@inertiajs/vue3';
@@ -24,14 +19,12 @@ const auth = useAuth();
         </div>
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuGroup>
-        <DropdownMenuItem as-child>
-            <Link class="block w-full" :href="route('settings.index')" as="button">
-                <SettingsIcon />
-                {{ $t('components.app.user_dropdown.settings') }}
-            </Link>
-        </DropdownMenuItem>
-    </DropdownMenuGroup>
+    <DropdownMenuItem as-child>
+        <Link class="block w-full" :href="route('settings.index')">
+            <SettingsIcon />
+            {{ $t('components.app.user_dropdown.settings') }}
+        </Link>
+    </DropdownMenuItem>
     <DropdownMenuSeparator />
     <DropdownMenuItem as-child>
         <Link class="block w-full" method="post" :href="route('logout')" as="button">

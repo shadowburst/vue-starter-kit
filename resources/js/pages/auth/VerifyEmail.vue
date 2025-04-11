@@ -66,7 +66,7 @@ function submit() {
 
             <div class="text-muted-foreground space-x-1 text-center text-sm">
                 {{ $t('pages.auth.verify_email.not_you') }}
-                <Capitalize>
+                <Capitalize as-child>
                     <TextLink :href="route('logout')" method="post" as="button">
                         {{ $t('logout') }}
                     </TextLink>

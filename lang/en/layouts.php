@@ -12,6 +12,14 @@ return [
     |
     */
 
+    'admin' => [
+        'sidebar' => [
+            'items' => [
+                'home' => 'Dashboard',
+            ],
+        ],
+    ],
+
     'app' => [
         'sidebar' => [
             'items' => [

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLogo from '@/components/AppLogo.vue';
 import Breadcrumbs from '@/components/app/AppBreadcrumbs.vue';
-import AppUserDropdown from '@/components/app/AppUserDropdown.vue';
+import AppUserDropdownMenuContent from '@/components/app/AppUserDropdownMenuContent.vue';
 import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -130,7 +130,7 @@ const mainNavItems: NavItem[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent class="w-56" align="end">
-                            <AppUserDropdown />
+                            <AppUserDropdownMenuContent />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

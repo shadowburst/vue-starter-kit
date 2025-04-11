@@ -120,7 +120,7 @@ function submit() {
 
     <Card>
         <CardHeader>
-            <CardTitle class="text-destructive">
+            <CardTitle>
                 {{ $t('pages.settings.profile.delete.title') }}
             </CardTitle>
             <CardDescription>

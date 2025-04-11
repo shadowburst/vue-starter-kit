@@ -12,6 +12,12 @@ return [
     |
     */
 
+    'admin' => [
+        'home' => [
+            'title' => 'Dashboard',
+        ],
+    ],
+
     'auth' => [
         'confirm_password' => [
             'title'       => 'Confirm your password',
