@@ -6,15 +6,17 @@ import AppSidebarFooter from './AppSidebarFooter.vue';
 import AppSidebarHeader from './AppSidebarHeader.vue';
 
 type Props = {
-    items: NavItem[];
+    headerItems?: NavItem[];
+    items?: NavItem[];
+    footerItems?: NavItem[];
 };
-defineProps<Props>();
+const { headerItems = [], items = [], footerItems = [] } = defineProps<Props>();
 </script>
 
 <template>
     <Sidebar collapsible="icon" variant="inset">
-        <AppSidebarHeader />
+        <AppSidebarHeader :items="headerItems" />
         <AppSidebarContent :items />
-        <AppSidebarFooter />
+        <AppSidebarFooter :items="footerItems" />
     </Sidebar>
 </template>

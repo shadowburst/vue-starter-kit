@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import { Primitive } from 'reka-ui';
+</script>
+
 <template>
-    <span class="inline-block first-letter:uppercase">
+    <Primitive class="inline-block first-letter:uppercase" as-child>
         <slot />
-    </span>
+    </Primitive>
 </template>

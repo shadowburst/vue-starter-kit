@@ -7,7 +7,7 @@ import { useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGridIcon, LockIcon } from 'lucide-vue-next';
+import { LayoutGridIcon, LockOpenIcon } from 'lucide-vue-next';
 import { Slot } from 'reka-ui';
 
 type Props = {
@@ -19,17 +19,17 @@ const sidebarOpen = usePage<SharedData>().props.sidebarOpen;
 
 const headerItems = useRouterComputed((): NavItem[] => [
     {
-        title: trans('layouts.app.sidebar.header.admin'),
-        href: route('admin.home'),
-        icon: LockIcon,
+        title: trans('layouts.admin.sidebar.header.app'),
+        href: route('home'),
+        icon: LockOpenIcon,
     },
 ]);
 const items = useRouterComputed((): NavItem[] => [
     {
-        title: trans('layouts.app.sidebar.items.home'),
-        href: route('home'),
+        title: trans('layouts.admin.sidebar.items.home'),
+        href: route('admin.home'),
         icon: LayoutGridIcon,
-        isActive: route().current('home'),
+        isActive: route().current('admin.home'),
     },
 ]);
 </script>

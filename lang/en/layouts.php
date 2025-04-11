@@ -12,8 +12,22 @@ return [
     |
     */
 
+    'admin' => [
+        'sidebar' => [
+            'header' => [
+                'app' => 'Frontend',
+            ],
+            'items' => [
+                'home' => 'Dashboard',
+            ],
+        ],
+    ],
+
     'app' => [
         'sidebar' => [
+            'header' => [
+                'admin' => 'Backend',
+            ],
             'items' => [
                 'home' => 'Dashboard',
             ],
