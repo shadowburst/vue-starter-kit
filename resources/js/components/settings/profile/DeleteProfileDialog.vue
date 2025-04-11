@@ -17,7 +17,7 @@ import { ConfirmPasswordRequest } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { useTemplateRef } from 'vue';
 
-const passwordField = useTemplateRef<InstanceType<typeof Input>>('password');
+const passwordField = useTemplateRef<InstanceType<typeof AppInput>>('password');
 
 const form = useForm<ConfirmPasswordRequest>({
     password: '',
