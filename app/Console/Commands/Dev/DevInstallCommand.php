@@ -61,7 +61,10 @@ class DevInstallCommand extends Command
             $count = text(
                 label: 'How many items to create per model ?',
                 default: 50,
-                validate: fn (string $value) => is_int($value),
+                validate: fn (string $value) => match (true) {
+                    intval($value) === 0 => 'Given value must be a positive integer',
+                    default              => null
+                },
             );
             User::factory($count)->create();
         }
