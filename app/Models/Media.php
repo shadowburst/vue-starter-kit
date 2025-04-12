@@ -71,6 +71,6 @@ class Media extends SpatieMedia
         return static::query()
             ->where('collection', self::COLLECTION_TEMP)
             ->whereDoesntHave('model')
-            ->where('created_at', '<=', Carbon::now()->subMonth());
+            ->where('created_at', '<=', Carbon::now()->subDays(2));
     }
 }
