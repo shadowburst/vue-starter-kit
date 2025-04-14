@@ -85,9 +85,9 @@ return [
             'title'       => 'Appearance settings',
             'description' => "Update your account's appearance settings",
             'colors'      => [
-                'light'  => 'Light',
-                'system' => 'System',
-                'dark'   => 'Dark',
+                'light' => 'Light',
+                'auto'  => 'System',
+                'dark'  => 'Dark',
             ],
         ],
     ],

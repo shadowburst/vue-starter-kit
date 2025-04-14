@@ -25,7 +25,7 @@ type AppearanceOption = {
 };
 const tabs: AppearanceOption[] = [
     { value: 'light', icon: SunIcon, label: trans('pages.settings.appearance.colors.light') },
-    { value: 'auto', icon: MonitorIcon, label: trans('pages.settings.appearance.colors.system') },
+    { value: 'auto', icon: MonitorIcon, label: trans('pages.settings.appearance.colors.auto') },
     { value: 'dark', icon: MoonIcon, label: trans('pages.settings.appearance.colors.dark') },
 ] as const;
 </script>
