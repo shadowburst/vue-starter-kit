@@ -43,8 +43,8 @@ const tabs: AppearanceOption[] = [
             </CardDescription>
         </CardHeader>
         <CardContent>
-            <ToggleGroup class="max-sm:flex-col max-sm:items-stretch" v-model="store" type="single" variant="outline">
-                <ToggleGroupItem class="min-w-28" v-for="{ value, icon, label } in tabs" :key="value" :value>
+            <ToggleGroup class="w-full" v-model="store" type="single" variant="outline">
+                <ToggleGroupItem v-for="{ value, icon, label } in tabs" :key="value" :value>
                     <component class="size-4" :is="icon" />
                     <span class="text-sm">{{ label }}</span>
                 </ToggleGroupItem>
