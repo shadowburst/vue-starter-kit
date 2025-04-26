@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Dev;
 
+use App\Models\Banner;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -66,6 +67,7 @@ class DevInstallCommand extends Command
                     default              => null
                 },
             );
+            Banner::factory($count)->create();
             User::factory($count)->create();
         }
 

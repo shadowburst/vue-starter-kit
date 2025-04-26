@@ -7,8 +7,7 @@ import { useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGridIcon } from 'lucide-vue-next';
-import { Slot } from 'reka-ui';
+import { LayoutGridIcon, TextQuoteIcon } from 'lucide-vue-next';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -23,6 +22,12 @@ const items = useRouterComputed((): NavItem[] => [
         href: route('admin.home'),
         icon: LayoutGridIcon,
         isActive: route().current('admin.home'),
+    },
+    {
+        title: trans('layouts.admin.sidebar.items.banners'),
+        href: route('admin.banners.index'),
+        icon: TextQuoteIcon,
+        isActive: route().current('admin.banners.*'),
     },
 ]);
 </script>
@@ -40,9 +45,7 @@ const items = useRouterComputed((): NavItem[] => [
                 </div>
             </header>
             <AppShell>
-                <Slot class="px-4 py-6">
-                    <slot />
-                </Slot>
+                <slot />
             </AppShell>
         </SidebarInset>
     </SidebarProvider>

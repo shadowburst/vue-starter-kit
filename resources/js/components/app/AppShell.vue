@@ -5,7 +5,9 @@ import AppToaster from '@/components/app/AppToaster.vue';
 
 <template>
     <AppAlertDialog>
-        <slot />
+        <div class="container-grid h-full gap-y-6 py-6">
+            <slot />
+        </div>
         <AppToaster />
     </AppAlertDialog>
 </template>

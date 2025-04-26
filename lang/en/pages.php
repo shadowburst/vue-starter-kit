@@ -16,6 +16,11 @@ return [
         'home' => [
             'title' => 'Dashboard',
         ],
+        'banners' => [
+            'index' => [
+                'title' => 'Banners',
+            ],
+        ],
     ],
 
     'auth' => [
