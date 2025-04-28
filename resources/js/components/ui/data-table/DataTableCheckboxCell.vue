@@ -2,13 +2,13 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { TableCell } from '@/components/ui/table';
 import { computed } from 'vue';
-import { useDataTableRowContext } from './DataTableRow.vue';
+import { useDataTableRowContext } from './useDataTableRowContext';
 
-const rowContext = useDataTableRowContext<TData>();
+const { isSelected, toggleSelected } = useDataTableRowContext<TData>();
 
 const checked = computed<boolean>({
-    get: () => rowContext.isSelected.value,
-    set: (value) => rowContext.toggleSelected(value),
+    get: () => isSelected.value,
+    set: (value) => toggleSelected(value),
 });
 </script>
 

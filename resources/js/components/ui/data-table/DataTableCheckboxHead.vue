@@ -5,11 +5,11 @@ import { CheckboxCheckedState } from 'reka-ui';
 import { computed } from 'vue';
 import { useDataTableRootContext } from './DataTable.vue';
 
-const rootContext = useDataTableRootContext<TData>();
+const { isAllRowsSelected, isSomeRowsSelected, toggleAllRowsSelected } = useDataTableRootContext<TData>();
 
 const checked = computed<CheckboxCheckedState>({
-    get: () => rootContext.isAllRowsSelected.value || (rootContext.isSomeRowsSelected.value && 'indeterminate'),
-    set: (value) => rootContext.toggleAllRowsSelected(!!value),
+    get: () => isAllRowsSelected.value || (isSomeRowsSelected.value && 'indeterminate'),
+    set: (value) => toggleAllRowsSelected(!!value),
 });
 </script>
 

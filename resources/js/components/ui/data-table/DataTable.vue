@@ -7,9 +7,11 @@ export type DataTableContext<TData extends object> = {
     selectedRows: Ref<TData[]>;
     isAllRowsSelected: Ref<boolean>;
     isSomeRowsSelected: Ref<boolean>;
-    getIsSelected: (index: number) => boolean;
+    isAnyRowsSelected: Ref<boolean>;
+    getIsSelected: (item: TData) => boolean;
     toggleAllRowsSelected: (value: boolean) => void;
-    toggleSelected: (index: number, value: boolean) => void;
+    toggleSelected: (item: TData, value: boolean) => void;
+    setPageSize: (value: number) => void;
 };
 
 export function useDataTableRootContext<TData extends object>(
@@ -30,26 +32,46 @@ export function provideDataTableRootContext<TData extends object>(contextValue: 
 
 <script setup lang="ts" generic="TData extends object">
 import { Capitalize } from '@/components/typography';
-import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { array } from '@/lib';
 import { PaginatedCollection } from '@/types';
+import { Arrayable } from '@vueuse/core';
 import { Grid3x3Icon, ListIcon } from 'lucide-vue-next';
-import { Slot } from 'reka-ui';
-import { computed, inject, provide, Ref, ref, useSlots } from 'vue';
+import { computed, inject, provide, Ref, ref } from 'vue';
 import DataTableMassActionsDropdown from './DataTableMassActionsDropdown.vue';
 import DataTablePagination from './DataTablePagination.vue';
 import { DataTableAction, DataTableMassAction } from './interface';
 
-const props = defineProps<{
+type View = 'table' | 'card';
+type Props = {
     data: TData[] | PaginatedCollection<TData>;
     rowActions?: DataTableAction<TData>[];
     massActions?: DataTableMassAction<TData>[];
-}>();
+    views?: Arrayable<View>;
+};
+const props = withDefaults(defineProps<Props>(), {
+    rowActions: () => [],
+    massActions: () => [],
+    views: () => ['table', 'card'],
+});
 
-const rowActions = computed(() => props.rowActions ?? []);
-const massActions = computed(() => props.massActions ?? []);
-const rows = computed((): TData[] => (Array.isArray(props.data) ? props.data : props.data.data));
+type Slots = {
+    headers(props: {}): any;
+    rows(props: { view: View; items: TData[] }): any;
+};
+defineSlots<Slots>();
+
+const view = defineModel<View>('view', {
+    default: 'table',
+});
+const views = computed(() => {
+    const values = array.wrap(props.views);
+    return [...new Set(values)];
+});
+
+const rowActions = computed(() => props.rowActions);
+const massActions = computed(() => props.massActions);
 const pagination = computed(() => {
     if (Array.isArray(props.data)) {
         return;
@@ -60,17 +82,20 @@ const pagination = computed(() => {
         meta: props.data.meta,
     };
 });
+
+const rows = computed((): TData[] => (Array.isArray(props.data) ? props.data : props.data.data));
+const selectedIndexes = ref<number[]>([]);
 const selectedRows = computed(() => rows.value.filter((_, index) => selectedIndexes.value.includes(index)));
 const isAllRowsSelected = computed(() => selectedIndexes.value.length === rows.value.length);
 const isSomeRowsSelected = computed(
     () => selectedIndexes.value.length > 0 && selectedIndexes.value.length < rows.value.length,
 );
+const isAnyRowsSelected = computed(() => isAllRowsSelected.value || isSomeRowsSelected.value);
 
-const slots = useSlots();
+const pageSize = defineModel<number>('page-size', {
+    default: 25,
+});
 
-const view = ref<'table' | 'card'>(slots.row ? 'table' : 'card');
-
-const selectedIndexes = ref<number[]>([]);
 const rootContext: DataTableContext<TData> = {
     rows,
     rowActions,
@@ -79,14 +104,17 @@ const rootContext: DataTableContext<TData> = {
     selectedRows,
     isAllRowsSelected,
     isSomeRowsSelected,
-    getIsSelected: (index: number) => selectedIndexes.value.includes(index),
+    isAnyRowsSelected,
+    getIsSelected: (item: TData) => selectedIndexes.value.includes(rows.value.indexOf(item)),
     toggleAllRowsSelected: (value: boolean) => {
         selectedIndexes.value = value ? rows.value.map((_, index) => index) : [];
     },
-    toggleSelected: (index: number, value: boolean) => {
-        const filteredIndexes = selectedIndexes.value.filter((_, i) => i !== index);
+    toggleSelected: (item: TData, value: boolean) => {
+        const index = rows.value.indexOf(item);
+        const filteredIndexes = selectedIndexes.value.filter((i) => i !== index);
         selectedIndexes.value = value ? [...filteredIndexes, index] : filteredIndexes;
     },
+    setPageSize: (value: number) => (pageSize.value = value),
 };
 provideDataTableRootContext(rootContext);
 </script>
@@ -95,7 +123,7 @@ provideDataTableRootContext(rootContext);
     <Tabs class="max-w-full overflow-x-auto" v-model="view">
         <div class="flex items-center gap-2">
             <DataTableMassActionsDropdown />
-            <TabsList class="ml-auto" v-if="$slots.row && $slots.card">
+            <TabsList class="ml-auto" v-if="views.length > 1">
                 <TabsTrigger value="table">
                     <ListIcon />
                 </TabsTrigger>
@@ -107,14 +135,12 @@ provideDataTableRootContext(rootContext);
         <TabsContent value="table">
             <div class="rounded-md border">
                 <Table>
-                    <TableHeader v-if="$slots.header">
-                        <slot name="header" />
+                    <TableHeader v-if="$slots.headers">
+                        <slot name="headers" />
                     </TableHeader>
                     <TableBody>
                         <template v-if="rows.length">
-                            <Slot v-for="(item, index) in rows" :key="index" :item :index>
-                                <slot name="row" />
-                            </Slot>
+                            <slot name="rows" view="table" :items="rows" />
                         </template>
                         <template v-else>
                             <TableRow>
@@ -130,9 +156,16 @@ provideDataTableRootContext(rootContext);
             </div>
         </TabsContent>
         <TabsContent value="card">
-            <Card v-for="(item, index) in rows" :key="index">
-                <CardContent> </CardContent>
-            </Card>
+            <template v-if="rows.length">
+                <slot name="rows" view="card" :items="rows" />
+            </template>
+            <template v-else>
+                <div class="grid place-items-center">
+                    <Capitalize>
+                        {{ $t('components.ui.data_table.empty') }}
+                    </Capitalize>
+                </div>
+            </template>
         </TabsContent>
         <DataTablePagination />
     </Tabs>
