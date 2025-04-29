@@ -2,11 +2,11 @@
 import AppInput from '@/components/input/AppInput.vue';
 import MediaInput from '@/components/input/MediaInput.vue';
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
-import { TextLink } from '@/components/ui/link';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormContent, FormControl, FormDescription, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { TextLink } from '@/components/ui/link';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';

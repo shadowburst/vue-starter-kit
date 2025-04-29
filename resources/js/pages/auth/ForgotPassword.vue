@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AppInput from '@/components/input/AppInput.vue';
-import { TextLink } from '@/components/ui/link';
 import { Capitalize } from '@/components/typography';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { TextLink } from '@/components/ui/link';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ForgotPasswordProps, ForgotPasswordRequest, SharedData } from '@/types';

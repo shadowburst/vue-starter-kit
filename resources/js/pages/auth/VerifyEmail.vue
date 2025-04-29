@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TextLink } from '@/components/ui/link';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
+import { TextLink } from '@/components/ui/link';
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
