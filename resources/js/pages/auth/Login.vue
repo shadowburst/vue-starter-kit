@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppInput from '@/components/input/AppInput.vue';
-import TextLink from '@/components/TextLink.vue';
+import { TextLink } from '@/components/ui/link';
 import { Capitalize } from '@/components/typography';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';

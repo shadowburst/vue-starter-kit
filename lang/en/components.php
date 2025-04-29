@@ -48,6 +48,7 @@ return [
         'data_table' => [
             'selected' => ':selected of :rows row(s) selected',
             'empty'    => 'nothing to display',
+            'pages'    => 'page :current of :total',
         ],
     ],
 ];

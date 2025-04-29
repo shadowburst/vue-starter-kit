@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TextLink from '@/components/TextLink.vue';
+import { TextLink } from '@/components/ui/link';
 import {
     Breadcrumb,
     BreadcrumbItem,

@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="TData extends object">
 import { Checkbox } from '@/components/ui/checkbox';
-import { TableHead } from '@/components/ui/table';
 import { CheckboxCheckedState } from 'reka-ui';
 import { computed } from 'vue';
 import { useDataTableRootContext } from './DataTable.vue';
@@ -14,7 +13,5 @@ const checked = computed<CheckboxCheckedState>({
 </script>
 
 <template>
-    <TableHead>
-        <Checkbox v-model="checked" aria-label="Select all" />
-    </TableHead>
+    <Checkbox v-model="checked" aria-label="Select all" />
 </template>

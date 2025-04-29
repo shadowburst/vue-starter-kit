@@ -2,15 +2,16 @@
 import {
     DataTable,
     DataTableCell,
-    DataTableCheckboxCell,
-    DataTableCheckboxHead,
     DataTableHead,
     DataTableItemRow,
     DataTableMassAction,
     DataTableRow,
+    DataTableRowCheckbox,
+    DataTableRowsCheckbox,
 } from '@/components/ui/data-table';
 import { useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
+import { date } from '@/lib';
 import type { BannerAdminIndexProps, BannerAdminIndexResource, BreadcrumbItem, SharedData } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
@@ -45,7 +46,9 @@ const massActions: DataTableMassAction<BannerAdminIndexResource>[] = [
     <DataTable :data="props.banners" :mass-actions>
         <template #headers>
             <DataTableRow>
-                <DataTableCheckboxHead />
+                <DataTableHead>
+                    <DataTableRowsCheckbox />
+                </DataTableHead>
                 <DataTableHead>
                     {{ $t('models.banner.fields.name') }}
                 </DataTableHead>
@@ -60,15 +63,17 @@ const massActions: DataTableMassAction<BannerAdminIndexResource>[] = [
         <template #rows="{ view, items }">
             <template v-for="item in items" :key="item.id">
                 <DataTableItemRow v-if="view === 'table'" :item>
-                    <DataTableCheckboxCell />
+                    <DataTableCell>
+                        <DataTableRowCheckbox />
+                    </DataTableCell>
                     <DataTableCell>
                         {{ item.name }}
                     </DataTableCell>
                     <DataTableCell>
-                        {{ item.starts_at }}
+                        {{ date.format(item.starts_at) }}
                     </DataTableCell>
                     <DataTableCell>
-                        {{ item.ends_at }}
+                        {{ date.format(item.ends_at) }}
                     </DataTableCell>
                 </DataTableItemRow>
             </template>

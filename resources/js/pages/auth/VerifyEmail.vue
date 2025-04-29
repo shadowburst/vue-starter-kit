@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TextLink from '@/components/TextLink.vue';
+import { TextLink } from '@/components/ui/link';
 import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
