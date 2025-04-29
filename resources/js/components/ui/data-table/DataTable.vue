@@ -1,8 +1,8 @@
 <script lang="ts">
 export type DataTableContext<TData extends object> = {
     rows: Ref<TData[]>;
-    rowActions: Ref<DataTableAction<TData>[]>;
-    massActions: Ref<DataTableMassAction<TData>[]>;
+    rowActions: Ref<DataTableRowAction<TData>[]>;
+    rowsActions: Ref<DataTableRowsAction<TData>[]>;
     pagination: Ref<Pick<PaginatedCollection<TData>, 'links' | 'meta'> | undefined>;
     selectedRows: Ref<TData[]>;
     isAllRowsSelected: Ref<boolean>;
@@ -39,20 +39,20 @@ import { PaginatedCollection } from '@/types';
 import { Arrayable } from '@vueuse/core';
 import { Grid3x3Icon, ListIcon } from 'lucide-vue-next';
 import { computed, inject, provide, Ref, ref } from 'vue';
-import DataTableMassActionsDropdown from './DataTableMassActionsDropdown.vue';
 import DataTablePagination from './DataTablePagination.vue';
-import { DataTableAction, DataTableMassAction } from './interface';
+import DataTableRowsActions from './DataTableRowsActions.vue';
+import { DataTableRowAction, DataTableRowsAction } from './interface';
 
 type View = 'table' | 'card';
 type Props = {
     data: TData[] | PaginatedCollection<TData>;
-    rowActions?: DataTableAction<TData>[];
-    massActions?: DataTableMassAction<TData>[];
+    rowActions?: DataTableRowAction<TData>[];
+    rowsActions?: DataTableRowsAction<TData>[];
     views?: Arrayable<View>;
 };
 const props = withDefaults(defineProps<Props>(), {
     rowActions: () => [],
-    massActions: () => [],
+    rowsActions: () => [],
     views: () => ['table', 'card'],
 });
 
@@ -71,7 +71,7 @@ const views = computed(() => {
 });
 
 const rowActions = computed(() => props.rowActions);
-const massActions = computed(() => props.massActions);
+const rowsActions = computed(() => props.rowsActions);
 const pagination = computed(() => {
     if (Array.isArray(props.data)) {
         return;
@@ -99,7 +99,7 @@ const pageSize = defineModel<number>('page-size', {
 const rootContext: DataTableContext<TData> = {
     rows,
     rowActions,
-    massActions,
+    rowsActions,
     pagination,
     selectedRows,
     isAllRowsSelected,
@@ -122,7 +122,7 @@ provideDataTableRootContext(rootContext);
 <template>
     <Tabs class="max-w-full overflow-x-auto" v-model="view">
         <div class="flex items-center gap-2">
-            <DataTableMassActionsDropdown />
+            <DataTableRowsActions />
             <TabsList class="ml-auto" v-if="views.length > 1">
                 <TabsTrigger value="table">
                     <ListIcon />

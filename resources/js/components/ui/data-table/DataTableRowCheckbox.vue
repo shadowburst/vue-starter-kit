@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="TData extends object">
 import { Checkbox } from '@/components/ui/checkbox';
 import { computed } from 'vue';
-import { useDataTableRowContext } from './useDataTableRowContext';
+import { useDataTableRowContext } from './DataTableRow.vue';
 
 const { isSelected, toggleSelected } = useDataTableRowContext<TData>();
 

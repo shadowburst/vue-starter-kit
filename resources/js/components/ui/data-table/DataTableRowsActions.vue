@@ -9,11 +9,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ChevronDownIcon } from 'lucide-vue-next';
 import { useDataTableRootContext } from './DataTable.vue';
-import { DataTableMassAction } from './interface';
+import { DataTableRowsAction } from './interface';
 
-const { selectedRows, isAnyRowsSelected, massActions } = useDataTableRootContext<TData>();
+const { selectedRows, isAnyRowsSelected, rowsActions } = useDataTableRootContext<TData>();
 
-function getIsDisabled(action: DataTableMassAction<TData>): boolean {
+function getIsDisabled(action: DataTableRowsAction<TData>): boolean {
     if (!action.disabled) {
         return false;
     }
@@ -25,7 +25,7 @@ function getIsDisabled(action: DataTableMassAction<TData>): boolean {
 </script>
 
 <template>
-    <DropdownMenu v-if="massActions.length">
+    <DropdownMenu v-if="rowsActions.length">
         <DropdownMenuTrigger as-child>
             <Button variant="outline" :class="{ 'opacity-0': !isAnyRowsSelected }">
                 <Capitalize>
@@ -36,7 +36,7 @@ function getIsDisabled(action: DataTableMassAction<TData>): boolean {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
             <DropdownMenuItem
-                v-for="action in massActions"
+                v-for="action in rowsActions"
                 :key="action.label"
                 :disabled="getIsDisabled(action)"
                 @click="action.callback(selectedRows)"

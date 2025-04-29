@@ -3,15 +3,14 @@ import {
     DataTable,
     DataTableCell,
     DataTableHead,
-    DataTableItemRow,
-    DataTableMassAction,
     DataTableRow,
     DataTableRowCheckbox,
+    DataTableRowsAction,
     DataTableRowsCheckbox,
 } from '@/components/ui/data-table';
 import { useLayout } from '@/composables';
+import { format } from '@/helpers';
 import { AdminLayout } from '@/layouts';
-import { date } from '@/lib';
 import type { BannerAdminIndexProps, BannerAdminIndexResource, BreadcrumbItem, SharedData } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
@@ -31,7 +30,7 @@ defineOptions({
 type Props = SharedData & BannerAdminIndexProps;
 const props = defineProps<Props>();
 
-const massActions: DataTableMassAction<BannerAdminIndexResource>[] = [
+const massActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
     {
         label: trans('archive'),
         icon: ArchiveIcon,
@@ -62,7 +61,7 @@ const massActions: DataTableMassAction<BannerAdminIndexResource>[] = [
         </template>
         <template #rows="{ view, items }">
             <template v-for="item in items" :key="item.id">
-                <DataTableItemRow v-if="view === 'table'" :item>
+                <DataTableRow v-if="view === 'table'" :item>
                     <DataTableCell>
                         <DataTableRowCheckbox />
                     </DataTableCell>
@@ -70,12 +69,12 @@ const massActions: DataTableMassAction<BannerAdminIndexResource>[] = [
                         {{ item.name }}
                     </DataTableCell>
                     <DataTableCell>
-                        {{ date.format(item.starts_at) }}
+                        {{ format.date(item.starts_at) }}
                     </DataTableCell>
                     <DataTableCell>
-                        {{ date.format(item.ends_at) }}
+                        {{ format.date(item.ends_at) }}
                     </DataTableCell>
-                </DataTableItemRow>
+                </DataTableRow>
             </template>
         </template>
     </DataTable>
