@@ -6,7 +6,7 @@ export type DataTableRowContext<TData extends object> = {
 };
 
 export function useDataTableRowContext<TData extends object>(
-    fallback?: DataTableRowContext<TData>
+    fallback?: DataTableRowContext<TData>,
 ): DataTableRowContext<TData> {
     const context = inject('dataTableRowContext', fallback);
 
