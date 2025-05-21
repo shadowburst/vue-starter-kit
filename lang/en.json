@@ -1,4 +1,5 @@
 {
+    "actions": "actions",
     "backend": "backend",
     "cancel": "cancel",
     "confirm": "confirm",

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TextLink from '@/components/TextLink.vue';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -8,6 +7,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { TextLink } from '@/components/ui/custom/link';
 import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
 type Props = {

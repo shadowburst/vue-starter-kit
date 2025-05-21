@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Capitalize } from '@/components/typography';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import {
     SidebarContent,
     SidebarGroup,
@@ -22,9 +22,9 @@ defineProps<Props>();
     <SidebarContent>
         <SidebarGroup class="px-2 py-0">
             <SidebarGroupLabel>
-                <Capitalize>
+                <CapitalizeText>
                     {{ label }}
-                </Capitalize>
+                </CapitalizeText>
             </SidebarGroupLabel>
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">

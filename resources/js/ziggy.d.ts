@@ -54,6 +54,37 @@ declare module 'ziggy-js' {
     "settings.password.update": [],
     "settings.appearance.edit": [],
     "admin.home": [],
+    "admin.banners.index": [],
+    "admin.banners.create": [],
+    "admin.banners.store": [],
+    "admin.banners.show": [
+        {
+            "name": "banner",
+            "required": true,
+            "binding": "id"
+        }
+    ],
+    "admin.banners.edit": [
+        {
+            "name": "banner",
+            "required": true,
+            "binding": "id"
+        }
+    ],
+    "admin.banners.update": [
+        {
+            "name": "banner",
+            "required": true,
+            "binding": "id"
+        }
+    ],
+    "admin.banners.destroy": [
+        {
+            "name": "banner",
+            "required": true,
+            "binding": "id"
+        }
+    ],
     "storage.local": [
         {
             "name": "path",

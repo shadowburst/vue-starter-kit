@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLogo from '@/components/AppLogo.vue';
-import { Capitalize } from '@/components/typography';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,7 +18,7 @@ import { trans } from 'laravel-vue-i18n';
 import { ChevronsUpDownIcon, CircleIcon } from 'lucide-vue-next';
 
 const { isMobile, state } = useSidebar();
-const auth = useAuth();
+const { user } = useAuth();
 
 const environments = useRouterComputed((): NavItem[] => [
     {
@@ -38,7 +38,7 @@ const environments = useRouterComputed((): NavItem[] => [
     <SidebarHeader>
         <SidebarMenu>
             <SidebarMenuItem>
-                <DropdownMenu v-if="auth">
+                <DropdownMenu v-if="user">
                     <DropdownMenuTrigger as-child>
                         <SidebarMenuButton
                             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -55,18 +55,18 @@ const environments = useRouterComputed((): NavItem[] => [
                         :side-offset="4"
                     >
                         <DropdownMenuLabel as-child>
-                            <Capitalize>
+                            <CapitalizeText>
                                 {{ $t('environment') }}
-                            </Capitalize>
+                            </CapitalizeText>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem v-for="{ title, href, isActive } in environments" :key="title" as-child>
                                 <Link class="block w-full" :href>
                                     <CircleIcon :class="{ 'fill-current': isActive }" />
-                                    <Capitalize>
+                                    <CapitalizeText>
                                         {{ title }}
-                                    </Capitalize>
+                                    </CapitalizeText>
                                 </Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>

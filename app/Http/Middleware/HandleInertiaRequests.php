@@ -6,6 +6,7 @@ use App\Data\Auth\AuthUserResource;
 use App\Models\User;
 use App\Services\ToastService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -56,6 +57,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'locale'      => App::getLocale(),
         ];
     }
 }

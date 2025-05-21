@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TextLink from '@/components/TextLink.vue';
-import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
+import { TextLink } from '@/components/ui/custom/link';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
@@ -66,11 +66,11 @@ function submit() {
 
             <div class="text-muted-foreground space-x-1 text-center text-sm">
                 {{ $t('pages.auth.verify_email.not_you') }}
-                <Capitalize as-child>
+                <CapitalizeText as-child>
                     <TextLink :href="route('logout')" method="post" as="button">
                         {{ $t('logout') }}
                     </TextLink>
-                </Capitalize>
+                </CapitalizeText>
             </div>
         </div>
     </Form>

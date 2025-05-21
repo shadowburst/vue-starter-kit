@@ -26,7 +26,7 @@ type Props = {
 const { breadcrumbs = [] } = defineProps<Props>();
 
 const page = usePage<SharedData>();
-const auth = useAuth();
+const { user } = useAuth();
 
 const isCurrentRoute = computed(() => (url: string) => page.props.ziggy.url === url);
 
@@ -59,7 +59,7 @@ const mainNavItems: NavItem[] = [
                         <SheetContent class="w-[300px] p-6" side="left">
                             <SheetTitle class="sr-only">Navigation Menu</SheetTitle>
                             <SheetHeader class="flex justify-start text-left">
-                                <AppLogoIcon class="size-6 fill-current text-black dark:text-white" />
+                                <AppLogoIcon class="size-6 fill-current" />
                             </SheetHeader>
                             <div class="flex h-full flex-1 flex-col justify-between space-y-4 py-6">
                                 <nav class="-mx-3 space-y-1">
@@ -126,7 +126,7 @@ const mainNavItems: NavItem[] = [
                                 variant="ghost"
                                 size="icon"
                             >
-                                <UserAvatar class="size-8 overflow-hidden rounded-full" :user="auth.user" />
+                                <UserAvatar class="size-8 overflow-hidden rounded-full" :user />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent class="w-56" align="end">

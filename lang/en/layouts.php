@@ -15,7 +15,8 @@ return [
     'admin' => [
         'sidebar' => [
             'items' => [
-                'home' => 'Dashboard',
+                'home'    => 'Dashboard',
+                'banners' => 'Banners',
             ],
         ],
     ],

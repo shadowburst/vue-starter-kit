@@ -17,10 +17,10 @@ defineProps<Props>();
     <div
         class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0"
     >
-        <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
+        <div class="bg-muted text-foreground relative hidden h-full flex-col p-10 lg:flex dark:border-r">
             <div class="bg-muted absolute inset-0" />
             <Link class="relative z-20 flex items-center text-lg font-medium" :href="route('home')">
-                <AppLogoIcon class="mr-2 size-8 fill-current text-white" />
+                <AppLogoIcon class="text-foreground mr-2 size-8 fill-current" />
                 {{ name }}
             </Link>
         </div>

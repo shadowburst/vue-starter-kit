@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
-import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { TextInput } from '@/components/ui/custom/input';
 import {
     ResponsiveDialog,
     ResponsiveDialogClose,
@@ -12,7 +10,9 @@ import {
     ResponsiveDialogHeader,
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
-} from '@/components/ui/responsive-dialog';
+} from '@/components/ui/custom/responsive-dialog';
+import { CapitalizeText } from '@/components/ui/custom/typography';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { ConfirmPasswordRequest } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { useTemplateRef } from 'vue';
@@ -39,9 +39,9 @@ function submit() {
     <ResponsiveDialog>
         <ResponsiveDialogTrigger as-child>
             <Button type="submit" variant="destructive">
-                <Capitalize>
+                <CapitalizeText>
                     {{ $t('components.settings.profile.delete_dialog.action') }}
-                </Capitalize>
+                </CapitalizeText>
             </Button>
         </ResponsiveDialogTrigger>
         <ResponsiveDialogContent>
@@ -58,7 +58,7 @@ function submit() {
                     <FormField id="password" required>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                            <AppInput
+                            <TextInput
                                 v-model="form.password"
                                 ref="password"
                                 type="password"
@@ -71,15 +71,15 @@ function submit() {
                 <ResponsiveDialogFooter>
                     <ResponsiveDialogClose as-child @click="form.reset()">
                         <Button variant="ghost">
-                            <Capitalize>
+                            <CapitalizeText>
                                 {{ $t('cancel') }}
-                            </Capitalize>
+                            </CapitalizeText>
                         </Button>
                     </ResponsiveDialogClose>
                     <Button type="submit" variant="destructive" :disabled="!form.password">
-                        <Capitalize>
+                        <CapitalizeText>
                             {{ $t('components.settings.profile.delete_dialog.action') }}
-                        </Capitalize>
+                        </CapitalizeText>
                     </Button>
                 </ResponsiveDialogFooter>
             </Form>

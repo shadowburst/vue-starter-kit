@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Capitalize } from '@/components/typography';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { TextInput } from '@/components/ui/custom/input';
+import { TextLink } from '@/components/ui/custom/link';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -46,7 +46,7 @@ function submit() {
             <FormField id="email" required>
                 <FormLabel>{{ $t('models.user.fields.email') }}</FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.email" type="email" autocomplete="off" autofocus />
+                    <TextInput v-model="form.email" type="email" autocomplete="off" autofocus />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
@@ -60,11 +60,11 @@ function submit() {
                 <span>
                     {{ $t('pages.auth.forgot_password.return_to') }}
                 </span>
-                <Capitalize>
+                <CapitalizeText>
                     <TextLink :href="route('login')">
                         {{ $t('login') }}
                     </TextLink>
-                </Capitalize>
+                </CapitalizeText>
             </div>
         </div>
     </Form>

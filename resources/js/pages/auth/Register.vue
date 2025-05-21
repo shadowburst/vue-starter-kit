@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
+import { TextInput } from '@/components/ui/custom/input';
+import { TextLink } from '@/components/ui/custom/link';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -45,7 +45,7 @@ function submit() {
                     {{ $t('models.user.fields.first_name') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.first_name" autofocus autocomplete="given-name" />
+                    <TextInput v-model="form.first_name" autofocus autocomplete="given-name" />
                 </FormControl>
                 <FormError :message="form.errors.first_name" />
             </FormField>
@@ -54,7 +54,7 @@ function submit() {
                     {{ $t('models.user.fields.last_name') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.last_name" autocomplete="family-name" />
+                    <TextInput v-model="form.last_name" autocomplete="family-name" />
                 </FormControl>
                 <FormError :message="form.errors.last_name" />
             </FormField>
@@ -63,7 +63,7 @@ function submit() {
                     {{ $t('models.user.fields.email') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.email" type="email" autocomplete="email" />
+                    <TextInput v-model="form.email" type="email" autocomplete="email" />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
@@ -72,7 +72,7 @@ function submit() {
                     {{ $t('models.user.fields.password') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.password" type="password" autocomplete="new-password" />
+                    <TextInput v-model="form.password" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>
@@ -81,7 +81,7 @@ function submit() {
                     {{ $t('models.user.fields.password_confirmation') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />
+                    <TextInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password_confirmation" />
             </FormField>
@@ -93,11 +93,11 @@ function submit() {
             </Button>
             <div class="text-muted-foreground text-center text-sm">
                 {{ $t('pages.auth.register.has_account') }}
-                <Capitalize>
+                <CapitalizeText>
                     <TextLink :href="route('login')">
                         {{ $t('login') }}
                     </TextLink>
-                </Capitalize>
+                </CapitalizeText>
             </div>
         </div>
     </Form>

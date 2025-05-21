@@ -7,6 +7,31 @@ export type AuthUserResource = {
     email: string;
     avatar?: MediaResource;
 };
+export type BannerAdminIndexProps = {
+    banners: {
+        data: Array<BannerAdminIndexResource>;
+        links: Array<{ url: string; label: string; active: boolean }>;
+        meta: {
+            current_page: number;
+            first_page_url: string;
+            from: number;
+            last_page: number;
+            last_page_url: string;
+            next_page_url: string;
+            path: string;
+            per_page: number;
+            prev_page_url: string;
+            to: number;
+            total: number;
+        };
+    };
+};
+export type BannerAdminIndexResource = {
+    id: number;
+    name: string;
+    start_date: string;
+    end_date: string;
+};
 export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {
     password: string;

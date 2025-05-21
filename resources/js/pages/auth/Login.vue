@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Capitalize } from '@/components/typography';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { TextInput } from '@/components/ui/custom/input';
+import { TextLink } from '@/components/ui/custom/link';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -53,7 +53,7 @@ function submit() {
                     {{ $t('models.user.fields.email') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.email" type="email" autofocus autocomplete="email" />
+                    <TextInput v-model="form.email" type="email" autofocus autocomplete="email" />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
@@ -67,7 +67,7 @@ function submit() {
                     </TextLink>
                 </div>
                 <FormControl>
-                    <AppInput v-model="form.password" type="password" autocomplete="current-password" />
+                    <TextInput v-model="form.password" type="password" autocomplete="current-password" />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>
@@ -88,11 +88,11 @@ function submit() {
             <Button type="submit" :loading="form.processing"> Log in </Button>
             <div class="text-muted-foreground text-center text-sm">
                 {{ $t('pages.auth.login.no_account') }}
-                <Capitalize>
+                <CapitalizeText>
                     <TextLink :href="route('register')">
                         {{ $t('register') }}
                     </TextLink>
-                </Capitalize>
+                </CapitalizeText>
             </div>
         </div>
     </Form>

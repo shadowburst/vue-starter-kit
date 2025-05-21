@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
-import { InertiaLinkProps, Link } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import { useForwardProps } from 'reka-ui';
-import { HTMLAttributes } from 'vue';
+import InertiaLink, { LinkProps } from './InertiaLink.vue';
 
-type Props = InertiaLinkProps & {
-    class?: HTMLAttributes['class'];
-};
+type Props = LinkProps;
 const props = defineProps<Props>();
 
 const delegatedProps = reactiveOmit(props, 'class');
@@ -16,7 +13,7 @@ const forwarded = useForwardProps(delegatedProps);
 </script>
 
 <template>
-    <Link
+    <InertiaLink
         v-bind="forwarded"
         :class="
             cn(
@@ -26,5 +23,5 @@ const forwarded = useForwardProps(delegatedProps);
         "
     >
         <slot />
-    </Link>
+    </InertiaLink>
 </template>

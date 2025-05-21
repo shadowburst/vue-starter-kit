@@ -125,7 +125,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected function fullName(): Attribute
     {
         return Attribute::get(
-            fn ($value, array $attributes) => "{$attributes['first_name']} {$attributes['last_name']}",
+            fn ($value, array $attributes) => ucwords("{$attributes['first_name']} {$attributes['last_name']}"),
         );
     }
 

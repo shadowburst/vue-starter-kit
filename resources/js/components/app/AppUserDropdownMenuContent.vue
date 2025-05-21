@@ -5,16 +5,16 @@ import { useAuth } from '@/composables';
 import { Link } from '@inertiajs/vue3';
 import { LogOutIcon, SettingsIcon } from 'lucide-vue-next';
 
-const auth = useAuth();
+const { user } = useAuth();
 </script>
 
 <template>
     <DropdownMenuLabel class="p-0 font-normal">
         <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-            <UserAvatar :user="auth.user" />
+            <UserAvatar :user />
             <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-medium">{{ auth.user.full_name }}</span>
-                <span class="truncate font-medium">{{ auth.user.email }}</span>
+                <span class="truncate font-medium">{{ user.full_name }}</span>
+                <span class="truncate font-medium">{{ user.email }}</span>
             </div>
         </div>
     </DropdownMenuLabel>

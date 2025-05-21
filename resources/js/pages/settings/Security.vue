@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
-import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { TextInput } from '@/components/ui/custom/input';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
@@ -50,7 +50,11 @@ function submit() {
                             {{ $t('models.user.fields.current_password') }}
                         </FormLabel>
                         <FormControl>
-                            <AppInput v-model="form.current_password" type="password" autocomplete="current-password" />
+                            <TextInput
+                                v-model="form.current_password"
+                                type="password"
+                                autocomplete="current-password"
+                            />
                         </FormControl>
                         <FormError :message="form.errors.current_password" />
                     </FormField>
@@ -59,7 +63,7 @@ function submit() {
                             {{ $t('models.user.fields.password') }}
                         </FormLabel>
                         <FormControl>
-                            <AppInput v-model="form.password" type="password" autocomplete="new-password" />
+                            <TextInput v-model="form.password" type="password" autocomplete="new-password" />
                         </FormControl>
                         <FormError :message="form.errors.password" />
                     </FormField>
@@ -68,7 +72,7 @@ function submit() {
                             {{ $t('models.user.fields.password_confirmation') }}
                         </FormLabel>
                         <FormControl>
-                            <AppInput
+                            <TextInput
                                 v-model="form.password_confirmation"
                                 type="password"
                                 autocomplete="new-password"
@@ -80,9 +84,9 @@ function submit() {
             </CardContent>
             <CardFooter>
                 <Button type="submit" :loading="form.processing" :icon="SaveIcon">
-                    <Capitalize>
+                    <CapitalizeText>
                         {{ $t('save') }}
-                    </Capitalize>
+                    </CapitalizeText>
                 </Button>
             </CardFooter>
         </Card>

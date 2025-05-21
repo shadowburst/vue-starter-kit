@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
 import { Button } from '@/components/ui/button';
+import { TextInput } from '@/components/ui/custom/input';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -44,7 +44,7 @@ function submit() {
                     {{ $t('models.user.fields.email') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.email" type="email" autocomplete="email" readonly />
+                    <TextInput v-model="form.email" type="email" autocomplete="email" readonly />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
@@ -53,7 +53,7 @@ function submit() {
                     {{ $t('models.user.fields.password') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.password" type="password" autocomplete="new-password" />
+                    <TextInput v-model="form.password" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>
@@ -62,7 +62,7 @@ function submit() {
                     {{ $t('models.user.fields.password_confirmation') }}
                 </FormLabel>
                 <FormControl>
-                    <AppInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />
+                    <TextInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password_confirmation" />
             </FormField>

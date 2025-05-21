@@ -11,9 +11,7 @@ defineOptions({
 });
 
 const props = defineProps<InputProps>();
-
 const emits = defineEmits<InputEmits>();
-
 const forwarded = useForwardPropsEmits(props, emits);
 
 const type = ref<InputProps['type']>('password');

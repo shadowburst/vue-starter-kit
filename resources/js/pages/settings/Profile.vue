@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import AppInput from '@/components/input/AppInput.vue';
-import MediaInput from '@/components/input/MediaInput.vue';
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Capitalize } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { MediaInput, TextInput } from '@/components/ui/custom/input';
+import { TextLink } from '@/components/ui/custom/link';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormDescription, FormError, FormField, FormLabel } from '@/components/ui/form';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth, useLayout } from '@/composables';
@@ -21,13 +20,13 @@ defineOptions({
 type Props = SharedData & EditProfileSettingsProps;
 defineProps<Props>();
 
-const auth = useAuth();
+const { user } = useAuth();
 
 const form = useForm({
-    first_name: auth.value.user.first_name,
-    last_name: auth.value.user.last_name,
-    email: auth.value.user.email,
-    avatar: auth.value.user.avatar,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    avatar: user.avatar,
 }).transform(
     (data): UpdateProfileSettingsRequest => ({
         ...data,
@@ -64,11 +63,11 @@ function submit() {
                                 v-model="form.avatar"
                                 v-model:error="form.errors.avatar"
                                 model-type="user"
-                                :model-id="auth.user.id"
+                                :model-id="user.id"
                                 collection="avatar"
                                 type="image"
                             >
-                                <UserAvatar size="lg" shape="circle" :user="{ ...auth.user, avatar: form.avatar }" />
+                                <UserAvatar size="lg" shape="circle" :user="{ ...user, avatar: form.avatar }" />
                             </MediaInput>
                         </FormControl>
                         <FormError :message="form.errors.avatar" />
@@ -78,7 +77,7 @@ function submit() {
                             {{ $t('models.user.fields.first_name') }}
                         </FormLabel>
                         <FormControl>
-                            <AppInput v-model="form.first_name" autocomplete="given-name" />
+                            <TextInput v-model="form.first_name" autocomplete="given-name" />
                         </FormControl>
                         <FormError :message="form.errors.first_name" />
                     </FormField>
@@ -87,7 +86,7 @@ function submit() {
                             {{ $t('models.user.fields.last_name') }}
                         </FormLabel>
                         <FormControl>
-                            <AppInput v-model="form.last_name" autocomplete="family-name" />
+                            <TextInput v-model="form.last_name" autocomplete="family-name" />
                         </FormControl>
                         <FormError :message="form.errors.last_name" />
                     </FormField>
@@ -96,7 +95,7 @@ function submit() {
                             {{ $t('models.user.fields.email') }}
                         </FormLabel>
                         <FormControl>
-                            <AppInput v-model="form.email" type="email" autocomplete="email" />
+                            <TextInput v-model="form.email" type="email" autocomplete="email" />
                         </FormControl>
                         <FormError :message="form.errors.email" />
                         <FormDescription v-if="mustVerifyEmail">
@@ -110,9 +109,9 @@ function submit() {
             </CardContent>
             <CardFooter>
                 <Button type="submit" :loading="form.processing" :icon="SaveIcon">
-                    <Capitalize>
+                    <CapitalizeText>
                         {{ $t('save') }}
-                    </Capitalize>
+                    </CapitalizeText>
                 </Button>
             </CardFooter>
         </Card>

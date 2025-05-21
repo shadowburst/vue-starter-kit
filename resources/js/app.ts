@@ -37,10 +37,17 @@ createInertiaApp({
                 return await langs[`../../lang/${lang}.json`]();
             },
             // Mount here so that translations are available when page loads
-            onLoad: () => app.mount(el),
+            onLoad: () => {
+                /* check needed to avoid remounting (which would fail) when we call loadLanguageAsync to change language */
+                if (el && el.__vue_app__) {
+                    return;
+                }
+
+                app.mount(el);
+            },
         });
     },
     progress: {
-        color: '#4B5563',
+        color: '--primary',
     },
 });

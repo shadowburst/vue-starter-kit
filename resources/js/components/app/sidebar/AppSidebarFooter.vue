@@ -7,7 +7,7 @@ import { useAuth } from '@/composables';
 import { ChevronsUpDownIcon } from 'lucide-vue-next';
 
 const { isMobile, state } = useSidebar();
-const auth = useAuth();
+const { user } = useAuth();
 </script>
 
 <template>
@@ -20,9 +20,9 @@ const auth = useAuth();
                             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                             size="lg"
                         >
-                            <UserAvatar class="size-8" :user="auth.user" />
+                            <UserAvatar class="size-8" :user />
                             <div class="grid flex-1 text-left text-sm leading-tight">
-                                <span class="truncate font-medium">{{ auth.user.full_name }}</span>
+                                <span class="truncate font-medium">{{ user.full_name }}</span>
                             </div>
                             <ChevronsUpDownIcon class="ml-auto" />
                         </SidebarMenuButton>

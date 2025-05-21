@@ -12,6 +12,15 @@ return [
     |
     */
 
+    'banner' => [
+        'fields' => [
+            'name'       => 'name',
+            'message'    => 'message',
+            'start_date' => 'from',
+            'end_date'   => 'to',
+        ],
+    ],
+
     'email_verification_token' => [
         'fields' => [
             'code' => 'code',
