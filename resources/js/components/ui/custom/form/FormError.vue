@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ErrorText } from '@/components/ui/custom/typeography';
+import { ErrorText } from '@/components/ui/custom/typography';
 import { watch } from 'vue';
 import { injectFormFieldContext } from './FormField.vue';
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppBreadcrumbs from '@/components/app/AppBreadcrumbs.vue';
 import AppShell from '@/components/app/AppShell.vue';
 import AppSidebar from '@/components/app/sidebar/AppSidebar.vue';
+import { Breadcrumbs } from '@/components/ui/custom/breadcrumbs';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem } from '@/types';
@@ -35,7 +35,7 @@ const items = useRouterComputed((): NavItem[] => [
             >
                 <div class="flex items-center gap-2">
                     <SidebarTrigger class="-ml-1" />
-                    <AppBreadcrumbs v-if="breadcrumbs.length > 0" :breadcrumbs />
+                    <Breadcrumbs v-if="breadcrumbs.length > 0" :breadcrumbs />
                 </div>
             </header>
             <AppShell>

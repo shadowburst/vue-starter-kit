@@ -106,7 +106,7 @@ provideDataTableRootContext(rootContext);
 </script>
 
 <template>
-    <Tabs class="grid gap-2" v-model="tab">
+    <Tabs class="max-w-full" v-model="tab">
         <slot :rows />
     </Tabs>
 </template>

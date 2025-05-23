@@ -13,6 +13,8 @@ import {
     DataTableRowsActions,
     DataTableRowsCheckbox,
 } from '@/components/ui/custom/data-table';
+import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
+import { TextInput } from '@/components/ui/custom/input';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { useFormatter, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
@@ -50,6 +52,13 @@ const format = useFormatter();
 
     <Section>
         <SectionContent>
+            <div class="flex items-center gap-2">
+                <TextInput type="search" />
+                <FiltersSheet>
+                    <FiltersSheetTrigger />
+                    <FiltersSheetContent> </FiltersSheetContent>
+                </FiltersSheet>
+            </div>
             <DataTable v-slot="{ rows }" :data="props.banners" :rows-actions>
                 <div class="flex items-center justify-between gap-2">
                     <DataTableRowsActions />

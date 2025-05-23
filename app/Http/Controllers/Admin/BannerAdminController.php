@@ -16,7 +16,9 @@ class BannerAdminController extends Controller
     public function index()
     {
         return Inertia::render('admin/banners/Index', BannerAdminIndexProps::from([
-            'banners' => Banner::query()->paginate(),
+            'banners' => Banner::query()
+                ->paginate()
+                ->withQueryString(),
         ]));
     }
 
