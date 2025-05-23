@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
-import { EditAppearanceSettingsProps, SharedData } from '@/types';
+import { EditAppearanceSettingsProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { useColorMode, type BasicColorSchema } from '@vueuse/core';
 import { trans } from 'laravel-vue-i18n';
@@ -13,8 +13,7 @@ defineOptions({
     layout: useLayout(SettingsLayout, () => ({})),
 });
 
-type Props = SharedData & EditAppearanceSettingsProps;
-defineProps<Props>();
+defineProps<EditAppearanceSettingsProps>();
 
 const { store } = useColorMode();
 

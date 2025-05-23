@@ -6,7 +6,7 @@ import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import { RegisterProps, RegisterRequest, SharedData } from '@/types';
+import { RegisterProps, RegisterRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -17,8 +17,7 @@ defineOptions({
     })),
 });
 
-type Props = SharedData & RegisterProps;
-defineProps<Props>();
+defineProps<RegisterProps>();
 
 const form = useForm<RegisterRequest>({
     first_name: '',

@@ -8,7 +8,7 @@ import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import { LoginProps, LoginRequest, SharedData } from '@/types';
+import { LoginProps, LoginRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { CheckIcon } from 'lucide-vue-next';
@@ -20,8 +20,7 @@ defineOptions({
     })),
 });
 
-type Props = SharedData & LoginProps;
-defineProps<Props>();
+defineProps<LoginProps>();
 
 const form = useForm<LoginRequest>({
     email: '',

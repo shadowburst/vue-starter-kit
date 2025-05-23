@@ -2,7 +2,7 @@ import type { ErrorBag, Errors } from '@inertiajs/core';
 import type { Config } from 'ziggy-js';
 import { AuthUserResource, ToastMessagesData } from './backend';
 
-export type SharedData = {
+export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     name: string;
     auth?: {
         user: AuthUserResource;

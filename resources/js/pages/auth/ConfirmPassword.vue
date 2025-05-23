@@ -4,7 +4,7 @@ import { TextInput } from '@/components/ui/custom/input';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import { ConfirmPasswordProps, ConfirmPasswordRequest, SharedData } from '@/types';
+import { ConfirmPasswordProps, ConfirmPasswordRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -15,8 +15,7 @@ defineOptions({
     })),
 });
 
-type Props = SharedData & ConfirmPasswordProps;
-defineProps<Props>();
+defineProps<ConfirmPasswordProps>();
 
 const form = useForm<ConfirmPasswordRequest>({
     password: '',

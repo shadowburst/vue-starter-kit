@@ -6,7 +6,7 @@ import { Form, FormContent, FormControl, FormError, FormField } from '@/componen
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import { SharedData, VerifyEmailProps, VerifyEmailRequest } from '@/types';
+import { VerifyEmailProps, VerifyEmailRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -17,8 +17,7 @@ defineOptions({
     })),
 });
 
-type Props = SharedData & VerifyEmailProps;
-defineProps<Props>();
+defineProps<VerifyEmailProps>();
 
 const resendForm = useForm({});
 

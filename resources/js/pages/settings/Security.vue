@@ -6,7 +6,7 @@ import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
-import { EditSecuritySettingsProps, SharedData, UpdatePasswordSettingsRequest } from '@/types';
+import { EditSecuritySettingsProps, UpdatePasswordSettingsRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { SaveIcon } from 'lucide-vue-next';
 
@@ -14,8 +14,7 @@ defineOptions({
     layout: useLayout(SettingsLayout, () => ({})),
 });
 
-type Props = SharedData & EditSecuritySettingsProps;
-defineProps<Props>();
+defineProps<EditSecuritySettingsProps>();
 
 const form = useForm<UpdatePasswordSettingsRequest>({
     current_password: '',

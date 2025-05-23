@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Toaster } from '@/components/ui/sonner';
-import { SharedData, ToastMessagesData } from '@/types';
+import { ToastMessagesData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { useDark } from '@vueuse/core';
 import { computed, watch } from 'vue';
 import { toast } from 'vue-sonner';
 
-const data = computed((): ToastMessagesData => usePage<SharedData>().props.toast);
+const data = computed((): ToastMessagesData => usePage().props.toast);
 watch(
     data,
     () => {

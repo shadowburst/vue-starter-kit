@@ -9,7 +9,7 @@ import { Form, FormContent, FormControl, FormDescription, FormError, FormField, 
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
-import { EditProfileSettingsProps, SharedData, UpdateProfileSettingsRequest } from '@/types';
+import { EditProfileSettingsProps, UpdateProfileSettingsRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { SaveIcon } from 'lucide-vue-next';
 
@@ -17,8 +17,7 @@ defineOptions({
     layout: useLayout(SettingsLayout, () => ({})),
 });
 
-type Props = SharedData & EditProfileSettingsProps;
-defineProps<Props>();
+defineProps<EditProfileSettingsProps>();
 
 const { user } = useAuth();
 

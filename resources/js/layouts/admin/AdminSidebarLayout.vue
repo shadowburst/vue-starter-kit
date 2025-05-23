@@ -4,7 +4,7 @@ import AppShell from '@/components/app/AppShell.vue';
 import AppSidebar from '@/components/app/sidebar/AppSidebar.vue';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useRouterComputed } from '@/composables';
-import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
+import type { BreadcrumbItem, NavItem } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { LayoutGridIcon, TextQuoteIcon } from 'lucide-vue-next';
@@ -14,7 +14,7 @@ type Props = {
 };
 const { breadcrumbs = [] } = defineProps<Props>();
 
-const sidebarOpen = usePage<SharedData>().props.sidebarOpen;
+const sidebarOpen = usePage().props.sidebarOpen;
 
 const items = useRouterComputed((): NavItem[] => [
     {

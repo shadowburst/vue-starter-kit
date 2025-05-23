@@ -16,7 +16,7 @@ import {
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { useFormatter, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
-import type { BannerAdminIndexProps, BannerAdminIndexResource, SharedData } from '@/types';
+import type { BannerAdminIndexProps, BannerAdminIndexResource } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { ArchiveIcon } from 'lucide-vue-next';
@@ -32,8 +32,7 @@ defineOptions({
     })),
 });
 
-type Props = SharedData & BannerAdminIndexProps;
-const props = defineProps<Props>();
+const props = defineProps<BannerAdminIndexProps>();
 
 const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
     {

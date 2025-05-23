@@ -4,7 +4,7 @@ import { TextInput } from '@/components/ui/custom/input';
 import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import { ResetPasswordProps, ResetPasswordRequest, SharedData } from '@/types';
+import { ResetPasswordProps, ResetPasswordRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -15,8 +15,7 @@ defineOptions({
     })),
 });
 
-type Props = SharedData & ResetPasswordProps;
-const props = defineProps<Props>();
+const props = defineProps<ResetPasswordProps>();
 
 const form = useForm<ResetPasswordRequest>({
     token: props.token,

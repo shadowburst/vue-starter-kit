@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\ToastService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -49,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                 fn (?User $user) => ! $user ? null : [
                     'user' => AuthUserResource::from($user->load(['avatar'])),
                 ],
-                $request->user(),
+                Auth::user(),
             ),
             'toast' => $toast->get(),
             'ziggy' => [

@@ -1,4 +1,3 @@
-import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -8,7 +7,7 @@ type Locale = (typeof locales)[number];
 const fallbackLocale: Locale = 'fr';
 
 export function useLocale() {
-    const locale = ref<Locale>(usePage<SharedData>().props.locale as Locale);
+    const locale = ref<Locale>(usePage().props.locale as Locale);
 
     function setLocale(newLocale: Locale) {
         locale.value = newLocale;

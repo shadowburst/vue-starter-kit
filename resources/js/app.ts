@@ -7,19 +7,6 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 
-// Extend ImportMeta interface for Vite...
-declare module 'vite/client' {
-    interface ImportMetaEnv {
-        readonly VITE_APP_NAME: string;
-        [key: string]: string | boolean | undefined;
-    }
-
-    interface ImportMeta {
-        readonly env: ImportMetaEnv;
-        readonly glob: <T>(pattern: string) => Record<string, () => Promise<T>>;
-    }
-}
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -39,6 +26,7 @@ createInertiaApp({
             // Mount here so that translations are available when page loads
             onLoad: () => {
                 /* check needed to avoid remounting (which would fail) when we call loadLanguageAsync to change language */
+                //@ts-ignore
                 if (el && el.__vue_app__) {
                     return;
                 }

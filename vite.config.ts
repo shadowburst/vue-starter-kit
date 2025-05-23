@@ -2,7 +2,6 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
 import i18n from 'laravel-vue-i18n/vite';
-import { resolve } from 'node:path';
 import path from 'path';
 import { defineConfig } from 'vite';
 import { run } from 'vite-plugin-run';
@@ -51,7 +50,6 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
-            'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
 });
