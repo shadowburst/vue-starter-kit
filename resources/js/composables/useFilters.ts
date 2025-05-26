@@ -1,10 +1,10 @@
+import { FormDataType } from '@/types';
 import { FormDataConvertible, router, VisitOptions } from '@inertiajs/core';
 import { InertiaForm, useForm } from '@inertiajs/vue3';
 import { toReactive } from '@vueuse/core';
 import { debounce, isEqual } from 'es-toolkit';
 import { computed, watch } from 'vue';
 
-type FormDataType = Record<string, FormDataConvertible>;
 type FiltersParams = Record<string, NonNullable<any>>;
 type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
     params: FiltersParams;
@@ -63,6 +63,9 @@ export function useFilters<TForm extends FormDataType>(
             replace: true,
             ...options,
         });
+    }
+    if (rememberKey && router.restore(rememberKey)) {
+        reload();
     }
 
     const hasPage = form.page != undefined;

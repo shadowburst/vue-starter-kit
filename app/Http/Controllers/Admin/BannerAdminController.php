@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Data\Banner\Admin\BannerAdminCreateProps;
 use App\Data\Banner\Admin\BannerAdminDeleteRequest;
+use App\Data\Banner\Admin\BannerAdminEditProps;
 use App\Data\Banner\Admin\BannerAdminIndexProps;
 use App\Data\Banner\Admin\BannerAdminIndexRequest;
 use App\Http\Controllers\Controller;
@@ -24,7 +26,7 @@ class BannerAdminController extends Controller
      */
     public function index(BannerAdminIndexRequest $data)
     {
-        return Inertia::render('admin/banners/Index', BannerAdminIndexProps::from([
+        return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
             'banners' => Banner::query()
                 ->search($data->q)
                 ->paginate(
@@ -40,7 +42,8 @@ class BannerAdminController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('banners/admin/Create', BannerAdminCreateProps::from([
+        ]));
     }
 
     /**
@@ -64,7 +67,9 @@ class BannerAdminController extends Controller
      */
     public function edit(Banner $banner)
     {
-        //
+        return Inertia::render('banners/admin/Edit', BannerAdminEditProps::from([
+            'banner' => $banner,
+        ]));
     }
 
     /**

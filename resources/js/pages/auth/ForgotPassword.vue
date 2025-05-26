@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
+import {
+    Form,
+    FormContent,
+    FormControl,
+    FormError,
+    FormField,
+    FormLabel,
+    FormSubmitButton,
+} from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
+import { Section, SectionContent, SectionFooter, SectionHeader } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -31,44 +39,46 @@ function submit() {
 </script>
 
 <template>
-    <Head :title="trans('pages.auth.forgot_password.title')" />
+    <Head :title="$t('pages.auth.forgot_password.title')" />
 
-    <Alert class="mb-6" v-if="status" variant="primary">
-        <CheckIcon class="size-4" />
-        <AlertTitle>
-            {{ status }}
-        </AlertTitle>
-    </Alert>
-
-    <Form @submit="submit()">
-        <FormContent>
-            <FormField required>
-                <FormLabel>
-                    <CapitalizeText>
-                        {{ $t('models.user.fields.email') }}
-                    </CapitalizeText>
-                </FormLabel>
-                <FormControl>
-                    <TextInput v-model="form.email" type="email" autocomplete="off" autofocus />
-                </FormControl>
-                <FormError :message="form.errors.email" />
-            </FormField>
-        </FormContent>
-
-        <div class="grid gap-2">
-            <Button type="submit" :loading="form.processing">
-                {{ $t('pages.auth.forgot_password.email_link') }}
-            </Button>
-            <div class="text-muted-foreground space-x-1 text-center text-sm">
-                <span>
-                    {{ $t('pages.auth.forgot_password.return_to') }}
-                </span>
-                <CapitalizeText>
+    <Form :form @submit="submit()">
+        <Section>
+            <SectionHeader v-if="status">
+                <Alert variant="primary">
+                    <CheckIcon class="size-4" />
+                    <AlertTitle>
+                        {{ status }}
+                    </AlertTitle>
+                </Alert>
+            </SectionHeader>
+            <SectionContent>
+                <FormContent>
+                    <FormField required>
+                        <FormLabel>
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.email') }}
+                            </CapitalizeText>
+                        </FormLabel>
+                        <FormControl>
+                            <TextInput v-model="form.email" type="email" autocomplete="off" autofocus />
+                        </FormControl>
+                        <FormError :message="form.errors.email" />
+                    </FormField>
+                </FormContent>
+            </SectionContent>
+            <SectionFooter class="grid">
+                <FormSubmitButton>
+                    {{ $t('pages.auth.forgot_password.email_link') }}
+                </FormSubmitButton>
+                <div class="text-muted-foreground space-x-1 text-center text-sm">
+                    <span>
+                        {{ $t('pages.auth.forgot_password.return_to') }}
+                    </span>
                     <TextLink :href="route('login')">
                         {{ $t('login') }}
                     </TextLink>
-                </CapitalizeText>
-            </div>
-        </div>
+                </div>
+            </SectionFooter>
+        </Section>
     </Form>
 </template>

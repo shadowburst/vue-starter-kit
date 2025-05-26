@@ -25,7 +25,7 @@ it('should let new users register', function () {
             'password'              => 'password',
             'password_confirmation' => 'password',
         ])->toArray(),
-    )->assertRedirectToRoute('home');
+    )->assertRedirectToRoute('index');
 
     assertAuthenticated();
 });

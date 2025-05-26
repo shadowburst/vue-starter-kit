@@ -23,12 +23,12 @@ const { user } = useAuth();
 const environments = useRouterComputed((): NavItem[] => [
     {
         title: trans('backend'),
-        href: route('admin.home'),
+        href: route('admin.index'),
         isActive: route().current('admin.*'),
     },
     {
         title: trans('frontend'),
-        href: route('home'),
+        href: route('index'),
         isActive: !route().current('admin.*'),
     },
 ]);
@@ -63,7 +63,7 @@ const environments = useRouterComputed((): NavItem[] => [
                         <DropdownMenuGroup>
                             <DropdownMenuItem v-for="{ title, href, isActive } in environments" :key="title" as-child>
                                 <Link class="block w-full" :href>
-                                    <CircleIcon :class="{ 'fill-current': isActive }" />
+                                    <CircleIcon :class="{ 'text-primary fill-current': isActive }" />
                                     <CapitalizeText>
                                         {{ title }}
                                     </CapitalizeText>
@@ -73,7 +73,7 @@ const environments = useRouterComputed((): NavItem[] => [
                     </DropdownMenuContent>
                 </DropdownMenu>
                 <SidebarMenuButton v-else size="lg" as-child>
-                    <Link :href="route('home')">
+                    <Link :href="route('index')">
                         <AppLogo />
                     </Link>
                 </SidebarMenuButton>

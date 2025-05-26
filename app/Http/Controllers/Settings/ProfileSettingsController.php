@@ -63,6 +63,6 @@ class ProfileSettingsController extends Controller
             $this->toastService->error->execute(__('messages.error'));
         }
 
-        return to_route('home');
+        return to_route('index');
     }
 }

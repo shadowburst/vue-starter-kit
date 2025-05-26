@@ -18,10 +18,10 @@ const sidebarOpen = usePage().props.sidebarOpen;
 
 const items = useRouterComputed((): NavItem[] => [
     {
-        title: trans('layouts.app.sidebar.items.home'),
-        href: route('home'),
+        title: trans('layouts.app.sidebar.items.index'),
+        href: route('index'),
         icon: LayoutGridIcon,
-        isActive: route().current('home'),
+        isActive: route().current('index'),
     },
 ]);
 </script>

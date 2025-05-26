@@ -38,7 +38,7 @@ const activeItemStyles = computed(
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: route('home'),
+        href: route('index'),
         icon: LayoutGridIcon,
     },
 ];
@@ -79,7 +79,7 @@ const mainNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link class="flex items-center gap-x-2" :href="route('home')">
+                <Link class="flex items-center gap-x-2" :href="route('index')">
                     <AppLogo />
                 </Link>
 

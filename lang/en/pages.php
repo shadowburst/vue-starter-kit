@@ -13,20 +13,14 @@ return [
     */
 
     'admin' => [
-        'home' => [
-            'title' => 'Dashboard',
-        ],
-        'banners' => [
-            'index' => [
-                'title' => 'Banners',
-            ],
-        ],
+        'title' => 'Dashboard',
     ],
 
     'auth' => [
         'confirm_password' => [
             'title'       => 'Confirm your password',
             'description' => 'This is a secure area of the application. Please confirm your password before continuing.',
+            'action'      => 'Confirm password',
         ],
         'forgot_password' => [
             'title'       => 'Forgot password',
@@ -61,7 +55,23 @@ return [
         ],
     ],
 
-    'home' => [
+    'banners' => [
+        'admin' => [
+            'index' => [
+                'title' => 'Banners',
+            ],
+            'create' => [
+                'title'       => 'Create a banner',
+                'description' => 'Create a new banner to display on the site',
+            ],
+            'edit' => [
+                'title'       => 'Update a banner',
+                'description' => 'Update a banner to display on the site',
+            ],
+        ],
+    ],
+
+    'index' => [
         'title' => 'Dashboard',
     ],
 

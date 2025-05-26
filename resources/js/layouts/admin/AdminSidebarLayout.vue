@@ -18,10 +18,10 @@ const sidebarOpen = usePage().props.sidebarOpen;
 
 const items = useRouterComputed((): NavItem[] => [
     {
-        title: trans('layouts.admin.sidebar.items.home'),
-        href: route('admin.home'),
+        title: trans('layouts.admin.sidebar.items.index'),
+        href: route('admin.index'),
         icon: LayoutGridIcon,
-        isActive: route().current('admin.home'),
+        isActive: route().current('admin.index'),
     },
     {
         title: trans('layouts.admin.sidebar.items.banners'),
@@ -37,7 +37,7 @@ const items = useRouterComputed((): NavItem[] => [
         <AppSidebar :content-label="$t('backend')" :items />
         <SidebarInset>
             <header
-                class="border-sidebar-border/70 flex h-16 shrink-0 items-center gap-2 border-b px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4"
+                class="border-sidebar-border/70 bg-background sticky inset-x-0 top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:rounded-t-xl md:px-4"
             >
                 <div class="flex items-center gap-2">
                     <SidebarTrigger class="-ml-1" />

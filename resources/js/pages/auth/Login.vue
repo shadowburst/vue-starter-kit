@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
+import {
+    Form,
+    FormContent,
+    FormControl,
+    FormError,
+    FormField,
+    FormLabel,
+    FormSubmitButton,
+} from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
+import { Section, SectionContent, SectionFooter, SectionHeader } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -38,69 +46,73 @@ function submit() {
 <template>
     <Head :title="trans('pages.auth.login.title')" />
 
-    <Alert class="mb-6" v-if="status" variant="primary">
-        <CheckIcon class="size-4" />
-        <AlertTitle>
-            {{ status }}
-        </AlertTitle>
-    </Alert>
+    <Form :form @submit="submit()">
+        <Section>
+            <SectionHeader v-if="status">
+                <Alert variant="primary">
+                    <CheckIcon class="size-4" />
+                    <AlertTitle>
+                        {{ status }}
+                    </AlertTitle>
+                </Alert>
+            </SectionHeader>
+            <SectionContent>
+                <FormContent>
+                    <FormField required>
+                        <FormLabel class="after:content-['']!">
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.email') }}
+                            </CapitalizeText>
+                        </FormLabel>
+                        <FormControl>
+                            <TextInput v-model="form.email" type="email" autofocus autocomplete="email" />
+                        </FormControl>
+                        <FormError :message="form.errors.email" />
+                    </FormField>
+                    <FormField required>
+                        <div class="flex items-center justify-between">
+                            <FormLabel class="after:content-['']!">
+                                <CapitalizeText>
+                                    {{ $t('models.user.fields.password') }}
+                                </CapitalizeText>
+                            </FormLabel>
+                            <TextLink class="text-sm" v-if="canResetPassword" :href="route('password.request')">
+                                {{ $t('pages.auth.login.forgot_password') }}
+                            </TextLink>
+                        </div>
+                        <FormControl>
+                            <TextInput v-model="form.password" type="password" autocomplete="current-password" />
+                        </FormControl>
+                        <FormError :message="form.errors.password" />
+                    </FormField>
 
-    <Form @submit="submit()">
-        <FormContent>
-            <FormField required>
-                <FormLabel class="after:content-['']!">
+                    <FormField>
+                        <FormLabel class="inline-flex gap-2">
+                            <FormControl>
+                                <Checkbox v-model="form.remember" />
+                            </FormControl>
+                            <CapitalizeText>
+                                {{ $t('pages.auth.login.remember_me') }}
+                            </CapitalizeText>
+                        </FormLabel>
+                    </FormField>
+                </FormContent>
+            </SectionContent>
+            <SectionFooter class="grid">
+                <FormSubmitButton>
                     <CapitalizeText>
-                        {{ $t('models.user.fields.email') }}
+                        {{ $t('pages.auth.login.action') }}
                     </CapitalizeText>
-                </FormLabel>
-                <FormControl>
-                    <TextInput v-model="form.email" type="email" autofocus autocomplete="email" />
-                </FormControl>
-                <FormError :message="form.errors.email" />
-            </FormField>
-            <FormField required>
-                <div class="flex items-center justify-between">
-                    <FormLabel class="after:content-['']!">
-                        <CapitalizeText>
-                            {{ $t('models.user.fields.password') }}
-                        </CapitalizeText>
-                    </FormLabel>
-                    <TextLink class="text-sm" v-if="canResetPassword" :href="route('password.request')">
-                        {{ $t('pages.auth.login.forgot_password') }}
-                    </TextLink>
+                </FormSubmitButton>
+                <div class="text-muted-foreground text-center text-sm">
+                    {{ $t('pages.auth.login.no_account') }}
+                    <CapitalizeText as-child>
+                        <TextLink :href="route('register')">
+                            {{ $t('register') }}
+                        </TextLink>
+                    </CapitalizeText>
                 </div>
-                <FormControl>
-                    <TextInput v-model="form.password" type="password" autocomplete="current-password" />
-                </FormControl>
-                <FormError :message="form.errors.password" />
-            </FormField>
-
-            <FormField>
-                <FormLabel class="inline-flex gap-2">
-                    <FormControl>
-                        <Checkbox v-model="form.remember" />
-                    </FormControl>
-                    <CapitalizeText>
-                        {{ $t('pages.auth.login.remember_me') }}
-                    </CapitalizeText>
-                </FormLabel>
-            </FormField>
-        </FormContent>
-
-        <div class="grid gap-2">
-            <Button type="submit" :loading="form.processing">
-                <CapitalizeText>
-                    {{ $t('pages.auth.login.action') }}
-                </CapitalizeText>
-            </Button>
-            <div class="text-muted-foreground text-center text-sm">
-                {{ $t('pages.auth.login.no_account') }}
-                <CapitalizeText>
-                    <TextLink :href="route('register')">
-                        {{ $t('register') }}
-                    </TextLink>
-                </CapitalizeText>
-            </div>
-        </div>
+            </SectionFooter>
+        </Section>
     </Form>
 </template>

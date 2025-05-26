@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormSubmitButton } from '@/components/ui/custom/form';
 import { TextLink } from '@/components/ui/custom/link';
+import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/custom/form';
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
@@ -40,37 +40,38 @@ function submit() {
 <template>
     <Head :title="trans('pages.auth.verify_email.title')" />
 
-    <Form @submit="submit()">
-        <FormContent>
-            <FormField id="code" required :disabled="form.processing">
-                <FormControl>
-                    <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
-                        <PinInputGroup>
-                            <PinInputSlot class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
-                        </PinInputGroup>
-                    </PinInput>
-                </FormControl>
-                <FormError :message="form.errors.code" />
-            </FormField>
-        </FormContent>
-
-        <div class="grid gap-2">
-            <Form @submit="resend()">
+    <Form :form @submit="submit()">
+        <Section>
+            <SectionContent>
                 <FormContent>
-                    <Button type="submit" variant="secondary" :loading="resendForm.processing">
-                        {{ $t('pages.auth.verify_email.resend_email') }}
-                    </Button>
+                    <FormField id="code" required :disabled="form.processing">
+                        <FormControl>
+                            <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
+                                <PinInputGroup>
+                                    <PinInputSlot class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
+                                </PinInputGroup>
+                            </PinInput>
+                        </FormControl>
+                        <FormError :message="form.errors.code" />
+                    </FormField>
                 </FormContent>
-            </Form>
+            </SectionContent>
+            <SectionFooter class="grid">
+                <Form class="grid" :form="resendForm" @submit="resend()">
+                    <FormSubmitButton variant="secondary">
+                        {{ $t('pages.auth.verify_email.resend_email') }}
+                    </FormSubmitButton>
+                </Form>
 
-            <div class="text-muted-foreground space-x-1 text-center text-sm">
-                {{ $t('pages.auth.verify_email.not_you') }}
-                <CapitalizeText as-child>
-                    <TextLink :href="route('logout')" method="post" as="button">
-                        {{ $t('logout') }}
-                    </TextLink>
-                </CapitalizeText>
-            </div>
-        </div>
+                <div class="text-muted-foreground space-x-1 text-center text-sm">
+                    {{ $t('pages.auth.verify_email.not_you') }}
+                    <CapitalizeText as-child>
+                        <TextLink :href="route('logout')" method="post" as="button">
+                            {{ $t('logout') }}
+                        </TextLink>
+                    </CapitalizeText>
+                </div>
+            </SectionFooter>
+        </Section>
     </Form>
 </template>

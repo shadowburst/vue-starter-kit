@@ -10,8 +10,8 @@ defineOptions({
     layout: useLayout(AppLayout, () => ({
         breadcrumbs: [
             {
-                title: trans('pages.home.title'),
-                href: route('home'),
+                title: trans('pages.index.title'),
+                href: route('index'),
             },
         ],
     })),
@@ -19,7 +19,7 @@ defineOptions({
 </script>
 
 <template>
-    <Head :title="trans('pages.home.title')" />
+    <Head :title="trans('pages.index.title')" />
 
     <Section>
         <SectionContent>

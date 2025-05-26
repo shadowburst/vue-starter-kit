@@ -12,7 +12,7 @@ const props = defineProps<{
         data-slot="section-header"
         :class="
             cn(
-                '@container/section-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-2 has-data-[slot=section-action]:grid-cols-[1fr_auto] sm:px-6 [.border-b]:pb-6',
+                '@container/section-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-4 has-data-[slot=section-action]:grid-cols-[1fr_auto] sm:px-8 [.border-b]:pb-8',
                 props.class,
             )
         "

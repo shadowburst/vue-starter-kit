@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
+import {
+    Form,
+    FormContent,
+    FormControl,
+    FormError,
+    FormField,
+    FormLabel,
+    FormSubmitButton,
+} from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
 import { EditSecuritySettingsProps, UpdatePasswordSettingsRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { SaveIcon } from 'lucide-vue-next';
 
 defineOptions({
     layout: useLayout(SettingsLayout, () => ({})),
@@ -32,7 +38,7 @@ function submit() {
 <template>
     <Head :title="$t('pages.settings.security.title')" />
 
-    <Form @submit="submit()">
+    <Form :form @submit="submit()">
         <Card>
             <CardHeader>
                 <CardTitle>
@@ -88,11 +94,7 @@ function submit() {
                 </FormContent>
             </CardContent>
             <CardFooter>
-                <Button type="submit" :loading="form.processing" :icon="SaveIcon">
-                    <CapitalizeText>
-                        {{ $t('save') }}
-                    </CapitalizeText>
-                </Button>
+                <FormSubmitButton />
             </CardFooter>
         </Card>
     </Form>

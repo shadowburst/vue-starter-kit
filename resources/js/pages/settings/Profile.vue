@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Form,
@@ -10,6 +9,7 @@ import {
     FormError,
     FormField,
     FormLabel,
+    FormSubmitButton,
 } from '@/components/ui/custom/form';
 import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
@@ -19,7 +19,6 @@ import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
 import { EditProfileSettingsProps, UpdateProfileSettingsRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { SaveIcon } from 'lucide-vue-next';
 
 defineOptions({
     layout: useLayout(SettingsLayout, () => ({})),
@@ -49,7 +48,7 @@ function submit() {
 <template>
     <Head :title="$t('pages.settings.profile.title')" />
 
-    <Form @submit="submit()">
+    <Form :form @submit="submit()">
         <Card>
             <CardHeader>
                 <CardTitle>
@@ -123,11 +122,7 @@ function submit() {
                 </FormContent>
             </CardContent>
             <CardFooter>
-                <Button type="submit" :loading="form.processing" :icon="SaveIcon">
-                    <CapitalizeText>
-                        {{ $t('save') }}
-                    </CapitalizeText>
-                </Button>
+                <FormSubmitButton />
             </CardFooter>
         </Card>
     </Form>

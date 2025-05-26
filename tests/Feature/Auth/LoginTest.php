@@ -26,7 +26,7 @@ it('should authenticate users using their password', function () {
             'email'    => $user->email,
             'password' => 'password',
         ])->toArray(),
-    )->assertRedirectToRoute('home');
+    )->assertRedirectToRoute('index');
 
     assertAuthenticatedAs($user);
 });
@@ -52,7 +52,7 @@ it('should logout users', function () {
 
     actingAs($user)
         ->post(route('logout'))
-        ->assertRedirectToRoute('home');
+        ->assertRedirectToRoute('index');
 
     assertGuest();
 });

@@ -8,6 +8,7 @@ use App\Actions\Toast\ToastMessage;
 use App\Actions\Toast\ToastSuccess;
 use App\Actions\Toast\ToastWarning;
 use App\Data\ToastMessagesData;
+use Illuminate\Support\Facades\Session;
 
 class ToastService
 {
@@ -21,11 +22,11 @@ class ToastService
 
     public function get(): ToastMessagesData
     {
-        return new ToastMessagesData(
-            info: session('info'),
-            success: session('success'),
-            warning: session('warning'),
-            error: session('error'),
-        );
+        return ToastMessagesData::from([
+            'info'    => Session::pull('info'),
+            'success' => Session::pull('success'),
+            'warning' => Session::pull('warning'),
+            'error'   => Session::pull('error'),
+        ]);
     }
 }

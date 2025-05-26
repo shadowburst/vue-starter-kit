@@ -27,14 +27,14 @@ import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerAdminIndexRe
 import { Head, router } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import { trans, transChoice } from 'laravel-vue-i18n';
-import { Trash2Icon } from 'lucide-vue-next';
+import { PencilIcon, Trash2Icon } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 
 defineOptions({
     layout: useLayout(AdminLayout, () => ({
         breadcrumbs: [
             {
-                title: trans('pages.admin.banners.index.title'),
+                title: trans('pages.banners.admin.index.title'),
                 href: route('admin.banners.index'),
             },
         ],
@@ -65,6 +65,12 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
     },
 ];
 const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
+    {
+        type: 'href',
+        label: trans('edit'),
+        icon: PencilIcon,
+        href: (banner) => route('admin.banners.edit', { banner }),
+    },
     {
         type: 'callback',
         label: trans('delete'),

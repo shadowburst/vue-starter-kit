@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
+import {
+    Form,
+    FormContent,
+    FormControl,
+    FormError,
+    FormField,
+    FormLabel,
+    FormSubmitButton,
+} from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import {
     ResponsiveDialog,
@@ -38,14 +46,14 @@ function submit() {
 <template>
     <ResponsiveDialog>
         <ResponsiveDialogTrigger as-child>
-            <Button type="submit" variant="destructive">
+            <Button variant="destructive">
                 <CapitalizeText>
                     {{ $t('components.settings.profile.delete_dialog.action') }}
                 </CapitalizeText>
             </Button>
         </ResponsiveDialogTrigger>
-        <ResponsiveDialogContent>
-            <Form class="max-sm:gap-0" @submit="submit()">
+        <ResponsiveDialogContent as-child>
+            <Form :form @submit="submit()">
                 <ResponsiveDialogHeader>
                     <ResponsiveDialogTitle>
                         {{ $t('components.settings.profile.delete_dialog.title') }}
@@ -54,7 +62,7 @@ function submit() {
                         {{ $t('components.settings.profile.delete_dialog.description') }}
                     </ResponsiveDialogDescription>
                 </ResponsiveDialogHeader>
-                <FormContent class="max-sm:px-4">
+                <FormContent>
                     <FormField required>
                         <FormLabel>
                             <CapitalizeText>
@@ -80,11 +88,11 @@ function submit() {
                             </CapitalizeText>
                         </Button>
                     </ResponsiveDialogClose>
-                    <Button type="submit" variant="destructive" :disabled="!form.password">
+                    <FormSubmitButton :disabled="!form.password" variant="destructive">
                         <CapitalizeText>
                             {{ $t('components.settings.profile.delete_dialog.action') }}
                         </CapitalizeText>
-                    </Button>
+                    </FormSubmitButton>
                 </ResponsiveDialogFooter>
             </Form>
         </ResponsiveDialogContent>

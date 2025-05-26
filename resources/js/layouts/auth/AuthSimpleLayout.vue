@@ -15,7 +15,7 @@ defineProps<Props>();
         <div class="w-full max-w-sm">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-4">
-                    <Link class="flex flex-col items-center gap-2 font-medium" :href="route('home')">
+                    <Link class="flex flex-col items-center gap-2 font-medium" :href="route('index')">
                         <div class="mb-1 flex size-9 items-center justify-center rounded-md">
                             <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
                         </div>
