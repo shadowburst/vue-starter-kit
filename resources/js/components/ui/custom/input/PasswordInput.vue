@@ -26,8 +26,10 @@ const { forwardRef } = useForwardExpose();
 <template>
     <div class="relative w-full">
         <Input class="pr-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
-        <Button class="absolute inset-y-0 end-0" variant="ghost" size="icon" @click="toggle()">
-            <component class="size-4" :is="hidden ? EyeOffIcon : EyeIcon" />
-        </Button>
+        <div class="absolute inset-y-px end-px grid place-items-center">
+            <Button class="h-full rounded-l-none" size="icon" variant="ghost" @click="toggle()">
+                <component :is="hidden ? EyeOffIcon : EyeIcon" />
+            </Button>
+        </div>
     </div>
 </template>

@@ -2,10 +2,18 @@
 import DeleteProfileDialog from '@/components/settings/profile/DeleteProfileDialog.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Form,
+    FormContent,
+    FormControl,
+    FormDescription,
+    FormError,
+    FormField,
+    FormLabel,
+} from '@/components/ui/custom/form';
 import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormDescription, FormError, FormField, FormLabel } from '@/components/ui/form';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
@@ -53,9 +61,11 @@ function submit() {
             </CardHeader>
             <CardContent>
                 <FormContent>
-                    <FormField id="avatar">
+                    <FormField>
                         <FormLabel>
-                            {{ $t('models.user.fields.avatar') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.avatar') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <MediaInput
@@ -71,27 +81,33 @@ function submit() {
                         </FormControl>
                         <FormError :message="form.errors.avatar" />
                     </FormField>
-                    <FormField id="first_name" required>
+                    <FormField required>
                         <FormLabel>
-                            {{ $t('models.user.fields.first_name') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.first_name') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <TextInput v-model="form.first_name" autocomplete="given-name" />
                         </FormControl>
                         <FormError :message="form.errors.first_name" />
                     </FormField>
-                    <FormField id="last_name" required>
+                    <FormField required>
                         <FormLabel>
-                            {{ $t('models.user.fields.last_name') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.last_name') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <TextInput v-model="form.last_name" autocomplete="family-name" />
                         </FormControl>
                         <FormError :message="form.errors.last_name" />
                     </FormField>
-                    <FormField id="email" required>
+                    <FormField required>
                         <FormLabel>
-                            {{ $t('models.user.fields.email') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.email') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <TextInput v-model="form.email" type="email" autocomplete="email" />

@@ -27,7 +27,7 @@ function getIsDisabled(action: DataTableRowsAction<TData>): boolean {
 <template>
     <DropdownMenu v-if="rowsActions.length">
         <DropdownMenuTrigger as-child>
-            <Button class="disabled:opacity-0" variant="outline" :disabled="!isAnyRowsSelected">
+            <Button variant="outline" :disabled="!isAnyRowsSelected">
                 <CapitalizeText>
                     {{ $t('actions') }}
                 </CapitalizeText>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ConfirmPasswordProps, ConfirmPasswordRequest } from '@/types';
@@ -35,8 +36,12 @@ function submit() {
 
     <Form @submit="submit()">
         <FormContent>
-            <FormField id="email" required>
-                <FormLabel>Password</FormLabel>
+            <FormField required>
+                <FormLabel>
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.password') }}
+                    </CapitalizeText>
+                </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.password" type="password" autocomplete="current-password" autofocus />
                 </FormControl>

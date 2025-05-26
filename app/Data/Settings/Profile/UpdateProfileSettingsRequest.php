@@ -11,7 +11,8 @@ use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
-#[TypeScript, MergeValidationRules]
+#[TypeScript]
+#[MergeValidationRules]
 class UpdateProfileSettingsRequest extends Data
 {
     public function __construct(

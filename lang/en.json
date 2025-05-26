@@ -9,8 +9,12 @@
     "info": "information",
     "login": "log in",
     "logout": "log out",
+    "page": "page",
+    "per_page": "per page",
     "platform": "platform",
+    "query": "query",
     "register": "sign up",
+    "reset": "reset",
     "save": "save",
     "success": "success",
     "warning": "warning"

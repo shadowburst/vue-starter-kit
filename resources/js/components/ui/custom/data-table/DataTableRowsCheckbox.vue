@@ -4,7 +4,7 @@ import { CheckboxCheckedState } from 'reka-ui';
 import { computed } from 'vue';
 import { injectDataTableRootContext } from './DataTable.vue';
 
-const { isAllRowsSelected, isSomeRowsSelected, toggleAllRowsSelected } = injectDataTableRootContext<TData>();
+const { rows, isAllRowsSelected, isSomeRowsSelected, toggleAllRowsSelected } = injectDataTableRootContext<TData>();
 
 const checked = computed<CheckboxCheckedState>({
     get: () => isAllRowsSelected.value || (isSomeRowsSelected.value && 'indeterminate'),
@@ -13,5 +13,5 @@ const checked = computed<CheckboxCheckedState>({
 </script>
 
 <template>
-    <Checkbox v-model="checked" aria-label="Select all" />
+    <Checkbox v-if="rows.length" v-model="checked" aria-label="Select all" />
 </template>

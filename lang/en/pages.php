@@ -40,6 +40,7 @@ return [
             'forgot_password' => 'Forgot password ?',
             'remember_me'     => 'Remember me',
             'no_account'      => "Don't have an account ?",
+            'action'          => 'Log in',
         ],
         'register' => [
             'title'       => 'Create an account',

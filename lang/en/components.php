@@ -45,6 +45,12 @@ return [
                 'rows_per_page' => 'rows per page',
                 'pages'         => 'page :current of :total',
             ],
+            'filters' => [
+                'sheet' => [
+                    'title'       => 'Filter the list',
+                    'description' => 'Get only the items you need',
+                ],
+            ],
             'input' => [
                 'media' => [
                     'upload' => 'Upload a file',

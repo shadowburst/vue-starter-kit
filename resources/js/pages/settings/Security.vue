@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
 import { EditSecuritySettingsProps, UpdatePasswordSettingsRequest } from '@/types';
@@ -44,9 +44,11 @@ function submit() {
             </CardHeader>
             <CardContent>
                 <FormContent>
-                    <FormField id="current_password" required>
+                    <FormField required>
                         <FormLabel>
-                            {{ $t('models.user.fields.current_password') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.current_password') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <TextInput
@@ -57,18 +59,22 @@ function submit() {
                         </FormControl>
                         <FormError :message="form.errors.current_password" />
                     </FormField>
-                    <FormField id="password" required>
+                    <FormField required>
                         <FormLabel>
-                            {{ $t('models.user.fields.password') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.password') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <TextInput v-model="form.password" type="password" autocomplete="new-password" />
                         </FormControl>
                         <FormError :message="form.errors.password" />
                     </FormField>
-                    <FormField id="password_confirmation" required>
+                    <FormField required>
                         <FormLabel>
-                            {{ $t('models.user.fields.password_confirmation') }}
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.password_confirmation') }}
+                            </CapitalizeText>
                         </FormLabel>
                         <FormControl>
                             <TextInput

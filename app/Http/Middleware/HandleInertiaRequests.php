@@ -8,6 +8,7 @@ use App\Services\ToastService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -45,7 +46,7 @@ class HandleInertiaRequests extends Middleware
 
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => Config::string('app.name'),
             'auth' => value(
                 fn (?User $user) => ! $user ? null : [
                     'user' => AuthUserResource::from($user->load(['avatar'])),
@@ -59,6 +60,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale'      => App::getLocale(),
+            'default'     => Config::array('default'),
         ];
     }
 }

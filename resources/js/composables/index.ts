@@ -1,6 +1,6 @@
 export * from './useAlert';
 export * from './useAuth';
-export * from './useAxios';
+export * from './useFilters';
 export * from './useFormatter';
 export * from './useIsDesktop';
 export * from './useLayout';

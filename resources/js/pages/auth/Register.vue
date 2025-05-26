@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { RegisterProps, RegisterRequest } from '@/types';
@@ -39,45 +39,55 @@ function submit() {
 
     <Form @submit="submit()">
         <FormContent>
-            <FormField id="first_name" required>
+            <FormField required>
                 <FormLabel>
-                    {{ $t('models.user.fields.first_name') }}
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.first_name') }}
+                    </CapitalizeText>
                 </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.first_name" autofocus autocomplete="given-name" />
                 </FormControl>
                 <FormError :message="form.errors.first_name" />
             </FormField>
-            <FormField id="last_name" required>
+            <FormField required>
                 <FormLabel>
-                    {{ $t('models.user.fields.last_name') }}
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.last_name') }}
+                    </CapitalizeText>
                 </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.last_name" autocomplete="family-name" />
                 </FormControl>
                 <FormError :message="form.errors.last_name" />
             </FormField>
-            <FormField id="email" required>
+            <FormField required>
                 <FormLabel>
-                    {{ $t('models.user.fields.email') }}
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.email') }}
+                    </CapitalizeText>
                 </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.email" type="email" autocomplete="email" />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
-            <FormField id="password" required>
+            <FormField required>
                 <FormLabel>
-                    {{ $t('models.user.fields.password') }}
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.password') }}
+                    </CapitalizeText>
                 </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.password" type="password" autocomplete="new-password" />
                 </FormControl>
                 <FormError :message="form.errors.password" />
             </FormField>
-            <FormField id="password_confirmation" required>
+            <FormField required>
                 <FormLabel>
-                    {{ $t('models.user.fields.password_confirmation') }}
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.password_confirmation') }}
+                    </CapitalizeText>
                 </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.password_confirmation" type="password" autocomplete="new-password" />

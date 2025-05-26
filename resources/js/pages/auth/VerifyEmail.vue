@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { TextLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/form';
+import { Form, FormContent, FormControl, FormError, FormField } from '@/components/ui/custom/form';
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';

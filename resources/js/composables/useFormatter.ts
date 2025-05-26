@@ -18,6 +18,7 @@ export function useFormatter() {
                 const formatter = useDateFormatter(config.locale?.value ?? locale.value);
                 return formatter.custom(date.toDate(getLocalTimeZone()), { dateStyle: 'medium', ...options });
             } catch (error) {
+                console.error(error);
                 return '';
             }
         },

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner search(?string $q)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereAction($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereEndDate($value)
@@ -35,6 +37,8 @@ class Banner extends Model
     /** @use HasFactory<\Database\Factories\BannerFactory> */
     use HasFactory;
 
+    use Searchable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -46,6 +50,16 @@ class Banner extends Model
         'action',
         'start_date',
         'end_date',
+    ];
+
+    /**
+     * The attributes that are searchable.
+     *
+     * @var list<string>
+     */
+    protected $searchable = [
+        'name',
+        'message',
     ];
 
     /**

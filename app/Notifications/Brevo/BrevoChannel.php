@@ -14,6 +14,7 @@ use Brevo\Client\Model\SendSmtpEmailTo;
 use GuzzleHttp\Client;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
 
 class BrevoChannel
@@ -41,7 +42,7 @@ class BrevoChannel
                         $name = is_numeric($key) ? null : $value;
                         $email = is_numeric($key) ? $value : $key;
 
-                        if (app()->hasDebugModeEnabled() && $debugAddress = config('mail.debug.address')) {
+                        if (App::hasDebugModeEnabled() && $debugAddress = config('mail.debug.address')) {
                             $email = $debugAddress;
                         }
 

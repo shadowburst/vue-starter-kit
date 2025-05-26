@@ -4,13 +4,14 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-vue-next';
-import { computed } from 'vue';
 import { injectDataTableRootContext } from './DataTable.vue';
 
-const { rows, selectedRows, pagination, setPageSize } = injectDataTableRootContext<TData>();
-const pageSize = computed<number>({
-    get: () => pagination.value!.meta.per_page,
-    set: (value) => setPageSize(value),
+const { rows, selectedRows, pagination } = injectDataTableRootContext<TData>();
+
+const perPage = defineModel<number | undefined>('perPage', {
+    get(value) {
+        return value ?? pagination.value?.meta?.per_page;
+    },
 });
 </script>
 
@@ -29,13 +30,13 @@ const pageSize = computed<number>({
                 <CapitalizeText class="text-sm font-medium">
                     {{ $t('components.ui.custom.data_table.rows_per_page') }}
                 </CapitalizeText>
-                <Select v-model.number="pageSize">
+                <Select v-model.number="perPage">
                     <SelectTrigger class="w-[70px]">
-                        <SelectValue :placeholder="`${pageSize}`" />
+                        <SelectValue :placeholder="`${perPage}`" />
                     </SelectTrigger>
                     <SelectContent side="top">
-                        <SelectItem v-for="pageSize in [15, 30, 50, 100]" :key="pageSize" :value="`${pageSize}`">
-                            {{ pageSize }}
+                        <SelectItem v-for="perPage in [15, 50, 100, 200]" :key="perPage" :value="`${perPage}`">
+                            {{ perPage }}
                         </SelectItem>
                     </SelectContent>
                 </Select>

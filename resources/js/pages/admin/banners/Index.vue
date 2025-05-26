@@ -13,13 +13,19 @@ import {
     DataTableRowsActions,
     DataTableRowsCheckbox,
 } from '@/components/ui/custom/data-table';
+import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
+import { FormContent } from '@/components/ui/custom/form';
+import { TextInput } from '@/components/ui/custom/input';
 import { Section, SectionContent } from '@/components/ui/custom/section';
-import { useFormatter, useLayout } from '@/composables';
+import { CapitalizeText } from '@/components/ui/custom/typography';
+import { useFilters, useFormatter, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
-import type { BannerAdminIndexProps, BannerAdminIndexResource } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerAdminIndexResource } from '@/types';
+import { Head, usePage } from '@inertiajs/vue3';
+import { reactiveOmit } from '@vueuse/core';
 import { trans } from 'laravel-vue-i18n';
 import { ArchiveIcon } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 defineOptions({
     layout: useLayout(AdminLayout, () => ({
@@ -42,18 +48,38 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
     },
 ];
 
+const filters = useFilters<BannerAdminIndexRequest>(
+    {
+        q: route().params.q ?? '',
+        page: Number(route().params.page ?? 1),
+        per_page: Number(route().params.per_page ?? usePage().props.default.per_page),
+    },
+    {
+        only: ['banners'],
+    },
+);
+const hiddenParams = reactiveOmit(filters.params, 'q', 'page', 'per_page');
+const hiddenParamsCount = computed(() => Object.keys(hiddenParams).length);
+
 const format = useFormatter();
 </script>
 
 <template>
-    <Head :title="trans('pages.admin.banners.index.title')" />
+    <Head :title="$t('pages.admin.banners.index.title')" />
 
     <Section>
         <SectionContent>
             <DataTable v-slot="{ rows }" :data="props.banners" :rows-actions>
-                <div class="flex items-center justify-between gap-2">
+                <FormContent class="flex items-center">
+                    <TextInput v-model="filters.q" type="search" />
+                    <FiltersSheet>
+                        <FiltersSheetTrigger :count="hiddenParamsCount" />
+                        <FiltersSheetContent> </FiltersSheetContent>
+                    </FiltersSheet>
+                </FormContent>
+                <FormContent class="flex items-center">
                     <DataTableRowsActions />
-                </div>
+                </FormContent>
                 <DataTableContent tab="table">
                     <DataTableHeader>
                         <DataTableRow>
@@ -77,7 +103,9 @@ const format = useFormatter();
                                 <DataTableRowCheckbox />
                             </DataTableCell>
                             <DataTableCell>
-                                {{ banner.name }}
+                                <CapitalizeText>
+                                    {{ banner.name }}
+                                </CapitalizeText>
                             </DataTableCell>
                             <DataTableCell>
                                 {{ format.date(banner.start_date) }}
@@ -88,7 +116,7 @@ const format = useFormatter();
                         </DataTableRow>
                     </DataTableBody>
                 </DataTableContent>
-                <DataTablePagination />
+                <DataTablePagination v-model:per-page="filters.per_page" @update:per-page="filters.page = 1" />
             </DataTable>
         </SectionContent>
     </Section>

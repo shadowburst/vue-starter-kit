@@ -1,7 +1,7 @@
-import { route } from 'ziggy-js';
+import type { route as routeFn } from 'ziggy-js';
 
 declare global {
-    let route: typeof route;
+    const route: typeof routeFn;
 }
 
 declare module '@vue/runtime-core' {

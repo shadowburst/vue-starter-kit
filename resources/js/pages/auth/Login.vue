@@ -2,10 +2,10 @@
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { LoginProps, LoginRequest } from '@/types';
@@ -47,19 +47,23 @@ function submit() {
 
     <Form @submit="submit()">
         <FormContent>
-            <FormField id="email" required>
+            <FormField required>
                 <FormLabel class="after:content-['']!">
-                    {{ $t('models.user.fields.email') }}
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.email') }}
+                    </CapitalizeText>
                 </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.email" type="email" autofocus autocomplete="email" />
                 </FormControl>
                 <FormError :message="form.errors.email" />
             </FormField>
-            <FormField id="password" required>
+            <FormField required>
                 <div class="flex items-center justify-between">
                     <FormLabel class="after:content-['']!">
-                        {{ $t('models.user.fields.password') }}
+                        <CapitalizeText>
+                            {{ $t('models.user.fields.password') }}
+                        </CapitalizeText>
                     </FormLabel>
                     <TextLink class="text-sm" v-if="canResetPassword" :href="route('password.request')">
                         {{ $t('pages.auth.login.forgot_password') }}
@@ -71,20 +75,24 @@ function submit() {
                 <FormError :message="form.errors.password" />
             </FormField>
 
-            <FormField id="remember">
+            <FormField>
                 <FormLabel class="inline-flex gap-2">
                     <FormControl>
                         <Checkbox v-model="form.remember" />
                     </FormControl>
-                    <span>
+                    <CapitalizeText>
                         {{ $t('pages.auth.login.remember_me') }}
-                    </span>
+                    </CapitalizeText>
                 </FormLabel>
             </FormField>
         </FormContent>
 
         <div class="grid gap-2">
-            <Button type="submit" :loading="form.processing"> Log in </Button>
+            <Button type="submit" :loading="form.processing">
+                <CapitalizeText>
+                    {{ $t('pages.auth.login.action') }}
+                </CapitalizeText>
+            </Button>
             <div class="text-muted-foreground text-center text-sm">
                 {{ $t('pages.auth.login.no_account') }}
                 <CapitalizeText>

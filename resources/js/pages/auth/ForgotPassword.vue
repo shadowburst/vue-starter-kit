@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ForgotPasswordProps, ForgotPasswordRequest } from '@/types';
@@ -42,8 +42,12 @@ function submit() {
 
     <Form @submit="submit()">
         <FormContent>
-            <FormField id="email" required>
-                <FormLabel>{{ $t('models.user.fields.email') }}</FormLabel>
+            <FormField required>
+                <FormLabel>
+                    <CapitalizeText>
+                        {{ $t('models.user.fields.email') }}
+                    </CapitalizeText>
+                </FormLabel>
                 <FormControl>
                     <TextInput v-model="form.email" type="email" autocomplete="off" autofocus />
                 </FormControl>

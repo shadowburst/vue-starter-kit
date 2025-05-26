@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Banner;
+namespace App\Data\Banner\Admin;
 
 use Carbon\Carbon;
 use Spatie\LaravelData\Resource;

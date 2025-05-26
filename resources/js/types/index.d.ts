@@ -12,6 +12,9 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
     locale: string;
+    default: {
+        per_page: number;
+    };
 };
 
 export type PaginatedCollectionLink = {
@@ -41,3 +44,4 @@ export type PaginatedCollection<T> = {
 export * from './backend';
 export * from './i18n';
 export * from './ui';
+export * from './ziggy';

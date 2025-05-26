@@ -12,7 +12,6 @@ export type DataTableContext<TData> = {
     getIsSelected: (item: TData) => boolean;
     toggleAllRowsSelected: (value: boolean) => void;
     toggleSelected: (item: TData, value: boolean) => void;
-    setPageSize: (value: number) => void;
 };
 
 export function injectDataTableRootContext<TData>(fallback?: DataTableContext<TData>): DataTableContext<TData> {
@@ -77,10 +76,6 @@ const isSomeRowsSelected = computed(
 );
 const isAnyRowsSelected = computed(() => isAllRowsSelected.value || isSomeRowsSelected.value);
 
-const pageSize = defineModel<number>('page-size', {
-    default: 25,
-});
-
 const rootContext: DataTableContext<TData> = {
     tab,
     rows,
@@ -100,13 +95,12 @@ const rootContext: DataTableContext<TData> = {
         const filteredIndexes = selectedIndexes.value.filter((i) => i !== index);
         selectedIndexes.value = value ? [...filteredIndexes, index] : filteredIndexes;
     },
-    setPageSize: (value: number) => (pageSize.value = value),
 };
 provideDataTableRootContext(rootContext);
 </script>
 
 <template>
-    <Tabs class="grid gap-2" v-model="tab">
+    <Tabs class="max-w-full" v-model="tab">
         <slot :rows />
     </Tabs>
 </template>

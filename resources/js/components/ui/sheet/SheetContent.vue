@@ -1,3 +1,10 @@
+<script lang="ts">
+export interface SheetContentProps extends DialogContentProps {
+    class?: HTMLAttributes['class'];
+    side?: 'top' | 'right' | 'bottom' | 'left';
+}
+</script>
+
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
@@ -12,11 +19,6 @@ import {
 } from 'reka-ui';
 import type { HTMLAttributes } from 'vue';
 import SheetOverlay from './SheetOverlay.vue';
-
-interface SheetContentProps extends DialogContentProps {
-    class?: HTMLAttributes['class'];
-    side?: 'top' | 'right' | 'bottom' | 'left';
-}
 
 defineOptions({
     inheritAttrs: false,

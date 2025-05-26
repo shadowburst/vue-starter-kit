@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AppLogo from '@/components/AppLogo.vue';
-import Breadcrumbs from '@/components/app/AppBreadcrumbs.vue';
 import AppUserDropdownMenuContent from '@/components/app/AppUserDropdownMenuContent.vue';
+import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
 import { Button } from '@/components/ui/button';
+import { Breadcrumbs } from '@/components/ui/custom/breadcrumbs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import {
     NavigationMenu,

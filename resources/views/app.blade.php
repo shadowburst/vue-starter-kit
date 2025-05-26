@@ -41,5 +41,11 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+
+        @if (app()->hasDebugModeEnabled())
+        <script>
+            PhpDebugBar.DebugBar.prototype.recomputeBottomOffset = () => {};
+        </script>
+        @endif
     </body>
 </html>

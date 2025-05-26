@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import {
     ResponsiveDialog,
@@ -12,12 +13,11 @@ import {
     ResponsiveDialogTrigger,
 } from '@/components/ui/custom/responsive-dialog';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Form, FormContent, FormControl, FormError, FormField, FormLabel } from '@/components/ui/form';
 import { ConfirmPasswordRequest } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { useTemplateRef } from 'vue';
 
-const passwordField = useTemplateRef<InstanceType<typeof AppInput>>('password');
+const passwordField = useTemplateRef<InstanceType<typeof TextInput>>('password');
 
 const form = useForm<ConfirmPasswordRequest>({
     password: '',
@@ -55,8 +55,12 @@ function submit() {
                     </ResponsiveDialogDescription>
                 </ResponsiveDialogHeader>
                 <FormContent class="max-sm:px-4">
-                    <FormField id="password" required>
-                        <FormLabel>Password</FormLabel>
+                    <FormField required>
+                        <FormLabel>
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.password') }}
+                            </CapitalizeText>
+                        </FormLabel>
                         <FormControl>
                             <TextInput
                                 v-model="form.password"

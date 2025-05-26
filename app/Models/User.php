@@ -17,6 +17,8 @@ use Nette\Utils\Random;
 use Spatie\MediaLibrary\HasMedia;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $first_name
  * @property string $last_name
@@ -36,7 +38,6 @@ use Spatie\MediaLibrary\HasMedia;
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -53,7 +54,6 @@ use Spatie\MediaLibrary\HasMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
@@ -118,7 +118,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected function initials(): Attribute
     {
         return Attribute::get(
-            fn ($value, array $attributes) => strtoupper("{$attributes['first_name'][0]} {$attributes['last_name'][0]}"),
+            fn ($value, array $attributes) => strtoupper("{$attributes['first_name'][0]}{$attributes['last_name'][0]}"),
         );
     }
 

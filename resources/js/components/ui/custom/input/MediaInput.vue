@@ -6,13 +6,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAxios } from '@/composables';
 import { objectToFormData } from '@/lib/inertia';
 import { cn } from '@/lib/utils';
 import { MediaResource } from '@/types';
+import { useAxios } from '@vueuse/integrations/useAxios';
 import { AxiosError } from 'axios';
-import { PencilIcon } from 'lucide-vue-next';
-import { computed, HTMLAttributes, ref } from 'vue';
+import { PencilIcon, Trash2Icon, UploadIcon } from 'lucide-vue-next';
+import { computed, HTMLAttributes } from 'vue';
 
 defineOptions({
     inheritAttrs: false,
@@ -31,8 +31,7 @@ const { modelType, modelId, collection, type = 'other', ...props } = defineProps
 const model = defineModel<MediaResource>();
 const error = defineModel<string>('error');
 
-const axios = useAxios();
-const progress = ref<number>(0);
+const { execute } = useAxios<MediaResource>();
 
 const accept = computed(() => {
     if (props.accept) {
@@ -57,20 +56,12 @@ async function submit(event: Event) {
         return;
     }
 
-    axios
-        .post<MediaResource>(
-            route('media.store', { modelType, modelId, collection }),
-            objectToFormData({
-                file,
-            }),
-            {
-                onUploadProgress: (event) => {
-                    progress.value = event.percentage ?? 0;
-                },
-            },
-        )
+    execute(route('media.store', { modelType, modelId, collection }), {
+        method: 'POST',
+        data: objectToFormData({ file }),
+    })
         .then((response) => {
-            model.value = response.data;
+            model.value = response.data.value;
         })
         .catch(({ response }: AxiosError<{ message: string }>) => {
             error.value = response?.data.message;
@@ -89,11 +80,13 @@ async function submit(event: Event) {
         <DropdownMenuContent align="end">
             <DropdownMenuItem as-child>
                 <label>
+                    <UploadIcon />
                     {{ $t('components.ui.custom.input.media.upload') }}
                     <input class="sr-only" type="file" :accept @change="submit($event)" />
                 </label>
             </DropdownMenuItem>
             <DropdownMenuItem @click="model = undefined">
+                <Trash2Icon />
                 {{ $t('components.ui.custom.input.media.delete') }}
             </DropdownMenuItem>
         </DropdownMenuContent>

@@ -1,12 +1,12 @@
 import { router } from '@inertiajs/vue3';
-import { computed, ComputedGetter, ComputedRef, onUnmounted, ref } from 'vue';
+import { computed, ComputedRef, MaybeRefOrGetter, onUnmounted, ref, toValue } from 'vue';
 
-export function useRouterComputed<T>(getter: ComputedGetter<T>): ComputedRef<T> {
-    const cache = ref<T>(getter());
+export function useRouterComputed<T>(value: MaybeRefOrGetter<T>): ComputedRef<T> {
+    const cache = ref<T>(toValue(value));
 
     onUnmounted(
         router.on('navigate', () => {
-            cache.value = getter();
+            cache.value = toValue(value);
         }),
     );
 
