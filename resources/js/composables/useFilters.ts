@@ -1,11 +1,13 @@
 import { FormDataConvertible, router, VisitOptions } from '@inertiajs/core';
 import { InertiaForm, useForm } from '@inertiajs/vue3';
-import { debouncedWatch, toReactive } from '@vueuse/core';
-import { computed } from 'vue';
+import { toReactive } from '@vueuse/core';
+import { debounce, isEqual } from 'es-toolkit';
+import { computed, watch } from 'vue';
 
 type FormDataType = Record<string, FormDataConvertible>;
+type FiltersParams = Record<string, NonNullable<any>>;
 type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
-    params: Record<string, NonNullable<any>>;
+    params: FiltersParams;
 };
 type TransformCallback<TForm extends FormDataType> = (data: TForm) => Record<string, FormDataConvertible>;
 
@@ -34,40 +36,65 @@ export function useFilters<TForm extends FormDataType>(
     let transform: TransformCallback<TForm> = (data: TForm) => data;
 
     const computedParams = computed(() => {
-        return Object.entries(transform(form.data())).reduce(
-            (total, [key, value]) => {
-                if (value == undefined) {
-                    return total;
-                }
-                if (Array.isArray(value) && !value.length) {
-                    return total;
-                }
-                if (typeof value === 'string' && !value) {
-                    return total;
-                }
-                return Object.assign(total, { [key]: value });
-            },
-            {} as Record<string, any>,
-        );
+        return Object.entries(transform(form.data())).reduce((total, [key, value]) => {
+            if (value == undefined) {
+                return total;
+            }
+            if (Array.isArray(value) && !value.length) {
+                return total;
+            }
+            if (typeof value === 'string' && !value) {
+                return total;
+            }
+            return Object.assign(total, { [key]: value });
+        }, {} as FiltersParams);
     });
     const params = toReactive(computedParams);
 
-    debouncedWatch(
-        params,
-        (newParams) => {
-            const currentRoute = route().current();
-            if (!currentRoute) {
+    function reload(queryParams: FiltersParams = params) {
+        const currentRoute = route().current();
+        if (!currentRoute) {
+            return;
+        }
+
+        router.visit(route(currentRoute, queryParams), {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+            ...options,
+        });
+    }
+
+    const hasPage = form.page != undefined;
+    if (hasPage) {
+        watch(
+            () => form.page,
+            () => {
+                reload();
+            },
+        );
+    }
+    const { pause, resume } = watch(
+        computedParams,
+        debounce((newParams, oldParams) => {
+            if (isEqual(newParams, oldParams)) {
                 return;
             }
 
-            router.visit(route(currentRoute, newParams), {
-                preserveScroll: true,
-                preserveState: true,
-                replace: true,
-                ...options,
-            });
-        },
-        { debounce: 500 },
+            let queryParams = newParams;
+
+            pause();
+            if (hasPage && newParams.page === oldParams.page) {
+                //@ts-expect-error
+                form.page = 1;
+                queryParams = transform(form.data());
+            }
+            resume();
+
+            reload(queryParams);
+        }, 500),
+
+        { deep: true },
     );
 
     return new Proxy(form, {

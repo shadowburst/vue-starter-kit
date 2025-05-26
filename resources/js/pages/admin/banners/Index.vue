@@ -5,9 +5,12 @@ import {
     DataTableCell,
     DataTableContent,
     DataTableHead,
+    DataTableHeadActions,
     DataTableHeader,
     DataTablePagination,
     DataTableRow,
+    DataTableRowAction,
+    DataTableRowActions,
     DataTableRowCheckbox,
     DataTableRowsAction,
     DataTableRowsActions,
@@ -18,14 +21,14 @@ import { FormContent } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { useFilters, useFormatter, useLayout } from '@/composables';
+import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
 import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerAdminIndexResource } from '@/types';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
-import { trans } from 'laravel-vue-i18n';
-import { ArchiveIcon } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { trans, transChoice } from 'laravel-vue-i18n';
+import { Trash2Icon } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
 
 defineOptions({
     layout: useLayout(AdminLayout, () => ({
@@ -40,19 +43,46 @@ defineOptions({
 
 const props = defineProps<BannerAdminIndexProps>();
 
+const alert = useAlert();
+
+const selectedRows = ref<BannerAdminIndexResource[]>([]);
 const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
     {
-        label: trans('archive'),
-        icon: ArchiveIcon,
-        callback: (items) => console.log(items),
+        label: trans('delete'),
+        icon: Trash2Icon,
+        callback: (items) =>
+            alert({
+                variant: 'destructive',
+                description: transChoice('messages.banners.delete.confirm', items.length),
+                callback: () =>
+                    router.delete(route('admin.banners.destroy'), {
+                        data: { ids: items.map(({ id }) => id) },
+                        onSuccess: () => {
+                            selectedRows.value = [];
+                        },
+                    }),
+            }),
+    },
+];
+const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
+    {
+        type: 'callback',
+        label: trans('delete'),
+        icon: Trash2Icon,
+        callback: (banner) =>
+            alert({
+                variant: 'destructive',
+                description: transChoice('messages.banners.delete.confirm', 1),
+                callback: () => router.delete(route('admin.banners.destroy', { banner })),
+            }),
     },
 ];
 
 const filters = useFilters<BannerAdminIndexRequest>(
     {
         q: route().params.q ?? '',
-        page: Number(route().params.page ?? 1),
-        per_page: Number(route().params.per_page ?? usePage().props.default.per_page),
+        page: props.banners.meta.current_page,
+        per_page: props.banners.meta.per_page,
     },
     {
         only: ['banners'],
@@ -69,7 +99,13 @@ const format = useFormatter();
 
     <Section>
         <SectionContent>
-            <DataTable v-slot="{ rows }" :data="props.banners" :rows-actions>
+            <DataTable
+                v-slot="{ rows }"
+                v-model:selected-rows="selectedRows"
+                :data="props.banners"
+                :rows-actions
+                :row-actions
+            >
                 <FormContent class="flex items-center">
                     <TextInput v-model="filters.q" type="search" />
                     <FiltersSheet>
@@ -95,6 +131,9 @@ const format = useFormatter();
                             <DataTableHead>
                                 {{ $t('models.banner.fields.end_date') }}
                             </DataTableHead>
+                            <DataTableHead>
+                                <DataTableHeadActions />
+                            </DataTableHead>
                         </DataTableRow>
                     </DataTableHeader>
                     <DataTableBody>
@@ -113,10 +152,13 @@ const format = useFormatter();
                             <DataTableCell>
                                 {{ format.date(banner.end_date) }}
                             </DataTableCell>
+                            <DataTableCell>
+                                <DataTableRowActions />
+                            </DataTableCell>
                         </DataTableRow>
                     </DataTableBody>
                 </DataTableContent>
-                <DataTablePagination v-model:per-page="filters.per_page" @update:per-page="filters.page = 1" />
+                <DataTablePagination v-model:page="filters.page" v-model:per-page="filters.per_page" />
             </DataTable>
         </SectionContent>
     </Section>

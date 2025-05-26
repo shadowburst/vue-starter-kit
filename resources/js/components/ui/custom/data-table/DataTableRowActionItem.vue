@@ -50,5 +50,4 @@ function getIsDisabled(action: DataTableRowCallbackAction<TData> | DataTableRowH
             {{ action.label }}
         </CapitalizeText>
     </DropdownMenuItem>
-    <component v-else-if="action.type === 'custom'" :is="action.component(item)" />
 </template>

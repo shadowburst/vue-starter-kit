@@ -70,7 +70,9 @@ const selectedIndexes = computed<number[]>({
     get: () => selectedRows.value.map((row) => rows.value.indexOf(row)),
     set: (value) => (selectedRows.value = value.map((index) => rows.value[index])),
 });
-const isAllRowsSelected = computed(() => selectedIndexes.value.length === rows.value.length);
+const isAllRowsSelected = computed(
+    () => selectedIndexes.value.length > 0 && selectedIndexes.value.length === rows.value.length,
+);
 const isSomeRowsSelected = computed(
     () => selectedIndexes.value.length > 0 && selectedIndexes.value.length < rows.value.length,
 );

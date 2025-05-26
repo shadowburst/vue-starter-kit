@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TableCell } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 import { HTMLAttributes } from 'vue';
 
@@ -9,7 +10,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <div :class="cn('flex items-center justify-between gap-2', props.class)">
+    <TableCell :class="cn('[&:has([role=actions])]:text-end', props.class)">
         <slot />
-    </div>
+    </TableCell>
 </template>

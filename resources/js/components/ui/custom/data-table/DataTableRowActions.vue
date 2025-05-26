@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="TData">
 import { Button } from '@/components/ui/button';
-import { CapitalizeText } from '@/components/ui/custom/typography';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -24,15 +23,8 @@ const { rowActions } = injectDataTableRootContext<TData>();
 <template>
     <DropdownMenu v-if="rowActions.length">
         <DropdownMenuTrigger as-child>
-            <Button
-                variant="outline"
-                size="sm"
-                :class="cn('h-fit rounded-full px-2 py-1.5 font-semibold shadow-none', props.class)"
-            >
-                <EllipsisVerticalIcon class="h-3.5 w-3.5" />
-                <CapitalizeText>
-                    {{ $t('actions') }}
-                </CapitalizeText>
+            <Button role="actions" variant="ghost" size="icon" :class="cn('', props.class)">
+                <EllipsisVerticalIcon />
             </Button>
         </DropdownMenuTrigger>
 

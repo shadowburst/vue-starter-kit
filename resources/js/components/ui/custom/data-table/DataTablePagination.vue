@@ -1,12 +1,15 @@
 <script setup lang="ts" generic="TData">
 import { Button } from '@/components/ui/button';
-import { InertiaLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-vue-next';
 import { injectDataTableRootContext } from './DataTable.vue';
 
 const { rows, selectedRows, pagination } = injectDataTableRootContext<TData>();
+
+const page = defineModel<number>('page', {
+    default: 1,
+});
 
 const perPage = defineModel<number | undefined>('perPage', {
     get(value) {
@@ -31,7 +34,7 @@ const perPage = defineModel<number | undefined>('perPage', {
                     {{ $t('components.ui.custom.data_table.rows_per_page') }}
                 </CapitalizeText>
                 <Select v-model.number="perPage">
-                    <SelectTrigger class="w-[70px]">
+                    <SelectTrigger class="w-[80px]">
                         <SelectValue :placeholder="`${perPage}`" />
                     </SelectTrigger>
                     <SelectContent side="top">
@@ -46,52 +49,33 @@ const perPage = defineModel<number | undefined>('perPage', {
                     <CapitalizeText>
                         {{
                             $t('components.ui.custom.data_table.pages', {
-                                current: pagination.meta.current_page.toString(),
+                                current: page.toString(),
                                 total: pagination.meta.last_page.toString(),
                             })
                         }}
                     </CapitalizeText>
                 </div>
-                <Button
-                    class="max-lg:hidden"
-                    as-child
-                    size="icon"
-                    variant="outline"
-                    :disabled="pagination.meta.current_page === 1"
-                >
-                    <InertiaLink :href="pagination.meta.first_page_url">
-                        <span class="sr-only">Go to first page</span>
-                        <ChevronsLeftIcon />
-                    </InertiaLink>
+                <Button class="max-lg:hidden" size="icon" variant="outline" :disabled="page === 1" @click="page = 1">
+                    <span class="sr-only">Go to first page</span>
+                    <ChevronsLeftIcon />
                 </Button>
-                <Button as-child size="icon" variant="outline" :disabled="pagination.meta.current_page === 1">
-                    <InertiaLink :href="pagination.meta.prev_page_url">
-                        <span class="sr-only">Go to previous page</span>
-                        <ChevronLeftIcon />
-                    </InertiaLink>
+                <Button size="icon" variant="outline" :disabled="page === 1" @click="page -= 1">
+                    <span class="sr-only">Go to previous page</span>
+                    <ChevronLeftIcon />
                 </Button>
-                <Button
-                    as-child
-                    size="icon"
-                    variant="outline"
-                    :disabled="pagination.meta.current_page === pagination.meta.last_page"
-                >
-                    <InertiaLink :href="pagination.meta.next_page_url">
-                        <span class="sr-only">Go to next page</span>
-                        <ChevronRightIcon />
-                    </InertiaLink>
+                <Button size="icon" variant="outline" :disabled="page === pagination.meta.last_page" @click="page += 1">
+                    <span class="sr-only">Go to next page</span>
+                    <ChevronRightIcon />
                 </Button>
                 <Button
                     class="max-lg:hidden"
-                    as-child
                     size="icon"
                     variant="outline"
-                    :disabled="pagination.meta.current_page === pagination.meta.last_page"
+                    :disabled="page === pagination.meta.last_page"
+                    @click="page = pagination.meta.last_page"
                 >
-                    <InertiaLink :href="pagination.meta.last_page_url ?? '#'">
-                        <span class="sr-only">Go to last page</span>
-                        <ChevronsRightIcon />
-                    </InertiaLink>
+                    <span class="sr-only">Go to last page</span>
+                    <ChevronsRightIcon />
                 </Button>
             </div>
         </div>

@@ -1,13 +1,11 @@
-export {
-    TableCell as DataTableCell,
-    TableFooter as DataTableFooter,
-    TableHeader as DataTableHeader,
-} from '@/components/ui/table';
+export { TableFooter as DataTableFooter, TableHeader as DataTableHeader } from '@/components/ui/table';
 export { default as DataTable } from './DataTable.vue';
 export { default as DataTableBody } from './DataTableBody.vue';
 export { default as DataTableCard } from './DataTableCard.vue';
+export { default as DataTableCell } from './DataTableCell.vue';
 export { default as DataTableContent } from './DataTableContent.vue';
 export { default as DataTableHead } from './DataTableHead.vue';
+export { default as DataTableHeadActions } from './DataTableHeadActions.vue';
 export { default as DataTablePagination } from './DataTablePagination.vue';
 export { default as DataTableRow } from './DataTableRow.vue';
 export { default as DataTableRowActionItem } from './DataTableRowActionItem.vue';

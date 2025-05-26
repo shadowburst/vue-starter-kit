@@ -15,10 +15,10 @@ return [
     'app' => [
         'alert_dialog' => [
             'title' => [
-                'info'    => 'Information',
-                'success' => 'Succès',
-                'warning' => 'Attention',
-                'danger'  => 'Erreur',
+                'default'     => 'Information',
+                'success'     => 'Success',
+                'warning'     => 'Warning',
+                'destructive' => 'Warning',
             ],
         ],
         'user_dropdown' => [

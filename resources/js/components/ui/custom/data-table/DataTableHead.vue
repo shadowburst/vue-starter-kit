@@ -10,7 +10,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <TableHead :class="cn('text-xs uppercase', props.class)">
+    <TableHead :class="cn('text-xs uppercase [&:has([role=actions])]:text-end', props.class)">
         <slot />
     </TableHead>
 </template>

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $name
  * @property string $message
@@ -15,7 +17,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon $end_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Database\Factories\BannerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newQuery()
@@ -29,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class Banner extends Model

@@ -1,7 +1,20 @@
+<script lang="ts">
+export type AppAlertDialogVariant = 'default' | 'success' | 'warning' | 'destructive';
+export type AppAlertDialogParams = {
+    variant: AppAlertDialogVariant;
+    title?: string;
+    description?: string;
+    footnote?: string;
+    callback?: () => void;
+};
+
+export const [useAlert, provideAppAlertDialog] =
+    createContext<(params: Partial<AppAlertDialogParams>) => void>('AppAlertDialog');
+</script>
+
 <script setup lang="ts">
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -9,52 +22,59 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { AppAlertDialogState, provideAppAlertDialog } from '@/composables';
-import { computed, reactive } from 'vue';
+import { Button } from '@/components/ui/button';
+import { CapitalizeText } from '@/components/ui/custom/typography';
+import { useConfirmDialog } from '@vueuse/core';
+import { createContext } from 'reka-ui';
+import { ref } from 'vue';
 
-const open = defineModel<boolean>('open', {
-    default: false,
-});
+const variant = ref<AppAlertDialogVariant>('default');
+const title = ref<string>();
+const description = ref<string>();
+const footnote = ref<string>();
 
-const state = reactive<AppAlertDialogState>({ type: 'info' });
+const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
 
-const hasHeader = computed((): boolean => !!(state.title || state.description));
-
-function alert(options: Partial<AppAlertDialogState>) {
-    state.type = options.type ?? 'info';
-    state.title = options.title;
-    state.description = options.description;
-    state.footnote = options.footnote;
-    state.callback = options.callback;
-    open.value = true;
+function alert(params: Partial<AppAlertDialogParams>) {
+    variant.value = params.variant ?? 'default';
+    title.value = params.title;
+    description.value = params.description;
+    footnote.value = params.footnote;
+    if (params.callback) {
+        onConfirm(params.callback);
+    }
+    reveal();
 }
 
 provideAppAlertDialog(alert);
 </script>
 
 <template>
-    <AlertDialog v-model:open="open">
+    <AlertDialog v-model:open="isRevealed">
         <slot />
-
         <AlertDialogContent>
-            <AlertDialogHeader v-if="hasHeader">
+            <AlertDialogHeader>
                 <AlertDialogTitle>
-                    {{ state.title ?? $t(`components.app.alert_dialog.title.${state.type}`) }}
+                    {{ title ?? $t(`components.app.alert_dialog.title.${variant}`) }}
                 </AlertDialogTitle>
-                <AlertDialogDescription v-if="state.description">
-                    {{ state.description }}
+                <AlertDialogDescription v-if="description">
+                    {{ description }}
                 </AlertDialogDescription>
-                <AlertDialogDescription class="text-xs italic" v-if="state.footnote">
-                    {{ state.footnote }}
+                <AlertDialogDescription class="text-xs italic" v-if="footnote">
+                    {{ footnote }}
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <AlertDialogCancel>
-                    {{ $t('cancel') }}
+                <AlertDialogCancel @click="cancel()">
+                    <CapitalizeText>
+                        {{ $t('cancel') }}
+                    </CapitalizeText>
                 </AlertDialogCancel>
-                <AlertDialogAction @click="state.callback?.()">
-                    {{ $t('confirm') }}
-                </AlertDialogAction>
+                <Button :variant @click="confirm()">
+                    <CapitalizeText>
+                        {{ $t('confirm') }}
+                    </CapitalizeText>
+                </Button>
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>

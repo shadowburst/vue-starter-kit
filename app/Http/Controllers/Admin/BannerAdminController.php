@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Data\Banner\Admin\BannerAdminDeleteRequest;
 use App\Data\Banner\Admin\BannerAdminIndexProps;
 use App\Data\Banner\Admin\BannerAdminIndexRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Services\ToastService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class BannerAdminController extends Controller
 {
+    public function __construct(
+        protected ToastService $toastService,
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -71,8 +78,19 @@ class BannerAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Banner $banner)
+    public function destroy(BannerAdminDeleteRequest $data)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $count = $data->banners->each->delete();
+            DB::commit();
+            $this->toastService->success->execute(trans_choice('messages.banners.delete.success', $count));
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            $this->toastService->error->execute(__('messages.error'));
+        } finally {
+        }
+
+        return back();
     }
 }
