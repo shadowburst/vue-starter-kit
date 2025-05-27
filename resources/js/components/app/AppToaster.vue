@@ -5,6 +5,7 @@ import { usePage } from '@inertiajs/vue3';
 import { useDark } from '@vueuse/core';
 import { computed, watch } from 'vue';
 import { toast } from 'vue-sonner';
+import 'vue-sonner/style.css';
 
 const data = computed((): ToastMessagesData => usePage().props.toast);
 watch(
