@@ -7,15 +7,18 @@ import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
 import { FunnelIcon } from 'lucide-vue-next';
 import { useForwardProps } from 'reka-ui';
+import { computed } from 'vue';
+import { injectFiltersSheetRootContext } from './FiltersSheet.vue';
 
-type Props = ButtonProps & {
-    count?: number;
-};
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<ButtonProps>(), {
     variant: 'outline',
 });
-const delegatedProps = reactiveOmit(props, 'count', 'class');
+const delegatedProps = reactiveOmit(props, 'class');
 const forwarded = useForwardProps(delegatedProps);
+
+const { filters, fields } = injectFiltersSheetRootContext();
+
+const count = computed(() => Object.keys(filters.params).filter((key) => fields.value.includes(key)).length);
 </script>
 
 <template>

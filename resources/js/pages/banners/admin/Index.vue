@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
 import {
     DataTable,
     DataTableBody,
@@ -15,20 +16,21 @@ import {
     DataTableRowsAction,
     DataTableRowsActions,
     DataTableRowsCheckbox,
+    DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
 import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
 import { FormContent } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
+import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
 import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerAdminIndexResource } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
-import { reactiveOmit } from '@vueuse/core';
 import { trans, transChoice } from 'laravel-vue-i18n';
-import { PencilIcon, Trash2Icon } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+import { CirclePlusIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 defineOptions({
     layout: useLayout(AdminLayout, () => ({
@@ -89,38 +91,48 @@ const filters = useFilters<BannerAdminIndexRequest>(
         q: route().params.q ?? '',
         page: props.banners.meta.current_page,
         per_page: props.banners.meta.per_page,
+        sort_by: route().params.sort_by ?? 'id',
+        sort_direction: route().params.sort_direction ?? 'desc',
     },
     {
         only: ['banners'],
     },
 );
-const hiddenParams = reactiveOmit(filters.params, 'q', 'page', 'per_page');
-const hiddenParamsCount = computed(() => Object.keys(hiddenParams).length);
 
 const format = useFormatter();
 </script>
 
 <template>
-    <Head :title="$t('pages.admin.banners.index.title')" />
+    <Head :title="$t('pages.banners.admin.index.title')" />
 
     <Section>
         <SectionContent>
             <DataTable
                 v-slot="{ rows }"
                 v-model:selected-rows="selectedRows"
+                v-model:sort-by="filters.sort_by"
+                v-model:sort-direction="filters.sort_direction"
                 :data="props.banners"
                 :rows-actions
                 :row-actions
             >
                 <FormContent class="flex items-center">
                     <TextInput v-model="filters.q" type="search" />
-                    <FiltersSheet>
-                        <FiltersSheetTrigger :count="hiddenParamsCount" />
+                    <FiltersSheet :filters :omit="['q', 'page', 'per_page', 'sort_by', 'sort_direction']">
+                        <FiltersSheetTrigger />
                         <FiltersSheetContent> </FiltersSheetContent>
                     </FiltersSheet>
                 </FormContent>
-                <FormContent class="flex items-center">
+                <FormContent class="flex items-center justify-between">
                     <DataTableRowsActions />
+                    <Button as-child>
+                        <InertiaLink :href="route('admin.banners.create')">
+                            <CirclePlusIcon />
+                            <CapitalizeText>
+                                {{ $t('pages.banners.admin.create.title') }}
+                            </CapitalizeText>
+                        </InertiaLink>
+                    </Button>
                 </FormContent>
                 <DataTableContent tab="table">
                     <DataTableHeader>
@@ -128,15 +140,15 @@ const format = useFormatter();
                             <DataTableHead>
                                 <DataTableRowsCheckbox />
                             </DataTableHead>
-                            <DataTableHead>
+                            <DataTableSortableHead value="name">
                                 {{ $t('models.banner.fields.name') }}
-                            </DataTableHead>
-                            <DataTableHead>
+                            </DataTableSortableHead>
+                            <DataTableSortableHead value="start_date">
                                 {{ $t('models.banner.fields.start_date') }}
-                            </DataTableHead>
-                            <DataTableHead>
+                            </DataTableSortableHead>
+                            <DataTableSortableHead value="end_date">
                                 {{ $t('models.banner.fields.end_date') }}
-                            </DataTableHead>
+                            </DataTableSortableHead>
                             <DataTableHead>
                                 <DataTableHeadActions />
                             </DataTableHead>

@@ -1,6 +1,8 @@
 <script lang="ts">
 export type DataTableContext<TData> = {
     tab: Ref<DataTableTab>;
+    sortBy: Ref<string | undefined>;
+    sortDirection: Ref<string | undefined>;
     rows: Ref<TData[]>;
     rowActions: Ref<DataTableRowAction<TData>[]>;
     rowsActions: Ref<DataTableRowsAction<TData>[]>;
@@ -78,8 +80,13 @@ const isSomeRowsSelected = computed(
 );
 const isAnyRowsSelected = computed(() => isAllRowsSelected.value || isSomeRowsSelected.value);
 
+const sortBy = defineModel<string>('sortBy');
+const sortDirection = defineModel<string>('sortDirection');
+
 const rootContext: DataTableContext<TData> = {
     tab,
+    sortBy,
+    sortDirection,
     rows,
     rowActions,
     rowsActions,

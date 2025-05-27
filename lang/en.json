@@ -16,6 +16,8 @@
     "register": "sign up",
     "reset": "reset",
     "save": "save",
+    "sort_by": "sort by",
+    "sort_direction": "sort direction",
     "success": "success",
     "warning": "warning"
 }

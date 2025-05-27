@@ -27,7 +27,7 @@ export type BannerAdminFormResource = {
     id: number;
     name: string;
     message: string;
-    action: string;
+    action?: string;
     start_date: string;
     end_date: string;
 };
@@ -54,6 +54,8 @@ export type BannerAdminIndexRequest = {
     q?: string;
     page?: number;
     per_page?: number;
+    sort_by: string;
+    sort_direction: string;
 };
 export type BannerAdminIndexResource = {
     id: number;

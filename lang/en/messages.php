@@ -15,6 +15,12 @@ return [
     'error' => 'An error occured',
 
     'banners' => [
+        'store' => [
+            'success' => 'Banner created successfully',
+        ],
+        'update' => [
+            'success' => 'Banner updated successfully',
+        ],
         'delete' => [
             'confirm' => '{1}Are you sure you want to delete this banner ?|[2,*]Are you sure you want to delete these banners ?',
             'success' => '{1}Banner deleted successfully|[2,*]Banners deleted successfully',

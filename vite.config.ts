@@ -30,15 +30,9 @@ export default defineConfig({
                 pattern: ['app/Data/**/*.php', 'app/Enums/**/*.php'],
             },
             {
-                name: 'generate ide helper',
-                run: ['php', 'artisan', 'ide-helper:models', '-RW'],
+                name: 'generate and format models',
+                run: ['bash', '-c', 'php artisan ide-helper:models -RW && php vendor/bin/pint app/Models'],
                 pattern: ['database/migrations/**/*.php'],
-            },
-            {
-                name: 'format ide helper',
-                run: ['php', 'vendor/bin/pint', 'app/Models'],
-                pattern: ['database/migrations/**/*.php'],
-                delay: 100,
             },
             {
                 name: 'generate ziggy',

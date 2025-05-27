@@ -19,7 +19,7 @@ const { id, required } = injectFormFieldContext();
         :aria-required="required"
         :class="
             cn(
-                `aria-required:after:text-destructive text-xs font-medium aria-required:after:content-['*']`,
+                `aria-required:after:text-destructive gap-1 text-xs font-medium aria-required:after:content-['*']`,
                 props.class,
             )
         "

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Section, SectionContent, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
-import { useLayout } from '@/composables';
+import BannerAdminForm from '@/components/banner/admin/BannerAdminForm.vue';
+import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
+import { useBannerAdminForm, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
 import { BannerAdminCreateProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
@@ -21,18 +23,30 @@ defineOptions({
     })),
 });
 
-const props = defineProps<BannerAdminCreateProps>();
+defineProps<BannerAdminCreateProps>();
+const form = useBannerAdminForm();
+
+function submit() {
+    form.post(route('admin.banners.store'));
+}
 </script>
 
 <template>
     <Head :title="$t('pages.banners.admin.create.title')" />
 
-    <Section>
-        <SectionHeader>
-            <SectionTitle>
-                {{ $t('pages.banners.admin.create.title') }}
-            </SectionTitle>
-        </SectionHeader>
-        <SectionContent> </SectionContent>
-    </Section>
+    <Form :form @submit="submit()">
+        <Section>
+            <SectionHeader>
+                <SectionTitle>
+                    {{ $t('pages.banners.admin.create.title') }}
+                </SectionTitle>
+            </SectionHeader>
+            <SectionContent>
+                <BannerAdminForm />
+            </SectionContent>
+            <SectionFooter>
+                <FormSubmitButton />
+            </SectionFooter>
+        </Section>
+    </Form>
 </template>

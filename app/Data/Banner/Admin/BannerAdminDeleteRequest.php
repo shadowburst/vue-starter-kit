@@ -39,8 +39,8 @@ class BannerAdminDeleteRequest extends Data
     public static function attributes(): array
     {
         return [
-            'banner' => __('models.banner.name.singular'),
-            'ids'    => __('models.banner.name.plural'),
+            'banner' => __('models.banner.name.one'),
+            'ids'    => __('models.banner.name.many'),
         ];
     }
 

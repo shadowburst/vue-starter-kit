@@ -13,9 +13,14 @@ return [
     */
 
     'banner' => [
+        'name' => [
+            'one'  => 'banner',
+            'many' => 'banners',
+        ],
         'fields' => [
             'name'       => 'name',
             'message'    => 'message',
+            'action'     => 'action',
             'start_date' => 'from',
             'end_date'   => 'to',
         ],

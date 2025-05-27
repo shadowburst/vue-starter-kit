@@ -18,8 +18,8 @@ class ToastError
     /**
      * Execute the action.
      */
-    public function execute(string $message): void
+    public function execute(?string $message = null): void
     {
-        $this->toastMessage->execute($message, 'error');
+        $this->toastMessage->execute($message ?? __('messages.error'), 'error');
     }
 }

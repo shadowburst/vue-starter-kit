@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Data\Banner\Admin\BannerAdminCreateProps;
 use App\Data\Banner\Admin\BannerAdminDeleteRequest;
 use App\Data\Banner\Admin\BannerAdminEditProps;
+use App\Data\Banner\Admin\BannerAdminFormRequest;
 use App\Data\Banner\Admin\BannerAdminIndexProps;
 use App\Data\Banner\Admin\BannerAdminIndexRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Services\ToastService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -29,6 +29,7 @@ class BannerAdminController extends Controller
         return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
             'banners' => Banner::query()
                 ->search($data->q)
+                ->orderBy($data->sort_by, $data->sort_direction)
                 ->paginate(
                     perPage: $data->per_page ?? Config::integer('default.per_page'),
                     page: $data->page ?? 1,
@@ -49,9 +50,14 @@ class BannerAdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BannerAdminFormRequest $data)
     {
-        //
+        /** @var ?Banner $banner */
+        $banner = Banner::create($data->toArray());
+
+        $this->toastService->successOrError->execute($banner != null, __('messages.banners.store.success'));
+
+        return to_route('admin.banners.index');
     }
 
     /**
@@ -75,9 +81,13 @@ class BannerAdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Banner $banner)
+    public function update(Banner $banner, BannerAdminFormRequest $data)
     {
-        //
+        $success = $banner->update($data->toArray());
+
+        $this->toastService->successOrError->execute($success, __('messages.banners.update.success'));
+
+        return to_route('admin.banners.index');
     }
 
     /**
@@ -92,7 +102,7 @@ class BannerAdminController extends Controller
             $this->toastService->success->execute(trans_choice('messages.banners.delete.success', $count));
         } catch (\Throwable $e) {
             DB::rollBack();
-            $this->toastService->error->execute(__('messages.error'));
+            $this->toastService->error->execute();
         } finally {
         }
 

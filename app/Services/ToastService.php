@@ -6,6 +6,7 @@ use App\Actions\Toast\ToastError;
 use App\Actions\Toast\ToastInfo;
 use App\Actions\Toast\ToastMessage;
 use App\Actions\Toast\ToastSuccess;
+use App\Actions\Toast\ToastSuccessOrError;
 use App\Actions\Toast\ToastWarning;
 use App\Data\ToastMessagesData;
 use Illuminate\Support\Facades\Session;
@@ -18,6 +19,7 @@ class ToastService
         public ToastMessage $message,
         public ToastSuccess $success,
         public ToastWarning $warning,
+        public ToastSuccessOrError $successOrError,
     ) {}
 
     public function get(): ToastMessagesData

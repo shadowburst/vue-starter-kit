@@ -1,12 +1,12 @@
 import { FormDataType } from '@/types';
 import { FormDataConvertible, router, VisitOptions } from '@inertiajs/core';
-import { InertiaForm, useForm } from '@inertiajs/vue3';
+import { InertiaForm, useForm, useRemember } from '@inertiajs/vue3';
 import { toReactive } from '@vueuse/core';
 import { debounce, isEqual } from 'es-toolkit';
-import { computed, watch } from 'vue';
+import { computed, onUnmounted, watch } from 'vue';
 
 type FiltersParams = Record<string, NonNullable<any>>;
-type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
+export type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
     params: FiltersParams;
 };
 type TransformCallback<TForm extends FormDataType> = (data: TForm) => Record<string, FormDataConvertible>;
@@ -31,7 +31,12 @@ export function useFilters<TForm extends FormDataType>(
         | (() => TForm);
     const options = (typeof rememberKeyOrData === 'string' ? maybeOptions : maybeDataOrOptions) as VisitOptions;
 
-    const form = rememberKey ? useForm(rememberKey, data) : useForm(data);
+    const form = typeof rememberKey === 'string' ? useForm(rememberKey, data) : useForm(data);
+    if (rememberKey) {
+        onUnmounted(() => {
+            useRemember(form, rememberKey);
+        });
+    }
 
     let transform: TransformCallback<TForm> = (data: TForm) => data;
 
@@ -43,7 +48,7 @@ export function useFilters<TForm extends FormDataType>(
             if (Array.isArray(value) && !value.length) {
                 return total;
             }
-            if (typeof value === 'string' && !value) {
+            if (typeof value === 'string' && value.trim() === '') {
                 return total;
             }
             return Object.assign(total, { [key]: value });
@@ -63,9 +68,6 @@ export function useFilters<TForm extends FormDataType>(
             replace: true,
             ...options,
         });
-    }
-    if (rememberKey && router.restore(rememberKey)) {
-        reload();
     }
 
     const hasPage = form.page != undefined;

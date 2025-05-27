@@ -13,7 +13,7 @@ class BannerAdminFormResource extends Resource
         public int $id,
         public string $name,
         public string $message,
-        public string $action,
+        public ?string $action,
         public Carbon $start_date,
         public Carbon $end_date,
     ) {}

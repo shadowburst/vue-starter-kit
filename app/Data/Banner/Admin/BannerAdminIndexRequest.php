@@ -15,14 +15,18 @@ class BannerAdminIndexRequest extends Data
         public ?string $q = null,
         public ?int $page = null,
         public ?int $per_page = null,
+        public string $sort_by = 'id',
+        public string $sort_direction = 'desc',
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'q'        => __('query'),
-            'page'     => __('page'),
-            'per_page' => __('per_page'),
+            'q'              => __('query'),
+            'page'           => __('page'),
+            'per_page'       => __('per_page'),
+            'sort_by'        => __('sort_by'),
+            'sort_direction' => __('sort_direction'),
         ];
     }
 
