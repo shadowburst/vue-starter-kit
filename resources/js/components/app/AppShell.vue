@@ -10,7 +10,7 @@ const { locale } = useLocale();
 <template>
     <ConfigProvider :locale>
         <AppAlertDialog>
-            <div class="container mx-auto h-full">
+            <div class="container mx-auto grid h-full max-w-full">
                 <slot />
             </div>
             <AppToaster />

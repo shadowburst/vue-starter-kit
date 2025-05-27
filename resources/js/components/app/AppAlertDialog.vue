@@ -15,6 +15,7 @@ export const [useAlert, provideAppAlertDialog] =
 <script setup lang="ts">
 import {
     AlertDialog,
+    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -24,33 +25,30 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { useConfirmDialog } from '@vueuse/core';
 import { createContext } from 'reka-ui';
 import { ref } from 'vue';
 
+const open = ref<boolean>(false);
 const variant = ref<AppAlertDialogVariant>('default');
 const title = ref<string>();
 const description = ref<string>();
 const footnote = ref<string>();
-
-const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
+const callback = ref<() => void>();
 
 function alert(params: Partial<AppAlertDialogParams>) {
     variant.value = params.variant ?? 'default';
     title.value = params.title;
     description.value = params.description;
     footnote.value = params.footnote;
-    if (params.callback) {
-        onConfirm(params.callback);
-    }
-    reveal();
+    callback.value = params.callback;
+    open.value = true;
 }
 
 provideAppAlertDialog(alert);
 </script>
 
 <template>
-    <AlertDialog v-model:open="isRevealed">
+    <AlertDialog v-model:open="open">
         <slot />
         <AlertDialogContent>
             <AlertDialogHeader>
@@ -65,15 +63,17 @@ provideAppAlertDialog(alert);
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <AlertDialogCancel @click="cancel()">
+                <AlertDialogCancel>
                     <CapitalizeText>
                         {{ $t('cancel') }}
                     </CapitalizeText>
                 </AlertDialogCancel>
-                <Button :variant @click="confirm()">
-                    <CapitalizeText>
-                        {{ $t('confirm') }}
-                    </CapitalizeText>
+                <Button v-if="callback" :variant as-child @click="callback()">
+                    <AlertDialogAction>
+                        <CapitalizeText>
+                            {{ $t('confirm') }}
+                        </CapitalizeText>
+                    </AlertDialogAction>
                 </Button>
             </AlertDialogFooter>
         </AlertDialogContent>

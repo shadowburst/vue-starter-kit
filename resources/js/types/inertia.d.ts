@@ -1,7 +1,7 @@
 import type { ErrorBag, Errors } from '@inertiajs/core';
 import { FormDataConvertible } from '@inertiajs/core';
 import type { Config } from 'ziggy-js';
-import { AuthUserResource, ToastMessagesData } from './backend';
+import { AuthUserResource, BannerPageResource, ToastMessagesData } from './backend';
 
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     name: string;
@@ -16,6 +16,7 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     default: {
         per_page: number;
     };
+    banner?: BannerPageResource;
 };
 
 export type FormDataType = Record<string, FormDataConvertible>;

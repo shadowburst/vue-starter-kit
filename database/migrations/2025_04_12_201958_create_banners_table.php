@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('action')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->boolean('is_enabled')->default(false);
             $table->timestamps();
         });
     }

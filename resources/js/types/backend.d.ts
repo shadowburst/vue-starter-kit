@@ -8,11 +8,6 @@ export type AuthUserResource = {
     avatar?: MediaResource;
 };
 export type BannerAdminCreateProps = {};
-export type BannerAdminDeleteRequest = {
-    banners: { [key: number]: any };
-    banner?: number;
-    ids?: Array<any>;
-};
 export type BannerAdminEditProps = {
     banner: BannerAdminFormResource;
 };
@@ -22,6 +17,7 @@ export type BannerAdminFormRequest = {
     action?: string;
     start_date: string;
     end_date: string;
+    is_enabled: boolean;
 };
 export type BannerAdminFormResource = {
     id: number;
@@ -30,6 +26,7 @@ export type BannerAdminFormResource = {
     action?: string;
     start_date: string;
     end_date: string;
+    is_enabled: boolean;
 };
 export type BannerAdminIndexProps = {
     banners: {
@@ -54,6 +51,7 @@ export type BannerAdminIndexRequest = {
     q?: string;
     start_date?: string;
     end_date?: string;
+    is_enabled?: boolean;
     page?: number;
     per_page?: number;
     sort_by: string;
@@ -64,6 +62,17 @@ export type BannerAdminIndexResource = {
     name: string;
     start_date: string;
     end_date: string;
+    is_enabled: boolean;
+};
+export type BannerOneOrManyRequest = {
+    banner?: number;
+    ids?: Array<number>;
+};
+export type BannerPageResource = {
+    id: number;
+    name: string;
+    message: string;
+    action?: string;
 };
 export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {

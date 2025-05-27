@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Banner;
 
 use App\Data\Banner\Admin\BannerAdminCreateProps;
-use App\Data\Banner\Admin\BannerAdminDeleteRequest;
 use App\Data\Banner\Admin\BannerAdminEditProps;
 use App\Data\Banner\Admin\BannerAdminFormRequest;
 use App\Data\Banner\Admin\BannerAdminIndexProps;
 use App\Data\Banner\Admin\BannerAdminIndexRequest;
+use App\Data\Banner\BannerOneOrManyRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Services\ToastService;
@@ -22,9 +22,6 @@ class BannerAdminController extends Controller
         protected ToastService $toastService,
     ) {}
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(BannerAdminIndexRequest $data)
     {
         return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
@@ -47,18 +44,11 @@ class BannerAdminController extends Controller
         ]));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return Inertia::render('banners/admin/Create', BannerAdminCreateProps::from([
-        ]));
+        return Inertia::render('banners/admin/Create', BannerAdminCreateProps::from([]));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(BannerAdminFormRequest $data)
     {
         /** @var ?Banner $banner */
@@ -69,17 +59,11 @@ class BannerAdminController extends Controller
         return to_route('admin.banners.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Banner $banner)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Banner $banner)
     {
         return Inertia::render('banners/admin/Edit', BannerAdminEditProps::from([
@@ -87,9 +71,6 @@ class BannerAdminController extends Controller
         ]));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Banner $banner, BannerAdminFormRequest $data)
     {
         $success = $banner->update($data->toArray());
@@ -99,14 +80,29 @@ class BannerAdminController extends Controller
         return to_route('admin.banners.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(BannerAdminDeleteRequest $data)
+    public function enable(BannerOneOrManyRequest $data)
+    {
+        $data->banners->toQuery()->update([
+            'is_enabled' => true,
+        ]);
+
+        return back();
+    }
+
+    public function disable(BannerOneOrManyRequest $data)
+    {
+        $data->banners->toQuery()->update([
+            'is_enabled' => false,
+        ]);
+
+        return back();
+    }
+
+    public function destroy(BannerOneOrManyRequest $data)
     {
         try {
             DB::beginTransaction();
-            $count = $data->banners->each->delete();
+            $count = $data->banners->toQuery()->delete();
             DB::commit();
             $this->toastService->success->execute(trans_choice('messages.banners.delete.success', $count));
         } catch (\Throwable $e) {

@@ -16,5 +16,6 @@ class BannerAdminFormResource extends Resource
         public ?string $action,
         public Carbon $start_date,
         public Carbon $end_date,
+        public bool $is_enabled,
     ) {}
 }

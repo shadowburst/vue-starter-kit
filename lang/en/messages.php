@@ -21,6 +21,12 @@ return [
         'update' => [
             'success' => 'Banner updated successfully',
         ],
+        'enable' => [
+            'confirm' => '{1}Are you sure you want to enable this banner ?|[2,*]Are you sure you want to enable these banners ?',
+        ],
+        'disable' => [
+            'confirm' => '{1}Are you sure you want to disable this banner ?|[2,*]Are you sure you want to disable these banners ?',
+        ],
         'delete' => [
             'confirm' => '{1}Are you sure you want to delete this banner ?|[2,*]Are you sure you want to delete these banners ?',
             'success' => '{1}Banner deleted successfully|[2,*]Banners deleted successfully',

@@ -23,6 +23,7 @@ return [
             'action'     => 'action',
             'start_date' => 'from',
             'end_date'   => 'to',
+            'is_enabled'  => 'active',
         ],
     ],
 

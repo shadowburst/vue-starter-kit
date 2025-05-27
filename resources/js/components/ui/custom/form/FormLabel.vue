@@ -19,7 +19,7 @@ const { id, required } = injectFormFieldContext();
         :aria-required="required"
         :class="
             cn(
-                `aria-required:after:text-destructive gap-1 text-xs font-medium aria-required:after:content-['*']`,
+                `not-[&:has([role=checkbox])]:aria-required:after:text-destructive gap-1 text-xs font-medium not-[&:has([role=checkbox])]:aria-required:after:content-['*'] [&:has([role=checkbox])]:gap-2`,
                 props.class,
             )
         "

@@ -15,7 +15,7 @@ return [
     'app' => [
         'alert_dialog' => [
             'title' => [
-                'default'     => 'Information',
+                'default'     => 'Confirm',
                 'success'     => 'Success',
                 'warning'     => 'Warning',
                 'destructive' => 'Warning',

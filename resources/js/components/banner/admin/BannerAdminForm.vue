@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Checkbox } from '@/components/ui/checkbox';
 import { DatePicker } from '@/components/ui/custom/date-picker';
 import {
     FormContent,
@@ -72,6 +73,17 @@ const form = injectFormContext<BannerAdminFormData>();
                 <DatePicker v-model="form.end_date" :min-value="form.start_date" />
             </FormControl>
             <FormError :message="form.errors.end_date" />
+        </FormField>
+        <FormField>
+            <FormLabel>
+                <FormControl>
+                    <Checkbox v-model="form.is_enabled" />
+                </FormControl>
+                <CapitalizeText>
+                    {{ $t('models.banner.fields.is_enabled') }}
+                </CapitalizeText>
+            </FormLabel>
+            <FormError :message="form.errors.is_enabled" />
         </FormField>
     </FormContent>
 </template>

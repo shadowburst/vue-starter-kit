@@ -8,6 +8,7 @@ use App\Traits\InteractsWithMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +31,8 @@ use Spatie\MediaLibrary\HasMedia;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Media|null $avatar
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Banner> $banners
+ * @property-read int|null $banners_count
  * @property-read mixed $full_name
  * @property-read mixed $initials
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
@@ -132,6 +135,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function avatar(): MorphOne
     {
         return $this->media()->one()->latestOfMany()->withAttributes('collection_name', static::COLLECTION_AVATAR);
+    }
+
+    /**
+     * The banners that have been dissmissed by the user.
+     */
+    public function banners(): BelongsToMany
+    {
+        return $this->belongsToMany(Banner::class);
     }
 
     public function routeNotificationForBrevo(?Notification $notification): array|string

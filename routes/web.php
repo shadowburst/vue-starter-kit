@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Banner\BannerDissmissController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
@@ -10,8 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/verification/code', [VerifyEmailController::class, 'code'])->name('verification.code')->middleware(['auth']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'banner.include'])->group(function () {
     Route::get('/', fn () => inertia('Index'))->name('index');
+
+    Route::prefix('/banners')->name('banners.')->group(function () {
+        Route::patch('/{banner}/dismiss', [BannerDissmissController::class, 'update'])->name('dismiss');
+    });
 
     Route::prefix('/media')->name('media.')->controller(MediaController::class)->group(function () {
         Route::post('/{modelType}/{modelId}/{collection}', 'store')->name('store');

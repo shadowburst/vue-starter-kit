@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -13,8 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $action
  * @property \Illuminate\Support\Carbon $start_date
  * @property \Illuminate\Support\Carbon $end_date
+ * @property bool $is_enabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  *
  * @method static \Database\Factories\BannerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newModelQuery()
@@ -25,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereIsEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereStartDate($value)
@@ -50,6 +55,7 @@ class Banner extends Model
         'action',
         'start_date',
         'end_date',
+        'is_enabled',
     ];
 
     /**
@@ -70,8 +76,17 @@ class Banner extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'datetime',
-            'end_date'   => 'datetime',
+            'start_date' => 'date',
+            'end_date'   => 'date',
+            'is_enabled' => 'boolean',
         ];
+    }
+
+    /**
+     * The users that have dismissed the banner.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 }

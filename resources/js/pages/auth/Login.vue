@@ -85,9 +85,8 @@ function submit() {
                         </FormControl>
                         <FormError :message="form.errors.password" />
                     </FormField>
-
                     <FormField>
-                        <FormLabel class="inline-flex gap-2">
+                        <FormLabel>
                             <FormControl>
                                 <Checkbox v-model="form.remember" />
                             </FormControl>

@@ -1,6 +1,7 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
+import { useColorMode } from '@vueuse/core';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { i18nVue } from 'laravel-vue-i18n';
 import type { DefineComponent } from 'vue';
@@ -39,3 +40,5 @@ createInertiaApp({
         color: '--primary',
     },
 });
+
+useColorMode({ initialValue: 'light' });

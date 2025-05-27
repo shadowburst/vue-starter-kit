@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\HandleLocale;
 use Illuminate\Foundation\Application;
@@ -15,10 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->encryptCookies(except: ['appearance', 'locale', 'sidebar_state']);
+        $middleware->encryptCookies(except: ['locale', 'sidebar_state']);
 
+        $middleware->alias([
+            'banner.include' => \App\Http\Middleware\IncludeBanner::class,
+        ]);
         $middleware->web(append: [
-            HandleAppearance::class,
             HandleLocale::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,

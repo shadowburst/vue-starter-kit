@@ -16,6 +16,7 @@ class BannerAdminIndexRequest extends Data
         public ?string $q = null,
         public ?Carbon $start_date = null,
         public ?Carbon $end_date = null,
+        public ?bool $is_enabled = null,
         public ?int $page = null,
         public ?int $per_page = null,
         public string $sort_by = 'id',

@@ -23,6 +23,7 @@ class BannerAdminFormRequest extends Data
         public Carbon $start_date,
         #[After(new FieldReference('start_date'))]
         public Carbon $end_date,
+        public bool $is_enabled,
     ) {}
 
     public static function attributes(): array

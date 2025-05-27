@@ -25,12 +25,18 @@ import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
+import { Switch } from '@/components/ui/switch';
 import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
-import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerAdminIndexResource } from '@/types';
+import type {
+    BannerAdminIndexProps,
+    BannerAdminIndexRequest,
+    BannerAdminIndexResource,
+    BannerOneOrManyRequest,
+} from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
-import { CirclePlusIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
+import { CirclePlusIcon, PencilIcon, ToggleLeftIcon, ToggleRightIcon, Trash2Icon } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 defineOptions({
@@ -51,6 +57,46 @@ const alert = useAlert();
 const selectedRows = ref<BannerAdminIndexResource[]>([]);
 const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
     {
+        label: trans('enable'),
+        icon: ToggleRightIcon,
+        callback: (items) =>
+            alert({
+                description: transChoice('messages.banners.enable.confirm', items.length),
+                callback: () =>
+                    router.patch<BannerOneOrManyRequest>(
+                        route('admin.banners.enable'),
+                        {
+                            ids: items.map(({ id }) => id),
+                        },
+                        {
+                            onSuccess: () => {
+                                selectedRows.value = [];
+                            },
+                        },
+                    ),
+            }),
+    },
+    {
+        label: trans('disable'),
+        icon: ToggleLeftIcon,
+        callback: (items) =>
+            alert({
+                description: transChoice('messages.banners.disable.confirm', items.length),
+                callback: () =>
+                    router.patch<BannerOneOrManyRequest>(
+                        route('admin.banners.disable'),
+                        {
+                            ids: items.map(({ id }) => id),
+                        },
+                        {
+                            onSuccess: () => {
+                                selectedRows.value = [];
+                            },
+                        },
+                    ),
+            }),
+    },
+    {
         label: trans('delete'),
         icon: Trash2Icon,
         callback: (items) =>
@@ -58,7 +104,7 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
                 variant: 'destructive',
                 description: transChoice('messages.banners.delete.confirm', items.length),
                 callback: () =>
-                    router.delete(route('admin.banners.destroy'), {
+                    router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy'), {
                         data: { ids: items.map(({ id }) => id) },
                         onSuccess: () => {
                             selectedRows.value = [];
@@ -82,7 +128,7 @@ const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
             alert({
                 variant: 'destructive',
                 description: transChoice('messages.banners.delete.confirm', 1),
-                callback: () => router.delete(route('admin.banners.destroy', { banner })),
+                callback: () => router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy', { banner })),
             }),
     },
 ];
@@ -92,6 +138,7 @@ const filters = useFilters<BannerAdminIndexRequest>(
         q: route().params.q ?? '',
         start_date: route().params.start_date,
         end_date: route().params.end_date,
+        is_enabled: route().params.is_enabled == undefined ? undefined : Boolean(route().params.is_enabled),
         page: props.banners.meta.current_page,
         per_page: props.banners.meta.per_page,
         sort_by: route().params.sort_by ?? 'id',
@@ -173,6 +220,9 @@ const format = useFormatter();
                             <DataTableSortableHead value="end_date">
                                 {{ $t('models.banner.fields.end_date') }}
                             </DataTableSortableHead>
+                            <DataTableSortableHead value="is_enabled">
+                                {{ $t('models.banner.fields.is_enabled') }}
+                            </DataTableSortableHead>
                             <DataTableHead>
                                 <DataTableHeadActions />
                             </DataTableHead>
@@ -193,6 +243,16 @@ const format = useFormatter();
                             </DataTableCell>
                             <DataTableCell>
                                 {{ format.date(banner.end_date) }}
+                            </DataTableCell>
+                            <DataTableCell>
+                                <Switch
+                                    :model-value="banner.is_enabled"
+                                    @update:model-value="
+                                        $event
+                                            ? router.patch(route('admin.banners.enable', { banner }))
+                                            : router.patch(route('admin.banners.disable', { banner }))
+                                    "
+                                />
                             </DataTableCell>
                             <DataTableCell>
                                 <DataTableRowActions />
