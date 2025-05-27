@@ -2,6 +2,7 @@
 
 namespace App\Data\Banner\Admin;
 
+use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
@@ -13,6 +14,8 @@ class BannerAdminIndexRequest extends Data
 {
     public function __construct(
         public ?string $q = null,
+        public ?Carbon $start_date = null,
+        public ?Carbon $end_date = null,
         public ?int $page = null,
         public ?int $per_page = null,
         public string $sort_by = 'id',

@@ -11,6 +11,7 @@ use App\Data\Banner\Admin\BannerAdminIndexRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Services\ToastService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -29,6 +30,14 @@ class BannerAdminController extends Controller
         return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
             'banners' => Banner::query()
                 ->search($data->q)
+                ->when($data->start_date, fn (Builder $q) => $q->where([
+                    ['start_date', '>=', $data->start_date],
+                    ['end_date', '>=', $data->start_date],
+                ]))
+                ->when($data->end_date, fn (Builder $q) => $q->where([
+                    ['start_date', '<=', $data->end_date],
+                    ['end_date', '<=', $data->end_date],
+                ]))
                 ->orderBy($data->sort_by, $data->sort_direction)
                 ->paginate(
                     perPage: $data->per_page ?? Config::integer('default.per_page'),

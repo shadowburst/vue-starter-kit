@@ -18,8 +18,9 @@ import {
     DataTableRowsCheckbox,
     DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
+import { DatePicker } from '@/components/ui/custom/date-picker';
 import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
-import { FormContent } from '@/components/ui/custom/form';
+import { FormContent, FormControl, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
@@ -89,6 +90,8 @@ const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
 const filters = useFilters<BannerAdminIndexRequest>(
     {
         q: route().params.q ?? '',
+        start_date: route().params.start_date,
+        end_date: route().params.end_date,
         page: props.banners.meta.current_page,
         per_page: props.banners.meta.per_page,
         sort_by: route().params.sort_by ?? 'id',
@@ -120,7 +123,28 @@ const format = useFormatter();
                     <TextInput v-model="filters.q" type="search" />
                     <FiltersSheet :filters :omit="['q', 'page', 'per_page', 'sort_by', 'sort_direction']">
                         <FiltersSheetTrigger />
-                        <FiltersSheetContent> </FiltersSheetContent>
+                        <FiltersSheetContent>
+                            <FormField>
+                                <FormLabel>
+                                    <CapitalizeText>
+                                        {{ $t('models.banner.fields.start_date') }}
+                                    </CapitalizeText>
+                                </FormLabel>
+                                <FormControl>
+                                    <DatePicker v-model="filters.start_date" :max-value="filters.end_date" />
+                                </FormControl>
+                            </FormField>
+                            <FormField>
+                                <FormLabel>
+                                    <CapitalizeText>
+                                        {{ $t('models.banner.fields.end_date') }}
+                                    </CapitalizeText>
+                                </FormLabel>
+                                <FormControl>
+                                    <DatePicker v-model="filters.end_date" :min-value="filters.start_date" />
+                                </FormControl>
+                            </FormField>
+                        </FiltersSheetContent>
                     </FiltersSheet>
                 </FormContent>
                 <FormContent class="flex items-center justify-between">

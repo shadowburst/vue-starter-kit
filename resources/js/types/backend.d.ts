@@ -52,6 +52,8 @@ export type BannerAdminIndexProps = {
 };
 export type BannerAdminIndexRequest = {
     q?: string;
+    start_date?: string;
+    end_date?: string;
     page?: number;
     per_page?: number;
     sort_by: string;
