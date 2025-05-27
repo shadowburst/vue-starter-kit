@@ -49,4 +49,17 @@ return [
         ],
     ],
 
+    'users' => [
+        'store' => [
+            'success' => 'User created successfully',
+        ],
+        'update' => [
+            'success' => 'User updated successfully',
+        ],
+        'delete' => [
+            'confirm' => '{1}Are you sure you want to delete this user ?|[2,*]Are you sure you want to delete these users ?',
+            'success' => '{1}User deleted successfully|[2,*]users deleted successfully',
+        ],
+    ],
+
 ];

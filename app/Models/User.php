@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
 use App\Traits\InteractsWithMedia;
+use App\Traits\Searchable;
+use App\Traits\Trashable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,11 +32,13 @@ use Spatie\MediaLibrary\HasMedia;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Media|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Banner> $banners
  * @property-read int|null $banners_count
  * @property-read mixed $full_name
  * @property-read mixed $initials
+ * @property bool $is_trashed
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -43,8 +47,11 @@ use Spatie\MediaLibrary\HasMedia;
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User search(?string $q)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
@@ -56,6 +63,8 @@ use Spatie\MediaLibrary\HasMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  *
  * @mixin \Eloquent
  */
@@ -64,6 +73,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     use HasFactory;
     use InteractsWithMedia;
     use Notifiable;
+    use Searchable;
+    use Trashable;
 
     public const string COLLECTION_AVATAR = 'avatar';
 
@@ -77,6 +88,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'last_name',
         'email',
         'password',
+        'deleted_at',
     ];
 
     /**
@@ -87,6 +99,16 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    /**
+     * The attributes that are searchable.
+     *
+     * @var list<string>
+     */
+    protected $searchable = [
+        'full_name',
+        'email',
     ];
 
     /**

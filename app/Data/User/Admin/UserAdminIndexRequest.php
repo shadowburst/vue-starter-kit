@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Data\Banner\Admin;
+namespace App\Data\User\Admin;
 
-use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
@@ -10,7 +9,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[MergeValidationRules]
-class BannerAdminIndexRequest extends Data
+class UserAdminIndexRequest extends Data
 {
     public function __construct(
         public ?string $q = null,
@@ -18,9 +17,7 @@ class BannerAdminIndexRequest extends Data
         public ?int $per_page = null,
         public string $sort_by = 'id',
         public string $sort_direction = 'desc',
-        public ?bool $is_enabled = null,
-        public ?Carbon $start_date = null,
-        public ?Carbon $end_date = null,
+        public ?bool $is_trashed = null,
     ) {}
 
     public static function attributes(): array
@@ -31,9 +28,7 @@ class BannerAdminIndexRequest extends Data
             'per_page'       => __('per_page'),
             'sort_by'        => __('sort_by'),
             'sort_direction' => __('sort_direction'),
-            'is_enabled'     => __('models.banner.fields.is_enabled'),
-            'start_date'     => __('models.banner.fields.start_date'),
-            'end_date'       => __('models.banner.fields.end_date'),
+            'is_trashed'     => __('is_trashed'),
         ];
     }
 

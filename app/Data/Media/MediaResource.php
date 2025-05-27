@@ -17,10 +17,10 @@ class MediaResource extends Resource
 
     public static function fromModel(Media $model): self
     {
-        return new self(
-            id: $model->id,
-            uuid: $model->uuid,
-            url: $model->getUrl(),
-        );
+        return static::from([
+            'id'   => $model->id,
+            'uuid' => $model->uuid,
+            'url'  => $model->getUrl(),
+        ]);
     }
 }

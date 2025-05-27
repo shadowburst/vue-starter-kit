@@ -49,13 +49,13 @@ export type BannerAdminIndexProps = {
 };
 export type BannerAdminIndexRequest = {
     q?: string;
-    start_date?: string;
-    end_date?: string;
-    is_enabled?: boolean;
     page?: number;
     per_page?: number;
     sort_by: string;
     sort_direction: string;
+    is_enabled?: boolean;
+    start_date?: string;
+    end_date?: string;
 };
 export type BannerAdminIndexResource = {
     id: number;
@@ -143,6 +143,57 @@ export type UpdateProfileSettingsRequest = {
     last_name: string;
     email: string;
     avatar?: string;
+};
+export type UserAdminCreateProps = {};
+export type UserAdminEditProps = {
+    user: UserAdminFormResource;
+};
+export type UserAdminFormRequest = {};
+export type UserAdminFormResource = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_trashed: boolean;
+};
+export type UserAdminIndexProps = {
+    users: {
+        data: Array<UserAdminIndexResource>;
+        links: Array<{ url: string; label: string; active: boolean }>;
+        meta: {
+            current_page: number;
+            first_page_url: string;
+            from: number;
+            last_page: number;
+            last_page_url: string;
+            next_page_url: string;
+            path: string;
+            per_page: number;
+            prev_page_url: string;
+            to: number;
+            total: number;
+        };
+    };
+};
+export type UserAdminIndexRequest = {
+    q?: string;
+    page?: number;
+    per_page?: number;
+    sort_by: string;
+    sort_direction: string;
+    is_trashed?: boolean;
+};
+export type UserAdminIndexResource = {
+    id: number;
+    full_name: string;
+    initials: string;
+    email: string;
+    avatar?: MediaResource;
+    is_trashed: boolean;
+};
+export type UserOneOrManyRequest = {
+    user?: number;
+    ids?: Array<number>;
 };
 export type VerifyEmailProps = {};
 export type VerifyEmailRequest = {

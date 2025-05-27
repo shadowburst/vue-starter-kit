@@ -23,7 +23,7 @@ return [
             'action'     => 'action',
             'start_date' => 'from',
             'end_date'   => 'to',
-            'is_enabled'  => 'active',
+            'is_enabled' => 'active',
         ],
     ],
 
@@ -47,6 +47,7 @@ return [
         'fields' => [
             'first_name'            => 'first name',
             'last_name'             => 'last name',
+            'full_name'             => 'full name',
             'email'                 => 'email',
             'current_password'      => 'current password',
             'password'              => 'password',

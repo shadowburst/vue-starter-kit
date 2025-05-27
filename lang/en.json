@@ -9,6 +9,7 @@
     "error": "error",
     "frontend": "frontend",
     "info": "information",
+    "is_trashed": "is trashed",
     "login": "log in",
     "logout": "log out",
     "more_details": "more details",
