@@ -46,9 +46,6 @@ jobs:
       - name: Publish Ziggy Configuration
         run: php artisan ziggy:generate
 
-      - name: Build Typescript types
-        run: php artisan typescript:transform
-
       - name: Build Assets
         run: npm run build
 

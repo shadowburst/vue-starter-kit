@@ -26,7 +26,7 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import UserAvatar from '@/components/user/UserAvatar.vue';
-import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
+import { useAlert, useFilters, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
 import type { UserAdminIndexProps, UserAdminIndexRequest, UserAdminIndexResource, UserOneOrManyRequest } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
@@ -101,10 +101,16 @@ const filters = useFilters<UserAdminIndexRequest>(
     {
         only: ['users'],
         immediate: true,
+        debounceReload(key) {
+            return !['page', 'per_page'].includes(key);
+        },
+        onReload(key) {
+            if (key !== 'page') {
+                filters.page = 1;
+            }
+        },
     },
 );
-
-const format = useFormatter();
 </script>
 
 <template>

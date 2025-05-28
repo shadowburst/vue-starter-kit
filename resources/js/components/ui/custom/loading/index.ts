@@ -9,8 +9,8 @@ export const loadingIconVariants = cva('animate-pulse ', {
             primary: 'text-primary',
         },
         size: {
-            md: 'size-6',
-            lg: 'size-8',
+            md: 'size-5',
+            lg: 'size-6',
             sm: 'size-4',
         },
     },
