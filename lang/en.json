@@ -10,6 +10,7 @@
     "frontend": "frontend",
     "info": "information",
     "is_trashed": "is trashed",
+    "with_trashed": "with trashed",
     "login": "log in",
     "logout": "log out",
     "more_details": "more details",

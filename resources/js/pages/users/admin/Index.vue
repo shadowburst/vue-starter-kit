@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     DataTable,
     DataTableBody,
@@ -19,7 +20,7 @@ import {
     DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
 import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
-import { FormContent } from '@/components/ui/custom/form';
+import { FormContent, FormControl, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
@@ -88,16 +89,18 @@ const rowActions: DataTableRowAction<UserAdminIndexResource>[] = [
 ];
 
 const filters = useFilters<UserAdminIndexRequest>(
+    route('admin.users.index'),
     {
         q: route().params.q ?? '',
-        is_trashed: route().params.is_enabled == undefined ? undefined : Boolean(route().params.is_enabled),
-        page: props.users.meta.current_page,
-        per_page: props.users.meta.per_page,
-        sort_by: route().params.sort_by ?? 'id',
-        sort_direction: route().params.sort_direction ?? 'desc',
+        with_trashed: route().params.with_trashed == undefined ? undefined : Boolean(route().params.with_trashed),
+        page: props.users?.meta.current_page,
+        per_page: props.users?.meta.per_page,
+        sort_by: route().params.sort_by,
+        sort_direction: route().params.sort_direction,
     },
     {
         only: ['users'],
+        immediate: true,
     },
 );
 
@@ -114,7 +117,7 @@ const format = useFormatter();
                 v-model:selected-rows="selectedRows"
                 v-model:sort-by="filters.sort_by"
                 v-model:sort-direction="filters.sort_direction"
-                :data="props.users"
+                :data="users"
                 :rows-actions
                 :row-actions
             >
@@ -122,7 +125,31 @@ const format = useFormatter();
                     <TextInput v-model="filters.q" type="search" />
                     <FiltersSheet :filters :omit="['q', 'page', 'per_page', 'sort_by', 'sort_direction']">
                         <FiltersSheetTrigger />
-                        <FiltersSheetContent> </FiltersSheetContent>
+                        <FiltersSheetContent>
+                            <FormField>
+                                <FormLabel>
+                                    <FormControl>
+                                        <Checkbox
+                                            v-model="filters.with_trashed"
+                                            @update:model-value="
+                                                Object.assign(
+                                                    filters,
+                                                    filters.sort_by === 'deleted_at'
+                                                        ? {
+                                                              sort_by: '',
+                                                              sort_direction: '',
+                                                          }
+                                                        : {},
+                                                )
+                                            "
+                                        />
+                                    </FormControl>
+                                    <CapitalizeText>
+                                        {{ $t('with_trashed') }}
+                                    </CapitalizeText>
+                                </FormLabel>
+                            </FormField>
+                        </FiltersSheetContent>
                     </FiltersSheet>
                 </FormContent>
                 <FormContent class="flex items-center justify-between">
@@ -142,13 +169,13 @@ const format = useFormatter();
                             <DataTableHead>
                                 <DataTableRowsCheckbox />
                             </DataTableHead>
-                            <DataTableSortableHead value="name">
+                            <DataTableSortableHead value="full_name">
                                 {{ $t('models.user.fields.full_name') }}
                             </DataTableSortableHead>
                             <DataTableSortableHead value="email">
                                 {{ $t('models.user.fields.email') }}
                             </DataTableSortableHead>
-                            <DataTableSortableHead value="deleted_at">
+                            <DataTableSortableHead v-if="filters.with_trashed" value="deleted_at">
                                 {{ $t('is_trashed') }}
                             </DataTableSortableHead>
                             <DataTableHead>
@@ -172,7 +199,7 @@ const format = useFormatter();
                             <DataTableCell>
                                 {{ user.email }}
                             </DataTableCell>
-                            <DataTableCell>
+                            <DataTableCell v-if="filters.with_trashed">
                                 {{ user.is_trashed }}
                             </DataTableCell>
                             <DataTableCell>

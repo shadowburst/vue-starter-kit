@@ -23,6 +23,7 @@ use Spatie\MediaLibrary\HasMedia;
  * @property int $id
  * @property string $first_name
  * @property string $last_name
+ * @property string|null $full_name
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
@@ -36,7 +37,6 @@ use Spatie\MediaLibrary\HasMedia;
  * @property-read \App\Models\Media|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Banner> $banners
  * @property-read int|null $banners_count
- * @property-read mixed $full_name
  * @property-read mixed $initials
  * @property bool $is_trashed
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
@@ -55,6 +55,7 @@ use Spatie\MediaLibrary\HasMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFullName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
@@ -99,6 +100,9 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_confirmed_at',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     /**
@@ -150,7 +154,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected function fullName(): Attribute
     {
         return Attribute::get(
-            fn ($value, array $attributes) => ucwords("{$attributes['first_name']} {$attributes['last_name']}"),
+            fn (string $value) => ucwords($value),
         );
     }
 

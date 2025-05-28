@@ -1,3 +1,13 @@
+export type AddressData = {
+    full: string;
+    line_1: string;
+    line_2?: string;
+    postal_code: string;
+    city: string;
+    country: string;
+    lat?: string;
+    lng?: string;
+};
 export type AuthUserResource = {
     id: number;
     first_name: string;
@@ -29,7 +39,7 @@ export type BannerAdminFormResource = {
     is_enabled: boolean;
 };
 export type BannerAdminIndexProps = {
-    banners: {
+    banners?: {
         data: Array<BannerAdminIndexResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
@@ -64,15 +74,15 @@ export type BannerAdminIndexResource = {
     end_date: string;
     is_enabled: boolean;
 };
-export type BannerOneOrManyRequest = {
-    banner?: number;
-    ids?: Array<number>;
-};
-export type BannerPageResource = {
+export type BannerAppResource = {
     id: number;
     name: string;
     message: string;
     action?: string;
+};
+export type BannerOneOrManyRequest = {
+    banner?: number;
+    ids?: Array<number>;
 };
 export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {
@@ -157,7 +167,7 @@ export type UserAdminFormResource = {
     is_trashed: boolean;
 };
 export type UserAdminIndexProps = {
-    users: {
+    users?: {
         data: Array<UserAdminIndexResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
@@ -181,7 +191,7 @@ export type UserAdminIndexRequest = {
     per_page?: number;
     sort_by: string;
     sort_direction: string;
-    is_trashed?: boolean;
+    with_trashed?: boolean;
 };
 export type UserAdminIndexResource = {
     id: number;

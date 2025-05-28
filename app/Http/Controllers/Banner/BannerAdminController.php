@@ -7,6 +7,7 @@ use App\Data\Banner\Admin\BannerAdminEditProps;
 use App\Data\Banner\Admin\BannerAdminFormRequest;
 use App\Data\Banner\Admin\BannerAdminIndexProps;
 use App\Data\Banner\Admin\BannerAdminIndexRequest;
+use App\Data\Banner\Admin\BannerAdminIndexResource;
 use App\Data\Banner\BannerOneOrManyRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Spatie\LaravelData\Lazy;
+use Spatie\LaravelData\PaginatedDataCollection;
 
 class BannerAdminController extends Controller
 {
@@ -25,22 +28,27 @@ class BannerAdminController extends Controller
     public function index(BannerAdminIndexRequest $data)
     {
         return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
-            'banners' => Banner::query()
-                ->search($data->q)
-                ->when($data->start_date, fn (Builder $q) => $q->where([
-                    ['start_date', '>=', $data->start_date],
-                    ['end_date', '>=', $data->start_date],
-                ]))
-                ->when($data->end_date, fn (Builder $q) => $q->where([
-                    ['start_date', '<=', $data->end_date],
-                    ['end_date', '<=', $data->end_date],
-                ]))
-                ->orderBy($data->sort_by, $data->sort_direction)
-                ->paginate(
-                    perPage: $data->per_page ?? Config::integer('default.per_page'),
-                    page: $data->page ?? 1,
-                )
-                ->withQueryString(),
+            'banners' => Lazy::inertia(
+                fn () => BannerAdminIndexResource::collect(
+                    Banner::query()
+                        ->search($data->q)
+                        ->when($data->start_date, fn (Builder $q) => $q->where([
+                            ['start_date', '>=', $data->start_date],
+                            ['end_date', '>=', $data->start_date],
+                        ]))
+                        ->when($data->end_date, fn (Builder $q) => $q->where([
+                            ['start_date', '<=', $data->end_date],
+                            ['end_date', '<=', $data->end_date],
+                        ]))
+                        ->orderBy($data->sort_by, $data->sort_direction)
+                        ->paginate(
+                            perPage: $data->per_page ?? Config::integer('default.per_page'),
+                            page: $data->page ?? 1,
+                        )
+                        ->withQueryString(),
+                    PaginatedDataCollection::class,
+                ),
+            ),
         ]));
     }
 

@@ -17,7 +17,7 @@ class UserAdminIndexRequest extends Data
         public ?int $per_page = null,
         public string $sort_by = 'id',
         public string $sort_direction = 'desc',
-        public ?bool $is_trashed = null,
+        public ?bool $with_trashed = null,
     ) {}
 
     public static function attributes(): array
@@ -28,7 +28,7 @@ class UserAdminIndexRequest extends Data
             'per_page'       => __('per_page'),
             'sort_by'        => __('sort_by'),
             'sort_direction' => __('sort_direction'),
-            'is_trashed'     => __('is_trashed'),
+            'with_trashed'   => __('with_trashed'),
         ];
     }
 
