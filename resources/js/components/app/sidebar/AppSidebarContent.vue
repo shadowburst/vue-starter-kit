@@ -10,12 +10,18 @@ import {
 } from '@/components/ui/sidebar';
 import type { NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
+import { useSessionStorage } from '@vueuse/core';
 
 type Props = {
     label: string;
     items: NavItem[];
 };
 defineProps<Props>();
+
+function clearSessionStorage(href: string) {
+    const remembered = useSessionStorage(href, {});
+    remembered.value = undefined;
+}
 </script>
 
 <template>
@@ -29,7 +35,7 @@ defineProps<Props>();
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
                     <SidebarMenuButton as-child :is-active="item.isActive" :tooltip="item.title">
-                        <Link :href="item.href">
+                        <Link :href="item.href" @click="clearSessionStorage(item.href)">
                             <component :is="item.icon" />
                             <span>{{ item.title }}</span>
                         </Link>

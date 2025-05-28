@@ -28,7 +28,7 @@ const { filters, fields } = injectFiltersSheetRootContext();
 <template>
     <SheetContent v-bind="forwarded" :class="cn('w-full', props.class)">
         <SheetHeader>
-            <div>
+            <div v-if="fields.length">
                 <SheetClose as-child>
                     <Button variant="outline" @click="filters.reset(...fields)">
                         <FunnelXIcon />

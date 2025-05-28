@@ -4,26 +4,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Models Language Lines
+    | Data Language Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines contain all keys related the the
-    | application's various models.
+    | The following language lines contain all keys related to particular
+    | data objects.
     |
     */
 
-    'banner' => [
+    'address' => [
         'name' => [
-            'one'  => 'banner',
-            'many' => 'banners',
+            'one'  => 'address',
+            'many' => 'addresses',
         ],
         'fields' => [
-            'name'       => 'name',
-            'message'    => 'message',
-            'action'     => 'action',
-            'start_date' => 'from',
-            'end_date'   => 'to',
-            'is_enabled' => 'active',
+            'line_1'      => 'line 1',
+            'line_2'      => 'line 2',
+            'postal_code' => 'postal code',
+            'city'        => 'city',
+            'country'     => 'country',
+            'lat'         => 'lat',
+            'lng'         => 'lng',
         ],
     ],
 

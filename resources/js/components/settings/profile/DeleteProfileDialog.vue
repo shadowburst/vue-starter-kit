@@ -89,9 +89,7 @@ function submit() {
                         </Button>
                     </ResponsiveDialogClose>
                     <FormSubmitButton :disabled="!form.password" variant="destructive">
-                        <CapitalizeText>
-                            {{ $t('components.settings.profile.delete_dialog.action') }}
-                        </CapitalizeText>
+                        {{ $t('components.settings.profile.delete_dialog.action') }}
                     </FormSubmitButton>
                 </ResponsiveDialogFooter>
             </Form>

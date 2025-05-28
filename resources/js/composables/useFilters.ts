@@ -1,10 +1,11 @@
 import { FormDataType } from '@/types';
 import { FormDataConvertible, router, VisitOptions } from '@inertiajs/core';
-import { InertiaForm, useForm, useRemember } from '@inertiajs/vue3';
-import { toReactive } from '@vueuse/core';
+import { InertiaForm, useForm } from '@inertiajs/vue3';
+import { toReactive, useSessionStorage } from '@vueuse/core';
 import { debounce, isEqual } from 'es-toolkit';
-import { computed, onUnmounted, watch } from 'vue';
+import { computed, watch, WatchOptions } from 'vue';
 
+type FiltersOptions = VisitOptions & WatchOptions & {};
 type FiltersParams = Record<string, NonNullable<any>>;
 export type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
     params: FiltersParams;
@@ -13,29 +14,35 @@ type TransformCallback<TForm extends FormDataType> = (data: TForm) => Record<str
 
 export default function useFilters<TForm extends FormDataType>(
     data: TForm | (() => TForm),
-    options?: VisitOptions,
+    options?: FiltersOptions,
 ): FiltersForm<TForm>;
 export default function useFilters<TForm extends FormDataType>(
     rememberKey: string,
     data: TForm | (() => TForm),
-    options?: VisitOptions,
+    options?: FiltersOptions,
 ): FiltersForm<TForm>;
 export function useFilters<TForm extends FormDataType>(
     rememberKeyOrData: string | TForm | (() => TForm),
-    maybeDataOrOptions?: TForm | (() => TForm) | VisitOptions,
-    maybeOptions: VisitOptions = {},
+    maybeDataOrOptions?: TForm | (() => TForm) | FiltersOptions,
+    maybeOptions: FiltersOptions = {},
 ): FiltersForm<TForm> {
     const rememberKey = typeof rememberKeyOrData === 'string' ? rememberKeyOrData : null;
     const data = (typeof rememberKeyOrData === 'string' ? maybeDataOrOptions : rememberKeyOrData) as
         | TForm
         | (() => TForm);
-    const options = (typeof rememberKeyOrData === 'string' ? maybeOptions : maybeDataOrOptions) as VisitOptions;
+    const options = (typeof rememberKeyOrData === 'string' ? maybeOptions : maybeDataOrOptions) as FiltersOptions;
 
-    const form = typeof rememberKey === 'string' ? useForm(rememberKey, data) : useForm(data);
+    const form = useForm(data);
     if (rememberKey) {
-        onUnmounted(() => {
-            useRemember(form, rememberKey);
-        });
+        const remembered = useSessionStorage(rememberKey, form.data(), { mergeDefaults: true });
+        watch(
+            () => form.data(),
+            () => {
+                console.log('remembered', form.data());
+                remembered.value = form.data();
+            },
+        );
+        Object.assign(form, { ...remembered.value });
     }
 
     let transform: TransformCallback<TForm> = (data: TForm) => data;
@@ -56,13 +63,13 @@ export function useFilters<TForm extends FormDataType>(
     });
     const params = toReactive(computedParams);
 
-    function reload(queryParams: FiltersParams = params) {
+    function reload() {
         const currentRoute = route().current();
         if (!currentRoute) {
             return;
         }
 
-        router.visit(route(currentRoute, queryParams), {
+        router.visit(route(currentRoute, params), {
             preserveScroll: true,
             preserveState: true,
             replace: true,
@@ -70,7 +77,7 @@ export function useFilters<TForm extends FormDataType>(
         });
     }
 
-    const hasPage = form.page != undefined;
+    const hasPage = 'page' in form;
     if (hasPage) {
         watch(
             () => form.page,
@@ -86,21 +93,22 @@ export function useFilters<TForm extends FormDataType>(
                 return;
             }
 
-            let queryParams = newParams;
-
             pause();
             if (hasPage && newParams.page === oldParams.page) {
                 //@ts-expect-error
                 form.page = 1;
-                queryParams = transform(form.data());
             }
             resume();
 
-            reload(queryParams);
+            reload();
         }, 500),
 
         { deep: true },
     );
+
+    if (options.immediate) {
+        reload();
+    }
 
     return new Proxy(form, {
         get(target, prop) {

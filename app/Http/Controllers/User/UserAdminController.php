@@ -7,6 +7,7 @@ use App\Data\User\Admin\UserAdminEditProps;
 use App\Data\User\Admin\UserAdminFormRequest;
 use App\Data\User\Admin\UserAdminIndexProps;
 use App\Data\User\Admin\UserAdminIndexRequest;
+use App\Data\User\Admin\UserAdminIndexResource;
 use App\Data\User\UserOneOrManyRequest;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Spatie\LaravelData\Lazy;
+use Spatie\LaravelData\PaginatedDataCollection;
 
 class UserAdminController extends Controller
 {
@@ -25,15 +28,23 @@ class UserAdminController extends Controller
     public function index(UserAdminIndexRequest $data)
     {
         return Inertia::render('users/admin/Index', UserAdminIndexProps::from([
-            'users' => User::query()
-                ->search($data->q)
-                ->when($data->is_trashed != null, fn (Builder $q) => $q->whereIsTrashed($data->is_trashed))
-                ->orderBy($data->sort_by, $data->sort_direction)
-                ->paginate(
-                    perPage: $data->per_page ?? Config::integer('default.per_page'),
-                    page: $data->page ?? 1,
-                )
-                ->withQueryString(),
+            'users' => Lazy::inertia(
+                fn () => UserAdminIndexResource::collect(
+                    User::query()
+                        ->search($data->q)
+                        ->when($data->with_trashed, fn (Builder $q) => $q->withTrashed())
+                        ->orderBy($data->sort_by, $data->sort_direction)
+                        ->with([
+                            'avatar',
+                        ])
+                        ->paginate(
+                            perPage: $data->per_page ?? Config::integer('default.per_page'),
+                            page: $data->page ?? 1,
+                        )
+                        ->withQueryString(),
+                    PaginatedDataCollection::class,
+                ),
+            ),
         ]));
     }
 
