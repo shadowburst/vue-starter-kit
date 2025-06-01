@@ -21,7 +21,7 @@ class VerifyEmailRequest extends Data
     public static function attributes(): array
     {
         return [
-            'code' => __('models.email_verification_token.fields.code'),
+            'code' => __('code'),
         ];
     }
 

@@ -2,6 +2,7 @@
     "actions": "actions",
     "backend": "backend",
     "cancel": "cancel",
+    "code": "code",
     "confirm": "confirm",
     "disable": "disable",
     "enable": "enable",

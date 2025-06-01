@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Settings;
 
 use App\Data\Settings\Password\UpdatePasswordSettingsRequest;
 use App\Http\Controllers\Controller;
-use App\Services\AuthService;
 use App\Services\SettingsService;
 use App\Services\ToastService;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordSettingsController extends Controller
 {
     public function __construct(
-        protected AuthService $authService,
         protected SettingsService $settingsService,
         protected ToastService $toastService,
     ) {}
@@ -22,7 +21,7 @@ class PasswordSettingsController extends Controller
     public function update(UpdatePasswordSettingsRequest $data)
     {
         $success = $this->settingsService->updatePassword->execute(
-            $this->authService->user(),
+            Auth::user(),
             $data,
         );
 

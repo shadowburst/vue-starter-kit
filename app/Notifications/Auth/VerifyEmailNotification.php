@@ -7,17 +7,11 @@ use App\Notifications\Brevo\BrevoMessage;
 use App\Notifications\Brevo\SendsToBrevo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Spatie\OneTimePasswords\Notifications\OneTimePasswordNotification;
 
-class VerifyEmailNotification extends Notification implements SendsToBrevo
+class VerifyEmailNotification extends OneTimePasswordNotification implements SendsToBrevo
 {
     use Queueable;
-
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct(
-        #[\SensitiveParameter] public string $code,
-    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -32,6 +26,6 @@ class VerifyEmailNotification extends Notification implements SendsToBrevo
     public function toBrevo(object $notifiable): BrevoMessage
     {
         return BrevoMessage::template(1)
-            ->parameter('code', $this->code);
+            ->parameter('code', $this->oneTimePassword->password);
     }
 }

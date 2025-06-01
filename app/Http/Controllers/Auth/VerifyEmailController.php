@@ -4,26 +4,23 @@ namespace App\Http\Controllers\Auth;
 
 use App\Data\Auth\VerifyEmail\VerifyEmailRequest;
 use App\Http\Controllers\Controller;
-use App\Services\AuthService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use URL;
 
 class VerifyEmailController extends Controller
 {
-    public function __construct(
-        protected AuthService $authService,
-    ) {}
-
     /**
      * Mark the authenticated user's email address as verified.
      */
-    public function code(VerifyEmailRequest $request): RedirectResponse
+    public function code(VerifyEmailRequest $data): RedirectResponse
     {
-        /** @var \App\Models\User $user */
-        $user = $this->authService->user();
+        $user = Auth::user();
 
-        if (! $this->authService->verifyEmailCode->execute($user, $request)) {
+        $result = $user->consumeOneTimePassword($data->code);
+
+        if (! $result->isOk()) {
             throw ValidationException::withMessages([
                 'code' => __('auth.verification.code.failed'),
             ]);
@@ -31,7 +28,7 @@ class VerifyEmailController extends Controller
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
-            now()->addMinutes(60),
+            now()->addMinute(),
             ['id' => $user->id, 'hash' => sha1($user->email)],
         );
 

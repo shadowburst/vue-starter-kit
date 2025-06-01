@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
@@ -34,24 +35,24 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Fortify::loginView(
-            fn (Request $request) => inertia('auth/Login', LoginProps::from([
+            fn (Request $request) => Inertia::render('auth/Login', LoginProps::from([
                 'status'           => $request->session()->get('status'),
                 'canResetPassword' => Features::enabled(Features::resetPasswords()),
             ])),
         );
 
         Fortify::registerView(
-            fn () => inertia('auth/Register', RegisterProps::from([])),
+            fn () => Inertia::render('auth/Register', RegisterProps::from([])),
         );
         Fortify::createUsersUsing(RegisterUser::class);
 
         Fortify::requestPasswordResetLinkView(
-            fn (Request $request) => inertia('auth/ForgotPassword', ForgotPasswordProps::from([
+            fn (Request $request) => Inertia::render('auth/ForgotPassword', ForgotPasswordProps::from([
                 'status' => $request->session()->get('status'),
             ])),
         );
         Fortify::resetPasswordView(
-            fn (Request $request) => inertia('auth/ResetPassword', ResetPasswordProps::from([
+            fn (Request $request) => Inertia::render('auth/ResetPassword', ResetPasswordProps::from([
                 'status' => $request->session()->get('status'),
                 'token'  => $request->route('token'),
                 'email'  => $request->get('email'),
@@ -60,11 +61,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         Fortify::confirmPasswordView(
-            fn () => inertia('auth/ConfirmPassword', ConfirmPasswordProps::from([])),
+            fn () => Inertia::render('auth/ConfirmPassword', ConfirmPasswordProps::from([])),
         );
 
         Fortify::verifyEmailView(
-            fn () => inertia('auth/VerifyEmail', VerifyEmailProps::from([])),
+            fn () => Inertia::render('auth/VerifyEmail', VerifyEmailProps::from([])),
         );
 
         RateLimiter::for('login', function (Request $request) {

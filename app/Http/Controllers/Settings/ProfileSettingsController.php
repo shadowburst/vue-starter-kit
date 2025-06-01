@@ -6,15 +6,14 @@ use App\Data\Auth\ConfirmPassword\ConfirmPasswordRequest;
 use App\Data\Settings\Profile\EditProfileSettingsProps;
 use App\Data\Settings\Profile\UpdateProfileSettingsRequest;
 use App\Http\Controllers\Controller;
-use App\Services\AuthService;
 use App\Services\SettingsService;
 use App\Services\ToastService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileSettingsController extends Controller
 {
     public function __construct(
-        protected AuthService $authService,
         protected SettingsService $settingsService,
         protected ToastService $toastService,
     ) {}
@@ -24,7 +23,7 @@ class ProfileSettingsController extends Controller
      */
     public function edit()
     {
-        $user = $this->authService->user();
+        $user = Auth::user();
 
         return inertia('settings/Profile', EditProfileSettingsProps::from([
             'mustVerifyEmail' => $user instanceof MustVerifyEmail && ! $user?->email_verified_at,
@@ -37,7 +36,7 @@ class ProfileSettingsController extends Controller
     public function update(UpdateProfileSettingsRequest $data)
     {
         $success = $this->settingsService->updateProfile->execute(
-            $this->authService->user(),
+            Auth::user(),
             $data,
         );
 

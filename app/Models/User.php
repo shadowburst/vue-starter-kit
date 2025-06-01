@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Notifications\Auth\ResetPasswordNotification;
-use App\Notifications\Auth\VerifyEmailNotification;
 use App\Traits\InteractsWithMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,9 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Hash;
-use Nette\Utils\Random;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 
 /**
  * @property int $id
@@ -39,6 +37,8 @@ use Spatie\MediaLibrary\HasMedia;
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\OneTimePasswords\Models\OneTimePassword> $oneTimePasswords
+ * @property-read int|null $one_time_passwords_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
@@ -62,6 +62,7 @@ use Spatie\MediaLibrary\HasMedia;
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasFactory;
+    use HasOneTimePasswords;
     use InteractsWithMedia;
     use Notifiable;
 
@@ -152,19 +153,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function sendEmailVerificationNotification()
     {
-        $code = Random::generate(6, '0-9');
-
-        EmailVerificationToken::query()
-            ->whereEmail($this->email)
-            ->delete();
-        EmailVerificationToken::query()
-            ->create([
-                'email'      => $this->email,
-                'token'      => Hash::make($code),
-                'expires_at' => now()->addMinutes(30),
-            ]);
-
-        $this->notify(new VerifyEmailNotification($code));
+        $this->sendOneTimePassword();
     }
 
     public function sendPasswordResetNotification(#[\SensitiveParameter] $token)

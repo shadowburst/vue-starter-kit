@@ -27,6 +27,7 @@ class UpdateProfileSettings
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
+            $user->sendEmailVerificationNotification();
         }
 
         if (! $this->mediaService->updateOne->execute($user, User::COLLECTION_AVATAR, $data->avatar)) {
