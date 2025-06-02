@@ -1,7 +1,6 @@
 <?php
 
 use SoloTerm\Solo\Commands\Command;
-use SoloTerm\Solo\Commands\EnhancedTailCommand;
 use SoloTerm\Solo\Hotkeys;
 use SoloTerm\Solo\Themes;
 
@@ -46,13 +45,12 @@ return [
     */
     'commands' => [
         'Vite' => 'npm run dev',
-        'Logs' => EnhancedTailCommand::file(storage_path('logs/laravel.log')),
 
         // Lazy commands do no automatically start when Solo starts.
+        'Queue'  => Command::from('php artisan queue:work')->lazy(),
         'Dumps'  => Command::from('php artisan solo:dumps')->lazy(),
         'Reverb' => Command::from('php artisan reverb:start --debug')->lazy(),
         'Pint'   => Command::from('./vendor/bin/pint --ansi')->lazy(),
-        'Queue'  => Command::from('php artisan queue:work')->lazy(),
         'Tests'  => Command::from('php artisan test --colors=always')->withEnv(['APP_ENV' => 'testing'])->lazy(),
     ],
 

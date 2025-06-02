@@ -85,7 +85,7 @@ const proxy = computed<DateValue | undefined>({
                 </Button>
             </PopoverTrigger>
         </div>
-        <PopoverContent class="w-auto p-0">
+        <PopoverContent class="w-auto p-0" align="end">
             <Calendar v-model="proxy" :max-value :min-value :locale />
         </PopoverContent>
     </Popover>

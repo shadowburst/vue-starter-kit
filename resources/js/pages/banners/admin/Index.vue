@@ -69,6 +69,7 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
                             ids: items.map(({ id }) => id),
                         },
                         {
+                            only: ['banners'],
                             onSuccess: () => {
                                 selectedRows.value = [];
                             },
@@ -89,6 +90,7 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
                             ids: items.map(({ id }) => id),
                         },
                         {
+                            only: ['banners'],
                             onSuccess: () => {
                                 selectedRows.value = [];
                             },
@@ -106,6 +108,7 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
                 callback: () =>
                     router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy'), {
                         data: { ids: items.map(({ id }) => id) },
+                        only: ['banners'],
                         onSuccess: () => {
                             selectedRows.value = [];
                         },
@@ -128,24 +131,37 @@ const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
             alert({
                 variant: 'destructive',
                 description: transChoice('messages.banners.delete.confirm', 1),
-                callback: () => router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy', { banner })),
+                callback: () =>
+                    router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy', { banner }), {
+                        only: ['banners'],
+                    }),
             }),
     },
 ];
 
 const filters = useFilters<BannerAdminIndexRequest>(
+    route('admin.banners.index'),
     {
         q: route().params.q ?? '',
         start_date: route().params.start_date,
         end_date: route().params.end_date,
         is_enabled: route().params.is_enabled == undefined ? undefined : Boolean(route().params.is_enabled),
-        page: props.banners.meta.current_page,
-        per_page: props.banners.meta.per_page,
-        sort_by: route().params.sort_by ?? 'id',
-        sort_direction: route().params.sort_direction ?? 'desc',
+        page: props.banners?.meta.current_page,
+        per_page: props.banners?.meta.per_page,
+        sort_by: route().params.sort_by,
+        sort_direction: route().params.sort_direction,
     },
     {
         only: ['banners'],
+        immediate: true,
+        debounceReload(key) {
+            return !['page', 'per_page'].includes(key);
+        },
+        onReload(key) {
+            if (key !== 'page') {
+                filters.page = 1;
+            }
+        },
     },
 );
 
@@ -162,7 +178,7 @@ const format = useFormatter();
                 v-model:selected-rows="selectedRows"
                 v-model:sort-by="filters.sort_by"
                 v-model:sort-direction="filters.sort_direction"
-                :data="props.banners"
+                :data="banners"
                 :rows-actions
                 :row-actions
             >
@@ -249,8 +265,12 @@ const format = useFormatter();
                                     :model-value="banner.is_enabled"
                                     @update:model-value="
                                         $event
-                                            ? router.patch(route('admin.banners.enable', { banner }))
-                                            : router.patch(route('admin.banners.disable', { banner }))
+                                            ? router.patch(route('admin.banners.enable', { banner }), undefined, {
+                                                  only: ['banners'],
+                                              })
+                                            : router.patch(route('admin.banners.disable', { banner }), undefined, {
+                                                  only: ['banners'],
+                                              })
                                     "
                                 />
                             </DataTableCell>

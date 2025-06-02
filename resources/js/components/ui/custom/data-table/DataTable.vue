@@ -1,5 +1,6 @@
 <script lang="ts">
 export type DataTableContext<TData> = {
+    loading: Ref<boolean>;
     tab: Ref<DataTableTab>;
     sortBy: Ref<string | undefined>;
     sortDirection: Ref<string | undefined>;
@@ -37,7 +38,7 @@ import { computed, HTMLAttributes, inject, provide, Ref } from 'vue';
 import { DataTableRowAction, DataTableRowsAction, DataTableTab } from './interface';
 
 type Props = {
-    data: TData[] | PaginatedCollection<TData>;
+    data?: TData[] | PaginatedCollection<TData>;
     rowActions?: DataTableRowAction<TData>[];
     rowsActions?: DataTableRowsAction<TData>[];
     class?: HTMLAttributes['class'];
@@ -54,17 +55,30 @@ const tab = defineModel<DataTableTab>('tab', {
 const rowActions = computed(() => props.rowActions);
 const rowsActions = computed(() => props.rowsActions);
 const pagination = computed(() => {
-    if (Array.isArray(props.data)) {
+    const { data } = props;
+    if (!data) {
+        return;
+    }
+    if (Array.isArray(data)) {
         return;
     }
 
     return {
-        links: props.data.links,
-        meta: props.data.meta,
+        links: data.links,
+        meta: data.meta,
     };
 });
 
-const rows = computed((): TData[] => (Array.isArray(props.data) ? props.data : props.data.data));
+const rows = computed((): TData[] => {
+    const { data } = props;
+    if (!data) {
+        return [];
+    }
+    if (Array.isArray(data)) {
+        return data;
+    }
+    return data.data;
+});
 const selectedRows = defineModel<TData[]>('selectedRows', {
     default: () => [],
 });
@@ -83,7 +97,10 @@ const isAnyRowsSelected = computed(() => isAllRowsSelected.value || isSomeRowsSe
 const sortBy = defineModel<string>('sortBy');
 const sortDirection = defineModel<string>('sortDirection');
 
+const loading = computed(() => !props.data);
+
 const rootContext: DataTableContext<TData> = {
+    loading,
     tab,
     sortBy,
     sortDirection,

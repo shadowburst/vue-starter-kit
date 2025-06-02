@@ -29,7 +29,7 @@ export type BannerAdminFormResource = {
     is_enabled: boolean;
 };
 export type BannerAdminIndexProps = {
-    banners: {
+    banners?: {
         data: Array<BannerAdminIndexResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
@@ -49,13 +49,13 @@ export type BannerAdminIndexProps = {
 };
 export type BannerAdminIndexRequest = {
     q?: string;
-    start_date?: string;
-    end_date?: string;
-    is_enabled?: boolean;
     page?: number;
     per_page?: number;
     sort_by: string;
     sort_direction: string;
+    is_enabled?: boolean;
+    start_date?: string;
+    end_date?: string;
 };
 export type BannerAdminIndexResource = {
     id: number;
@@ -64,15 +64,15 @@ export type BannerAdminIndexResource = {
     end_date: string;
     is_enabled: boolean;
 };
-export type BannerOneOrManyRequest = {
-    banner?: number;
-    ids?: Array<number>;
-};
-export type BannerPageResource = {
+export type BannerAppResource = {
     id: number;
     name: string;
     message: string;
     action?: string;
+};
+export type BannerOneOrManyRequest = {
+    banner?: number;
+    ids?: Array<number>;
 };
 export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {

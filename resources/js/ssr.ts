@@ -31,8 +31,8 @@ createServer((page) =>
                 // Mount here so that translations are available when page loads
                 onLoad: () => {
                     /* check needed to avoid remounting (which would fail) when we call loadLanguageAsync to change language */
-                    //@ts-expect-error
-                    if (el && el.__vue_app__) {
+                    //@ts-expect-error element added dynamically
+                    if (el?.__vue_app__) {
                         return;
                     }
 

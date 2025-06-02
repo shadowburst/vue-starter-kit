@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Data\Banner\BannerPageResource;
+use App\Data\Banner\BannerAppResource;
 use App\Models\Banner;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,11 +19,20 @@ class IncludeBanner
      */
     public function handle(Request $request, Closure $next): Response
     {
+        Inertia::share([
+            'banner' => fn () => $this->getBanner(),
+        ]);
+
+        return $next($request);
+    }
+
+    protected function getBanner(): ?BannerAppResource
+    {
         /** @var ?\App\Models\User $user */
-        $user = $request->user();
+        $user = Auth::user();
 
         if (! $user) {
-            return $next($request);
+            return null;
         }
 
         $banner = Banner::query()
@@ -34,10 +44,10 @@ class IncludeBanner
             ->whereIsEnabled(true)
             ->first();
 
-        if ($banner) {
-            Inertia::share('banner', BannerPageResource::from($banner));
+        if (! $banner) {
+            return null;
         }
 
-        return $next($request);
+        return BannerAppResource::from($banner);
     }
 }

@@ -2,6 +2,7 @@
 type FiltersSheetRootContext<TForm extends FormDataType> = {
     filters: FiltersForm<TForm>;
     fields: Ref<(keyof TForm)[]>;
+    count: Ref<number>;
 };
 export function injectFiltersSheetRootContext<TForm extends FormDataType>(
     fallback?: FiltersSheetRootContext<TForm>,
@@ -46,9 +47,12 @@ const fields = computed((): (keyof TForm)[] =>
     Object.keys(props.filters.data()).filter((key) => props.pick.includes(key) || !props.omit.includes(key)),
 );
 
+const count = computed(() => Object.keys(props.filters.params).filter((key) => fields.value.includes(key)).length);
+
 provideFiltersSheetRootContext({
     filters: props.filters,
     fields,
+    count,
 });
 </script>
 

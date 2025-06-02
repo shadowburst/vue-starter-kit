@@ -22,7 +22,7 @@ class BannerFactory extends Factory
             'action'     => fake()->url,
             'start_date' => fn (array $attributes) => fake()->dateTimeBetween('-1 year', $attributes['end_date']),
             'end_date'   => fake()->dateTimeBetween('now', '+1 year'),
-            'is_enabled'  => fake()->boolean(25),
+            'is_enabled' => fake()->boolean(25),
         ];
     }
 }

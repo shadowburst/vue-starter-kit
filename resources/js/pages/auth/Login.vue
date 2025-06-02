@@ -99,9 +99,7 @@ function submit() {
             </SectionContent>
             <SectionFooter class="grid">
                 <FormSubmitButton>
-                    <CapitalizeText>
-                        {{ $t('pages.auth.login.action') }}
-                    </CapitalizeText>
+                    {{ $t('pages.auth.login.action') }}
                 </FormSubmitButton>
                 <div class="text-muted-foreground text-center text-sm">
                     {{ $t('pages.auth.login.no_account') }}

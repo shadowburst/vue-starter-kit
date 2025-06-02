@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { usePage } from '@inertiajs/vue3';
 import { ExternalLinkIcon, InfoIcon, XIcon } from 'lucide-vue-next';
 import { computed, HTMLAttributes } from 'vue';
+
 type Props = {
     class?: HTMLAttributes['class'];
 };
@@ -16,8 +17,8 @@ const banner = computed(() => usePage().props.banner);
 </script>
 
 <template>
-    <div v-if="banner" :class="cn('grid items-stretch border-b sm:flex', props.class)">
-        <Alert class="grow border-0">
+    <div v-if="banner" :class="cn('bg-warning/20 grid items-stretch rounded-t-xl border-b sm:flex', props.class)">
+        <Alert class="grow border-0 bg-transparent">
             <InfoIcon />
             <AlertTitle>
                 {{ banner.name }}

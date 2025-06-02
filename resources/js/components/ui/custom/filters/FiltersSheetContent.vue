@@ -22,15 +22,21 @@ const props = defineProps<SheetContentProps>();
 const delegatedProps = reactiveOmit(props, 'class');
 const forwarded = useForwardProps(delegatedProps);
 
-const { filters, fields } = injectFiltersSheetRootContext();
+const { filters, fields, count } = injectFiltersSheetRootContext();
+
+function reset() {
+    for (const field of fields.value) {
+        filters[field] = undefined;
+    }
+}
 </script>
 
 <template>
     <SheetContent v-bind="forwarded" :class="cn('w-full', props.class)">
         <SheetHeader>
-            <div>
+            <div v-if="fields.length">
                 <SheetClose as-child>
-                    <Button variant="outline" @click="filters.reset(...fields)">
+                    <Button class="disabled:invisible" variant="outline" :disabled="count === 0" @click="reset()">
                         <FunnelXIcon />
                         <CapitalizeText>
                             {{ $t('reset') }}

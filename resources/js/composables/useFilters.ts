@@ -1,68 +1,83 @@
 import { FormDataType } from '@/types';
-import { FormDataConvertible, router, VisitOptions } from '@inertiajs/core';
-import { InertiaForm, useForm, useRemember } from '@inertiajs/vue3';
-import { toReactive } from '@vueuse/core';
-import { debounce, isEqual } from 'es-toolkit';
-import { computed, onUnmounted, watch } from 'vue';
+import { router, VisitOptions } from '@inertiajs/core';
+import { InertiaForm, useForm } from '@inertiajs/vue3';
+import { toReactive, useDebounceFn, useSessionStorage } from '@vueuse/core';
+import { isEqual } from 'es-toolkit';
+import { computed, watch, WatchOptions } from 'vue';
 
-type FiltersParams = Record<string, NonNullable<any>>;
-export type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
-    params: FiltersParams;
+type FiltersParams<TForm extends FormDataType> = {
+    [K in keyof TForm]: NonNullable<TForm[K]>;
 };
-type TransformCallback<TForm extends FormDataType> = (data: TForm) => Record<string, FormDataConvertible>;
+type FiltersOptions<TForm extends FormDataType> = VisitOptions &
+    WatchOptions & {
+        onReload?: (key: keyof TForm) => void;
+        debounceReload?: (key: keyof TForm) => boolean;
+    };
+export type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
+    params: FiltersParams<TForm>;
+};
 
 export default function useFilters<TForm extends FormDataType>(
     data: TForm | (() => TForm),
-    options?: VisitOptions,
+    options?: FiltersOptions<TForm>,
 ): FiltersForm<TForm>;
 export default function useFilters<TForm extends FormDataType>(
     rememberKey: string,
     data: TForm | (() => TForm),
-    options?: VisitOptions,
+    options?: FiltersOptions<TForm>,
 ): FiltersForm<TForm>;
 export function useFilters<TForm extends FormDataType>(
     rememberKeyOrData: string | TForm | (() => TForm),
-    maybeDataOrOptions?: TForm | (() => TForm) | VisitOptions,
-    maybeOptions: VisitOptions = {},
+    maybeDataOrOptions?: TForm | (() => TForm) | FiltersOptions<TForm>,
+    maybeOptions: FiltersOptions<TForm> = {},
 ): FiltersForm<TForm> {
     const rememberKey = typeof rememberKeyOrData === 'string' ? rememberKeyOrData : null;
     const data = (typeof rememberKeyOrData === 'string' ? maybeDataOrOptions : rememberKeyOrData) as
         | TForm
         | (() => TForm);
-    const options = (typeof rememberKeyOrData === 'string' ? maybeOptions : maybeDataOrOptions) as VisitOptions;
+    const options = (
+        typeof rememberKeyOrData === 'string' ? maybeOptions : maybeDataOrOptions
+    ) as FiltersOptions<TForm>;
 
-    const form = typeof rememberKey === 'string' ? useForm(rememberKey, data) : useForm(data);
+    const form = useForm(data);
     if (rememberKey) {
-        onUnmounted(() => {
-            useRemember(form, rememberKey);
-        });
+        const remembered = useSessionStorage(rememberKey, form.data(), { mergeDefaults: true });
+        watch(
+            () => form.data(),
+            (value) => {
+                remembered.value = value;
+            },
+        );
+        Object.assign(form, { ...remembered.value });
     }
 
-    let transform: TransformCallback<TForm> = (data: TForm) => data;
+    const params = computed(
+        (): FiltersParams<TForm> =>
+            Object.entries(form.data()).reduce((p, [key, value]) => {
+                if (value == undefined) {
+                    return p;
+                }
+                if (Array.isArray(value) && !value.length) {
+                    return p;
+                }
+                if (typeof value === 'string' && value.trim() === '') {
+                    return p;
+                }
+                return Object.assign(p, { [key]: value });
+            }, {}) as FiltersParams<TForm>,
+    );
 
-    const computedParams = computed(() => {
-        return Object.entries(transform(form.data())).reduce((total, [key, value]) => {
-            if (value == undefined) {
-                return total;
-            }
-            if (Array.isArray(value) && !value.length) {
-                return total;
-            }
-            if (typeof value === 'string' && value.trim() === '') {
-                return total;
-            }
-            return Object.assign(total, { [key]: value });
-        }, {} as FiltersParams);
-    });
-    const params = toReactive(computedParams);
-
-    function reload(queryParams: FiltersParams = params) {
+    function reload(key?: keyof TForm) {
         const currentRoute = route().current();
         if (!currentRoute) {
             return;
         }
 
-        router.visit(route(currentRoute, queryParams), {
+        if (key) {
+            options.onReload?.(key);
+        }
+
+        router.visit(route(currentRoute, params.value), {
             preserveScroll: true,
             preserveState: true,
             replace: true,
@@ -70,51 +85,39 @@ export function useFilters<TForm extends FormDataType>(
         });
     }
 
-    const hasPage = form.page != undefined;
-    if (hasPage) {
+    const debouncedReload = useDebounceFn(reload, 500);
+
+    for (const key in form.data()) {
         watch(
-            () => form.page,
-            () => {
-                reload();
+            () => params.value[key],
+            (newValue, oldValue) => {
+                if (isEqual(newValue, oldValue)) {
+                    return;
+                }
+
+                if (options.debounceReload?.(key) ?? true) {
+                    debouncedReload(key);
+                } else {
+                    reload(key);
+                }
             },
         );
     }
-    const { pause, resume } = watch(
-        computedParams,
-        debounce((newParams, oldParams) => {
-            if (isEqual(newParams, oldParams)) {
-                return;
-            }
+    if (options.immediate) {
+        reload();
+    }
 
-            let queryParams = newParams;
-
-            pause();
-            if (hasPage && newParams.page === oldParams.page) {
-                //@ts-expect-error
-                form.page = 1;
-                queryParams = transform(form.data());
-            }
-            resume();
-
-            reload(queryParams);
-        }, 500),
-
-        { deep: true },
-    );
+    const override = {
+        params: toReactive(params),
+    };
 
     return new Proxy(form, {
         get(target, prop) {
             switch (prop) {
                 case 'params':
-                    return params;
-                case 'transform':
-                    return (callback: TransformCallback<TForm>) => {
-                        transform = callback;
-                        return target;
-                    };
+                    return override.params;
                 default:
-                    //@ts-expect-error
-                    return target[prop];
+                    return target[prop as keyof typeof target];
             }
         },
     }) as FiltersForm<TForm>;

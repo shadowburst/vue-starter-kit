@@ -22,7 +22,7 @@ import {
     ComboboxList,
     ComboboxTrigger,
 } from '@/components/ui/combobox';
-import { LoadingIcon } from '@/components/ui/custom/loadable';
+import { LoadingIcon } from '@/components/ui/custom/loading';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { array } from '@/lib';
 import { cn } from '@/lib/utils';

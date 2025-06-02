@@ -14,13 +14,13 @@ class BannerAdminIndexRequest extends Data
 {
     public function __construct(
         public ?string $q = null,
-        public ?Carbon $start_date = null,
-        public ?Carbon $end_date = null,
-        public ?bool $is_enabled = null,
         public ?int $page = null,
         public ?int $per_page = null,
         public string $sort_by = 'id',
         public string $sort_direction = 'desc',
+        public ?bool $is_enabled = null,
+        public ?Carbon $start_date = null,
+        public ?Carbon $end_date = null,
     ) {}
 
     public static function attributes(): array
@@ -31,6 +31,9 @@ class BannerAdminIndexRequest extends Data
             'per_page'       => __('per_page'),
             'sort_by'        => __('sort_by'),
             'sort_direction' => __('sort_direction'),
+            'is_enabled'     => __('models.banner.fields.is_enabled'),
+            'start_date'     => __('models.banner.fields.start_date'),
+            'end_date'       => __('models.banner.fields.end_date'),
         ];
     }
 
