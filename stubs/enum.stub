@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Traits\Enums\Labels;
+
+enum {{ class }}: string
+{
+    use Labels;
+
+    public function label(): string
+    {
+        return __("enums.{$this->value}");
+    }
+}

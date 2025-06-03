@@ -30,6 +30,7 @@ defineProps<RegisterProps>();
 const form = useForm<RegisterRequest>({
     first_name: '',
     last_name: '',
+    phone: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -70,6 +71,17 @@ function submit() {
                             <TextInput v-model="form.last_name" autocomplete="family-name" />
                         </FormControl>
                         <FormError :message="form.errors.last_name" />
+                    </FormField>
+                    <FormField required>
+                        <FormLabel>
+                            <CapitalizeText>
+                                {{ $t('models.user.fields.phone') }}
+                            </CapitalizeText>
+                        </FormLabel>
+                        <FormControl>
+                            <TextInput v-model="form.phone" type="tel" autocomplete="phone" />
+                        </FormControl>
+                        <FormError :message="form.errors.phone" />
                     </FormField>
                     <FormField required>
                         <FormLabel>

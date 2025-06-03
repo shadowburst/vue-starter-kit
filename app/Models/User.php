@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Notifications\Auth\ResetPasswordNotification;
+use App\Traits\HasPolicy;
 use App\Traits\InteractsWithMedia;
+use App\Traits\Searchable;
+use App\Traits\Trashable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +22,8 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property int $id
  * @property string $first_name
  * @property string $last_name
+ * @property string|null $full_name
+ * @property string|null $phone
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
@@ -28,11 +33,18 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Media|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Banner> $banners
  * @property-read int|null $banners_count
- * @property-read mixed $full_name
+ * @property-read bool $can_delete
+ * @property-read bool $can_restore
+ * @property-read bool $can_trash
+ * @property-read bool $can_update
+ * @property-read bool $can_view
  * @property-read mixed $initials
+ * @property-read mixed $is_trashable
+ * @property bool $is_trashed
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -43,19 +55,26 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User search(?string $q)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFullName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  *
  * @mixin \Eloquent
  */
@@ -63,8 +82,11 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasFactory;
     use HasOneTimePasswords;
+    use HasPolicy;
     use InteractsWithMedia;
     use Notifiable;
+    use Searchable;
+    use Trashable;
 
     public const string COLLECTION_AVATAR = 'avatar';
 
@@ -76,8 +98,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $fillable = [
         'first_name',
         'last_name',
+        'phone',
         'email',
         'password',
+        'deleted_at',
     ];
 
     /**
@@ -88,6 +112,20 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_confirmed_at',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+    ];
+
+    /**
+     * The attributes that are searchable.
+     *
+     * @var list<string>
+     */
+    protected $searchable = [
+        'full_name',
+        'phone',
+        'email',
     ];
 
     /**
@@ -129,7 +167,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected function fullName(): Attribute
     {
         return Attribute::get(
-            fn ($value, array $attributes) => ucwords("{$attributes['first_name']} {$attributes['last_name']}"),
+            fn (?string $value) => ! $value ? '' : ucwords($value),
         );
     }
 

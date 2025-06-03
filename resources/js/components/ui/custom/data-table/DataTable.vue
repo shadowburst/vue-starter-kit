@@ -18,16 +18,16 @@ export type DataTableContext<TData> = {
 };
 
 export function injectDataTableRootContext<TData>(fallback?: DataTableContext<TData>): DataTableContext<TData> {
-    const context = inject('DataTableRootContext', fallback);
+    const context = inject('DataTableRoot', fallback);
 
     if (!context) {
-        throw new Error(`Injection \`DataTableRootContext\` not found. Component must be used within a \`DataTable\``);
+        throw new Error(`Injection \`DataTableRoot\` not found. Component must be used within a \`DataTable\``);
     }
 
     return context;
 }
 export function provideDataTableRootContext<TData>(contextValue: DataTableContext<TData>) {
-    return provide('DataTableRootContext', contextValue);
+    return provide('DataTableRoot', contextValue);
 }
 </script>
 

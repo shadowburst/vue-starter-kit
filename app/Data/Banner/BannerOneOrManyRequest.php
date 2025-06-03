@@ -5,6 +5,7 @@ namespace App\Data\Banner;
 use App\Models\Banner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
@@ -51,8 +52,10 @@ class BannerOneOrManyRequest extends Data
 
     public static function rules(ValidationContext $context): array
     {
+        $banner = app(Banner::class);
+
         return [
-            'ids.*' => ['integer', 'exists:banners,id'],
+            'ids.*' => ['integer', Rule::exists($banner->getTable(), $banner->getKeyName())],
         ];
     }
 }

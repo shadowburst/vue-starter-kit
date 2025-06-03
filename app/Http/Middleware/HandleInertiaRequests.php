@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Data\Auth\AuthUserResource;
+use App\Data\User\UserAuthResource;
 use App\Models\User;
 use App\Services\ToastService;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class HandleInertiaRequests extends Middleware
             'name' => Config::string('app.name'),
             'auth' => value(
                 fn (?User $user) => ! $user ? null : [
-                    'user' => AuthUserResource::from($user->load(['avatar'])),
+                    'user' => UserAuthResource::from($user->load(['avatar'])),
                 ],
                 Auth::user(),
             ),

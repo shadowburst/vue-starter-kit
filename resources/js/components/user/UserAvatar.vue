@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback, AvatarImage, AvatarProps } from '@/components/ui/avatar';
-import type { AuthUserResource } from '@/types';
+import type { UserAuthResource } from '@/types';
 
 type Props = AvatarProps & {
-    user: Pick<AuthUserResource, 'initials' | 'full_name' | 'avatar'>;
+    user: Pick<UserAuthResource, 'initials' | 'full_name' | 'avatar'>;
 };
 const { user, ...props } = defineProps<Props>();
 </script>

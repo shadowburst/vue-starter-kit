@@ -47,11 +47,15 @@ return [
         'fields' => [
             'first_name'            => 'first name',
             'last_name'             => 'last name',
+            'full_name'             => 'full name',
+            'phone'                 => 'phone',
             'email'                 => 'email',
             'current_password'      => 'current password',
             'password'              => 'password',
             'password_confirmation' => 'confirm password',
             'avatar'                => 'avatar',
+            'is_trashed'            => 'is trashed',
+            'deleted_at'            => 'archived at',
         ],
     ],
 

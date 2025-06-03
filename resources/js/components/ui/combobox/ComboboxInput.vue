@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
-import { SearchIcon } from 'lucide-vue-next';
+import { reactiveOmit } from '@vueuse/core';
 import { ComboboxInput, type ComboboxInputEmits, type ComboboxInputProps, useForwardPropsEmits } from 'reka-ui';
-import { computed, type HTMLAttributes } from 'vue';
-
-defineOptions({
-    inheritAttrs: false,
-});
+import { type HTMLAttributes } from 'vue';
 
 const props = defineProps<
     ComboboxInputProps & {
@@ -16,29 +12,21 @@ const props = defineProps<
 
 const emits = defineEmits<ComboboxInputEmits>();
 
-const delegatedProps = computed(() => {
-    const { class: _, ...delegated } = props;
-
-    return delegated;
-});
-
+const delegatedProps = reactiveOmit(props, 'class');
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 </script>
 
 <template>
-    <div class="flex h-9 items-center gap-2 border-b px-3" data-slot="command-input-wrapper">
-        <SearchIcon class="size-4 shrink-0 opacity-50" />
-        <ComboboxInput
-            v-bind="{ ...forwarded, ...$attrs }"
-            data-slot="command-input"
-            :class="
-                cn(
-                    'placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
-                    props.class,
-                )
-            "
-        >
-            <slot />
-        </ComboboxInput>
-    </div>
+    <ComboboxInput
+        v-bind="forwarded"
+        data-slot="command-input"
+        :class="
+            cn(
+                'border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm',
+                props.class,
+            )
+        "
+    >
+        <slot />
+    </ComboboxInput>
 </template>

@@ -21,6 +21,7 @@ it('should let new users register', function () {
         RegisterRequest::from([
             'first_name'            => 'Test',
             'last_name'             => 'User',
+            'phone'                 => '0606060606',
             'email'                 => 'test@example.com',
             'password'              => 'password',
             'password_confirmation' => 'password',

@@ -107,4 +107,21 @@ return [
             ],
         ],
     ],
+
+    'users' => [
+        'admin' => [
+            'index' => [
+                'title' => 'Users',
+            ],
+            'create' => [
+                'title'       => 'Create a user',
+                'description' => 'Create a new user for the site',
+            ],
+            'edit' => [
+                'title'       => 'Update a user',
+                'description' => "Update a user's details",
+            ],
+        ],
+    ],
+
 ];

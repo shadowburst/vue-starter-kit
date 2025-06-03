@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
-import { FunnelXIcon } from 'lucide-vue-next';
+import { XIcon } from 'lucide-vue-next';
 import { useForwardProps, VisuallyHidden } from 'reka-ui';
 import { injectFiltersSheetRootContext } from './FiltersSheet.vue';
 
@@ -37,7 +37,7 @@ function reset() {
             <div v-if="fields.length">
                 <SheetClose as-child>
                     <Button class="disabled:invisible" variant="outline" :disabled="count === 0" @click="reset()">
-                        <FunnelXIcon />
+                        <XIcon />
                         <CapitalizeText>
                             {{ $t('reset') }}
                         </CapitalizeText>
@@ -58,7 +58,7 @@ function reset() {
             </VisuallyHidden>
         </SheetHeader>
         <ScrollArea class="grow overflow-auto">
-            <SectionContent>
+            <SectionContent class="px-4!">
                 <FormContent>
                     <slot />
                 </FormContent>

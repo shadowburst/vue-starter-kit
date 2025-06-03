@@ -120,7 +120,15 @@ class BrevoChannel
         if (App::hasDebugModeEnabled()) {
             Log::debug('New Brevo email', (array) $message);
 
-            return;
+            $debugEmail = config('mail.debug.address');
+            if (! $debugEmail) {
+                return;
+            }
+
+            $debugTo = new SendSmtpEmailTo;
+            $debugTo->setEmail($debugEmail);
+
+            $smptEmail->setTo([$debugTo]);
         }
 
         $api = new TransactionalEmailsApi(

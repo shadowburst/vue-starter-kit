@@ -43,7 +43,7 @@ function submit() {
                     {{ $t('pages.banners.admin.edit.title') }}
                 </SectionTitle>
             </SectionHeader>
-            <SectionContent class="flex">
+            <SectionContent class="sm:flex">
                 <BannerAdminForm />
             </SectionContent>
             <SectionFooter>

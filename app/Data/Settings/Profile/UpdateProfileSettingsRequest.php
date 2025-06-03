@@ -18,6 +18,7 @@ class UpdateProfileSettingsRequest extends Data
     public function __construct(
         public string $first_name,
         public string $last_name,
+        public string $phone,
         #[Email]
         public string $email,
         #[Media]
@@ -30,6 +31,7 @@ class UpdateProfileSettingsRequest extends Data
         return [
             'first_name' => __('models.user.fields.first_name'),
             'last_name'  => __('models.user.fields.last_name'),
+            'phone'      => __('models.user.fields.phone'),
             'email'      => __('models.user.fields.email'),
             'avatar'     => __('models.user.fields.avatar'),
         ];

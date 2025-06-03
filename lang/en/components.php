@@ -16,7 +16,7 @@ return [
         'alert_dialog' => [
             'title' => [
                 'default'     => 'Confirm',
-                'success'     => 'Success',
+                'success'     => 'Confirm',
                 'warning'     => 'Warning',
                 'destructive' => 'Warning',
             ],
@@ -39,6 +39,10 @@ return [
 
     'ui' => [
         'custom' => [
+            'combobox' => [
+                'selected' => '{1}1 item selected|[2,*]:count items selected',
+                'empty'    => 'nothing to display',
+            ],
             'data_table' => [
                 'selected'      => ':selected of :rows row(s) selected',
                 'empty'         => 'nothing to display',

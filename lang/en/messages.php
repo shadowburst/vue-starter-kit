@@ -49,4 +49,25 @@ return [
         ],
     ],
 
+    'users' => [
+        'store' => [
+            'success' => 'User created successfully',
+        ],
+        'update' => [
+            'success' => 'User updated successfully',
+        ],
+        'trash' => [
+            'confirm' => '{1}Are you sure you want to archive this user ?|[2,*]Are you sure you want to archive these users ?',
+            'success' => '{1}User archived successfully|[2,*]Users archived successfully',
+        ],
+        'restore' => [
+            'confirm' => '{1}Are you sure you want to restore this user ?|[2,*]Are you sure you want to restore these users ?',
+            'success' => '{1}User restored successfully|[2,*]Users restored successfully',
+        ],
+        'delete' => [
+            'confirm' => '{1}Are you sure you want to delete this user ?|[2,*]Are you sure you want to delete these users ?',
+            'success' => '{1}User deleted successfully|[2,*]Users deleted successfully',
+        ],
+    ],
+
 ];

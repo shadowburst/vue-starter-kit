@@ -1,5 +1,6 @@
 export * from './forms';
 export * from './useAlert';
+export * from './useArrayWrap';
 export * from './useAuth';
 export * from './useComputedForm';
 export * from './useFilters';
@@ -7,6 +8,7 @@ export * from './useFormatter';
 export * from './useIsDesktop';
 export * from './useLayout';
 export * from './useLocale';
+export * from './usePageProp';
 export * from './usePagination';
 export * from './useParser';
 export * from './useRouterComputed';

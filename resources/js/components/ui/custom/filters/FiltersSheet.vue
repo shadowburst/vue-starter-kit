@@ -1,16 +1,18 @@
 <script lang="ts">
+type Field<TForm extends FormDataType> = keyof TForm;
+
 type FiltersSheetRootContext<TForm extends FormDataType> = {
     filters: FiltersForm<TForm>;
-    fields: Ref<(keyof TForm)[]>;
+    fields: Ref<Field<TForm>[]>;
     count: Ref<number>;
 };
 export function injectFiltersSheetRootContext<TForm extends FormDataType>(
     fallback?: FiltersSheetRootContext<TForm>,
 ): FiltersSheetRootContext<TForm> {
-    const context = inject('FiltersSheetRootContext', fallback);
+    const context = inject('FiltersSheetRoot', fallback);
 
     if (!context) {
-        throw new Error(`Injection \`FiltersSheetRootContext\` not found. Component must be used within a \`Form\``);
+        throw new Error(`Injection \`FiltersSheetRoot\` not found. Component must be used within a \`FiltersSheet\``);
     }
 
     return context;
@@ -18,7 +20,7 @@ export function injectFiltersSheetRootContext<TForm extends FormDataType>(
 export function provideFiltersSheetRootContext<TForm extends FormDataType>(
     contextValue: FiltersSheetRootContext<TForm>,
 ) {
-    return provide('FiltersSheetRootContext', contextValue);
+    return provide('FiltersSheetRoot', contextValue);
 }
 </script>
 
@@ -32,8 +34,8 @@ import { computed, inject, provide, Ref } from 'vue';
 
 type Props = DialogRootProps & {
     filters: FiltersForm<TForm>;
-    omit?: (keyof TForm)[];
-    pick?: (keyof TForm)[];
+    omit?: Field<TForm>[];
+    pick?: Field<TForm>[];
 };
 const props = withDefaults(defineProps<Props>(), {
     omit: () => [],
@@ -43,7 +45,7 @@ const emits = defineEmits<DialogRootEmits>();
 const delegatedProps = reactiveOmit(props, 'filters', 'omit', 'pick');
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
-const fields = computed((): (keyof TForm)[] =>
+const fields = computed((): Field<TForm>[] =>
     Object.keys(props.filters.data()).filter((key) => props.pick.includes(key) || !props.omit.includes(key)),
 );
 

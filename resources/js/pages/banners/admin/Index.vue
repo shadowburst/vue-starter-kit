@@ -106,7 +106,7 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
                 variant: 'destructive',
                 description: transChoice('messages.banners.delete.confirm', items.length),
                 callback: () =>
-                    router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy'), {
+                    router.delete<BannerOneOrManyRequest>(route('admin.banners.delete'), {
                         data: { ids: items.map(({ id }) => id) },
                         only: ['banners'],
                         onSuccess: () => {
@@ -132,7 +132,7 @@ const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
                 variant: 'destructive',
                 description: transChoice('messages.banners.delete.confirm', 1),
                 callback: () =>
-                    router.delete<BannerOneOrManyRequest>(route('admin.banners.destroy', { banner }), {
+                    router.delete<BannerOneOrManyRequest>(route('admin.banners.delete', { banner }), {
                         only: ['banners'],
                     }),
             }),

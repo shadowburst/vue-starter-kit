@@ -21,7 +21,7 @@ export function useComputedForm<TForm extends FormDataType>(data: TForm): Inerti
             return;
         }
 
-        Object.defineProperty(form, key, descriptor);
+        Object.defineProperty(proxy, key, descriptor);
     });
 
     return proxy;

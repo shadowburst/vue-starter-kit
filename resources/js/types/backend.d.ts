@@ -1,12 +1,3 @@
-export type AuthUserResource = {
-    id: number;
-    first_name: string;
-    last_name: string;
-    full_name: string;
-    initials: string;
-    email: string;
-    avatar?: MediaResource;
-};
 export type BannerAdminCreateProps = {};
 export type BannerAdminEditProps = {
     banner: BannerAdminFormResource;
@@ -107,6 +98,7 @@ export type RegisterProps = {};
 export type RegisterRequest = {
     first_name: string;
     last_name: string;
+    phone: string;
     email: string;
     password: string;
     password_confirmation: string;
@@ -133,6 +125,7 @@ export type ToastMessagesData = {
     warning?: string;
     error?: string;
 };
+export type TrashedFilter = 'only' | 'with';
 export type UpdatePasswordSettingsRequest = {
     current_password: string;
     password: string;
@@ -141,8 +134,89 @@ export type UpdatePasswordSettingsRequest = {
 export type UpdateProfileSettingsRequest = {
     first_name: string;
     last_name: string;
+    phone: string;
     email: string;
     avatar?: string;
+};
+export type UserAdminCreateProps = {};
+export type UserAdminEditProps = {
+    user: UserAdminFormResource;
+};
+export type UserAdminFormRequest = {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone?: string;
+    password?: string;
+    password_confirmation?: string;
+};
+export type UserAdminFormResource = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone?: string;
+};
+export type UserAdminIndexProps = {
+    users?: {
+        data: Array<UserAdminIndexResource>;
+        links: Array<{ url: string; label: string; active: boolean }>;
+        meta: {
+            current_page: number;
+            first_page_url: string;
+            from: number;
+            last_page: number;
+            last_page_url: string;
+            next_page_url: string;
+            path: string;
+            per_page: number;
+            prev_page_url: string;
+            to: number;
+            total: number;
+        };
+    };
+};
+export type UserAdminIndexRequest = {
+    q?: string;
+    page?: number;
+    per_page?: number;
+    sort_by: string;
+    sort_direction: string;
+    trashed?: TrashedFilter;
+};
+export type UserAdminIndexResource = {
+    id: number;
+    full_name: string;
+    initials: string;
+    email: string;
+    phone?: string;
+    avatar?: MediaResource;
+    deleted_at?: string;
+    can_trash: boolean;
+    can_restore: boolean;
+    can_delete: boolean;
+};
+export type UserAuthResource = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    full_name: string;
+    initials: string;
+    phone?: string;
+    email: string;
+    avatar?: MediaResource;
+};
+export type UserOneOrManyOnlyTrashedRequest = {
+    user?: number;
+    ids?: Array<number>;
+};
+export type UserOneOrManyRequest = {
+    user?: number;
+    ids?: Array<number>;
+};
+export type UserOneOrManyWithTrashedRequest = {
+    user?: number;
+    ids?: Array<number>;
 };
 export type VerifyEmailProps = {};
 export type VerifyEmailRequest = {

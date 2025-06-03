@@ -8,8 +8,10 @@
     "enable": "enable",
     "environment": "environment",
     "error": "error",
+    "filter": "filter",
     "frontend": "frontend",
     "info": "information",
+    "is_trashed": "is trashed",
     "login": "log in",
     "logout": "log out",
     "more_details": "more details",
@@ -19,9 +21,12 @@
     "query": "query",
     "register": "sign up",
     "reset": "reset",
+    "restore": "restore",
     "save": "save",
     "sort_by": "sort by",
     "sort_direction": "sort direction",
     "success": "success",
-    "warning": "warning"
+    "trash": "archive",
+    "warning": "warning",
+    "with_trashed": "with trashed"
 }

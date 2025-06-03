@@ -41,7 +41,7 @@ function submit() {
                     {{ $t('pages.banners.admin.create.title') }}
                 </SectionTitle>
             </SectionHeader>
-            <SectionContent>
+            <SectionContent class="sm:flex">
                 <BannerAdminForm />
             </SectionContent>
             <SectionFooter>

@@ -2,7 +2,7 @@
 import { LoadingIcon } from '@/components/ui/custom/loading';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Table } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TabsContent } from '@/components/ui/tabs';
 import { injectDataTableRootContext } from './DataTable.vue';
 import type { DataTableTab } from './interface';
@@ -17,11 +17,23 @@ const { loading, rows } = injectDataTableRootContext<TData>();
 
 <template>
     <TabsContent class="grid rounded-md border" v-if="tab === 'table'" :value="tab">
-        <div class="grid place-items-center p-4" v-if="loading">
-            <LoadingIcon variant="primary" />
-        </div>
-        <ScrollArea class="overflow-auto" v-else>
-            <Table>
+        <ScrollArea class="overflow-auto">
+            <Table v-if="loading">
+                <TableHeader>
+                    <TableRow>
+                        <TableHead class="h-14"> </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow v-for="i in 15" :key="i">
+                        <TableCell class="h-14"> </TableCell>
+                    </TableRow>
+                </TableBody>
+                <div class="absolute inset-0 grid place-items-center">
+                    <LoadingIcon variant="primary" />
+                </div>
+            </Table>
+            <Table v-else>
                 <slot />
             </Table>
             <ScrollBar orientation="horizontal" />

@@ -1,7 +1,7 @@
 <script lang="ts">
 export type InertiaComboboxProps<T extends Record<string, any>> = Omit<ComboboxRootProps, 'modelValue' | 'by'> & {
     modelValue?: Arrayable<T>;
-    data?: T[];
+    data?: string | T[];
     label: Extract<keyof T, string>;
     by: Extract<keyof T, string>;
     multiplePlaceholder?: (items: T[]) => string;
@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/combobox';
 import { LoadingIcon } from '@/components/ui/custom/loading';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { array } from '@/lib';
+import { useArrayWrap, usePageProp } from '@/composables';
 import { cn } from '@/lib/utils';
 import { WhenVisible } from '@inertiajs/vue3';
 import { Arrayable, reactiveOmit } from '@vueuse/core';
@@ -45,25 +45,41 @@ const props = withDefaults(defineProps<Props>(), {
 type Emits = InertiaComboboxEmits<T>;
 const emits = defineEmits<Emits>();
 
-const delegatedProps = reactiveOmit(props, 'modelValue', 'label', 'data', 'multiplePlaceholder');
+const delegatedProps = reactiveOmit(props, 'modelValue', 'label', 'data');
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
 const model = defineModel<Arrayable<T>>();
-const modelArray = computed((): T[] => array.wrap(model.value).filter((value) => value) as T[]);
-const options = computed((): T[] => {
-    const data = props.data ?? [];
-    if (!model.value) {
-        return data;
-    }
-    for (const value of modelArray.value) {
-        const index = data.findIndex((option) => option[props.by] === value[props.by]);
-        if (index > -1) {
-            data.splice(index, 1, value);
+const modelArray = useArrayWrap<T>(model);
+const models = computed<T[]>({
+    get: () => modelArray.value,
+    set: (value) => {
+        if (props.multiple) {
+            model.value = value;
+            return;
+        }
+        if (!value.length) {
+            model.value = undefined;
         } else {
-            data.splice(0, 0, value);
+            model.value = value[0];
+        }
+    },
+});
+
+const pageOptions = usePageProp<T[]>(() => (Array.isArray(props.data) ? undefined : props.data), []);
+const options = computed((): T[] => {
+    const list = Array.isArray(props.data) ? props.data : pageOptions.value;
+    if (!model.value) {
+        return list;
+    }
+    for (const value of models.value) {
+        const index = list.findIndex((option) => option[props.by] === value[props.by]);
+        if (index > -1) {
+            list.splice(index, 1, value);
+        } else {
+            list.splice(0, 0, value);
         }
     }
-    return data;
+    return list;
 });
 
 const { contains } = useFilter({ sensitivity: 'base' });
@@ -89,30 +105,28 @@ const placeholder = computed(() => {
 
 <template>
     <Combobox v-model="model" v-bind="forwarded">
-        <ComboboxAnchor as-child>
-            <div class="relative w-full items-center">
-                <ComboboxInput
-                    v-model="searchTerm"
-                    v-bind="$attrs"
-                    :placeholder
-                    :class="cn(modelArray.length && !required ? 'pr-16' : 'pr-8', props.class)"
-                />
-                <div class="absolute inset-y-0 end-0 flex items-center pe-px">
-                    <Button
-                        class="size-8"
-                        v-if="modelArray.length && !required"
-                        size="icon"
-                        variant="ghost"
-                        @click="model = multiple ? [] : undefined"
-                    >
-                        <XIcon />
+        <ComboboxAnchor class="relative w-full items-center">
+            <ComboboxInput
+                v-model="searchTerm"
+                v-bind="$attrs"
+                :placeholder
+                :class="cn(models.length && !required ? 'pr-16' : 'pr-8', props.class)"
+            />
+            <div class="absolute inset-y-px end-px flex items-stretch">
+                <Button
+                    class="h-full rounded-none"
+                    v-if="modelArray.length && !required"
+                    size="icon"
+                    variant="ghost"
+                    @click="models = []"
+                >
+                    <XIcon />
+                </Button>
+                <ComboboxTrigger as-child>
+                    <Button class="h-full rounded-l-none" size="icon" variant="ghost">
+                        <ChevronDownIcon />
                     </Button>
-                    <ComboboxTrigger as-child>
-                        <Button class="size-8" size="icon" variant="ghost">
-                            <ChevronDownIcon />
-                        </Button>
-                    </ComboboxTrigger>
-                </div>
+                </ComboboxTrigger>
             </div>
         </ComboboxAnchor>
         <ComboboxList>

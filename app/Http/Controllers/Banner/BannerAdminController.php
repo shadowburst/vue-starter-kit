@@ -110,7 +110,7 @@ class BannerAdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $count = $data->banners->toQuery()->delete();
+            $count = $data->banners->each->delete();
             DB::commit();
             $this->toastService->success->execute(trans_choice('messages.banners.delete.success', $count));
         } catch (\Throwable $e) {
