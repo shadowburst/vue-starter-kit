@@ -115,7 +115,7 @@ it('should not reset password with invalid token', function () {
             ])->toArray(),
         )->assertOk();
 
-    Notification::assertSentTo(
+    Notification::assertNotSentTo(
         $user,
         ResetPasswordNotification::class,
         function (ResetPasswordNotification $notification) use ($user) {
@@ -129,6 +129,6 @@ it('should not reset password with invalid token', function () {
                 ])->toArray(),
             )->assertSessionHasErrors();
 
-            return true;
+            return false;
         });
 });

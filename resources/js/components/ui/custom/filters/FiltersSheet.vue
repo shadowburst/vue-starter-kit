@@ -5,6 +5,7 @@ type FiltersSheetRootContext<TForm extends FormDataType> = {
     filters: FiltersForm<TForm>;
     fields: Ref<Field<TForm>[]>;
     count: Ref<number>;
+    data: Ref<Arrayable<string> | undefined>;
 };
 export function injectFiltersSheetRootContext<TForm extends FormDataType>(
     fallback?: FiltersSheetRootContext<TForm>,
@@ -28,7 +29,7 @@ export function provideFiltersSheetRootContext<TForm extends FormDataType>(
 import { Sheet } from '@/components/ui/sheet';
 import { FiltersForm } from '@/composables';
 import { FormDataType } from '@/types';
-import { reactiveOmit } from '@vueuse/core';
+import { Arrayable, reactiveOmit } from '@vueuse/core';
 import { type DialogRootEmits, type DialogRootProps, useForwardPropsEmits } from 'reka-ui';
 import { computed, inject, provide, Ref } from 'vue';
 
@@ -36,6 +37,7 @@ type Props = DialogRootProps & {
     filters: FiltersForm<TForm>;
     omit?: Field<TForm>[];
     pick?: Field<TForm>[];
+    data?: Arrayable<string>;
 };
 const props = withDefaults(defineProps<Props>(), {
     omit: () => [],
@@ -45,8 +47,11 @@ const emits = defineEmits<DialogRootEmits>();
 const delegatedProps = reactiveOmit(props, 'filters', 'omit', 'pick');
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
+const data = computed(() => props.data);
 const fields = computed((): Field<TForm>[] =>
-    Object.keys(props.filters.data()).filter((key) => props.pick.includes(key) || !props.omit.includes(key)),
+    Object.keys({ ...props.filters.data(), ...props.filters.params }).filter(
+        (key) => props.pick.includes(key) || !props.omit.includes(key),
+    ),
 );
 
 const count = computed(() => Object.keys(props.filters.params).filter((key) => fields.value.includes(key)).length);
@@ -55,6 +60,7 @@ provideFiltersSheetRootContext({
     filters: props.filters,
     fields,
     count,
+    data,
 });
 </script>
 

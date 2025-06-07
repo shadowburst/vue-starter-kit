@@ -7,14 +7,8 @@ use Illuminate\Support\Facades\Gate;
 
 trait HasPolicy
 {
-    /**
-     * Boot the HasPolicy trait for a class.
-     */
     public static function bootHasPolicy(): void {}
 
-    /**
-     * Initialize the HasPolicy trait for an instance.
-     */
     public function initializeHasPolicy(): void {}
 
     protected function canView(): Attribute

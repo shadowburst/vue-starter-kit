@@ -13,7 +13,6 @@ import { Link } from '@inertiajs/vue3';
 import { useSessionStorage } from '@vueuse/core';
 
 type Props = {
-    label: string;
     items: NavItem[];
 };
 defineProps<Props>();
@@ -29,11 +28,11 @@ function clearSessionStorage(href: string) {
         <SidebarGroup class="px-2 py-0">
             <SidebarGroupLabel>
                 <CapitalizeText>
-                    {{ label }}
+                    {{ $t('platform') }}
                 </CapitalizeText>
             </SidebarGroupLabel>
             <SidebarMenu>
-                <SidebarMenuItem v-for="item in items" :key="item.title">
+                <SidebarMenuItem v-for="item in items.filter((item) => !item.hidden)" :key="item.title">
                     <SidebarMenuButton as-child :is-active="item.isActive" :tooltip="item.title">
                         <Link :href="item.href" @click="clearSessionStorage(item.href)">
                             <component :is="item.icon" />

@@ -1,2 +1,2 @@
 export * from './banners/useBannerAdminForm';
-export * from './users/useUserAdminForm';
+export * from './users/useUserForm';

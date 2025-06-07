@@ -2,7 +2,7 @@ export { default as LoadingIcon } from './LoadingIcon.vue';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export const loadingIconVariants = cva('animate-pulse ', {
+export const loadingIconVariants = cva('fill-current animate-pulse-grow ', {
     variants: {
         variant: {
             default: 'text-current',

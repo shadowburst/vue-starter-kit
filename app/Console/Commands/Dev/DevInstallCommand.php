@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands\Dev;
 
+use App\Enums\Role\RoleName;
+use App\Facades\Services;
 use App\Models\Banner;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\alert;
@@ -60,15 +63,24 @@ class DevInstallCommand extends Command
 
         if (confirm('Generate fake data ?')) {
             $count = text(
-                label: 'How many items to create per model ?',
-                default: 50,
+                label: 'How many items to create ?',
+                default: 10,
                 validate: fn (string $value) => match (true) {
-                    intval($value) === 0 => 'Given value must be a positive integer',
-                    default              => null
+                    intval($value) < 1 => 'Given value must be a positive integer',
+                    default            => null
                 },
             );
+
             Banner::factory($count)->create();
-            User::factory($count)->create();
+
+            $users = User::factory($count)->create();
+            /** @var User $user */
+            foreach (Collection::wrap($users) as $user) {
+                Services::team()->forTeam(
+                    $user->team_id,
+                    fn () => $user->assignRole(RoleName::OWNER),
+                );
+            }
         }
 
         return self::SUCCESS;

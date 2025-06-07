@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -23,13 +24,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'team_id'           => Team::factory(),
             'first_name'        => fake()->firstName(),
             'last_name'         => fake()->lastName(),
             'phone'             => fake()->phoneNumber(),
             'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password'          => static::$password ??= bcrypt('password'),
-            'remember_token'    => Str::random(10),
+            'password'          => static::$password ??= Hash::make('password'),
         ];
     }
 

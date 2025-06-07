@@ -4,11 +4,11 @@ import AppShell from '@/components/app/AppShell.vue';
 import AppSidebar from '@/components/app/sidebar/AppSidebar.vue';
 import { Breadcrumbs } from '@/components/ui/custom/breadcrumbs';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { useRouterComputed } from '@/composables';
+import { useAuth, useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGridIcon } from 'lucide-vue-next';
+import { LayoutGridIcon, MonitorCogIcon } from 'lucide-vue-next';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -17,7 +17,15 @@ const { breadcrumbs = [] } = defineProps<Props>();
 
 const sidebarOpen = usePage().props.sidebarOpen;
 
+const { user } = useAuth();
+
 const items = useRouterComputed((): NavItem[] => [
+    {
+        title: trans('layouts.app.sidebar.items.admin'),
+        href: route('admin.index'),
+        icon: MonitorCogIcon,
+        hidden: !user.is_admin,
+    },
     {
         title: trans('layouts.app.sidebar.items.index'),
         href: route('index'),
@@ -29,7 +37,7 @@ const items = useRouterComputed((): NavItem[] => [
 
 <template>
     <SidebarProvider :default-open="sidebarOpen">
-        <AppSidebar :content-label="$t('platform')" :items />
+        <AppSidebar :items />
         <SidebarInset>
             <AppBanner class="border-b" />
             <header

@@ -11,34 +11,31 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { useAuth, useRouterComputed } from '@/composables';
+import { useAuth } from '@/composables';
 import { NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { trans } from 'laravel-vue-i18n';
 import { ChevronsUpDownIcon, CircleIcon } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 const { isMobile, state } = useSidebar();
+
 const { user } = useAuth();
 
-const environments = useRouterComputed((): NavItem[] => [
-    {
-        title: trans('backend'),
-        href: route('admin.index'),
-        isActive: route().current('admin.*'),
-    },
-    {
-        title: trans('frontend'),
-        href: route('index'),
-        isActive: !route().current('admin.*'),
-    },
-]);
+const teams = computed((): NavItem[] =>
+    user.teams.map((team) => ({
+        title: team.name,
+        href: route('teams.select', { team }),
+        isActive: user.team_id === team.id,
+        options: { method: 'patch' },
+    })),
+);
 </script>
 
 <template>
     <SidebarHeader>
         <SidebarMenu>
             <SidebarMenuItem>
-                <DropdownMenu v-if="user">
+                <DropdownMenu v-if="teams.length > 1">
                     <DropdownMenuTrigger as-child>
                         <SidebarMenuButton
                             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -56,13 +53,17 @@ const environments = useRouterComputed((): NavItem[] => [
                     >
                         <DropdownMenuLabel as-child>
                             <CapitalizeText>
-                                {{ $t('environment') }}
+                                {{ $t('models.team.name.many') }}
                             </CapitalizeText>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem v-for="{ title, href, isActive } in environments" :key="title" as-child>
-                                <Link class="block w-full" :href>
+                            <DropdownMenuItem
+                                v-for="{ title, href, isActive, options = {} } in teams"
+                                :key="title"
+                                as-child
+                            >
+                                <Link class="block w-full" v-bind="options" :href>
                                     <CircleIcon :class="{ 'text-primary fill-current': isActive }" />
                                     <CapitalizeText>
                                         {{ title }}

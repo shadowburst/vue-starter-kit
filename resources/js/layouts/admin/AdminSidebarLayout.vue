@@ -7,7 +7,7 @@ import { useRouterComputed } from '@/composables';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { LayoutGridIcon, TextQuoteIcon, UsersIcon } from 'lucide-vue-next';
+import { LayoutGridIcon, MonitorIcon, TextQuoteIcon } from 'lucide-vue-next';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -17,6 +17,11 @@ const { breadcrumbs = [] } = defineProps<Props>();
 const sidebarOpen = usePage().props.sidebarOpen;
 
 const items = useRouterComputed((): NavItem[] => [
+    {
+        title: trans('layouts.admin.sidebar.items.app'),
+        href: route('index'),
+        icon: MonitorIcon,
+    },
     {
         title: trans('layouts.admin.sidebar.items.index'),
         href: route('admin.index'),
@@ -29,18 +34,12 @@ const items = useRouterComputed((): NavItem[] => [
         icon: TextQuoteIcon,
         isActive: route().current('admin.banners.*'),
     },
-    {
-        title: trans('layouts.admin.sidebar.items.users'),
-        href: route('admin.users.index'),
-        icon: UsersIcon,
-        isActive: route().current('admin.users.*'),
-    },
 ]);
 </script>
 
 <template>
     <SidebarProvider :default-open="sidebarOpen">
-        <AppSidebar :content-label="$t('backend')" :items />
+        <AppSidebar :items />
         <SidebarInset>
             <header
                 class="border-sidebar-border/70 bg-background sticky inset-x-0 top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:rounded-t-xl md:px-4"

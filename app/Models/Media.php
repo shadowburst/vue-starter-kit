@@ -64,7 +64,7 @@ class Media extends SpatieMedia
 {
     use Prunable;
 
-    public const string COLLECTION_TEMP = 'temp';
+    const string COLLECTION_TEMP = 'temp';
 
     public function prunable(): Builder
     {

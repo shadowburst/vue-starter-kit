@@ -13,8 +13,5 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <div :class="cn(loadingIconVariants({ variant, size }), 'grid place-items-center')">
-        <CircleIcon :class="cn('col-start-1 row-start-1 fill-current', props.class)" />
-        <CircleIcon :class="cn('col-start-1 row-start-1 scale-80 animate-ping fill-current', props.class)" />
-    </div>
+    <CircleIcon :class="cn(loadingIconVariants({ variant, size }), props.class)" />
 </template>

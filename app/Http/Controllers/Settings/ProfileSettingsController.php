@@ -10,6 +10,7 @@ use App\Services\SettingsService;
 use App\Services\ToastService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ProfileSettingsController extends Controller
 {
@@ -25,7 +26,7 @@ class ProfileSettingsController extends Controller
     {
         $user = Auth::user();
 
-        return inertia('settings/Profile', EditProfileSettingsProps::from([
+        return Inertia::render('settings/Profile', EditProfileSettingsProps::from([
             'mustVerifyEmail' => $user instanceof MustVerifyEmail && ! $user?->email_verified_at,
         ]));
     }
@@ -40,11 +41,7 @@ class ProfileSettingsController extends Controller
             $data,
         );
 
-        if ($success) {
-            $this->toastService->success->execute(__('messages.settings.profile.update.success'));
-        } else {
-            $this->toastService->error->execute(__('messages.error'));
-        }
+        $this->toastService->successOrError->execute($success, __('messages.settings.profile.update.success'));
 
         return to_route('settings.profile.edit');
     }
@@ -56,11 +53,7 @@ class ProfileSettingsController extends Controller
     {
         $success = $this->settingsService->deleteProfile->execute();
 
-        if ($success) {
-            $this->toastService->success->execute(__('messages.settings.profile.delete.success'));
-        } else {
-            $this->toastService->error->execute(__('messages.error'));
-        }
+        $this->toastService->successOrError->execute($success, __('messages.settings.profile.delete.success'));
 
         return to_route('index');
     }

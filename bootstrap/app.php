@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'banner.include' => \App\Http\Middleware\IncludeBanner::class,
         ]);
         $middleware->web(append: [
+            \App\Http\Middleware\Team\SetTeamMiddleware::class,
             \App\Http\Middleware\HandleLocale::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \App\Http\Middleware\IncludeEnums::class,

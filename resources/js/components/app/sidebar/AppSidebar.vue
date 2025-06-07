@@ -8,7 +8,6 @@ import AppSidebarFooter from './AppSidebarFooter.vue';
 import AppSidebarHeader from './AppSidebarHeader.vue';
 
 type Props = {
-    contentLabel: string;
     items: NavItem[];
 };
 defineProps<Props>();
@@ -20,7 +19,7 @@ onUnmounted(router.on('navigate', () => setOpenMobile(false)));
 <template>
     <Sidebar collapsible="icon" variant="inset">
         <AppSidebarHeader />
-        <AppSidebarContent :label="contentLabel" :items />
+        <AppSidebarContent :items />
         <AppSidebarFooter />
     </Sidebar>
 </template>

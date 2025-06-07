@@ -1,7 +1,13 @@
 import type { ErrorBag, Errors } from '@inertiajs/core';
 import { FormDataConvertible } from '@inertiajs/core';
 import type { Config } from 'ziggy-js';
-import { BannerAppResource, ToastMessagesData, TrashedFilter, UserAuthResource } from './backend';
+import {
+    BannerAppResource,
+    ToastMessagesData,
+    TrashedFilter,
+    UserAbilitiesResource,
+    UserAuthResource,
+} from './backend';
 
 export type Enum<T extends string> = {
     value: T;
@@ -12,6 +18,7 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     name: string;
     auth?: {
         user: UserAuthResource;
+        abilities: UserAbilitiesResource;
     };
     toast: ToastMessagesData;
     errors: Errors & ErrorBag;

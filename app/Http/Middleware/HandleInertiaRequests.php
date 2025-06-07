@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Data\User\UserAbilitiesResource;
 use App\Data\User\UserAuthResource;
 use App\Models\User;
 use App\Services\ToastService;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Inertia\Inertia;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -49,11 +51,12 @@ class HandleInertiaRequests extends Middleware
             'name' => Config::string('app.name'),
             'auth' => value(
                 fn (?User $user) => ! $user ? null : [
-                    'user' => UserAuthResource::from($user->load(['avatar'])),
+                    'user'      => UserAuthResource::from($user->loadMissing(['avatar', 'teams'])),
+                    'abilities' => UserAbilitiesResource::from($user),
                 ],
                 Auth::user(),
             ),
-            'toast' => $toast->get(),
+            'toast' => Inertia::always($toast->get()),
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

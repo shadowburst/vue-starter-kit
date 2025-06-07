@@ -8,18 +8,12 @@ class ToastInfo
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         protected ToastMessage $toastMessage,
     ) {}
 
-    /**
-     * Execute the action.
-     */
-    public function execute(string $message): void
+    public function execute(string $message): bool
     {
-        $this->toastMessage->execute($message, 'info');
+        return $this->toastMessage->execute($message, 'info');
     }
 }

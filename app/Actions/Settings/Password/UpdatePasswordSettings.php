@@ -11,16 +11,10 @@ class UpdatePasswordSettings
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         //
     ) {}
 
-    /**
-     * Execute the action.
-     */
     public function execute(User $user, UpdatePasswordSettingsRequest $data): bool
     {
         return $user->update([

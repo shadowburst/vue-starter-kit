@@ -108,19 +108,31 @@ return [
         ],
     ],
 
+    'teams' => [
+        'index' => [
+            'title' => 'Teams',
+        ],
+        'create' => [
+            'title'       => 'Create a team',
+            'description' => 'Create a new team for you and your users',
+        ],
+        'edit' => [
+            'title'       => 'Update a team',
+            'description' => "Update a team's details",
+        ],
+    ],
+
     'users' => [
-        'admin' => [
-            'index' => [
-                'title' => 'Users',
-            ],
-            'create' => [
-                'title'       => 'Create a user',
-                'description' => 'Create a new user for the site',
-            ],
-            'edit' => [
-                'title'       => 'Update a user',
-                'description' => "Update a user's details",
-            ],
+        'index' => [
+            'title' => 'Users',
+        ],
+        'create' => [
+            'title'       => 'Create a user',
+            'description' => 'Create a new user for the site',
+        ],
+        'edit' => [
+            'title'       => 'Update a user',
+            'description' => "Update a user's details",
         ],
     ],
 

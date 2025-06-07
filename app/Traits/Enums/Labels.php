@@ -4,14 +4,8 @@ namespace App\Traits\Enums;
 
 trait Labels
 {
-    /**
-     * Boot the Labels trait for a class.
-     */
     public static function bootLabels(): void {}
 
-    /**
-     * Initialize the Labels trait for an instance.
-     */
     public function initializeLabels(): void {}
 
     abstract public function label(): string;

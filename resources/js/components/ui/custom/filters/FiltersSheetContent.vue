@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { FormContent } from '@/components/ui/custom/form';
+import { LoadingIcon } from '@/components/ui/custom/loading';
 import { SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import ScrollArea from '@/components/ui/scroll-area/ScrollArea.vue';
@@ -13,6 +14,7 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { WhenVisible } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import { XIcon } from 'lucide-vue-next';
 import { useForwardProps, VisuallyHidden } from 'reka-ui';
@@ -22,7 +24,7 @@ const props = defineProps<SheetContentProps>();
 const delegatedProps = reactiveOmit(props, 'class');
 const forwarded = useForwardProps(delegatedProps);
 
-const { filters, fields, count } = injectFiltersSheetRootContext();
+const { filters, fields, count, data } = injectFiltersSheetRootContext();
 
 function reset() {
     for (const field of fields.value) {
@@ -64,5 +66,12 @@ function reset() {
                 </FormContent>
             </SectionContent>
         </ScrollArea>
+        <WhenVisible v-if="data" :data>
+            <template #fallback>
+                <div class="absolute inset-0">
+                    <LoadingIcon class="mx-auto" variant="primary" />
+                </div>
+            </template>
+        </WhenVisible>
     </SheetContent>
 </template>
