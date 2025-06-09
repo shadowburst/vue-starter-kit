@@ -32,7 +32,7 @@ function sort() {
 </script>
 
 <template>
-    <DataTableHead :class="cn('relative', props.class)">
+    <DataTableHead :class="cn('px-0', props.class)">
         <Button class="w-full justify-between text-xs uppercase" size="sm" variant="ghost" @click="sort()">
             <slot />
             <ChevronsUpDownIcon v-if="!active" />

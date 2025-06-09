@@ -108,19 +108,42 @@ return [
         ],
     ],
 
-    'users' => [
-        'admin' => [
-            'index' => [
-                'title' => 'Users',
+    'teams' => [
+        'first' => [
+            'required' => [
+                'title'       => 'Account not configured',
+                'description' => 'Your account has not been configured yet, please contact your adimistrator to get started',
+                'not_you'     => 'Not you ?',
             ],
             'create' => [
-                'title'       => 'Create a user',
-                'description' => 'Create a new user for the site',
+                'title'       => 'Create a team',
+                'description' => 'Create your first team to start using the application',
             ],
-            'edit' => [
-                'title'       => 'Update a user',
-                'description' => "Update a user's details",
-            ],
+        ],
+        'index' => [
+            'title' => 'Teams',
+        ],
+        'create' => [
+            'title'       => 'Create a team',
+            'description' => 'Create a new team for you and your users',
+        ],
+        'edit' => [
+            'title'       => 'Update a team',
+            'description' => "Update a team's details",
+        ],
+    ],
+
+    'users' => [
+        'index' => [
+            'title' => 'Users',
+        ],
+        'create' => [
+            'title'       => 'Create a user',
+            'description' => 'Create a new user for the site',
+        ],
+        'edit' => [
+            'title'       => 'Update a user',
+            'description' => "Update a user's details",
         ],
     ],
 

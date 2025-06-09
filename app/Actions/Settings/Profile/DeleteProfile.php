@@ -9,16 +9,10 @@ class DeleteProfile
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         //
     ) {}
 
-    /**
-     * Execute the action.
-     */
     public function execute(): bool
     {
         $request = request();

@@ -18,12 +18,12 @@ return [
             'many' => 'banners',
         ],
         'fields' => [
-            'name'       => 'name',
-            'message'    => 'message',
             'action'     => 'action',
-            'start_date' => 'from',
             'end_date'   => 'to',
             'is_enabled' => 'active',
+            'message'    => 'message',
+            'name'       => 'name',
+            'start_date' => 'from',
         ],
     ],
 
@@ -39,23 +39,46 @@ return [
         ],
     ],
 
+    'role' => [
+        'name' => [
+            'one'  => 'role',
+            'many' => 'roles',
+        ],
+        'fields' => [
+            'name' => 'name',
+        ],
+    ],
+
+    'team' => [
+        'name' => [
+            'one'  => 'company',
+            'many' => 'companies',
+        ],
+        'fields' => [
+            'deleted_at' => 'archived at',
+            'is_trashed' => 'is archived',
+            'name'       => 'name',
+        ],
+    ],
+
     'user' => [
         'name' => [
             'one'  => 'user',
             'many' => 'users',
         ],
         'fields' => [
-            'first_name'            => 'first name',
-            'last_name'             => 'last name',
-            'full_name'             => 'full name',
-            'phone'                 => 'phone',
-            'email'                 => 'email',
+            'avatar'                => 'avatar',
             'current_password'      => 'current password',
+            'deleted_at'            => 'archived at',
+            'email'                 => 'email',
+            'first_name'            => 'first name',
+            'full_name'             => 'full name',
+            'is_trashed'            => 'is archived',
+            'last_name'             => 'last name',
+            'owner'                 => 'owner',
             'password'              => 'password',
             'password_confirmation' => 'confirm password',
-            'avatar'                => 'avatar',
-            'is_trashed'            => 'is trashed',
-            'deleted_at'            => 'archived at',
+            'phone'                 => 'phone',
         ],
     ],
 

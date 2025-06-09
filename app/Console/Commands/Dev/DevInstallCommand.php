@@ -5,6 +5,7 @@ namespace App\Console\Commands\Dev;
 use App\Models\Banner;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\alert;
@@ -60,15 +61,22 @@ class DevInstallCommand extends Command
 
         if (confirm('Generate fake data ?')) {
             $count = text(
-                label: 'How many items to create per model ?',
-                default: 50,
+                label: 'How many items to create ?',
+                default: 10,
                 validate: fn (string $value) => match (true) {
-                    intval($value) === 0 => 'Given value must be a positive integer',
-                    default              => null
+                    intval($value) < 1 => 'Given value must be a positive integer',
+                    default            => null
                 },
             );
-            Banner::factory($count)->create();
-            User::factory($count)->create();
+
+            Banner::factory()
+                ->count($count)
+                ->create();
+            User::factory()
+                ->count($count)
+                ->withoutTeam()
+                ->sequence(fn (Sequence $sequence) => ['email' => "owner-{$sequence->index}@app.com"])
+                ->create();
         }
 
         return self::SUCCESS;

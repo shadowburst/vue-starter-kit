@@ -5,9 +5,10 @@ namespace App\Data\User;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\Computed;
-use Spatie\LaravelData\Attributes\FromRouteParameter;
+use Spatie\LaravelData\Attributes\FromRouteParameterProperty;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Attributes\Validation\ExcludeWith;
 use Spatie\LaravelData\Attributes\Validation\Min;
@@ -27,7 +28,7 @@ class UserOneOrManyRequest extends Data
     public Collection $users;
 
     public function __construct(
-        #[FromRouteParameter('user')]
+        #[FromRouteParameterProperty('member', 'id')]
         #[ExcludeWith('ids')]
         public ?int $user = null,
 
@@ -36,7 +37,7 @@ class UserOneOrManyRequest extends Data
         /** @var array<int> */
         public ?array $ids = null,
     ) {
-        $this->users = User::query()
+        $this->users = Auth::user()->members()->belongsToAnyTeam()
             ->when($user, fn (Builder $q) => $q->where('id', $user))
             ->when($ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $ids))
             ->get();

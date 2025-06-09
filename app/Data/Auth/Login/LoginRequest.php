@@ -22,9 +22,9 @@ class LoginRequest extends Data
     public static function attributes(): array
     {
         return [
-            'email'    => __('models.user.email'),
-            'password' => __('models.user.password'),
-            'remember' => __('models.user.remember'),
+            'email'    => __('models.user.fields.email'),
+            'password' => __('models.user.fields.password'),
+            'remember' => __('models.user.fields.remember'),
         ];
     }
 

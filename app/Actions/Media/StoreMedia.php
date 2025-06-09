@@ -13,16 +13,11 @@ class StoreMedia
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         //
     ) {}
 
     /**
-     * Execute the action.
-     *
      * @throws FileUnacceptableForCollection
      */
     public function execute(StoreMediaRequest $data): Media

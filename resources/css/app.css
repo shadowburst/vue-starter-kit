@@ -169,3 +169,13 @@
         @apply bg-background text-foreground;
     }
 }
+
+@theme {
+    --animate-pulse-grow: pulse-grow 2s ease-in-out infinite;
+    @keyframes pulse-grow {
+        50% {
+            transform: scale(0.8);
+            opacity: 0.5;
+        }
+    }
+}

@@ -2,24 +2,21 @@
 
 namespace App\Actions\Toast;
 
+use Illuminate\Support\Facades\Session;
 use Spatie\QueueableAction\QueueableAction;
 
 class ToastMessage
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         //
     ) {}
 
-    /**
-     * Execute the action.
-     */
-    public function execute(string $message, string $type): void
+    public function execute(string $message, string $type): bool
     {
-        session()->flash($type, $message);
+        Session::flash($type, $message);
+
+        return true;
     }
 }

@@ -4,32 +4,17 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Trait Searchable
- */
 trait Searchable
 {
-    /**
-     * Boot The Searchable trait for an instance.
-     */
     public function initializeSearchable(): void {}
 
-    /**
-     * Initialize the Searchable trait for a class.
-     */
     public static function bootSearchable(): void {}
 
-    /**
-     * Gets the searchable attributes.
-     */
     public function getSearchableAttributes(): array
     {
         return $this->searchable ?? [];
     }
 
-    /**
-     * Scope a query to search for a term in the attributes
-     */
     protected function scopeSearch(Builder $query, ?string $q): Builder
     {
         $attributes = $this->getSearchableAttributes();

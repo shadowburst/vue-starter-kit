@@ -21,10 +21,6 @@ return [
                 'destructive' => 'Warning',
             ],
         ],
-        'user_dropdown' => [
-            'settings' => 'Settings',
-            'logout'   => 'Log out',
-        ],
     ],
 
     'settings' => [
@@ -40,7 +36,7 @@ return [
     'ui' => [
         'custom' => [
             'combobox' => [
-                'selected' => '{1}1 item selected|[2,*]:count items selected',
+                'selected' => '1 item selected|:count items selected',
                 'empty'    => 'nothing to display',
             ],
             'data_table' => [
@@ -60,6 +56,11 @@ return [
                     'upload' => 'Upload a file',
                     'delete' => 'Remove file',
                 ],
+            ],
+            'multi_select' => [
+                'empty'    => 'nothing to display',
+                'reset'    => 'reset',
+                'selected' => '1 selected|:count selected',
             ],
         ],
     ],

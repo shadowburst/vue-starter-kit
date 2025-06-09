@@ -154,11 +154,11 @@ const filters = useFilters<BannerAdminIndexRequest>(
     {
         only: ['banners'],
         immediate: true,
-        debounceReload(key) {
-            return !['page', 'per_page'].includes(key);
+        debounceReload(keys) {
+            return !keys.includes('page') && !keys.includes('per_page');
         },
-        onReload(key) {
-            if (key !== 'page') {
+        onReload(keys) {
+            if (!keys.includes('page')) {
                 filters.page = 1;
             }
         },

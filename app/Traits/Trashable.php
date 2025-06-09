@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Enums\Trashed\TrashedFilter;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,14 +11,8 @@ trait Trashable
 {
     use SoftDeletes;
 
-    /**
-     * Boot the Trashable trait for a class.
-     */
     public static function bootTrashable(): void {}
 
-    /**
-     * Initialize the Trashable trait for an instance.
-     */
     public function initializeTrashable(): void {}
 
     protected function isTrashable(): Attribute
@@ -37,8 +30,7 @@ trait Trashable
         );
     }
 
-    #[Scope]
-    protected function filterTrashed(Builder $query, TrashedFilter $filter): Builder
+    protected function scopeFilterTrashed(Builder $query, TrashedFilter $filter): Builder
     {
         return match ($filter) {
             TrashedFilter::ONLY => $query->onlyTrashed(),

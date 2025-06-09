@@ -11,16 +11,10 @@ class UpdateProfileSettings
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         protected MediaService $mediaService,
     ) {}
 
-    /**
-     * Execute the action.
-     */
     public function execute(User $user, UpdateProfileSettingsRequest $data): bool
     {
         $user->fill($data->toArray());

@@ -7,15 +7,15 @@ export function usePageProp<T>(
     defaultValue: T,
 ): ComputedRef<NonNullable<T>>;
 export function usePageProp<T>(data: MaybeRefOrGetter<string | undefined>, defaultValue?: T) {
-    return computed((): T | undefined => {
-        const props = usePage().props;
+    const page = usePage();
 
+    return computed((): T | undefined => {
         const dataKey = toValue(data);
         if (!dataKey) {
             return;
         }
 
-        const result = dataKey.split('.').reduce((value: any, key) => value?.[key], props);
+        const result = dataKey.split('.').reduce((value: any, key) => value?.[key], page.props);
 
         if (!result) {
             return defaultValue;

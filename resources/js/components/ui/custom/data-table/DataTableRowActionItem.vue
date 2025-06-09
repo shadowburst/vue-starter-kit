@@ -2,25 +2,19 @@
 import { InertiaLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { computed } from 'vue';
 import { injectDataTableRowContext } from './DataTableRow.vue';
-import { DataTableRowAction, DataTableRowCallbackAction, DataTableRowHrefAction } from './interface';
+import { DataTableRowAction } from './interface';
 
 type Props = {
     action: DataTableRowAction<TData>;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const { item } = injectDataTableRowContext<TData>();
 
-function getHref(action: DataTableRowHrefAction<TData>): string | undefined {
-    if (!action.href) {
-        return;
-    }
-
-    return typeof action.href == 'string' ? action.href : action.href(item.value);
-}
-
-function getIsDisabled(action: DataTableRowCallbackAction<TData> | DataTableRowHrefAction<TData>): boolean {
+const disabled = computed((): boolean => {
+    const { action } = props;
     if (!action.disabled) {
         return false;
     }
@@ -28,26 +22,46 @@ function getIsDisabled(action: DataTableRowCallbackAction<TData> | DataTableRowH
         return action.disabled;
     }
     return action.disabled(item.value);
-}
+});
+
+const hidden = computed((): boolean => {
+    const { action } = props;
+    if (!action.hidden) {
+        return false;
+    }
+    if (typeof action.hidden === 'boolean') {
+        return action.hidden;
+    }
+    return action.hidden(item.value);
+});
+
+const href = computed((): string | undefined => {
+    const { action } = props;
+    if (action.type !== 'href' || !action.href) {
+        return;
+    }
+    if (typeof action.href === 'string') {
+        return action.href;
+    }
+    return action.href(item.value);
+});
 </script>
 
 <template>
-    <DropdownMenuItem v-if="action.type === 'href'" :disabled="getIsDisabled(action)" as-child>
-        <InertiaLink :href="getHref(action)!">
+    <template v-if="!hidden">
+        <DropdownMenuItem v-if="action.type === 'href'" :disabled as-child>
+            <InertiaLink :href="href!">
+                <component :is="action.icon" />
+                <CapitalizeText>
+                    {{ action.label }}
+                </CapitalizeText>
+            </InertiaLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem v-else-if="action.type === 'callback'" :disabled @click="action.callback(item)">
             <component :is="action.icon" />
             <CapitalizeText>
                 {{ action.label }}
             </CapitalizeText>
-        </InertiaLink>
-    </DropdownMenuItem>
-    <DropdownMenuItem
-        v-else-if="action.type === 'callback'"
-        :disabled="getIsDisabled(action)"
-        @click="action.callback(item)"
-    >
-        <component :is="action.icon" />
-        <CapitalizeText>
-            {{ action.label }}
-        </CapitalizeText>
-    </DropdownMenuItem>
+        </DropdownMenuItem>
+    </template>
 </template>

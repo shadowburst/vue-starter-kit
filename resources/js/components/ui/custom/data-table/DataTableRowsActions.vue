@@ -22,6 +22,15 @@ function getIsDisabled(action: DataTableRowsAction<TData>): boolean {
     }
     return action.disabled(selectedRows.value);
 }
+function getIsHidden(action: DataTableRowsAction<TData>): boolean {
+    if (!action.hidden) {
+        return false;
+    }
+    if (typeof action.hidden === 'boolean') {
+        return action.hidden;
+    }
+    return action.hidden(selectedRows.value);
+}
 </script>
 
 <template>
@@ -36,7 +45,7 @@ function getIsDisabled(action: DataTableRowsAction<TData>): boolean {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
             <DropdownMenuItem
-                v-for="action in rowsActions"
+                v-for="action in rowsActions.filter((action) => !getIsHidden(action))"
                 :key="action.label"
                 :disabled="getIsDisabled(action)"
                 @click="action.callback(selectedRows)"

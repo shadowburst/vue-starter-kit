@@ -2,12 +2,17 @@ import { usePage } from '@inertiajs/vue3';
 import { reactiveComputed } from '@vueuse/core';
 
 export function useAuth() {
-    return reactiveComputed(() => {
-        const auth = usePage().props.auth;
+    const page = usePage();
 
-        if (!auth) {
-            throw new Error('`useAuth` must be used when a user is logged in');
-        }
-        return auth;
-    });
+    if (!page.props.auth) {
+        throw new Error('`useAuth` must be used when a user is logged in');
+    }
+
+    const user = reactiveComputed(() => page.props.auth!.user);
+    const abilities = reactiveComputed(() => page.props.auth!.abilities);
+
+    return {
+        user,
+        abilities,
+    };
 }

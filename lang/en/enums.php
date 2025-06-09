@@ -12,10 +12,28 @@ return [
     |
     */
 
+    'permission' => [
+        'name' => [
+            '*'     => 'all',
+            'teams' => 'teams',
+            'users' => 'users',
+        ],
+    ],
+
+    'role' => [
+        'name' => [
+            'tester' => 'tester',
+            'owner'  => 'owner',
+            'member' => 'member',
+            'viewer' => 'viewer',
+            'editor' => 'editor',
+        ],
+    ],
+
     'trashed' => [
         'filter' => [
-            'with' => 'with trashed',
-            'only' => 'only trashed',
+            'with' => 'with archived',
+            'only' => 'only archived',
         ],
     ],
 

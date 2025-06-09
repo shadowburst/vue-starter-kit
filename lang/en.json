@@ -1,6 +1,5 @@
 {
     "actions": "actions",
-    "backend": "backend",
     "cancel": "cancel",
     "code": "code",
     "confirm": "confirm",
@@ -9,9 +8,7 @@
     "environment": "environment",
     "error": "error",
     "filter": "filter",
-    "frontend": "frontend",
     "info": "information",
-    "is_trashed": "is trashed",
     "login": "log in",
     "logout": "log out",
     "more_details": "more details",
@@ -27,6 +24,6 @@
     "sort_direction": "sort direction",
     "success": "success",
     "trash": "archive",
-    "warning": "warning",
-    "with_trashed": "with trashed"
+    "trashed": "archived",
+    "warning": "warning"
 }

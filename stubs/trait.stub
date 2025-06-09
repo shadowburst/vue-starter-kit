@@ -4,13 +4,7 @@ namespace {{ namespace }};
 
 trait {{ class }}
 {
-    /**
-     * Boot the {{ class }} trait for a class.
-     */
     public static function boot{{ class }}(): void {}
 
-    /**
-     * Initialize the {{ class }} trait for an instance.
-     */
     public function initialize{{ class }}(): void {}
 }

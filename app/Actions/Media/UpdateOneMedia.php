@@ -3,7 +3,6 @@
 namespace App\Actions\Media;
 
 use App\Models\Media;
-use App\Traits\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -11,24 +10,12 @@ class UpdateOneMedia
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         //
     ) {}
 
-    /**
-     * Execute the action.
-     *
-     * @
-     */
     public function execute(HasMedia $model, string $collection, ?string $uuid): bool
     {
-        // if (! in_array(InteractsWithMedia::class, class_uses_recursive($model::class))) {
-        //     throw new \Exception('Invalid class');
-        // }
-
         // Reset collection if null given
         if (! $uuid) {
             $model->clearMediaCollection($collection);

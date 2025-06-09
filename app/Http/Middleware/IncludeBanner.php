@@ -42,6 +42,7 @@ class IncludeBanner
                 ['end_date', '>=', now()],
             ])
             ->whereIsEnabled(true)
+            ->orderBy('end_date', 'asc')
             ->first();
 
         if (! $banner) {

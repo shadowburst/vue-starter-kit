@@ -17,9 +17,9 @@ class BannerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'       => fake()->domainName,
-            'message'    => fake()->text,
-            'action'     => fake()->url,
+            'name'       => fake()->domainName(),
+            'message'    => fake()->text(),
+            'action'     => fake()->url(),
             'start_date' => fn (array $attributes) => fake()->dateTimeBetween('-1 year', $attributes['end_date']),
             'end_date'   => fake()->dateTimeBetween('now', '+1 year'),
             'is_enabled' => fake()->boolean(25),

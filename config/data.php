@@ -28,7 +28,7 @@ return [
          * You can disable this behaviour by setting this option to true, which will then just
          * ignore the value being passed into the computed property and recalculate it.
          */
-        'ignore_exception_when_trying_to_set_computed_property_value' => false,
+        'ignore_exception_when_trying_to_set_computed_property_value' => true,
     ],
 
     /*

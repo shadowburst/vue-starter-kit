@@ -2,71 +2,126 @@
 
 namespace App\Policies;
 
+use App\Enums\Permission\PermissionName;
+use App\Enums\Role\RoleName;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 class UserPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
+    public function before(User $user): ?bool
+    {
+        return null;
+    }
+
     public function viewAny(User $user): bool
     {
-        return false;
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS);
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
     public function view(User $user, User $model): bool
     {
-        return false;
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        if ($model->is($user)) {
+            return true;
+        }
+
+        if (! $model->isSameOwner($user->id)) {
+            return false;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS);
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
-        return false;
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
     public function update(User $user, User $model): bool
     {
-        return false;
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        if ($model->is($user)) {
+            return true;
+        }
+
+        if (! $model->isSameOwner($user->id)) {
+            return false;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
     }
 
-    /**
-     * Determine whether the user can trash the model.
-     */
     public function trash(User $user, User $model): bool
     {
-        if ($user->is($model)) {
+        if ($model->is_trashed) {
             return false;
         }
 
-        return ! $model->is_trashed;
+        if ($model->is($user)) {
+            return false;
+        }
+
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        if (! $model->isSameOwner($user->id)) {
+            return false;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
     public function restore(User $user, User $model): bool
     {
-        if ($user->is($model)) {
+        if (! $model->is_trashed) {
             return false;
         }
 
-        return $model->is_trashed;
+        if ($model->is($user)) {
+            return false;
+        }
+
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        if (! $model->isSameOwner($user->id)) {
+            return false;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
     public function delete(User $user, User $model): bool
     {
-        return $user->isNot($model);
+        if ($model->is($user)) {
+            return false;
+        }
+
+        if ($user->is_admin && Route::is('admin.*')) {
+            return true;
+        }
+
+        if (! $model->isSameOwner($user->id)) {
+            return false;
+        }
+
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
     }
 }

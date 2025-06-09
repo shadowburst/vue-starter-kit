@@ -19,12 +19,11 @@ class ToastSuccessOrError
     /**
      * Execute the action.
      */
-    public function execute(bool $success, string $successMessage, ?string $errorMessage = null): void
+    public function execute(bool $success, string $successMessage, ?string $errorMessage = null): bool
     {
-        if ($success) {
-            $this->toastSuccess->execute($successMessage);
-        } else {
-            $this->toastError->execute($errorMessage ?? __('messages.error'));
-        }
+        return match ($success) {
+            true    => $this->toastSuccess->execute($successMessage),
+            default => $this->toastError->execute($errorMessage ?? __('messages.error'))
+        };
     }
 }

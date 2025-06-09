@@ -15,8 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'banner.include' => \App\Http\Middleware\IncludeBanner::class,
+            'auth.include'   => \App\Http\Middleware\Auth\AuthIncludeMiddleware::class,
+            'auth.owner'     => \App\Http\Middleware\Auth\AuthOwnerMiddleware::class,
+            'auth.team'      => \App\Http\Middleware\Auth\AuthTeamMiddleware::class,
         ]);
         $middleware->web(append: [
+            \App\Http\Middleware\Team\SetTeamMiddleware::class,
             \App\Http\Middleware\HandleLocale::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \App\Http\Middleware\IncludeEnums::class,

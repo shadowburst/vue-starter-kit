@@ -22,14 +22,14 @@ return [
             'success' => 'Banner updated successfully',
         ],
         'enable' => [
-            'confirm' => '{1}Are you sure you want to enable this banner ?|[2,*]Are you sure you want to enable these banners ?',
+            'confirm' => 'Are you sure you want to enable this banner ?|Are you sure you want to enable these banners ?',
         ],
         'disable' => [
-            'confirm' => '{1}Are you sure you want to disable this banner ?|[2,*]Are you sure you want to disable these banners ?',
+            'confirm' => 'Are you sure you want to disable this banner ?|Are you sure you want to disable these banners ?',
         ],
         'delete' => [
-            'confirm' => '{1}Are you sure you want to delete this banner ?|[2,*]Are you sure you want to delete these banners ?',
-            'success' => '{1}Banner deleted successfully|[2,*]Banners deleted successfully',
+            'confirm' => 'Are you sure you want to delete this banner ?|Are you sure you want to delete these banners ?',
+            'success' => 'Banner deleted successfully|Banners deleted successfully',
         ],
     ],
 
@@ -49,6 +49,30 @@ return [
         ],
     ],
 
+    'teams' => [
+        'store' => [
+            'success' => 'Team created successfully',
+        ],
+        'update' => [
+            'success' => 'Team updated successfully',
+        ],
+        'select' => [
+            'success' => 'Team changed successfully',
+        ],
+        'trash' => [
+            'confirm' => 'Are you sure you want to archive this team ?|Are you sure you want to archive these teams ?',
+            'success' => 'Team archived successfully|Teams archived successfully',
+        ],
+        'restore' => [
+            'confirm' => 'Are you sure you want to restore this team ?|Are you sure you want to restore these teams ?',
+            'success' => 'Team restored successfully|Teams restored successfully',
+        ],
+        'delete' => [
+            'confirm' => 'Are you sure you want to delete this team ?|Are you sure you want to delete these teams ?',
+            'success' => 'Team deleted successfully|Teams deleted successfully',
+        ],
+    ],
+
     'users' => [
         'store' => [
             'success' => 'User created successfully',
@@ -57,16 +81,16 @@ return [
             'success' => 'User updated successfully',
         ],
         'trash' => [
-            'confirm' => '{1}Are you sure you want to archive this user ?|[2,*]Are you sure you want to archive these users ?',
-            'success' => '{1}User archived successfully|[2,*]Users archived successfully',
+            'confirm' => 'Are you sure you want to archive this user ?|Are you sure you want to archive these users ?',
+            'success' => 'User archived successfully|Users archived successfully',
         ],
         'restore' => [
-            'confirm' => '{1}Are you sure you want to restore this user ?|[2,*]Are you sure you want to restore these users ?',
-            'success' => '{1}User restored successfully|[2,*]Users restored successfully',
+            'confirm' => 'Are you sure you want to restore this user ?|Are you sure you want to restore these users ?',
+            'success' => 'User restored successfully|Users restored successfully',
         ],
         'delete' => [
-            'confirm' => '{1}Are you sure you want to delete this user ?|[2,*]Are you sure you want to delete these users ?',
-            'success' => '{1}User deleted successfully|[2,*]Users deleted successfully',
+            'confirm' => 'Are you sure you want to delete this user ?|Are you sure you want to delete these users ?',
+            'success' => 'User deleted successfully|Users deleted successfully',
         ],
     ],
 

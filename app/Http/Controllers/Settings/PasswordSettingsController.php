@@ -25,11 +25,7 @@ class PasswordSettingsController extends Controller
             $data,
         );
 
-        if ($success) {
-            $this->toastService->success->execute(__('messages.settings.password.update.success'));
-        } else {
-            $this->toastService->error->execute(__('messages.error'));
-        }
+        $this->toastService->successOrError->execute($success, __('messages.settings.password.update.success'));
 
         return back();
     }

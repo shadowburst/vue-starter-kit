@@ -8,18 +8,12 @@ class ToastError
 {
     use QueueableAction;
 
-    /**
-     * Create a new action instance.
-     */
     public function __construct(
         protected ToastMessage $toastMessage,
     ) {}
 
-    /**
-     * Execute the action.
-     */
-    public function execute(?string $message = null): void
+    public function execute(?string $message = null): bool
     {
-        $this->toastMessage->execute($message ?? __('messages.error'), 'error');
+        return $this->toastMessage->execute($message ?? __('messages.error'), 'error');
     }
 }

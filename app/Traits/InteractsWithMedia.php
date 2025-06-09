@@ -11,20 +11,13 @@ trait InteractsWithMedia
         bootInteractsWithMedia as protected baseBootInteractsWithMedia;
     }
 
-    /**
-     * Boot the InteractsWithMedia trait for a class.
-     */
     public static function bootInteractsWithMedia(): void
     {
         self::baseBootInteractsWithMedia();
     }
 
-    /**
-     * Initialize the InteractsWithMediatrait for an instance.
-     */
     public function initializeInteractsWithMedia(): void
     {
-        $this->addMediaCollection(Media::COLLECTION_TEMP)
-            ->onlyKeepLatest(25);
+        $this->addMediaCollection(Media::COLLECTION_TEMP);
     }
 }
