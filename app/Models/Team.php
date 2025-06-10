@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
+ * @property int|null $creator_id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -40,6 +41,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static Builder<static>|Team search(?string $q)
  * @method static Builder<static>|Team whereBelongsToCreator(\App\Models\User|int $creator)
  * @method static Builder<static>|Team whereCreatedAt($value)
+ * @method static Builder<static>|Team whereCreatorId($value)
  * @method static Builder<static>|Team whereDeletedAt($value)
  * @method static Builder<static>|Team whereId($value)
  * @method static Builder<static>|Team whereName($value)

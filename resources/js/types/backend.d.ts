@@ -1,6 +1,5 @@
-export type BannerAdminCreateProps = {};
-export type BannerAdminEditProps = {
-    banner: BannerAdminFormResource;
+export type BannerAdminFormProps = {
+    banner?: BannerAdminFormResource;
 };
 export type BannerAdminFormRequest = {
     name: string;
@@ -89,6 +88,12 @@ export type LoginRequest = {
     password: string;
     remember?: boolean;
 };
+export type MediaFormRequest = {
+    model_type: string;
+    model_id: number;
+    collection: string;
+    file: File;
+};
 export type MediaResource = {
     id: number;
     uuid: string;
@@ -125,12 +130,6 @@ export type RoleListResource = {
     display_name: string;
 };
 export type RoleName = 'tester' | 'owner' | 'member' | 'editor';
-export type StoreMediaRequest = {
-    model_type: string;
-    model_id: number;
-    collection: string;
-    file: any;
-};
 export type TeamAppResource = {
     id: number;
     name: string;
@@ -209,10 +208,8 @@ export type UpdateProfileSettingsRequest = {
     avatar?: string;
 };
 export type UserAbilitiesResource = {
-    view_any_teams: boolean;
-    create_teams: boolean;
-    view_any_users: boolean;
-    create_users: boolean;
+    teams: { view_any: boolean; create: boolean };
+    users: { view_any: boolean; create: boolean };
 };
 export type UserAuthResource = {
     id: number;

@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Actions\Media\StoreMedia;
-use App\Actions\Media\UpdateOneMedia;
+use App\Actions\Media\CreateMedia;
+use App\Actions\Media\UpdateMedia;
 
 class MediaService
 {
     public function __construct(
-        public StoreMedia $store,
-        public UpdateOneMedia $updateOne,
+        public CreateMedia $create,
+        public UpdateMedia $update,
     ) {}
 }

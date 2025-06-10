@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Banner\Admin;
+namespace App\Data\Banner\Admin\Index;
 
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MergeValidationRules;

@@ -2,14 +2,14 @@
 
 namespace App\Actions\Media;
 
-use App\Data\Media\StoreMediaRequest;
+use App\Data\Media\MediaFormRequest;
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
 use Spatie\QueueableAction\QueueableAction;
 
-class StoreMedia
+class CreateMedia
 {
     use QueueableAction;
 
@@ -20,7 +20,7 @@ class StoreMedia
     /**
      * @throws FileUnacceptableForCollection
      */
-    public function execute(StoreMediaRequest $data): Media
+    public function execute(MediaFormRequest $data): Media
     {
         $class = Relation::getMorphedModel($data->model_type);
 

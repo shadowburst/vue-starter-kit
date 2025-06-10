@@ -4,7 +4,7 @@ import { Form, FormSubmitButton } from '@/components/ui/custom/form';
 import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
 import { useBannerAdminForm, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
-import { BannerAdminCreateProps } from '@/types';
+import { BannerAdminFormProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -23,7 +23,7 @@ defineOptions({
     })),
 });
 
-defineProps<BannerAdminCreateProps>();
+defineProps<BannerAdminFormProps>();
 const form = useBannerAdminForm();
 
 function submit() {

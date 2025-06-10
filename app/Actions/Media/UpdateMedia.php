@@ -6,7 +6,7 @@ use App\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueueableAction\QueueableAction;
 
-class UpdateOneMedia
+class UpdateMedia
 {
     use QueueableAction;
 

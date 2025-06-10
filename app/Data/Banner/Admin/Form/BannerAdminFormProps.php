@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Data\Banner\Admin;
+namespace App\Data\Banner\Admin\Form;
 
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class BannerAdminCreateProps extends Resource
+class BannerAdminFormProps extends Resource
 {
     public function __construct(
-        //
+        public ?BannerAdminFormResource $banner,
     ) {}
 }

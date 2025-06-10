@@ -26,13 +26,13 @@ const { user, abilities } = useAuth();
             </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem v-if="abilities.view_any_teams" as-child>
+        <DropdownMenuItem v-if="abilities.teams.view_any" as-child>
             <InertiaLink :href="route('teams.index')" :onBefore="() => clearSessionFilters(route('teams.index'))">
                 <BuildingIcon />
                 {{ $t('pages.teams.index.title') }}
             </InertiaLink>
         </DropdownMenuItem>
-        <DropdownMenuItem v-if="abilities.view_any_users" as-child>
+        <DropdownMenuItem v-if="abilities.users.view_any" as-child>
             <InertiaLink
                 :href="route('users.members.index')"
                 :onBefore="() => clearSessionFilters(route('users.members.index'))"
@@ -41,7 +41,7 @@ const { user, abilities } = useAuth();
                 {{ $t('pages.users.members.index.title') }}
             </InertiaLink>
         </DropdownMenuItem>
-        <DropdownMenuSeparator v-if="abilities.view_any_teams || abilities.view_any_users" />
+        <DropdownMenuSeparator v-if="abilities.teams.view_any || abilities.users.view_any" />
         <DropdownMenuItem as-child>
             <InertiaLink :href="route('settings.index')">
                 <SettingsIcon />

@@ -24,7 +24,7 @@ class UpdateProfileSettings
             $user->sendEmailVerificationNotification();
         }
 
-        if (! $this->mediaService->updateOne->execute($user, User::COLLECTION_AVATAR, $data->avatar)) {
+        if (! $this->mediaService->update->execute($user, User::COLLECTION_AVATAR, $data->avatar)) {
             return false;
         }
 

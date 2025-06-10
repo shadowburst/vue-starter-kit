@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Banner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Models\User;
-use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Support\Facades\Auth;
 
 class BannerDissmissController extends Controller
 {
-    public function update(#[CurrentUser] User $user, Banner $banner)
+    public function update(Banner $banner)
     {
-        $user->banners()->syncWithoutDetaching([$banner->id]);
+        Auth::user()->banners()->syncWithoutDetaching([$banner->id]);
 
         return back();
     }

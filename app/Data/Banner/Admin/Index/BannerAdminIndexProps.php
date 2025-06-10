@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Banner\Admin;
+namespace App\Data\Banner\Admin\Index;
 
 use Spatie\LaravelData\Attributes\AutoInertiaLazy;
 use Spatie\LaravelData\Attributes\DataCollectionOf;

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Banner;
 
-use App\Data\Banner\Admin\BannerAdminCreateProps;
-use App\Data\Banner\Admin\BannerAdminEditProps;
-use App\Data\Banner\Admin\BannerAdminFormRequest;
-use App\Data\Banner\Admin\BannerAdminIndexProps;
-use App\Data\Banner\Admin\BannerAdminIndexRequest;
-use App\Data\Banner\Admin\BannerAdminIndexResource;
+use App\Data\Banner\Admin\Form\BannerAdminFormProps;
+use App\Data\Banner\Admin\Form\BannerAdminFormRequest;
+use App\Data\Banner\Admin\Index\BannerAdminIndexProps;
+use App\Data\Banner\Admin\Index\BannerAdminIndexRequest;
+use App\Data\Banner\Admin\Index\BannerAdminIndexResource;
 use App\Data\Banner\BannerOneOrManyRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
@@ -54,7 +53,7 @@ class BannerAdminController extends Controller
 
     public function create()
     {
-        return Inertia::render('banners/admin/Create', BannerAdminCreateProps::from([]));
+        return Inertia::render('banners/admin/Create', BannerAdminFormProps::from([]));
     }
 
     public function store(BannerAdminFormRequest $data)
@@ -74,7 +73,7 @@ class BannerAdminController extends Controller
 
     public function edit(Banner $banner)
     {
-        return Inertia::render('banners/admin/Edit', BannerAdminEditProps::from([
+        return Inertia::render('banners/admin/Edit', BannerAdminFormProps::from([
             'banner' => $banner,
         ]));
     }
@@ -90,18 +89,24 @@ class BannerAdminController extends Controller
 
     public function enable(BannerOneOrManyRequest $data)
     {
-        $data->banners->toQuery()->update([
-            'is_enabled' => true,
-        ]);
+        Banner::query()
+            ->when($data->banner, fn (Builder $q) => $q->where('id', $data->banner))
+            ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
+            ->update([
+                'is_enabled' => true,
+            ]);
 
         return back();
     }
 
     public function disable(BannerOneOrManyRequest $data)
     {
-        $data->banners->toQuery()->update([
-            'is_enabled' => false,
-        ]);
+        Banner::query()
+            ->when($data->banner, fn (Builder $q) => $q->where('id', $data->banner))
+            ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
+            ->update([
+                'is_enabled' => false,
+            ]);
 
         return back();
     }
@@ -110,7 +115,11 @@ class BannerAdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $count = $data->banners->each->delete();
+            $count = Banner::query()
+                ->when($data->banner, fn (Builder $q) => $q->where('id', $data->banner))
+                ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
+                ->get()
+                ->each->delete();
             DB::commit();
             $this->toastService->success->execute(trans_choice('messages.banners.delete.success', $count));
         } catch (\Throwable $e) {

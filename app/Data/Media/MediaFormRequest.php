@@ -9,19 +9,24 @@ use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
+use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[MergeValidationRules]
-class StoreMediaRequest extends Data
+class MediaFormRequest extends Data
 {
     public function __construct(
         #[FromRouteParameter('modelType')]
         public string $model_type,
+
         #[FromRouteParameter('modelId')]
         public int $model_id,
+
         #[FromRouteParameter('collection')]
         public string $collection,
+
+        #[LiteralTypeScriptType('File')]
         public UploadedFile $file,
     ) {}
 
