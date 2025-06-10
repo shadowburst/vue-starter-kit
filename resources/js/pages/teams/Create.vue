@@ -4,7 +4,7 @@ import { Form, FormSubmitButton } from '@/components/ui/custom/form';
 import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
 import { useLayout, useTeamForm } from '@/composables';
 import { AppLayout } from '@/layouts';
-import { TeamCreateProps } from '@/types';
+import { TeamFormProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -23,7 +23,7 @@ defineOptions({
     })),
 });
 
-defineProps<TeamCreateProps>();
+defineProps<TeamFormProps>();
 
 const form = useTeamForm();
 

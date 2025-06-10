@@ -105,30 +105,30 @@ const placeholder = computed(() => {
 
 <template>
     <Combobox v-model="model" v-bind="forwarded">
-        <ComboboxAnchor class="relative w-full items-center">
-            <ComboboxInput
-                v-model="searchTerm"
-                v-bind="$attrs"
-                :placeholder
-                :class="cn(models.length && !required ? 'pr-16' : 'pr-8', props.class)"
-            />
-            <div class="absolute inset-y-px end-px flex items-stretch">
-                <Button
-                    class="h-full rounded-none"
-                    v-if="modelArray.length && !required"
-                    size="icon"
-                    variant="ghost"
-                    @click="models = []"
-                >
-                    <XIcon />
-                </Button>
-                <ComboboxTrigger as-child>
+        <ComboboxTrigger as-child>
+            <ComboboxAnchor class="relative w-full min-w-0 items-center">
+                <ComboboxInput
+                    v-model="searchTerm"
+                    v-bind="$attrs"
+                    :placeholder
+                    :class="cn(models.length && !required ? 'pr-16' : 'pr-8', props.class)"
+                />
+                <div class="absolute inset-y-px end-px flex items-stretch">
+                    <Button
+                        class="h-full rounded-none"
+                        v-if="modelArray.length && !required"
+                        size="icon"
+                        variant="ghost"
+                        @click.stop="models = []"
+                    >
+                        <XIcon />
+                    </Button>
                     <Button class="h-full rounded-l-none" size="icon" variant="ghost">
                         <ChevronDownIcon />
                     </Button>
-                </ComboboxTrigger>
-            </div>
-        </ComboboxAnchor>
+                </div>
+            </ComboboxAnchor>
+        </ComboboxTrigger>
         <ComboboxList>
             <WhenVisible v-if="!Array.isArray(data) && !pageOptions.length" :data>
                 <template #fallback>

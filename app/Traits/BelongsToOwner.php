@@ -42,6 +42,8 @@ trait BelongsToOwner
     {
         $owner = is_int($owner) ? $owner : $owner->getKey();
 
-        return $query->where($this->getQualifiedOwnerIdColumn(), $owner);
+        return $query
+            ->whereBelongsToAnyOwner()
+            ->where($this->getQualifiedOwnerIdColumn(), $owner);
     }
 }

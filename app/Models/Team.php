@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Role\RoleName;
 use App\Facades\Services;
+use App\Traits\BelongsToCreator;
 use App\Traits\HasPolicy;
 use App\Traits\Searchable;
 use App\Traits\Trashable;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
  * @property-read bool $can_trash
  * @property-read bool $can_update
  * @property-read bool $can_view
+ * @property-read \App\Models\User|null $creator
  * @property-read mixed $is_trashable
  * @property bool $is_trashed
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
@@ -36,6 +38,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static Builder<static>|Team onlyTrashed()
  * @method static Builder<static>|Team query()
  * @method static Builder<static>|Team search(?string $q)
+ * @method static Builder<static>|Team whereBelongsToCreator(\App\Models\User|int $creator)
  * @method static Builder<static>|Team whereCreatedAt($value)
  * @method static Builder<static>|Team whereDeletedAt($value)
  * @method static Builder<static>|Team whereId($value)
@@ -48,6 +51,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class Team extends Model
 {
+    use BelongsToCreator;
+
     /** @use HasFactory<\Database\Factories\TeamFactory> */
     use HasFactory;
 
@@ -61,6 +66,7 @@ class Team extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'creator_id',
         'name',
     ];
 
@@ -88,7 +94,7 @@ class Team extends Model
     public static function booted(): void
     {
         static::created(function (Team $team) {
-            Services::team()->forTeam($team, fn () => Auth::user()?->assignRole(RoleName::OWNER, RoleName::EDITOR));
+            Services::team()->forTeam($team, fn () => Auth::user()?->assignRole(RoleName::OWNER));
         });
     }
 

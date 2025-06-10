@@ -39,6 +39,16 @@ return [
         ],
     ],
 
+    'permission' => [
+        'name' => [
+            'one'  => 'permission',
+            'many' => 'permissions',
+        ],
+        'fields' => [
+            'name' => 'name',
+        ],
+    ],
+
     'role' => [
         'name' => [
             'one'  => 'role',
@@ -51,8 +61,8 @@ return [
 
     'team' => [
         'name' => [
-            'one'  => 'company',
-            'many' => 'companies',
+            'one'  => 'team',
+            'many' => 'teams',
         ],
         'fields' => [
             'deleted_at' => 'archived at',
@@ -79,6 +89,17 @@ return [
             'password'              => 'password',
             'password_confirmation' => 'confirm password',
             'phone'                 => 'phone',
+        ],
+        'member' => [
+            'name' => [
+                'one'  => 'member',
+                'many' => 'members',
+            ],
+            'fields' => [
+            ],
+        ],
+        'default' => [
+            'full_name' => 'Deleted user',
         ],
     ],
 

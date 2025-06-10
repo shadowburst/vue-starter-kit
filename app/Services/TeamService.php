@@ -54,7 +54,7 @@ class TeamService
      * @param  (\Closure(Team $team): TValue)  $callback
      * @return TValue
      */
-    public function forTeam(Team|int $team, \Closure $callback)
+    public function forTeam(Team|int|null $team, \Closure $callback)
     {
         $tempTeam = $this->current;
         $this->setCurrent($team);
@@ -64,5 +64,20 @@ class TeamService
         $this->setCurrent($tempTeam);
 
         return $result;
+    }
+
+    /**
+     * Executes a callback for each given team.
+     *
+     * @template TValue
+     *
+     * @param  iterable<Team|int|null>  $teams
+     * @param  (\Closure(Team $team): TValue)  $callback
+     */
+    public function forEachTeam(iterable $teams, \Closure $callback): void
+    {
+        foreach ($teams as $team) {
+            $this->forTeam($team, $callback);
+        }
     }
 }

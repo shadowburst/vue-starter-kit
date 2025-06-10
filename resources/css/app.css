@@ -171,7 +171,7 @@
 }
 
 @theme {
-    --animate-pulse-grow: pulse-grow 2s ease-in-out infinite;
+    --animate-pulse-grow: pulse-grow 1s ease-in-out infinite;
     @keyframes pulse-grow {
         50% {
             transform: scale(0.8);

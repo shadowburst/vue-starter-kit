@@ -22,12 +22,12 @@ class AuthTeamMiddleware
         abort_if(! $user, Response::HTTP_FORBIDDEN);
 
         /** @var \App\Models\User $user */
-        if ($user->team_id) {
-            // User already in a team
+        if ($user->team_id && $user->teams->contains($user->team_id)) {
+            // User already in a valid team
             return $next($request);
         }
 
-        $team = $user->teams()->first();
+        $team = $user->teams->first();
 
         if ($team) {
             // Select the first available team

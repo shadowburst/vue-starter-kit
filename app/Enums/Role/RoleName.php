@@ -12,7 +12,6 @@ enum RoleName: string
     case OWNER = 'owner';
     case MEMBER = 'member';
 
-    case VIEWER = 'viewer';
     case EDITOR = 'editor';
 
     public function label(): string

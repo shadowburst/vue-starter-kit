@@ -4,7 +4,6 @@ import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import type { TeamFirstRequiredProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -14,8 +13,6 @@ defineOptions({
         description: trans('pages.teams.first.required.description'),
     })),
 });
-
-defineProps<TeamFirstRequiredProps>();
 </script>
 
 <template>

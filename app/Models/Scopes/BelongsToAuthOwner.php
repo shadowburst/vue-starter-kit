@@ -43,7 +43,7 @@ class BelongsToAuthOwner implements Scope
     public function extend(Builder $query)
     {
         $query->macro(
-            'belongsToAnyOwner',
+            'whereBelongsToAnyOwner',
             fn (Builder $q) => $q->withoutGlobalScope($this),
         );
     }

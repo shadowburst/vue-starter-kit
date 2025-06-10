@@ -7,24 +7,24 @@ use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
 use App\Http\Controllers\Settings\ProfileSettingsController;
 use App\Http\Controllers\Settings\SecuritySettingsController;
-use App\Http\Controllers\Team\FirstTeamController;
 use App\Http\Controllers\Team\TeamController;
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Team\TeamFirstController;
+use App\Http\Controllers\User\UserMemberController;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/verification/code', [VerifyEmailController::class, 'code'])->name('verification.code')->middleware(['auth']);
 
-Route::middleware(['auth', 'auth.include'])->group(function () {
-    Route::prefix('/teams/first')->name('teams.first.')->controller(FirstTeamController::class)->group(function () {
+Route::middleware(['auth', 'auth.no_team', 'auth.include'])->group(function () {
+    Route::prefix('/teams/first')->name('teams.first.')->controller(TeamFirstController::class)->group(function () {
         Route::get('/required', 'required')->name('required');
         Route::get('/create', 'create')->name('create')->middleware(['auth.owner']);
         Route::post('/create', 'store')->name('store')->middleware(['auth.owner']);
     });
 });
 
-Route::middleware(['auth', 'auth.include', 'auth.team', 'banner.include'])->group(function () {
+Route::middleware(['auth', 'auth.team', 'auth.include', 'banner.include'])->group(function () {
 
     Route::get('/', fn () => inertia('Index'))->name('index');
 
@@ -63,15 +63,17 @@ Route::middleware(['auth', 'auth.include', 'auth.team', 'banner.include'])->grou
         Route::patch('/restore/{team?}', 'restore')->name('restore');
         Route::delete('/delete/{team?}', 'destroy')->name('delete');
     });
-    Route::prefix('/users')->name('users.')->controller(UserController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->can('viewAny', User::class);
-        Route::get('/create', 'create')->name('create')->can('create', User::class);
-        Route::post('/create', 'store')->name('store')->can('create', User::class);
-        Route::get('/edit/{member}', 'edit')->name('edit')->can('update', 'member');
-        Route::put('/edit/{member}', 'update')->name('update')->can('update', 'member');
-        Route::delete('/trash/{member?}', 'trash')->name('trash');
-        Route::patch('/restore/{member?}', 'restore')->name('restore');
-        Route::delete('/delete/{member?}', 'destroy')->name('delete');
+    Route::name('users.')->group(function () {
+        Route::prefix('/members')->name('members.')->controller(UserMemberController::class)->group(function () {
+            Route::get('/', 'index')->name('index')->can('viewAny', User::class);
+            Route::get('/create', 'create')->name('create')->can('create', User::class);
+            Route::post('/create', 'store')->name('store')->can('create', User::class);
+            Route::get('/edit/{member}', 'edit')->name('edit')->can('update', 'member');
+            Route::put('/edit/{member}', 'update')->name('update')->can('update', 'member');
+            Route::delete('/trash/{member?}', 'trash')->name('trash');
+            Route::patch('/restore/{member?}', 'restore')->name('restore');
+            Route::delete('/delete/{member?}', 'destroy')->name('delete');
+        });
     });
 });
 

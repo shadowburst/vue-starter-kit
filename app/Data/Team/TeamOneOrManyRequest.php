@@ -3,10 +3,7 @@
 namespace App\Data\Team;
 
 use App\Models\Team;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
-use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Attributes\Validation\ExcludeWith;
@@ -14,18 +11,12 @@ use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Attributes\Validation\RequiredWithout;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
-use Spatie\TypeScriptTransformer\Attributes\Hidden;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[MergeValidationRules]
 class TeamOneOrManyRequest extends Data
 {
-    #[Computed]
-    #[Hidden]
-    /** @var Collection<int, Team> */
-    public Collection $teams;
-
     public function __construct(
         #[FromRouteParameter('team')]
         #[ExcludeWith('ids')]
@@ -35,12 +26,7 @@ class TeamOneOrManyRequest extends Data
         #[RequiredWithout('team')]
         /** @var array<int> */
         public ?array $ids = null,
-    ) {
-        $this->teams = Team::query()
-            ->when($team, fn (Builder $q) => $q->where('id', $team))
-            ->when($ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $ids))
-            ->get();
-    }
+    ) {}
 
     public static function attributes(): array
     {

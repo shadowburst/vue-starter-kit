@@ -41,6 +41,9 @@ export function useFilters<TForm extends FormDataType>(
     ) as FiltersOptions<TForm>;
 
     const form = useForm(data);
+    if (typeof data !== 'function') {
+        form.defaults(Object.keys(data).reduce((carry, key) => Object.assign(carry, { [key]: undefined }), {}));
+    }
     if (rememberKey) {
         const remembered = useSessionStorage(rememberKey, form.data(), { mergeDefaults: true });
         watch(

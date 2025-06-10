@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Enums\Permission\PermissionName;
-use App\Enums\Role\RoleName;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -46,7 +45,7 @@ class UserPolicy
             return true;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
     }
 
     public function update(User $user, User $model): bool
@@ -63,7 +62,7 @@ class UserPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
     }
 
     public function trash(User $user, User $model): bool
@@ -84,7 +83,7 @@ class UserPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
     }
 
     public function restore(User $user, User $model): bool
@@ -105,7 +104,7 @@ class UserPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
     }
 
     public function delete(User $user, User $model): bool
@@ -122,6 +121,6 @@ class UserPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->hasRole(RoleName::EDITOR);
+        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
     }
 }

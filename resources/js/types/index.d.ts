@@ -26,3 +26,4 @@ export * from './backend';
 export * from './i18n';
 export * from './inertia';
 export * from './ui';
+export * from './utility';

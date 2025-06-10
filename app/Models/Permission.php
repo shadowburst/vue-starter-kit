@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Permission\PermissionName;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
@@ -10,6 +12,7 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
  * @property string $guard_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $display_name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Role> $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
@@ -30,4 +33,12 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
  *
  * @mixin \Eloquent
  */
-class Permission extends SpatiePermission {}
+class Permission extends SpatiePermission
+{
+    protected function displayName(): Attribute
+    {
+        return Attribute::get(
+            fn (): string => PermissionName::tryFrom($this->name)?->label() ?? $this->name,
+        );
+    }
+}

@@ -43,6 +43,8 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $activeMembers
+ * @property-read int|null $active_members_count
  * @property-read \App\Models\Media|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Banner> $banners
  * @property-read int|null $banners_count
@@ -51,6 +53,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read bool $can_trash
  * @property-read bool $can_update
  * @property-read bool $can_view
+ * @property-read bool $is_editor
  * @property-read bool $is_member
  * @property-read bool $is_owner
  * @property-read mixed $is_trashable
@@ -73,6 +76,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read int|null $teams_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User admins()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User editors()
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User filterTrashed(\App\Enums\Trashed\TrashedFilter $filter)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User members()
@@ -204,7 +208,12 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function members(): HasMany
     {
-        return $this->hasMany(User::class, $this->getOwnerIdColumn());
+        return $this->hasMany(User::class, $this->getOwnerIdColumn())->whereBelongsToAnyTeam();
+    }
+
+    public function activeMembers(): HasMany
+    {
+        return $this->members()->withAttributes($this->getDeletedAtColumn(), null);
     }
 
     protected function firstName(): Attribute

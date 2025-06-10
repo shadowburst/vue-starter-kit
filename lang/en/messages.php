@@ -74,23 +74,25 @@ return [
     ],
 
     'users' => [
-        'store' => [
-            'success' => 'User created successfully',
-        ],
-        'update' => [
-            'success' => 'User updated successfully',
-        ],
-        'trash' => [
-            'confirm' => 'Are you sure you want to archive this user ?|Are you sure you want to archive these users ?',
-            'success' => 'User archived successfully|Users archived successfully',
-        ],
-        'restore' => [
-            'confirm' => 'Are you sure you want to restore this user ?|Are you sure you want to restore these users ?',
-            'success' => 'User restored successfully|Users restored successfully',
-        ],
-        'delete' => [
-            'confirm' => 'Are you sure you want to delete this user ?|Are you sure you want to delete these users ?',
-            'success' => 'User deleted successfully|Users deleted successfully',
+        'members' => [
+            'store' => [
+                'success' => 'Member created successfully',
+            ],
+            'update' => [
+                'success' => 'Member updated successfully',
+            ],
+            'trash' => [
+                'confirm' => 'Are you sure you want to archive this member ?|Are you sure you want to archive these members ?',
+                'success' => 'Member archived successfully|Members archived successfully',
+            ],
+            'restore' => [
+                'confirm' => 'Are you sure you want to restore this member ?|Are you sure you want to restore these members ?',
+                'success' => 'Member restored successfully|Members restored successfully',
+            ],
+            'delete' => [
+                'confirm' => 'Are you sure you want to delete this member ?|Are you sure you want to delete these members ?',
+                'success' => 'Member deleted successfully|Members deleted successfully',
+            ],
         ],
     ],
 

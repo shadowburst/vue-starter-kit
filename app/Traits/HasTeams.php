@@ -17,7 +17,8 @@ trait HasTeams
 
     public function teams(): MorphToMany
     {
-        return $this->morphToMany(Team::class, 'model', 'model_has_roles')->distinct();
+        return $this->morphToMany(Team::class, 'model', 'model_has_roles')
+            ->distinct();
     }
 
     /**

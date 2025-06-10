@@ -16,19 +16,18 @@ class SelectUserTeam
 
     public function execute(User $user, Team $team): bool
     {
-        $team = $user->teams()->find($team->id);
+        $team = $user->teams->find($team->id);
         if (! $team) {
             return false;
         }
 
         // Already current team
-        if ($user->team()->is($team) && $user->owner_id == $team->pivot->owner_id) {
+        if ($user->team()->is($team)) {
             return true;
         }
 
         return $user->update([
-            'team_id'  => $team->id,
-            'owner_id' => $team->pivot->owner_id,
+            'team_id' => $team->id,
         ]);
     }
 }

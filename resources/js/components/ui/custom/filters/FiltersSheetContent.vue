@@ -25,12 +25,6 @@ const delegatedProps = reactiveOmit(props, 'class');
 const forwarded = useForwardProps(delegatedProps);
 
 const { filters, fields, count, data } = injectFiltersSheetRootContext();
-
-function reset() {
-    for (const field of fields.value) {
-        filters[field] = undefined;
-    }
-}
 </script>
 
 <template>
@@ -38,7 +32,12 @@ function reset() {
         <SheetHeader>
             <div v-if="fields.length">
                 <SheetClose as-child>
-                    <Button class="disabled:invisible" variant="outline" :disabled="count === 0" @click="reset()">
+                    <Button
+                        class="disabled:invisible"
+                        variant="outline"
+                        :disabled="count === 0"
+                        @click="filters.reset(...fields)"
+                    >
                         <XIcon />
                         <CapitalizeText>
                             {{ $t('reset') }}

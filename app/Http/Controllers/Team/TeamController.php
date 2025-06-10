@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Team;
 
-use App\Data\Team\TeamCreateProps;
-use App\Data\Team\TeamEditProps;
-use App\Data\Team\TeamFormRequest;
-use App\Data\Team\TeamIndexProps;
-use App\Data\Team\TeamIndexRequest;
-use App\Data\Team\TeamIndexResource;
-use App\Data\Team\TeamOneOrManyOnlyTrashedRequest;
+use App\Data\Team\Form\TeamFormProps;
+use App\Data\Team\Form\TeamFormRequest;
+use App\Data\Team\Index\TeamIndexProps;
+use App\Data\Team\Index\TeamIndexRequest;
+use App\Data\Team\Index\TeamIndexResource;
 use App\Data\Team\TeamOneOrManyRequest;
-use App\Data\Team\TeamOneOrManyWithTrashedRequest;
 use App\Facades\Services;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
@@ -47,7 +44,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        return Inertia::render('teams/Create', TeamCreateProps::from([]));
+        return Inertia::render('teams/Create', TeamFormProps::from([]));
     }
 
     public function store(TeamFormRequest $data)
@@ -67,7 +64,7 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        return Inertia::render('teams/Edit', TeamEditProps::from([
+        return Inertia::render('teams/Edit', TeamFormProps::from([
             'team' => $team,
         ]));
     }
@@ -94,7 +91,11 @@ class TeamController extends Controller
     {
         try {
             DB::beginTransaction();
-            $count = $data->teams->each->delete();
+            $count = Team::query()
+                ->when($data->team, fn (Builder $q) => $q->where('id', $data->team))
+                ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
+                ->get()
+                ->each->delete();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.teams.trash.success', $count));
         } catch (\Throwable $e) {
@@ -106,11 +107,16 @@ class TeamController extends Controller
         return back();
     }
 
-    public function restore(TeamOneOrManyOnlyTrashedRequest $data)
+    public function restore(TeamOneOrManyRequest $data)
     {
         try {
             DB::beginTransaction();
-            $count = $data->teams->each->restore();
+            $count = Team::query()
+                ->onlyTrashed()
+                ->when($data->team, fn (Builder $q) => $q->where('id', $data->team))
+                ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
+                ->get()
+                ->each->restore();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.teams.restore.success', $count));
         } catch (\Throwable $e) {
@@ -122,11 +128,16 @@ class TeamController extends Controller
         return back();
     }
 
-    public function destroy(TeamOneOrManyWithTrashedRequest $data)
+    public function destroy(TeamOneOrManyRequest $data)
     {
         try {
             DB::beginTransaction();
-            $count = $data->teams->each->forceDelete();
+            $count = Team::query()
+                ->withTrashed()
+                ->when($data->team, fn (Builder $q) => $q->where('id', $data->team))
+                ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
+                ->get()
+                ->each->forceDelete();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.teams.delete.success', $count));
         } catch (\Throwable $e) {

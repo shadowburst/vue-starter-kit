@@ -37,7 +37,7 @@ class BelongsToAuthTeam implements Scope
     public function extend(Builder $query): void
     {
         $query->macro(
-            'belongsToAnyTeam',
+            'whereBelongsToAnyTeam',
             fn (Builder $q) => $q->withoutGlobalScope($this),
         );
     }

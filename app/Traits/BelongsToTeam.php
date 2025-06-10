@@ -46,10 +46,12 @@ trait BelongsToTeam
     {
         $team = is_int($team) ? $team : $team->getKey();
 
-        return $query->where(
-            fn (Builder $q) => $q
-                ->whereNull($this->getQualifiedTeamIdColumn())
-                ->orWhere($this->getQualifiedTeamIdColumn(), $team),
-        );
+        return $query
+            ->whereBelongsToAnyTeam()
+            ->where(
+                fn (Builder $q) => $q
+                    ->whereNull($this->getQualifiedTeamIdColumn())
+                    ->orWhere($this->getQualifiedTeamIdColumn(), $team),
+            );
     }
 }

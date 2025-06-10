@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use App\Enums\Permission\PermissionName;
-use App\Enums\Role\RoleName;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +19,7 @@ class TeamPolicy
             return true;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS);
+        return $user->is_owner;
     }
 
     public function view(User $user, Team $team): bool
@@ -34,7 +32,7 @@ class TeamPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS);
+        return $user->is_owner;
     }
 
     public function create(User $user): bool
@@ -43,7 +41,7 @@ class TeamPolicy
             return true;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS) && $user->hasRole(RoleName::EDITOR);
+        return $user->is_owner;
     }
 
     public function update(User $user, Team $team): bool
@@ -56,12 +54,12 @@ class TeamPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS) && $user->hasRole(RoleName::EDITOR);
+        return $user->is_owner;
     }
 
     public function select(User $user, Team $team): bool
     {
-        return $user->teams()->where($team->getKeyName(), $team->getKey())->exists();
+        return $user->hasTeam($team);
     }
 
     public function trash(User $user, Team $team): bool
@@ -82,7 +80,7 @@ class TeamPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS) && $user->hasRole(RoleName::EDITOR);
+        return $user->is_owner;
     }
 
     public function restore(User $user, Team $team): bool
@@ -103,7 +101,7 @@ class TeamPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS) && $user->hasRole(RoleName::EDITOR);
+        return $user->is_owner;
     }
 
     public function delete(User $user, Team $team): bool
@@ -120,6 +118,6 @@ class TeamPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::TEAMS) && $user->hasRole(RoleName::EDITOR);
+        return $user->is_owner;
     }
 }

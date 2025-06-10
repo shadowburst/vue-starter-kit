@@ -1,17 +1,22 @@
 <script setup lang="ts" generic="T extends string">
 import { useArrayWrap, usePageProp } from '@/composables';
 import { Enum } from '@/types';
+import { WhenVisible } from '@inertiajs/vue3';
 import { Arrayable } from '@vueuse/core';
 import { transChoice } from 'laravel-vue-i18n';
 import { useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 import InertiaCombobox, { InertiaComboboxEmits, InertiaComboboxProps } from './InertiaCombobox.vue';
 
+defineOptions({
+    inheritAttrs: false,
+});
+
 type TEnum = Enum<T>;
 
 type Props = Omit<Partial<InertiaComboboxProps<TEnum>>, 'modelValue'>;
 const props = withDefaults(defineProps<Props>(), {
-    multiplePlaceholder: (items: TEnum[]) => transChoice('components.ui.selected', items.length),
+    multiplePlaceholder: (items: TEnum[]) => transChoice('components.ui.custom.combobox.selected', items.length),
     by: 'value',
     label: 'label',
 });
@@ -48,5 +53,8 @@ const proxy = computed<Arrayable<TEnum> | undefined>({
 </script>
 
 <template>
-    <InertiaCombobox v-bind="forwarded" v-model="proxy" />
+    <WhenVisible v-if="!Array.isArray(props.data) && !pageOptions.length" :data="props.data">
+        <InertiaCombobox v-bind="{ ...forwarded, ...$attrs }" v-model="proxy" />
+    </WhenVisible>
+    <InertiaCombobox v-else v-bind="{ ...forwarded, ...$attrs }" v-model="proxy" />
 </template>

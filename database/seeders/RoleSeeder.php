@@ -34,7 +34,6 @@ class RoleSeeder extends Seeder
                 ...match ($roleName) {
                     RoleName::TESTER => PermissionName::cases(),
                     RoleName::OWNER  => [
-                        PermissionName::TEAMS,
                         PermissionName::USERS,
                     ],
                     RoleName::MEMBER => [],

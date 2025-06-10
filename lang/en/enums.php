@@ -14,8 +14,6 @@ return [
 
     'permission' => [
         'name' => [
-            '*'     => 'all',
-            'teams' => 'teams',
             'users' => 'users',
         ],
     ],
@@ -25,7 +23,6 @@ return [
             'tester' => 'tester',
             'owner'  => 'owner',
             'member' => 'member',
-            'viewer' => 'viewer',
             'editor' => 'editor',
         ],
     ],

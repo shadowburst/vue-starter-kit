@@ -4,7 +4,7 @@ import { Form, FormSubmitButton } from '@/components/ui/custom/form';
 import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
 import { useLayout, useTeamForm } from '@/composables';
 import { AppLayout } from '@/layouts';
-import { TeamEditProps } from '@/types';
+import { TeamFormProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -23,13 +23,12 @@ defineOptions({
     })),
 });
 
-const props = defineProps<TeamEditProps>();
+const props = defineProps<TeamFormProps>();
 
 const form = useTeamForm(props.team);
 
 function submit() {
-    const { team } = props;
-    form.put(route('teams.update', { team }));
+    form.put(route('teams.update', { team: props.team! }));
 }
 </script>
 

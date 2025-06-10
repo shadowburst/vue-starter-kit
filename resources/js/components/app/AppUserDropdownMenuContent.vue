@@ -33,9 +33,12 @@ const { user, abilities } = useAuth();
             </InertiaLink>
         </DropdownMenuItem>
         <DropdownMenuItem v-if="abilities.view_any_users" as-child>
-            <InertiaLink :href="route('users.index')" :onBefore="() => clearSessionFilters(route('users.index'))">
+            <InertiaLink
+                :href="route('users.members.index')"
+                :onBefore="() => clearSessionFilters(route('users.members.index'))"
+            >
                 <UsersIcon />
-                {{ $t('pages.users.index.title') }}
+                {{ $t('pages.users.members.index.title') }}
             </InertiaLink>
         </DropdownMenuItem>
         <DropdownMenuSeparator v-if="abilities.view_any_teams || abilities.view_any_users" />

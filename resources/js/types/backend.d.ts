@@ -94,7 +94,12 @@ export type MediaResource = {
     uuid: string;
     url: string;
 };
-export type PermissionName = '*' | 'teams' | 'users';
+export type PermissionListResource = {
+    id: number;
+    name: string;
+    display_name: string;
+};
+export type PermissionName = 'users';
 export type RegisterProps = {};
 export type RegisterRequest = {
     first_name: string;
@@ -117,8 +122,9 @@ export type ResetPasswordRequest = {
 export type RoleListResource = {
     id: number;
     name: string;
+    display_name: string;
 };
-export type RoleName = 'tester' | 'owner' | 'member' | 'viewer' | 'editor';
+export type RoleName = 'tester' | 'owner' | 'member' | 'editor';
 export type StoreMediaRequest = {
     model_type: string;
     model_id: number;
@@ -129,12 +135,9 @@ export type TeamAppResource = {
     id: number;
     name: string;
 };
-export type TeamCreateProps = {};
-export type TeamEditProps = {
-    team: TeamFormResource;
+export type TeamFormProps = {
+    team?: TeamFormResource;
 };
-export type TeamFirstCreateProps = {};
-export type TeamFirstRequiredProps = {};
 export type TeamFormRequest = {
     name: string;
 };
@@ -182,15 +185,7 @@ export type TeamListResource = {
     id: number;
     name: string;
 };
-export type TeamOneOrManyOnlyTrashedRequest = {
-    team?: number;
-    ids?: Array<number>;
-};
 export type TeamOneOrManyRequest = {
-    team?: number;
-    ids?: Array<number>;
-};
-export type TeamOneOrManyWithTrashedRequest = {
     team?: number;
     ids?: Array<number>;
 };
@@ -233,29 +228,46 @@ export type UserAuthResource = {
     is_member: boolean;
     teams: Array<TeamListResource>;
 };
-export type UserCreateProps = {};
-export type UserEditProps = {
-    user: UserFormResource;
+export type UserListResource = {
+    id: number;
+    full_name: string;
 };
-export type UserFormRequest = {
+export type UserMemberFormProps = {
+    user?: UserMemberFormResource;
+    teams?: Array<TeamListResource>;
+    permissions?: Array<{ value: PermissionName; label: string }>;
+};
+export type UserMemberFormRequest = {
     first_name: string;
     last_name: string;
     email: string;
     phone?: string;
     password?: string;
     password_confirmation?: string;
+    team_roles: Array<UserMemberFormTeamRoleData>;
+    team_permissions: Array<UserMemberFormTeamPermissionData>;
 };
-export type UserFormResource = {
+export type UserMemberFormResource = {
     id: number;
     first_name: string;
     last_name: string;
     email: string;
     phone?: string;
+    team_roles: Array<UserMemberFormTeamRoleData>;
+    team_permissions: Array<UserMemberFormTeamPermissionData>;
 };
-export type UserIndexProps = {
-    request: UserIndexRequest;
+export type UserMemberFormTeamPermissionData = {
+    team_id: number;
+    permission: PermissionName;
+};
+export type UserMemberFormTeamRoleData = {
+    team_id: number;
+    role: RoleName;
+};
+export type UserMemberIndexProps = {
+    request: UserMemberIndexRequest;
     users?: {
-        data: Array<UserIndexResource>;
+        data: Array<UserMemberIndexResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
             current_page: number;
@@ -271,8 +283,9 @@ export type UserIndexProps = {
             total: number;
         };
     };
+    trashed_filters?: Array<{ value: TrashedFilter; label: string }>;
 };
-export type UserIndexRequest = {
+export type UserMemberIndexRequest = {
     q?: string;
     page?: number;
     per_page?: number;
@@ -280,7 +293,7 @@ export type UserIndexRequest = {
     sort_direction: string;
     trashed?: TrashedFilter;
 };
-export type UserIndexResource = {
+export type UserMemberIndexResource = {
     id: number;
     first_name: string;
     last_name: string;
@@ -295,19 +308,7 @@ export type UserIndexResource = {
     can_restore: boolean;
     can_delete: boolean;
 };
-export type UserListResource = {
-    id: number;
-    full_name: string;
-};
-export type UserOneOrManyOnlyTrashedRequest = {
-    user?: number;
-    ids?: Array<number>;
-};
-export type UserOneOrManyRequest = {
-    user?: number;
-    ids?: Array<number>;
-};
-export type UserOneOrManyWithTrashedRequest = {
+export type UserMemberOneOrManyRequest = {
     user?: number;
     ids?: Array<number>;
 };

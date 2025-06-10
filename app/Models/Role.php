@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
  * @property string $guard_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $display_name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read \App\Models\Team|null $team
@@ -39,10 +40,10 @@ class Role extends SpatieRole
 {
     use BelongsToTeam;
 
-    protected function name(): Attribute
+    protected function displayName(): Attribute
     {
-        return Attribute::make(
-            get: fn (string $value): string => RoleName::tryFrom($value)?->label() ?? $value,
+        return Attribute::get(
+            fn (): string => RoleName::tryFrom($this->name)?->label() ?? $this->name,
         );
     }
 }

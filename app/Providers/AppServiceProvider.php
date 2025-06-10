@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Middleware\Team\SetTeamMiddleware;
+use App\Http\Middleware\HandleTeam;
 use App\Services\ServicesManager;
 use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -29,10 +29,10 @@ class AppServiceProvider extends ServiceProvider
 
         $kernel->addToMiddlewarePriorityBefore(
             SubstituteBindings::class,
-            SetTeamMiddleware::class,
+            HandleTeam::class,
         );
 
         $this->app->singleton('services', fn () => new ServicesManager);
-        Route::bind('member', fn (string $value) => Auth::user()->members()->belongsToAnyTeam()->withTrashed()->findOrFail($value));
+        Route::bind('member', fn (string $value) => Auth::user()->members()->withTrashed()->findOrFail($value));
     }
 }

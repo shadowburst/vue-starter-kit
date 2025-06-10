@@ -134,16 +134,18 @@ return [
     ],
 
     'users' => [
-        'index' => [
-            'title' => 'Users',
-        ],
-        'create' => [
-            'title'       => 'Create a user',
-            'description' => 'Create a new user for the site',
-        ],
-        'edit' => [
-            'title'       => 'Update a user',
-            'description' => "Update a user's details",
+        'members' => [
+            'index' => [
+                'title' => 'Members',
+            ],
+            'create' => [
+                'title'       => 'Create a member',
+                'description' => 'Create a new member for the site',
+            ],
+            'edit' => [
+                'title'       => 'Update a member',
+                'description' => "Update a member's details",
+            ],
         ],
     ],
 

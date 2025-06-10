@@ -6,7 +6,6 @@ import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/s
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout, useTeamForm } from '@/composables';
 import { AuthLayout } from '@/layouts';
-import { TeamFirstCreateProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -16,8 +15,6 @@ defineOptions({
         description: trans('pages.teams.first.create.description'),
     })),
 });
-
-defineProps<TeamFirstCreateProps>();
 
 const form = useTeamForm();
 

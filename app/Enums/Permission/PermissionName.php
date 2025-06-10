@@ -8,8 +8,6 @@ enum PermissionName: string
 {
     use Labels;
 
-    case ALL = '*';
-    case TEAMS = 'teams';
     case USERS = 'users';
 
     public function label(): string

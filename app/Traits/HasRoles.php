@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\Role\RoleName;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles as SpatieHasRoles;
@@ -27,6 +28,16 @@ trait HasRoles
         return Attribute::get(fn (): bool => ! $this->is_owner);
     }
 
+    protected function isEditor(): Attribute
+    {
+        return Attribute::get(fn (): bool => $this->is_owner || $this->hasRole(RoleName::EDITOR));
+    }
+
+    public function resetRolesAndPermissions(): void
+    {
+        $this->unsetRelation('roles')->unsetRelation('permissions');
+    }
+
     public function scopeAdmins(Builder $query): Builder
     {
         return $query->whereIsAdmin(true);
@@ -40,5 +51,14 @@ trait HasRoles
     public function scopeMembers(Builder $query): Builder
     {
         return $query->whereNot(fn (Builder $q) => $q->owners());
+    }
+
+    public function scopeEditors(Builder $query): Builder
+    {
+        return $query->where(
+            fn (Builder $q) => $q
+                ->owners()
+                ->orWhere->role(RoleName::EDITOR),
+        );
     }
 }
