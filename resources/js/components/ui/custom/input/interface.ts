@@ -5,6 +5,7 @@ export type InputProps = {
     tabindex?: number;
     defaultValue?: string | number;
     modelValue?: string | number;
+    disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
 

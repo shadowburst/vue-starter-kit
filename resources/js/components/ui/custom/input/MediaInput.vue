@@ -24,6 +24,7 @@ type Props = {
     collection: string;
     type?: 'document' | 'image' | 'video' | 'other';
     accept?: HTMLInputElement['accept'];
+    disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
 const { modelType, modelId, collection, type = 'other', ...props } = defineProps<Props>();
@@ -71,9 +72,9 @@ async function submit(event: Event) {
 
 <template>
     <DropdownMenu>
-        <DropdownMenuTrigger :class="cn('relative w-min p-3', props.class)">
+        <DropdownMenuTrigger :disabled :class="cn('relative w-min p-3', props.class)">
             <slot />
-            <Button class="absolute right-0 bottom-0 size-8" v-bind="$attrs" variant="outline" size="icon">
+            <Button class="absolute right-0 bottom-0 size-8" v-bind="$attrs" :disabled variant="outline" size="icon">
                 <PencilIcon />
             </Button>
         </DropdownMenuTrigger>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { FormContent } from '@/components/ui/custom/form';
+import { Form, FormContent } from '@/components/ui/custom/form';
 import { LoadingIcon } from '@/components/ui/custom/loading';
 import { SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
@@ -60,9 +60,11 @@ const { filters, fields, count, data } = injectFiltersSheetRootContext();
         </SheetHeader>
         <ScrollArea class="grow overflow-auto">
             <SectionContent class="px-4!">
-                <FormContent>
-                    <slot />
-                </FormContent>
+                <Form :form="filters">
+                    <FormContent>
+                        <slot />
+                    </FormContent>
+                </Form>
             </SectionContent>
         </ScrollArea>
         <WhenVisible v-if="data" :data>

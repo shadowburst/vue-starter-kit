@@ -2,7 +2,6 @@
 
 namespace App\Data\Banner\Admin\Form;
 
-use Carbon\Carbon;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -14,8 +13,6 @@ class BannerAdminFormResource extends Resource
         public string $name,
         public string $message,
         public ?string $action,
-        public Carbon $start_date,
-        public Carbon $end_date,
         public bool $is_enabled,
     ) {}
 }

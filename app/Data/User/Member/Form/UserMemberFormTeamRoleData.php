@@ -19,6 +19,7 @@ class UserMemberFormTeamRoleData extends Data
         public int $team_id,
         #[In([RoleName::MEMBER->value, RoleName::EDITOR->value])]
         public RoleName $role,
+        public ?bool $can_update,
     ) {}
 
     public static function attributes(): array
@@ -32,7 +33,7 @@ class UserMemberFormTeamRoleData extends Data
     public static function rules(ValidationContext $context): array
     {
         return [
-            'team_id' => [Rule::in(Auth::user()->teams->pluck('id'))],
+            'team_id' => [Rule::in(Auth::user()->teams->where('can_update', true)->pluck('id'))],
         ];
     }
 }

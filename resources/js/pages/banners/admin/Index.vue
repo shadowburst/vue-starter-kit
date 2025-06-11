@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     DataTable,
     DataTableBody,
@@ -18,7 +19,6 @@ import {
     DataTableRowsCheckbox,
     DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
-import { DatePicker } from '@/components/ui/custom/date-picker';
 import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
 import { FormContent, FormControl, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
@@ -26,7 +26,7 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Switch } from '@/components/ui/switch';
-import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
+import { useAlert, useFilters, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
 import type {
     BannerAdminIndexProps,
@@ -37,7 +37,8 @@ import type {
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { CirclePlusIcon, PencilIcon, ToggleLeftIcon, ToggleRightIcon, Trash2Icon } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { CheckboxCheckedState } from 'reka-ui';
+import { computed, ref } from 'vue';
 
 defineOptions({
     layout: useLayout(AdminLayout, () => ({
@@ -143,8 +144,6 @@ const filters = useFilters<BannerAdminIndexRequest>(
     route('admin.banners.index'),
     {
         q: route().params.q ?? '',
-        start_date: route().params.start_date,
-        end_date: route().params.end_date,
         is_enabled: route().params.is_enabled == undefined ? undefined : Boolean(route().params.is_enabled),
         page: props.banners?.meta.current_page,
         per_page: props.banners?.meta.per_page,
@@ -165,7 +164,12 @@ const filters = useFilters<BannerAdminIndexRequest>(
     },
 );
 
-const format = useFormatter();
+const isEnabledFilter = computed<CheckboxCheckedState>({
+    get: () => filters.is_enabled ?? 'indeterminate',
+    set: (value) => {
+        filters.is_enabled = value === 'indeterminate' ? undefined : value;
+    },
+});
 </script>
 
 <template>
@@ -189,23 +193,13 @@ const format = useFormatter();
                         <FiltersSheetContent>
                             <FormField>
                                 <FormLabel>
+                                    <FormControl>
+                                        <Checkbox v-model="isEnabledFilter" />
+                                    </FormControl>
                                     <CapitalizeText>
-                                        {{ $t('models.banner.fields.start_date') }}
+                                        {{ $t('models.banner.fields.is_enabled') }}
                                     </CapitalizeText>
                                 </FormLabel>
-                                <FormControl>
-                                    <DatePicker v-model="filters.start_date" :max-value="filters.end_date" />
-                                </FormControl>
-                            </FormField>
-                            <FormField>
-                                <FormLabel>
-                                    <CapitalizeText>
-                                        {{ $t('models.banner.fields.end_date') }}
-                                    </CapitalizeText>
-                                </FormLabel>
-                                <FormControl>
-                                    <DatePicker v-model="filters.end_date" :min-value="filters.start_date" />
-                                </FormControl>
                             </FormField>
                         </FiltersSheetContent>
                     </FiltersSheet>
@@ -230,12 +224,6 @@ const format = useFormatter();
                             <DataTableSortableHead value="name">
                                 {{ $t('models.banner.fields.name') }}
                             </DataTableSortableHead>
-                            <DataTableSortableHead value="start_date">
-                                {{ $t('models.banner.fields.start_date') }}
-                            </DataTableSortableHead>
-                            <DataTableSortableHead value="end_date">
-                                {{ $t('models.banner.fields.end_date') }}
-                            </DataTableSortableHead>
                             <DataTableSortableHead value="is_enabled">
                                 {{ $t('models.banner.fields.is_enabled') }}
                             </DataTableSortableHead>
@@ -253,12 +241,6 @@ const format = useFormatter();
                                 <CapitalizeText>
                                     {{ banner.name }}
                                 </CapitalizeText>
-                            </DataTableCell>
-                            <DataTableCell>
-                                {{ format.date(banner.start_date) }}
-                            </DataTableCell>
-                            <DataTableCell>
-                                {{ format.date(banner.end_date) }}
                             </DataTableCell>
                             <DataTableCell>
                                 <Switch

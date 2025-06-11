@@ -82,7 +82,7 @@ class UserMemberController extends Controller
         $user = Auth::user();
 
         return Inertia::render('users/members/Edit', UserMemberFormProps::from([
-            'user'        => $member,
+            'user'        => $member->load(['avatar']),
             'teams'       => Lazy::closure(fn () => $user->teams),
             'permissions' => Lazy::closure(fn () => PermissionName::labels($user->getAllPermissions()->map->name)),
         ]));

@@ -18,12 +18,16 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('team_id')->nullable()->after('owner_id')->constrained('teams')->nullOnDelete();
         });
-
         Schema::table('roles', function (Blueprint $table) {
+            $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
+        });
+        Schema::table('model_has_roles', function (Blueprint $table) {
+            $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
+        });
+        Schema::table('model_has_permissions', function (Blueprint $table) {
             $table->foreign('team_id')->references('id')->on('teams')->cascadeOnDelete();
         });
     }
@@ -33,6 +37,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('model_has_permissions', function (Blueprint $table) {
+            $table->dropForeign(['team_id']);
+        });
+        Schema::table('model_has_roles', function (Blueprint $table) {
+            $table->dropForeign(['team_id']);
+        });
         Schema::table('roles', function (Blueprint $table) {
             $table->dropForeign(['team_id']);
         });

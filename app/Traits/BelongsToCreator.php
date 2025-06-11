@@ -31,6 +31,7 @@ trait BelongsToCreator
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, $this->getCreatorIdColumn())->withDefault([
+            'id'        => 0,
             'full_name' => __('models.user.default.full_name'),
         ]);
     }

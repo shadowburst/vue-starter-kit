@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\Auth\ResetPasswordNotification;
-use App\Traits\BelongsToOwner;
-use App\Traits\BelongsToTeam;
+use App\Traits\BelongsToCreator;
 use App\Traits\HasPolicy;
 use App\Traits\HasRoles;
 use App\Traits\HasTeams;
@@ -27,7 +26,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 /**
  * @property int $id
  * @property bool $is_admin
- * @property int|null $owner_id
+ * @property int $owner_id
  * @property int|null $team_id
  * @property string $first_name
  * @property string $last_name
@@ -40,6 +39,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_confirmed_at
  * @property string|null $remember_token
+ * @property int|null $creator_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -53,6 +53,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read bool $can_trash
  * @property-read bool $can_update
  * @property-read bool $can_view
+ * @property-read User|null $creator
  * @property-read bool $is_editor
  * @property-read bool $is_member
  * @property-read bool $is_owner
@@ -88,9 +89,11 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User search(?string $q)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBelongsToCreator(\App\Models\User|int $creator)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBelongsToOwner(\App\Models\User|int $owner)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBelongsToTeam(\App\Models\Team|int $team)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
@@ -117,8 +120,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  */
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
-    use BelongsToOwner;
-    use BelongsToTeam;
+    use BelongsToCreator;
     use HasFactory;
     use HasOneTimePasswords;
     use HasPolicy;

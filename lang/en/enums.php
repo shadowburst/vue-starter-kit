@@ -14,7 +14,6 @@ return [
 
     'permission' => [
         'name' => [
-            'users' => 'users',
         ],
     ],
 

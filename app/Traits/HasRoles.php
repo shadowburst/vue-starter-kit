@@ -3,8 +3,10 @@
 namespace App\Traits;
 
 use App\Enums\Role\RoleName;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles as SpatieHasRoles;
 
 /**
@@ -12,15 +14,29 @@ use Spatie\Permission\Traits\HasRoles as SpatieHasRoles;
  */
 trait HasRoles
 {
+    use BelongsToOwner;
     use SpatieHasRoles;
 
     public static function bootHasRoles(): void {}
 
     public function initializeHasRoles(): void {}
 
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, $this->getOwnerIdColumn())->withDefault(fn (User $user, User $self) => $user->fill($self->getAttributes()));
+    }
+
+    protected function ownerId(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?int $value): int => $value ?? $this->getKey(),
+            set: fn (?int $value) => $value == $this->getKey() ? null : $value,
+        );
+    }
+
     protected function isOwner(): Attribute
     {
-        return Attribute::get(fn (): bool => is_null($this->owner_id));
+        return Attribute::get(fn (): bool => $this->owner_id === $this->getKey());
     }
 
     protected function isMember(): Attribute
@@ -33,7 +49,7 @@ trait HasRoles
         return Attribute::get(fn (): bool => $this->is_owner || $this->hasRole(RoleName::EDITOR));
     }
 
-    public function resetRolesAndPermissions(): void
+    public function unsetRolesAndPermissions(): void
     {
         $this->unsetRelation('roles')->unsetRelation('permissions');
     }
@@ -45,7 +61,11 @@ trait HasRoles
 
     public function scopeOwners(Builder $query): Builder
     {
-        return $query->whereNull($this->getQualifiedOwnerIdColumn());
+        return $query->where(
+            fn (Builder $q) => $q
+                ->whereNull($this->getQualifiedOwnerIdColumn())
+                ->orWhereColumn($this->getQualifiedKeyName(), $this->getQualifiedOwnerIdColumn()),
+        );
     }
 
     public function scopeMembers(Builder $query): Builder

@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import TeamForm from '@/components/team/TeamForm.vue';
 import { Form, FormSubmitButton } from '@/components/ui/custom/form';
-import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
+import {
+    Section,
+    SectionContent,
+    SectionDescription,
+    SectionFooter,
+    SectionHeader,
+    SectionTitle,
+} from '@/components/ui/custom/section';
 import { useLayout, useTeamForm } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { TeamFormProps } from '@/types';
@@ -41,6 +48,9 @@ function submit() {
                 <SectionTitle>
                     {{ $t('pages.teams.edit.title') }}
                 </SectionTitle>
+                <SectionDescription>
+                    {{ $t('pages.teams.edit.description') }}
+                </SectionDescription>
             </SectionHeader>
             <SectionContent class="sm:flex">
                 <TeamForm />

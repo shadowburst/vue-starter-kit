@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 trait HasTeams
 {
+    use BelongsToTeam;
+
     public static function bootHasTeams(): void {}
 
     public function initializeHasTeams(): void {}

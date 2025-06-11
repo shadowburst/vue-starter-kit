@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware\Auth;
 
-use App\Data\User\UserAuthResource;
-use App\Facades\Services;
+use App\Data\User\UserAbilitiesResource;
+use App\Data\User\UserResource;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +23,8 @@ class AuthIncludeMiddleware
         if ($user) {
             Inertia::share([
                 'auth' => [
-                    'user'      => UserAuthResource::from($user->loadMissing(['avatar', 'teams'])),
-                    'abilities' => Services::abilities()->get(),
+                    'user'      => UserResource::from($user->loadMissing(['avatar', 'teams'])),
+                    'abilities' => UserAbilitiesResource::from($user),
                 ],
             ]);
         } else {

@@ -11,7 +11,7 @@ import { TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { TeamFormData } from '@/composables';
 
-const form = injectFormContext<TeamFormData>();
+const { form } = injectFormContext<TeamFormData>();
 </script>
 
 <template>

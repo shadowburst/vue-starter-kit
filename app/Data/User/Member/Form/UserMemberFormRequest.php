@@ -2,11 +2,12 @@
 
 namespace App\Data\User\Member\Form;
 
+use App\Attributes\Media;
 use App\Models\User;
 use Illuminate\Container\Attributes\RouteParameter;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
-use Spatie\LaravelData\Attributes\FromAuthenticatedUserProperty;
+use Spatie\LaravelData\Attributes\FromAuthenticatedUser;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Attributes\Validation\Confirmed;
@@ -23,12 +24,13 @@ class UserMemberFormRequest extends Data
 {
     public function __construct(
         #[Hidden]
+        #[FromAuthenticatedUser]
+        public User $owner,
+
+        #[Hidden]
         #[FromRouteParameter('member')]
         public ?User $member,
 
-        #[Hidden]
-        #[FromAuthenticatedUserProperty(property: 'id')]
-        public int $owner_id,
         public string $first_name,
         public string $last_name,
         public string $email,
@@ -38,6 +40,9 @@ class UserMemberFormRequest extends Data
         #[Password(default: true)]
         public ?string $password,
         public ?string $password_confirmation,
+
+        #[Media]
+        public ?string $avatar,
 
         #[DataCollectionOf(UserMemberFormTeamRoleData::class)]
         public DataCollection $team_roles,

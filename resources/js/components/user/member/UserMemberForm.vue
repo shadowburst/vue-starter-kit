@@ -7,15 +7,36 @@ import {
     FormLabel,
     injectFormContext,
 } from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
+import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
+import UserAvatar from '@/components/user/UserAvatar.vue';
 import { UserMemberFormData } from '@/composables';
 
-const form = injectFormContext<UserMemberFormData>();
+const { form } = injectFormContext<UserMemberFormData>();
 </script>
 
 <template>
     <FormContent class="sm:grid-cols-2">
+        <FormField class="col-span-full" v-if="form.id">
+            <FormLabel>
+                <CapitalizeText>
+                    {{ $t('models.user.fields.avatar') }}
+                </CapitalizeText>
+            </FormLabel>
+            <FormControl>
+                <MediaInput
+                    v-model="form.avatar"
+                    v-model:error="form.errors.avatar"
+                    model-type="user"
+                    :model-id="form.id"
+                    collection="avatar"
+                    type="image"
+                >
+                    <UserAvatar size="lg" shape="circle" :user="form" />
+                </MediaInput>
+            </FormControl>
+            <FormError :message="form.errors.avatar" />
+        </FormField>
         <FormField required>
             <FormLabel>
                 <CapitalizeText>

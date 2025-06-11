@@ -13,6 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->encryptCookies(except: ['locale', 'sidebar_state']);
 
+        $middleware->prependToPriorityList(
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\Auth\AuthTeamMiddleware::class,
+        );
+
         $middleware->alias([
             'banner.include' => \App\Http\Middleware\IncludeBanner::class,
             'auth.include'   => \App\Http\Middleware\Auth\AuthIncludeMiddleware::class,
@@ -21,7 +26,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.no_team'   => \App\Http\Middleware\Auth\AuthNoTeamMiddleware::class,
         ]);
         $middleware->web(append: [
-            \App\Http\Middleware\HandleTeam::class,
             \App\Http\Middleware\HandleLocale::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,

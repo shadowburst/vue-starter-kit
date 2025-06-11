@@ -24,6 +24,8 @@ class AuthTeamMiddleware
         /** @var \App\Models\User $user */
         if ($user->team_id && $user->teams->contains($user->team_id)) {
             // User already in a valid team
+            Services::team()->setCurrent($user->team);
+
             return $next($request);
         }
 
@@ -32,11 +34,12 @@ class AuthTeamMiddleware
         if ($team) {
             // Select the first available team
             Services::user()->selectTeam->execute($user, $team);
+            Services::team()->setCurrent($user->team);
 
             return $next($request);
         }
 
-        if (! $user->owner_id) {
+        if ($user->is_owner) {
             return to_route('teams.first.create');
         }
 

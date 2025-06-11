@@ -5,8 +5,6 @@ export type BannerAdminFormRequest = {
     name: string;
     message: string;
     action?: string;
-    start_date: string;
-    end_date: string;
     is_enabled: boolean;
 };
 export type BannerAdminFormResource = {
@@ -14,8 +12,6 @@ export type BannerAdminFormResource = {
     name: string;
     message: string;
     action?: string;
-    start_date: string;
-    end_date: string;
     is_enabled: boolean;
 };
 export type BannerAdminIndexProps = {
@@ -44,14 +40,10 @@ export type BannerAdminIndexRequest = {
     sort_by: string;
     sort_direction: string;
     is_enabled?: boolean;
-    start_date?: string;
-    end_date?: string;
 };
 export type BannerAdminIndexResource = {
     id: number;
     name: string;
-    start_date: string;
-    end_date: string;
     is_enabled: boolean;
 };
 export type BannerAppResource = {
@@ -104,7 +96,10 @@ export type PermissionListResource = {
     name: string;
     display_name: string;
 };
-export type PermissionName = 'users';
+export type PermissionName = {
+    name: string;
+    value: string;
+};
 export type RegisterProps = {};
 export type RegisterRequest = {
     first_name: string;
@@ -130,10 +125,6 @@ export type RoleListResource = {
     display_name: string;
 };
 export type RoleName = 'tester' | 'owner' | 'member' | 'editor';
-export type TeamAppResource = {
-    id: number;
-    name: string;
-};
 export type TeamFormProps = {
     team?: TeamFormResource;
 };
@@ -142,7 +133,13 @@ export type TeamFormRequest = {
 };
 export type TeamFormResource = {
     id: number;
+    creator_id: number;
     name: string;
+    can_view: boolean;
+    can_update: boolean;
+    can_trash: boolean;
+    can_restore: boolean;
+    can_delete: boolean;
 };
 export type TeamIndexProps = {
     request: TeamIndexRequest;
@@ -163,6 +160,7 @@ export type TeamIndexProps = {
             total: number;
         };
     };
+    trashed_filters?: Array<{ value: TrashedFilter; label: string }>;
 };
 export type TeamIndexRequest = {
     q?: string;
@@ -174,11 +172,14 @@ export type TeamIndexRequest = {
 };
 export type TeamIndexResource = {
     id: number;
+    creator_id: number;
     name: string;
-    deleted_at?: string;
+    can_view: boolean;
+    can_update: boolean;
     can_trash: boolean;
     can_restore: boolean;
     can_delete: boolean;
+    deleted_at?: string;
 };
 export type TeamListResource = {
     id: number;
@@ -203,27 +204,13 @@ export type UpdatePasswordSettingsRequest = {
 export type UpdateProfileSettingsRequest = {
     first_name: string;
     last_name: string;
-    phone: string;
+    phone?: string;
     email: string;
     avatar?: string;
 };
 export type UserAbilitiesResource = {
     teams: { view_any: boolean; create: boolean };
     users: { view_any: boolean; create: boolean };
-};
-export type UserAuthResource = {
-    id: number;
-    team_id?: number;
-    first_name: string;
-    last_name: string;
-    full_name: string;
-    phone?: string;
-    email: string;
-    avatar?: MediaResource;
-    is_admin: boolean;
-    is_owner: boolean;
-    is_member: boolean;
-    teams: Array<TeamListResource>;
 };
 export type UserListResource = {
     id: number;
@@ -241,6 +228,7 @@ export type UserMemberFormRequest = {
     phone?: string;
     password?: string;
     password_confirmation?: string;
+    avatar?: string;
     team_roles: Array<UserMemberFormTeamRoleData>;
     team_permissions: Array<UserMemberFormTeamPermissionData>;
 };
@@ -250,16 +238,24 @@ export type UserMemberFormResource = {
     last_name: string;
     email: string;
     phone?: string;
+    can_view: boolean;
+    can_update: boolean;
+    can_trash: boolean;
+    can_restore: boolean;
+    can_delete: boolean;
+    avatar?: MediaResource;
     team_roles: Array<UserMemberFormTeamRoleData>;
     team_permissions: Array<UserMemberFormTeamPermissionData>;
 };
 export type UserMemberFormTeamPermissionData = {
     team_id: number;
     permission: PermissionName;
+    can_update?: boolean;
 };
 export type UserMemberFormTeamRoleData = {
     team_id: number;
     role: RoleName;
+    can_update?: boolean;
 };
 export type UserMemberIndexProps = {
     request: UserMemberIndexRequest;
@@ -297,17 +293,32 @@ export type UserMemberIndexResource = {
     full_name: string;
     email: string;
     phone?: string;
-    avatar?: MediaResource;
-    deleted_at?: string;
     can_view: boolean;
     can_update: boolean;
     can_trash: boolean;
     can_restore: boolean;
     can_delete: boolean;
+    deleted_at?: string;
+    avatar?: MediaResource | null;
 };
 export type UserMemberOneOrManyRequest = {
     user?: number;
     ids?: Array<number>;
+};
+export type UserResource = {
+    id: number;
+    owner_id: number;
+    team_id?: number;
+    first_name: string;
+    last_name: string;
+    full_name: string;
+    email: string;
+    phone?: string;
+    is_admin: boolean;
+    is_owner: boolean;
+    is_member: boolean;
+    avatar?: MediaResource;
+    teams?: Array<TeamListResource>;
 };
 export type VerifyEmailProps = {};
 export type VerifyEmailRequest = {

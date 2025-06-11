@@ -26,8 +26,16 @@ class SelectUserTeam
             return true;
         }
 
-        return $user->update([
+        $success = $user->update([
             'team_id' => $team->id,
         ]);
+        if (! $success) {
+            return false;
+        }
+
+        $user->unsetRolesAndPermissions();
+        $user->unsetRelation('team');
+
+        return true;
     }
 }

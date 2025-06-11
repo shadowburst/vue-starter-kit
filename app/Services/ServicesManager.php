@@ -6,13 +6,6 @@ class ServicesManager
 {
     public function __construct() {}
 
-    protected ?AbilitiesService $abilities = null;
-
-    public function abilities(): AbilitiesService
-    {
-        return $this->abilities ??= app(AbilitiesService::class);
-    }
-
     protected ?MediaService $media = null;
 
     public function media(): MediaService

@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use App\Enums\Permission\PermissionName;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +18,7 @@ class UserPolicy
             return true;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS);
+        return $user->is_owner;
     }
 
     public function view(User $user, User $model): bool
@@ -32,11 +31,11 @@ class UserPolicy
             return true;
         }
 
-        if (! $model->isSameOwner($user->id)) {
+        if (! $model->isSameOwner($user->owner_id)) {
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS);
+        return $user->is_owner;
     }
 
     public function create(User $user): bool
@@ -45,7 +44,7 @@ class UserPolicy
             return true;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
+        return $user->is_owner;
     }
 
     public function update(User $user, User $model): bool
@@ -54,15 +53,15 @@ class UserPolicy
             return true;
         }
 
-        if ($model->is($user)) {
-            return true;
-        }
-
-        if (! $model->isSameOwner($user->id)) {
+        if (! $model->isSameOwner($user->owner_id)) {
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
+        if ($model->is($user)) {
+            return false;
+        }
+
+        return $user->is_owner;
     }
 
     public function trash(User $user, User $model): bool
@@ -79,11 +78,11 @@ class UserPolicy
             return true;
         }
 
-        if (! $model->isSameOwner($user->id)) {
+        if (! $model->isSameOwner($user->owner_id)) {
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
+        return $user->is_owner;
     }
 
     public function restore(User $user, User $model): bool
@@ -104,7 +103,7 @@ class UserPolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
+        return $user->is_owner;
     }
 
     public function delete(User $user, User $model): bool
@@ -117,10 +116,10 @@ class UserPolicy
             return true;
         }
 
-        if (! $model->isSameOwner($user->id)) {
+        if (! $model->isSameOwner($user->owner_id)) {
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionName::USERS) && $user->is_editor;
+        return $user->is_owner;
     }
 }

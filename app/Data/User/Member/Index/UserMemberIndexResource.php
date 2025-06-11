@@ -4,6 +4,8 @@ namespace App\Data\User\Member\Index;
 
 use App\Data\Media\MediaResource;
 use Carbon\Carbon;
+use Spatie\LaravelData\Attributes\AutoWhenLoadedLazy;
+use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -17,12 +19,14 @@ class UserMemberIndexResource extends Resource
         public string $full_name,
         public string $email,
         public ?string $phone,
-        public ?MediaResource $avatar,
-        public ?Carbon $deleted_at,
         public bool $can_view,
         public bool $can_update,
         public bool $can_trash,
         public bool $can_restore,
         public bool $can_delete,
+        public ?Carbon $deleted_at,
+
+        #[AutoWhenLoadedLazy]
+        public Lazy|MediaResource|null $avatar,
     ) {}
 }

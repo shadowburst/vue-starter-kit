@@ -2,6 +2,8 @@
 
 namespace App\Data\Team\Index;
 
+use App\Attributes\EnumArrayOf;
+use App\Enums\Trashed\TrashedFilter;
 use Spatie\LaravelData\Attributes\AutoInertiaLazy;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Lazy;
@@ -18,5 +20,9 @@ class TeamIndexProps extends Resource
         #[AutoInertiaLazy]
         #[DataCollectionOf(TeamIndexResource::class)]
         public Lazy|PaginatedDataCollection $teams,
+
+        #[AutoInertiaLazy]
+        #[EnumArrayOf(TrashedFilter::class)]
+        public Lazy|array $trashed_filters,
     ) {}
 }

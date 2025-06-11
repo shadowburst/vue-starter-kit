@@ -2,7 +2,6 @@
 
 namespace App\Data\Banner\Admin\Index;
 
-use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
@@ -19,8 +18,6 @@ class BannerAdminIndexRequest extends Data
         public string $sort_by = 'id',
         public string $sort_direction = 'desc',
         public ?bool $is_enabled = null,
-        public ?Carbon $start_date = null,
-        public ?Carbon $end_date = null,
     ) {}
 
     public static function attributes(): array
@@ -32,8 +29,6 @@ class BannerAdminIndexRequest extends Data
             'sort_by'        => __('sort_by'),
             'sort_direction' => __('sort_direction'),
             'is_enabled'     => __('models.banner.fields.is_enabled'),
-            'start_date'     => __('models.banner.fields.start_date'),
-            'end_date'       => __('models.banner.fields.end_date'),
         ];
     }
 

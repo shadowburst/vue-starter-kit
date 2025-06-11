@@ -113,7 +113,7 @@ const placeholder = computed(() => {
                     :placeholder
                     :class="cn(models.length && !required ? 'pr-16' : 'pr-8', props.class)"
                 />
-                <div class="absolute inset-y-px end-px flex items-stretch">
+                <div class="absolute inset-y-px end-px flex items-stretch" v-if="!disabled">
                     <Button
                         class="h-full rounded-none"
                         v-if="modelArray.length && !required"

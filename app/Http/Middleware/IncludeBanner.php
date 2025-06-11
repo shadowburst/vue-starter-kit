@@ -37,12 +37,8 @@ class IncludeBanner
 
         $banner = Banner::query()
             ->whereNot->whereAttachedTo($user)
-            ->where([
-                ['start_date', '<=', now()],
-                ['end_date', '>=', now()],
-            ])
             ->whereIsEnabled(true)
-            ->orderBy('end_date', 'asc')
+            ->orderBy('id', 'desc')
             ->first();
 
         if (! $banner) {

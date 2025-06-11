@@ -3,8 +3,9 @@
 namespace App\Actions\Settings\Profile;
 
 use App\Data\Settings\Profile\UpdateProfileSettingsRequest;
+use App\Facades\Services;
 use App\Models\User;
-use App\Services\MediaService;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
 class UpdateProfileSettings
@@ -12,11 +13,13 @@ class UpdateProfileSettings
     use QueueableAction;
 
     public function __construct(
-        protected MediaService $mediaService,
+        //
     ) {}
 
     public function execute(User $user, UpdateProfileSettingsRequest $data): bool
     {
+        DB::beginTransaction();
+
         $user->fill($data->toArray());
 
         if ($user->isDirty('email')) {
@@ -24,10 +27,16 @@ class UpdateProfileSettings
             $user->sendEmailVerificationNotification();
         }
 
-        if (! $this->mediaService->update->execute($user, User::COLLECTION_AVATAR, $data->avatar)) {
+        $success = Services::media()->update->execute($user, User::COLLECTION_AVATAR, $data->avatar) && $user->save();
+
+        if (! $success) {
+            DB::rollBack();
+
             return false;
         }
 
-        return $user->save();
+        DB::commit();
+
+        return true;
     }
 }

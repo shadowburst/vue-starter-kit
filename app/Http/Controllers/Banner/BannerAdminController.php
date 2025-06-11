@@ -31,14 +31,6 @@ class BannerAdminController extends Controller
                 fn () => BannerAdminIndexResource::collect(
                     Banner::query()
                         ->search($data->q)
-                        ->when($data->start_date, fn (Builder $q) => $q->where([
-                            ['start_date', '>=', $data->start_date],
-                            ['end_date', '>=', $data->start_date],
-                        ]))
-                        ->when($data->end_date, fn (Builder $q) => $q->where([
-                            ['start_date', '<=', $data->end_date],
-                            ['end_date', '<=', $data->end_date],
-                        ]))
                         ->orderBy($data->sort_by, $data->sort_direction)
                         ->paginate(
                             perPage: $data->per_page ?? Config::integer('default.per_page'),
@@ -92,7 +84,8 @@ class BannerAdminController extends Controller
         Banner::query()
             ->when($data->banner, fn (Builder $q) => $q->where('id', $data->banner))
             ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
-            ->update([
+            ->get()
+            ->each->update([
                 'is_enabled' => true,
             ]);
 
@@ -104,7 +97,8 @@ class BannerAdminController extends Controller
         Banner::query()
             ->when($data->banner, fn (Builder $q) => $q->where('id', $data->banner))
             ->when($data->ids, fn (Builder $q) => $q->whereIntegerInRaw('id', $data->ids))
-            ->update([
+            ->get()
+            ->each->update([
                 'is_enabled' => false,
             ]);
 

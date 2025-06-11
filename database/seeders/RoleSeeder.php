@@ -33,9 +33,7 @@ class RoleSeeder extends Seeder
             $role->givePermissionTo(
                 ...match ($roleName) {
                     RoleName::TESTER => PermissionName::cases(),
-                    RoleName::OWNER  => [
-                        PermissionName::USERS,
-                    ],
+                    RoleName::OWNER  => [],
                     RoleName::MEMBER => [],
                     default          => []
                 },

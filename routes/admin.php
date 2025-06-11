@@ -3,7 +3,7 @@
 use App\Http\Controllers\Banner\BannerAdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/admin')->name('admin.')->middleware(['auth', 'auth.include'])->group(function () {
+Route::prefix('/admin')->name('admin.')->middleware(['auth', 'auth.team', 'auth.include'])->group(function () {
     Route::get('/', fn () => inertia('Admin'))->name('index');
     Route::prefix('/banners')->name('banners.')->controller(BannerAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');

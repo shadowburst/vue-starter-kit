@@ -4,7 +4,6 @@ namespace App\Actions\User\Member;
 
 use App\Data\User\Member\Form\UserMemberFormRequest;
 use App\Facades\Services;
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
@@ -22,36 +21,31 @@ class CreateOrUpdateMemberUser
         DB::beginTransaction();
 
         try {
+            $owner = $data->owner;
             $user = $data->member;
             if (! $user?->exists) {
-                $user = User::create($data->toArray());
+                $user = $owner->members()->create($data->toArray());
             } else {
                 $user->update($data->except('member')->exceptWhen('password', is_null($data->password))->toArray());
+                Services::media()->update->execute($user, User::COLLECTION_AVATAR, $data->avatar);
             }
 
             /** @var User $user */
-            $user->syncRoles();
-            $user->syncPermissions();
-
             Services::team()->forEachTeam(
-                Team::query()
-                    ->whereRelation('users', 'id', $data->owner_id)
-                    ->get(),
+                $owner->teams,
                 function () use ($user) {
                     $user->syncRoles();
                     $user->syncPermissions();
                 },
             );
 
-            $user->resetRolesAndPermissions();
+            $user->unsetRolesAndPermissions();
 
             /** @var UserMemberFormTeamRoleData $teamRole */
             foreach ($data->team_roles as $teamRole) {
                 Services::team()->forTeam(
                     $teamRole->team_id,
-                    function () use ($user, $teamRole) {
-                        $user->assignRole($teamRole->role);
-                    },
+                    fn () => $user->assignRole($teamRole->role),
                 );
             }
 
@@ -61,9 +55,7 @@ class CreateOrUpdateMemberUser
                 if ($data->team_roles->toCollection()->map->team_id->contains($teamPermission->team_id)) {
                     Services::team()->forTeam(
                         $teamPermission->team_id,
-                        function () use ($user, $teamPermission) {
-                            $user->givePermissionTo($teamPermission->permission);
-                        },
+                        fn () => $user->givePermissionTo($teamPermission->permission),
                     );
                 }
             }

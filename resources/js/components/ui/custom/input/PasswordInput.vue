@@ -26,7 +26,7 @@ const { forwardRef } = useForwardExpose();
 <template>
     <div class="relative w-full">
         <Input class="pe-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
-        <div class="absolute inset-y-px end-px grid place-items-center">
+        <div class="absolute inset-y-px end-px grid place-items-center" v-if="!disabled">
             <Button class="h-full rounded-l-none" size="icon" variant="ghost" @click="toggle()">
                 <component :is="hidden ? EyeOffIcon : EyeIcon" />
             </Button>

@@ -24,7 +24,7 @@ const { forwardRef } = useForwardExpose();
             <SearchIcon class="size-4" />
         </div>
         <Input class="px-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
-        <div class="absolute inset-y-px end-px grid place-items-center" v-if="modelValue">
+        <div class="absolute inset-y-px end-px grid place-items-center" v-if="modelValue && !disabled">
             <Button class="h-full rounded-l-none" size="icon" variant="ghost" @click="$emit('update:modelValue', '')">
                 <XIcon />
             </Button>

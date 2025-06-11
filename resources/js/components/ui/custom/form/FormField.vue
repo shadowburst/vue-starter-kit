@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { toRefs } from '@vueuse/core';
 import { createContext } from 'reka-ui';
 import { computed, HTMLAttributes, ref, Ref, useId } from 'vue';
+import { injectFormContext } from './Form.vue';
 
 type Props = {
     id?: string;
@@ -29,7 +30,10 @@ const props = withDefaults(defineProps<Props>(), {
     id: () => useId(),
 });
 
-const { id, required, disabled } = toRefs(props);
+const { disabled: formDisabled } = injectFormContext();
+const disabled = computed((): boolean => props.disabled || formDisabled.value);
+
+const { id, required } = toRefs(props);
 const name = computed((): string => props.name ?? id.value);
 const descriptionId = computed((): string => `${id.value}-description`);
 const errorId = computed((): string => `${id.value}-error`);

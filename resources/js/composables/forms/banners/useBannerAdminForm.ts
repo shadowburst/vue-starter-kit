@@ -6,8 +6,6 @@ export function useBannerAdminForm(banner?: BannerAdminFormResource) {
         name: banner?.name ?? '',
         message: banner?.message ?? '',
         action: banner?.action,
-        start_date: banner?.start_date ?? '',
-        end_date: banner?.end_date ?? '',
         is_enabled: banner?.is_enabled ?? false,
     });
 

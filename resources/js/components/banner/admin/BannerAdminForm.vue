@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Checkbox } from '@/components/ui/checkbox';
-import { DatePicker } from '@/components/ui/custom/date-picker';
 import {
     FormContent,
     FormControl,
@@ -14,7 +13,7 @@ import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Textarea } from '@/components/ui/textarea';
 import { BannerAdminFormData } from '@/composables';
 
-const form = injectFormContext<BannerAdminFormData>();
+const { form } = injectFormContext<BannerAdminFormData>();
 </script>
 
 <template>
@@ -51,28 +50,6 @@ const form = injectFormContext<BannerAdminFormData>();
                 <Textarea v-model="form.message" />
             </FormControl>
             <FormError :message="form.errors.message" />
-        </FormField>
-        <FormField required>
-            <FormLabel>
-                <CapitalizeText>
-                    {{ $t('models.banner.fields.start_date') }}
-                </CapitalizeText>
-            </FormLabel>
-            <FormControl>
-                <DatePicker v-model="form.start_date" :max-value="form.end_date" />
-            </FormControl>
-            <FormError :message="form.errors.start_date" />
-        </FormField>
-        <FormField required>
-            <FormLabel>
-                <CapitalizeText>
-                    {{ $t('models.banner.fields.end_date') }}
-                </CapitalizeText>
-            </FormLabel>
-            <FormControl>
-                <DatePicker v-model="form.end_date" :min-value="form.start_date" />
-            </FormControl>
-            <FormError :message="form.errors.end_date" />
         </FormField>
         <FormField>
             <FormLabel>

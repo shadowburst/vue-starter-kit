@@ -28,7 +28,7 @@ import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
-import type { TeamIndexProps, TeamIndexRequest, TeamIndexResource, TeamOneOrManyRequest } from '@/types';
+import { type TeamIndexProps, type TeamIndexRequest, type TeamIndexResource, type TeamOneOrManyRequest } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, CirclePlusIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
@@ -209,7 +209,7 @@ const format = useFormatter();
                     <FiltersSheet
                         :filters
                         :omit="['q', 'page', 'per_page', 'sort_by', 'sort_direction']"
-                        :data="['enums.trashed_filters']"
+                        :data="['trashed_filters']"
                     >
                         <FiltersSheetTrigger />
                         <FiltersSheetContent>
@@ -220,7 +220,7 @@ const format = useFormatter();
                                     </CapitalizeText>
                                 </FormLabel>
                                 <FormControl>
-                                    <EnumCombobox v-model="filters.trashed" data="enums.trashed_filters" />
+                                    <EnumCombobox v-model="filters.trashed" data="trashed_filters" />
                                 </FormControl>
                             </FormField>
                         </FiltersSheetContent>

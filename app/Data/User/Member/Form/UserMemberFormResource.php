@@ -2,6 +2,7 @@
 
 namespace App\Data\User\Member\Form;
 
+use App\Data\Media\MediaResource;
 use App\Facades\Services;
 use App\Models\Permission;
 use App\Models\Role;
@@ -21,6 +22,13 @@ class UserMemberFormResource extends Resource
         public string $last_name,
         public string $email,
         public ?string $phone,
+        public bool $can_view,
+        public bool $can_update,
+        public bool $can_trash,
+        public bool $can_restore,
+        public bool $can_delete,
+
+        public ?MediaResource $avatar,
 
         #[DataCollectionOf(UserMemberFormTeamRoleData::class)]
         public DataCollection $team_roles,
@@ -38,7 +46,7 @@ class UserMemberFormResource extends Resource
             Services::team()->forTeam(
                 $team,
                 function (Team $team) use ($user, $teamRoles, $teamPermissions) {
-                    $user->resetRolesAndPermissions();
+                    $user->unsetRolesAndPermissions();
                     $teamRoles->push(...$user->roles->map(fn (Role $role) => [
                         'team_id' => $team->id,
                         'role'    => $role->name,
@@ -57,6 +65,12 @@ class UserMemberFormResource extends Resource
             'last_name'        => $user->last_name,
             'email'            => $user->email,
             'phone'            => $user->phone,
+            'can_view'         => $user->can_view,
+            'can_update'       => $user->can_update,
+            'can_trash'        => $user->can_trash,
+            'can_restore'      => $user->can_restore,
+            'can_delete'       => $user->can_delete,
+            'avatar'           => $user->avatar,
             'team_roles'       => $teamRoles,
             'team_permissions' => $teamPermissions,
         ]);

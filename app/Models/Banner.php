@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $name
  * @property string $message
  * @property string|null $action
- * @property \Illuminate\Support\Carbon $start_date
- * @property \Illuminate\Support\Carbon $end_date
  * @property bool $is_enabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -27,12 +25,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner search(?string $q)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereAction($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereIsEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -53,8 +49,6 @@ class Banner extends Model
         'name',
         'message',
         'action',
-        'start_date',
-        'end_date',
         'is_enabled',
     ];
 
@@ -76,10 +70,18 @@ class Banner extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'date',
-            'end_date'   => 'date',
             'is_enabled' => 'boolean',
         ];
+    }
+
+    public static function booted(): void
+    {
+        static::updated(function (Banner $banner) {
+            // Reset users after enabling banner
+            if ($banner->wasChanged('is_enabled') && $banner->is_enabled) {
+                $banner->users()->sync([]);
+            }
+        });
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Data\Team\Index\TeamIndexProps;
 use App\Data\Team\Index\TeamIndexRequest;
 use App\Data\Team\Index\TeamIndexResource;
 use App\Data\Team\TeamOneOrManyRequest;
+use App\Enums\Trashed\TrashedFilter;
 use App\Facades\Services;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
@@ -39,6 +40,7 @@ class TeamController extends Controller
                     PaginatedDataCollection::class,
                 ),
             ),
+            'trashed_filters' => Lazy::inertia(fn () => TrashedFilter::labels()),
         ]));
     }
 

@@ -124,11 +124,11 @@ return [
             'title' => 'Teams',
         ],
         'create' => [
-            'title'       => 'Create a team',
+            'title'       => 'New team',
             'description' => 'Create a new team for you and your users',
         ],
         'edit' => [
-            'title'       => 'Update a team',
+            'title'       => 'Team details',
             'description' => "Update a team's details",
         ],
     ],
@@ -139,11 +139,11 @@ return [
                 'title' => 'Members',
             ],
             'create' => [
-                'title'       => 'Create a member',
-                'description' => 'Create a new member for the site',
+                'title'       => 'New member',
+                'description' => 'Create a new member and give them specific access',
             ],
             'edit' => [
-                'title'       => 'Update a member',
+                'title'       => 'Member details',
                 'description' => "Update a member's details",
             ],
         ],

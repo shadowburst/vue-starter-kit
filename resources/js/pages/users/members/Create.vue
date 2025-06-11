@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { Form, FormSubmitButton } from '@/components/ui/custom/form';
-import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
+import {
+    Section,
+    SectionContent,
+    SectionDescription,
+    SectionFooter,
+    SectionHeader,
+    SectionTitle,
+} from '@/components/ui/custom/section';
 import UserMemberForm from '@/components/user/member/UserMemberForm.vue';
 import UserMemberTeamsForm from '@/components/user/member/UserMemberTeamsForm.vue';
 import { useLayout, useUserMemberForm } from '@/composables';
@@ -42,6 +49,9 @@ function submit() {
                 <SectionTitle>
                     {{ $t('pages.users.members.create.title') }}
                 </SectionTitle>
+                <SectionDescription>
+                    {{ $t('pages.users.members.create.description') }}
+                </SectionDescription>
             </SectionHeader>
             <SectionContent class="sm:flex">
                 <UserMemberForm />

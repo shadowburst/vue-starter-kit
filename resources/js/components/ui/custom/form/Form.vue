@@ -1,5 +1,9 @@
 <script lang="ts">
-export function injectFormContext<TForm extends FormDataType>(fallback?: InertiaForm<TForm>): InertiaForm<TForm> {
+export type FormContext<TForm extends FormDataType> = {
+    form: InertiaForm<TForm>;
+    disabled: Ref<boolean>;
+};
+export function injectFormContext<TForm extends FormDataType>(fallback?: FormContext<TForm>): FormContext<TForm> {
     const context = inject('FormContext', fallback);
 
     if (!context) {
@@ -8,7 +12,7 @@ export function injectFormContext<TForm extends FormDataType>(fallback?: Inertia
 
     return context;
 }
-export function provideFormContext<TForm extends FormDataType>(contextValue: InertiaForm<TForm>) {
+export function provideFormContext<TForm extends FormDataType>(contextValue: FormContext<TForm>) {
     return provide('FormContext', contextValue);
 }
 </script>
@@ -17,10 +21,11 @@ export function provideFormContext<TForm extends FormDataType>(contextValue: Ine
 import { cn } from '@/lib/utils';
 import { FormDataType } from '@/types';
 import { InertiaForm } from '@inertiajs/vue3';
-import { HTMLAttributes, inject, provide } from 'vue';
+import { computed, HTMLAttributes, inject, provide, Ref } from 'vue';
 
 type Props = {
     form?: InertiaForm<TForm>;
+    disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
@@ -30,8 +35,13 @@ type Emits = {
 };
 defineEmits<Emits>();
 
+const disabled = computed((): boolean => props.disabled);
+
 if (props.form) {
-    provideFormContext(props.form);
+    provideFormContext({
+        form: props.form,
+        disabled,
+    });
 }
 </script>
 

@@ -19,11 +19,9 @@ return [
         ],
         'fields' => [
             'action'     => 'action',
-            'end_date'   => 'to',
             'is_enabled' => 'active',
             'message'    => 'message',
             'name'       => 'name',
-            'start_date' => 'from',
         ],
     ],
 

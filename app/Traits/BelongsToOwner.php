@@ -40,7 +40,7 @@ trait BelongsToOwner
 
     public function scopeWhereBelongsToOwner(Builder $query, User|int $owner): Builder
     {
-        $owner = is_int($owner) ? $owner : $owner->getKey();
+        $owner = is_int($owner) ? $owner : $owner->{$owner->getOwnerIdColumn()};
 
         return $query
             ->whereBelongsToAnyOwner()

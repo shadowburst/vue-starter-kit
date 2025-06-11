@@ -18,11 +18,11 @@ const props = withDefaults(defineProps<Props>(), {
 const delegatedProps = reactiveOmit(props, 'disabled', 'class');
 const forwarded = useForwardProps(delegatedProps);
 
-const form = injectFormContext();
+const { form, disabled: formDisabled } = injectFormContext();
 
 const loading = computed(() => form.processing);
 
-const disabled = computed(() => props.disabled || loading.value);
+const disabled = computed(() => formDisabled.value || props.disabled || loading.value);
 </script>
 
 <template>
