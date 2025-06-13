@@ -1,7 +1,7 @@
 import { InertiaLinkProps } from '@inertiajs/vue3';
 import { LucideIcon } from 'lucide-vue-next';
 
-export type BreadcrumbItem = {
+export type BreadcrumbItemType = {
     title: string;
     href: string;
 };

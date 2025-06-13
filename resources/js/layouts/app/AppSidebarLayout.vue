@@ -5,13 +5,13 @@ import AppSidebar from '@/components/app/sidebar/AppSidebar.vue';
 import { Breadcrumbs } from '@/components/ui/custom/breadcrumbs';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth, useRouterComputed } from '@/composables';
-import type { BreadcrumbItem, NavItem } from '@/types';
+import type { BreadcrumbItemType, NavItem } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { LayoutGridIcon, MonitorCogIcon } from 'lucide-vue-next';
 
 type Props = {
-    breadcrumbs?: BreadcrumbItem[];
+    breadcrumbs?: BreadcrumbItemType[];
 };
 const { breadcrumbs = [] } = defineProps<Props>();
 

@@ -8,7 +8,7 @@ import {
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { TextLink } from '@/components/ui/custom/link';
-import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
+import type { BreadcrumbItemType } from '@/types';
 
 type Props = {
     breadcrumbs: BreadcrumbItemType[];

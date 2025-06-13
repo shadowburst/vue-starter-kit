@@ -14,7 +14,7 @@ const { team } = useAuth();
         <AppLogoIcon class="size-5 fill-current" />
     </div>
     <div class="ml-1 grid flex-1 gap-0.5 text-left text-sm">
-        <span class="truncate leading-none font-semibold capitalize">
+        <span class="truncate leading-tight font-semibold capitalize">
             {{ name }}
         </span>
         <span class="truncate text-xs leading-none capitalize">

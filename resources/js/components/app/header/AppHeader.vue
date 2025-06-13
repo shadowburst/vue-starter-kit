@@ -15,13 +15,13 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth } from '@/composables';
-import type { BreadcrumbItem, NavItem } from '@/types';
+import type { BreadcrumbItemType, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { LayoutGridIcon, Menu, Search } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 type Props = {
-    breadcrumbs?: BreadcrumbItem[];
+    breadcrumbs?: BreadcrumbItemType[];
 };
 const { breadcrumbs = [] } = defineProps<Props>();
 

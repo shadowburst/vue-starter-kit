@@ -65,7 +65,7 @@ function submit() {
                             </CapitalizeText>
                         </FormLabel>
                         <FormControl>
-                            <TextInput v-model="form.email" type="email" autofocus autocomplete="email" />
+                            <TextInput v-model="form.email" type="email" autofocus autocomplete="email" :tabindex="1" />
                         </FormControl>
                         <FormError :message="form.errors.email" />
                     </FormField>
@@ -76,19 +76,29 @@ function submit() {
                                     {{ $t('models.user.fields.password') }}
                                 </CapitalizeText>
                             </FormLabel>
-                            <TextLink class="text-sm" v-if="canResetPassword" :href="route('password.request')">
+                            <TextLink
+                                class="text-sm"
+                                v-if="canResetPassword"
+                                :href="route('password.request')"
+                                :tabindex="5"
+                            >
                                 {{ $t('pages.auth.login.forgot_password') }}
                             </TextLink>
                         </div>
                         <FormControl>
-                            <TextInput v-model="form.password" type="password" autocomplete="current-password" />
+                            <TextInput
+                                v-model="form.password"
+                                type="password"
+                                autocomplete="current-password"
+                                :tabindex="2"
+                            />
                         </FormControl>
                         <FormError :message="form.errors.password" />
                     </FormField>
                     <FormField>
                         <FormLabel>
                             <FormControl>
-                                <Checkbox v-model="form.remember" />
+                                <Checkbox v-model="form.remember" :tabindex="3" />
                             </FormControl>
                             <CapitalizeText>
                                 {{ $t('pages.auth.login.remember_me') }}
@@ -98,13 +108,13 @@ function submit() {
                 </FormContent>
             </SectionContent>
             <SectionFooter class="grid">
-                <FormSubmitButton>
+                <FormSubmitButton :tabindex="4">
                     {{ $t('pages.auth.login.action') }}
                 </FormSubmitButton>
                 <div class="text-muted-foreground text-center text-sm">
                     {{ $t('pages.auth.login.no_account') }}
                     <CapitalizeText as-child>
-                        <TextLink :href="route('register')">
+                        <TextLink :href="route('register')" :tabindex="5">
                             {{ $t('register') }}
                         </TextLink>
                     </CapitalizeText>
