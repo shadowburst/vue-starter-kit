@@ -25,12 +25,6 @@ return [
         ],
     ],
 
-    'email_verification_token' => [
-        'fields' => [
-            'code' => 'code',
-        ],
-    ],
-
     'media' => [
         'fields' => [
 

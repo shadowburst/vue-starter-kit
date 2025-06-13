@@ -37,4 +37,5 @@ return [
         'security'   => 'Security',
         'appearance' => 'Appearance',
     ],
+
 ];
