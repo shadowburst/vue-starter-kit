@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\PaginatedDataCollection;
@@ -58,10 +59,9 @@ class UserMemberController extends Controller
 
     public function store(UserMemberFormRequest $data)
     {
-        /** @var ?User $user */
         $user = Services::user()->createOrUpdateMember->execute($data);
 
-        if (is_null($user)) {
+        if ($user == null) {
             Services::toast()->error->execute();
 
             return back();
@@ -90,10 +90,9 @@ class UserMemberController extends Controller
 
     public function update(UserMemberFormRequest $data)
     {
-        /** @var ?User $user */
         $user = Services::user()->createOrUpdateMember->execute($data);
 
-        if (is_null($user)) {
+        if ($user == null) {
             Services::toast()->error->execute();
 
             return back();
@@ -115,10 +114,10 @@ class UserMemberController extends Controller
                 ->each->delete();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.users.members.trash.success', $count));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
             Services::toast()->error->execute();
-        } finally {
         }
 
         return back();
@@ -136,10 +135,10 @@ class UserMemberController extends Controller
                 ->each->restore();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.users.members.restore.success', $count));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
             Services::toast()->error->execute();
-        } finally {
         }
 
         return back();
@@ -157,10 +156,10 @@ class UserMemberController extends Controller
                 ->each->forceDelete();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.users.members.delete.success', $count));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
             Services::toast()->error->execute();
-        } finally {
         }
 
         return back();

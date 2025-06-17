@@ -3,8 +3,7 @@
 namespace App\Actions\Settings\Password;
 
 use App\Data\Settings\Password\UpdatePasswordSettingsRequest;
-use App\Models\User;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Spatie\QueueableAction\QueueableAction;
 
 class UpdatePasswordSettings
@@ -15,9 +14,9 @@ class UpdatePasswordSettings
         //
     ) {}
 
-    public function execute(User $user, UpdatePasswordSettingsRequest $data): bool
+    public function execute(UpdatePasswordSettingsRequest $data): bool
     {
-        return $user->update([
+        return $data->user->update([
             'password' => Hash::make($data->password),
         ]);
     }

@@ -209,7 +209,7 @@ const isEnabledFilter = computed<CheckboxCheckedState>({
                     <Button as-child>
                         <InertiaLink :href="route('admin.banners.create')">
                             <CirclePlusIcon />
-                            <CapitalizeText>
+                            <CapitalizeText class="max-sm:hidden">
                                 {{ $t('pages.banners.admin.create.title') }}
                             </CapitalizeText>
                         </InertiaLink>

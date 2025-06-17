@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\Role\RoleName;
-use App\Facades\Services;
 use App\Traits\BelongsToCreator;
 use App\Traits\HasPolicy;
 use App\Traits\Searchable;
@@ -12,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
@@ -29,6 +26,8 @@ use Illuminate\Support\Facades\Auth;
  * @property-read \App\Models\User|null $creator
  * @property-read mixed $is_trashable
  * @property bool $is_trashed
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectDepartment> $projectDepartments
+ * @property-read int|null $project_departments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *
@@ -93,12 +92,7 @@ class Team extends Model
         ];
     }
 
-    public static function booted(): void
-    {
-        static::created(function (Team $team) {
-            Services::team()->forTeam($team, fn () => Auth::user()?->assignRole(RoleName::OWNER));
-        });
-    }
+    public static function booted(): void {}
 
     public function users(): MorphToMany
     {

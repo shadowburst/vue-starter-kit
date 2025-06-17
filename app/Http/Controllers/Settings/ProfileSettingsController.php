@@ -36,10 +36,7 @@ class ProfileSettingsController extends Controller
      */
     public function update(UpdateProfileSettingsRequest $data)
     {
-        $success = $this->settingsService->updateProfile->execute(
-            Auth::user(),
-            $data,
-        );
+        $success = $this->settingsService->updateProfile->execute($data);
 
         $this->toastService->successOrError->execute($success, __('messages.settings.profile.update.success'));
 

@@ -29,4 +29,6 @@ class {{ class }} extends Model
             //
         ];
     }
+
+    public static function booted(): void {}
 }

@@ -16,9 +16,11 @@ class UpdateProfileSettings
         //
     ) {}
 
-    public function execute(User $user, UpdateProfileSettingsRequest $data): bool
+    public function execute(UpdateProfileSettingsRequest $data): bool
     {
         DB::beginTransaction();
+
+        $user = $data->user;
 
         $user->fill($data->toArray());
 

@@ -231,7 +231,7 @@ const format = useFormatter();
                     <Button as-child>
                         <InertiaLink :href="route('teams.create')">
                             <CirclePlusIcon />
-                            <CapitalizeText>
+                            <CapitalizeText class="max-sm:hidden">
                                 {{ $t('pages.teams.create.title') }}
                             </CapitalizeText>
                         </InertiaLink>

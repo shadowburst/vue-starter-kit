@@ -6,7 +6,6 @@ use App\Data\Settings\Password\UpdatePasswordSettingsRequest;
 use App\Http\Controllers\Controller;
 use App\Services\SettingsService;
 use App\Services\ToastService;
-use Illuminate\Support\Facades\Auth;
 
 class PasswordSettingsController extends Controller
 {
@@ -20,10 +19,7 @@ class PasswordSettingsController extends Controller
      */
     public function update(UpdatePasswordSettingsRequest $data)
     {
-        $success = $this->settingsService->updatePassword->execute(
-            Auth::user(),
-            $data,
-        );
+        $success = $this->settingsService->updatePassword->execute($data);
 
         $this->toastService->successOrError->execute($success, __('messages.settings.password.update.success'));
 

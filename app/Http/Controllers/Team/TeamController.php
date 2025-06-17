@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\PaginatedDataCollection;
@@ -51,10 +52,15 @@ class TeamController extends Controller
 
     public function store(TeamFormRequest $data)
     {
-        /** @var ?Team $team */
-        $team = Team::create($data->toArray());
+        $team = Services::team()->createOrUpdate->execute($data);
 
-        Services::toast()->successOrError->execute($team != null, __('messages.teams.store.success'));
+        if ($team == null) {
+            Services::toast()->error->execute();
+
+            return back();
+        }
+
+        Services::toast()->success->execute(__('messages.teams.store.success'));
 
         return to_route('teams.index');
     }
@@ -73,9 +79,15 @@ class TeamController extends Controller
 
     public function update(Team $team, TeamFormRequest $data)
     {
-        $success = $team->update($data->toArray());
+        $team = Services::team()->createOrUpdate->execute($data);
 
-        Services::toast()->successOrError->execute($success, __('messages.teams.update.success'));
+        if ($team == null) {
+            Services::toast()->error->execute();
+
+            return back();
+        }
+
+        Services::toast()->success->execute(__('messages.teams.update.success'));
 
         return to_route('teams.index');
     }
@@ -100,10 +112,10 @@ class TeamController extends Controller
                 ->each->delete();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.teams.trash.success', $count));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
             Services::toast()->error->execute();
-        } finally {
         }
 
         return back();
@@ -121,10 +133,10 @@ class TeamController extends Controller
                 ->each->restore();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.teams.restore.success', $count));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
             Services::toast()->error->execute();
-        } finally {
         }
 
         return back();
@@ -142,10 +154,10 @@ class TeamController extends Controller
                 ->each->forceDelete();
             DB::commit();
             Services::toast()->success->execute(trans_choice('messages.teams.delete.success', $count));
-        } catch (\Throwable $e) {
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
             Services::toast()->error->execute();
-        } finally {
         }
 
         return back();

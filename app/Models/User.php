@@ -196,7 +196,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function avatar(): MorphOne
     {
-        return $this->media()->one()->latestOfMany()
+        return $this->media()->one()
+            ->latestOfMany()
             ->withAttributes('collection_name', static::COLLECTION_AVATAR);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Actions\Team\CreateOrUpdateTeam;
 use App\Models\Team;
 
 class TeamService
@@ -9,7 +10,7 @@ class TeamService
     protected ?Team $current = null;
 
     public function __construct(
-        //
+        public CreateOrUpdateTeam $createOrUpdate,
     ) {}
 
     public function currentId(): ?int

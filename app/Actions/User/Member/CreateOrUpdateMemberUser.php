@@ -6,6 +6,7 @@ use App\Data\User\Member\Form\UserMemberFormRequest;
 use App\Facades\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueueableAction\QueueableAction;
 
 class CreateOrUpdateMemberUser
@@ -20,9 +21,10 @@ class CreateOrUpdateMemberUser
     {
         DB::beginTransaction();
 
+        $user = $data->member;
+
         try {
             $owner = $data->owner;
-            $user = $data->member;
             if (! $user?->exists) {
                 $user = $owner->members()->create($data->toArray());
             } else {
@@ -59,14 +61,15 @@ class CreateOrUpdateMemberUser
                     );
                 }
             }
-
-            DB::commit();
-
-            return $user;
         } catch (\Throwable $th) {
+            Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
 
             return null;
         }
+
+        DB::commit();
+
+        return $user;
     }
 }
