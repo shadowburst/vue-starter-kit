@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\Auth;
 
+use App\Facades\Services;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,16 @@ class AuthNoTeamMiddleware
         abort_if(! $user, Response::HTTP_FORBIDDEN);
 
         /** @var \App\Models\User $user */
-        if ($user->team_id) {
-            // Account already configured
+        $team = $user->team_id && $user->hasTeam($user->team_id)
+            ? $user->team
+            : $user->teams->first();
+
+        if ($team) {
+            if (! $user->team) {
+                // Select the first available team
+                Services::user()->selectTeam->execute($user, $team);
+            }
+
             return to_route('index');
         }
 

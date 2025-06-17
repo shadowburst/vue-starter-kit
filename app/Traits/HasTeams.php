@@ -23,19 +23,27 @@ trait HasTeams
             ->distinct();
     }
 
+    public function trashedTeams(): MorphToMany
+    {
+        return $this->teams()
+            ->onlyTrashed();
+    }
+
     /**
      * @param  int|array|Team|Collection  $teams
      */
     public function hasTeam($teams): bool
     {
-        $this->load(['teams' => fn (MorphToMany $q) => $q->withTrashed()]);
+        $this->loadMissing(['teams', 'trashedTeams']);
+
+        $modelTeams = Collection::wrap($this->teams)->merge($this->trashedTeams);
 
         if (is_int($teams)) {
-            return $this->teams->contains('id', $teams);
+            return $modelTeams->contains('id', $teams);
         }
 
         if ($teams instanceof Team) {
-            return $this->teams->contains($teams->getKeyName(), $teams->getKey());
+            return $modelTeams->contains($teams->getKeyName(), $teams->getKey());
         }
 
         if (is_array($teams)) {
@@ -49,7 +57,7 @@ trait HasTeams
         }
 
         if ($teams instanceof Collection) {
-            return $teams->intersect($this->teams)->isNotEmpty();
+            return $teams->intersect($modelTeams)->isNotEmpty();
         }
 
         throw new \TypeError('Unsupported type for $teams parameter to hasTeam().');

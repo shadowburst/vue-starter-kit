@@ -3,6 +3,7 @@
 namespace App\Http\Middleware\Auth;
 
 use App\Facades\Services;
+use App\Models\Team;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,27 +23,22 @@ class AuthTeamMiddleware
         abort_if(! $user, Response::HTTP_FORBIDDEN);
 
         /** @var \App\Models\User $user */
-        if ($user->team_id && $user->teams->contains($user->team_id)) {
-            // User already in a valid team
-            Services::team()->setCurrent($user->team);
+        $team = $user->team_id && $user->hasTeam($user->team_id)
+            ? $user->team
+            : $user->teams->first();
 
-            return $next($request);
+        if (! $team) {
+            $user->update(['team_id' => null]);
+
+            return $user->can('create', Team::class)
+                ? to_route('teams.first.create')
+                : to_route('teams.first.required');
         }
 
-        $team = $user->teams->first();
+        // Select the first available team
+        Services::user()->selectTeam->execute($user, $team);
+        Services::team()->setCurrent($user->team);
 
-        if ($team) {
-            // Select the first available team
-            Services::user()->selectTeam->execute($user, $team);
-            Services::team()->setCurrent($user->team);
-
-            return $next($request);
-        }
-
-        if ($user->is_owner) {
-            return to_route('teams.first.create');
-        }
-
-        return to_route('teams.first.required');
+        return $next($request);
     }
 }
