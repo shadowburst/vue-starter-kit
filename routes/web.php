@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Banner\BannerDissmissController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
@@ -26,7 +27,7 @@ Route::middleware(['auth', 'auth.no_team'])->group(function () {
 
 Route::middleware(['auth', 'auth.team', 'auth.include', 'banner.include'])->group(function () {
 
-    Route::get('/', fn () => inertia('Index'))->name('index');
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::prefix('/banners')->name('banners.')->group(function () {
         Route::patch('/{banner}/dismiss', [BannerDissmissController::class, 'update'])->name('dismiss');
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'auth.team', 'auth.include', 'banner.include'])->grou
             Route::delete('/delete/{member?}', 'destroy')->name('delete');
         });
     });
+
 });
 
 require __DIR__.'/admin.php';

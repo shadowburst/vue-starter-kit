@@ -60,6 +60,8 @@ export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {
     password: string;
 };
+export type DashboardAdminIndexProps = {};
+export type DashboardIndexProps = {};
 export type EditAppearanceSettingsProps = {};
 export type EditProfileSettingsProps = {
     mustVerifyEmail: boolean;

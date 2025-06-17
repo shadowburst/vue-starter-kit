@@ -12,10 +12,6 @@ return [
     |
     */
 
-    'admin' => [
-        'title' => 'Dashboard',
-    ],
-
     'auth' => [
         'confirm_password' => [
             'title'       => 'Confirm your password',
@@ -71,8 +67,15 @@ return [
         ],
     ],
 
-    'index' => [
-        'title' => 'Dashboard',
+    'dashboard' => [
+        'admin' => [
+            'index' => [
+                'title' => 'Dashboard',
+            ],
+        ],
+        'index' => [
+            'title' => 'Dashboard',
+        ],
     ],
 
     'settings' => [

@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\Banner\BannerAdminController;
+use App\Http\Controllers\Dashboard\DashboardAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/admin')->name('admin.')->middleware(['auth', 'auth.team', 'auth.include'])->group(function () {
-    Route::get('/', fn () => inertia('Admin'))->name('index');
+
+    Route::get('/', [DashboardAdminController::class, 'index'])->name('index');
+
     Route::prefix('/banners')->name('banners.')->controller(BannerAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
@@ -15,4 +18,5 @@ Route::prefix('/admin')->name('admin.')->middleware(['auth', 'auth.team', 'auth.
         Route::patch('/disable/{banner?}', 'disable')->name('disable');
         Route::delete('/delete/{banner?}', 'destroy')->name('delete');
     });
+
 });
