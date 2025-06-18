@@ -57,7 +57,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read bool $is_editor
  * @property-read bool $is_member
  * @property-read bool $is_owner
- * @property-read mixed $is_trashable
+ * @property-read true $is_trashable
  * @property bool $is_trashed
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
  * @property-read int|null $media_count

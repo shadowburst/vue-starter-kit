@@ -17,7 +17,7 @@ trait Trashable
 
     protected function isTrashable(): Attribute
     {
-        return Attribute::get(fn () => true);
+        return Attribute::get(fn (): true => true);
     }
 
     protected function isTrashed(): Attribute

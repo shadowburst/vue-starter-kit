@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Badge } from '@/components/ui/badge';
+import TrashedBadge from '@/components/trash/TrashedBadge.vue';
 import { Button } from '@/components/ui/button';
 import { EnumCombobox } from '@/components/ui/custom/combobox';
 import {
@@ -27,7 +27,7 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import UserAvatar from '@/components/user/UserAvatar.vue';
-import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
+import { useAlert, useFilters, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
 import type {
     UserMemberIndexProps,
@@ -201,8 +201,6 @@ const filters = useFilters<UserMemberIndexRequest>(
         },
     },
 );
-
-const format = useFormatter();
 </script>
 
 <template>
@@ -300,9 +298,7 @@ const format = useFormatter();
                                 {{ user.phone }}
                             </DataTableCell>
                             <DataTableCell v-if="filters.trashed">
-                                <Badge v-if="user.deleted_at" variant="destructive">
-                                    {{ format.date(user.deleted_at) }}
-                                </Badge>
+                                <TrashedBadge :item="user" />
                             </DataTableCell>
                             <DataTableCell>
                                 <DataTableRowActions />

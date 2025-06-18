@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Badge } from '@/components/ui/badge';
+import TrashedBadge from '@/components/trash/TrashedBadge.vue';
 import { Button } from '@/components/ui/button';
 import { EnumCombobox } from '@/components/ui/custom/combobox';
 import {
@@ -26,7 +26,7 @@ import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { useAlert, useFilters, useFormatter, useLayout } from '@/composables';
+import { useAlert, useFilters, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { type TeamIndexProps, type TeamIndexRequest, type TeamIndexResource, type TeamOneOrManyRequest } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
@@ -186,8 +186,6 @@ const filters = useFilters<TeamIndexRequest>(
         },
     },
 );
-
-const format = useFormatter();
 </script>
 
 <template>
@@ -268,9 +266,7 @@ const format = useFormatter();
                                 {{ team.name }}
                             </DataTableCell>
                             <DataTableCell v-if="filters.trashed">
-                                <Badge v-if="team.deleted_at" variant="destructive">
-                                    {{ format.date(team.deleted_at) }}
-                                </Badge>
+                                <TrashedBadge :item="team" />
                             </DataTableCell>
                             <DataTableCell>
                                 <DataTableRowActions />

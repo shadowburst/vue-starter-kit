@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read bool $can_update
  * @property-read bool $can_view
  * @property-read \App\Models\User|null $creator
- * @property-read mixed $is_trashable
+ * @property-read true $is_trashable
  * @property bool $is_trashed
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectDepartment> $projectDepartments
  * @property-read int|null $project_departments_count
