@@ -5,12 +5,15 @@ import {
     FormError,
     FormField,
     FormLabel,
+    FormProps,
     injectFormContext,
 } from '@/components/ui/custom/form';
 import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { UserMemberFormData } from '@/composables';
+
+defineProps<FormProps>();
 
 const { form } = injectFormContext<UserMemberFormData>();
 </script>
@@ -44,7 +47,7 @@ const { form } = injectFormContext<UserMemberFormData>();
                 </CapitalizeText>
             </FormLabel>
             <FormControl>
-                <TextInput v-model="form.first_name" />
+                <TextInput v-model="form.first_name" :autofocus />
             </FormControl>
             <FormError :message="form.errors.first_name" />
         </FormField>

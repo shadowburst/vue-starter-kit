@@ -53,7 +53,7 @@ function submit() {
                 </SectionDescription>
             </SectionHeader>
             <SectionContent class="sm:flex">
-                <TeamForm />
+                <TeamForm autofocus />
             </SectionContent>
             <SectionFooter>
                 <FormSubmitButton />

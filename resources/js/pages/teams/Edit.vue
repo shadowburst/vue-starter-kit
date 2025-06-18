@@ -1,22 +1,15 @@
 <script setup lang="ts">
 import TeamForm from '@/components/team/TeamForm.vue';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormSubmitButton } from '@/components/ui/custom/form';
-import {
-    Section,
-    SectionContent,
-    SectionDescription,
-    SectionFooter,
-    SectionHeader,
-    SectionTitle,
-} from '@/components/ui/custom/section';
 import { useLayout, useTeamForm } from '@/composables';
-import { AppLayout } from '@/layouts';
+import { TeamsFormLayout } from '@/layouts';
 import { TeamFormProps } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
 defineOptions({
-    layout: useLayout(AppLayout, () => ({
+    layout: useLayout(TeamsFormLayout, () => ({
         breadcrumbs: [
             {
                 title: trans('pages.teams.index.title'),
@@ -43,21 +36,21 @@ function submit() {
     <Head :title="$t('pages.teams.edit.title')" />
 
     <Form :form @submit="submit()">
-        <Section>
-            <SectionHeader>
-                <SectionTitle>
+        <Card>
+            <CardHeader>
+                <CardTitle>
                     {{ $t('pages.teams.edit.title') }}
-                </SectionTitle>
-                <SectionDescription>
+                </CardTitle>
+                <CardDescription>
                     {{ $t('pages.teams.edit.description') }}
-                </SectionDescription>
-            </SectionHeader>
-            <SectionContent class="sm:flex">
-                <TeamForm />
-            </SectionContent>
-            <SectionFooter>
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="sm:flex">
+                <TeamForm autofocus />
+            </CardContent>
+            <CardFooter>
                 <FormSubmitButton />
-            </SectionFooter>
-        </Section>
+            </CardFooter>
+        </Card>
     </Form>
 </template>

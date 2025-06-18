@@ -88,7 +88,7 @@ function submit() {
                             </CapitalizeText>
                         </FormLabel>
                         <FormControl>
-                            <TextInput v-model="form.first_name" autocomplete="given-name" />
+                            <TextInput v-model="form.first_name" autocomplete="given-name" autofocus />
                         </FormControl>
                         <FormError :message="form.errors.first_name" />
                     </FormField>

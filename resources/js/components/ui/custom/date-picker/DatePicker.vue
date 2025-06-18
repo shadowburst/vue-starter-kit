@@ -17,10 +17,11 @@ type Props = Omit<DateFieldRootProps, 'modelValue' | 'minValue' | 'maxValue'> & 
     modelValue?: string;
     maxValue?: DateValue | string;
     minValue?: DateValue | string;
+    autofocus?: boolean;
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
-const delegatedProps = reactiveOmit(props, 'modelValue', 'class', 'maxValue', 'minValue');
+const delegatedProps = reactiveOmit(props, 'modelValue', 'class', 'maxValue', 'minValue', 'autofocus');
 const forwarded = useForwardProps(delegatedProps);
 
 const open = ref<boolean>(false);
@@ -48,12 +49,12 @@ const proxy = computed<DateValue | undefined>({
             <DateFieldRoot
                 class="my-auto mr-auto flex pl-3"
                 v-model="proxy"
-                v-bind="forwarded"
+                v-bind="{ ...forwarded, ...$attrs }"
                 v-slot="{ segments }"
                 :max-value
                 :min-value
             >
-                <template v-for="item in segments" :key="item.part">
+                <template v-for="(item, index) in segments" :key="item.part">
                     <DateFieldInput
                         class="text-muted-foreground p-0.5"
                         v-if="item.part === 'literal'"
@@ -64,6 +65,7 @@ const proxy = computed<DateValue | undefined>({
                     <DateFieldInput
                         class="ring-ring data-[placeholder]:text-muted-foreground rounded p-0.5 transition-colors outline-none focus-within:ring-1"
                         v-else
+                        :autofocus="autofocus && index === 0"
                         :part="item.part"
                     >
                         {{ item.value }}

@@ -42,7 +42,7 @@ function submit() {
                 </SectionTitle>
             </SectionHeader>
             <SectionContent class="sm:flex">
-                <BannerAdminForm />
+                <BannerAdminForm autofocus />
             </SectionContent>
             <SectionFooter>
                 <FormSubmitButton />

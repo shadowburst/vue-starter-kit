@@ -62,7 +62,7 @@ class TeamController extends Controller
 
         Services::toast()->success->execute(__('messages.teams.store.success'));
 
-        return to_route('teams.index');
+        return to_route('teams.edit', $team);
     }
 
     public function show(Team $team)

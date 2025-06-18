@@ -6,12 +6,15 @@ import {
     FormError,
     FormField,
     FormLabel,
+    FormProps,
     injectFormContext,
 } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Textarea } from '@/components/ui/textarea';
 import { BannerAdminFormData } from '@/composables';
+
+defineProps<FormProps>();
 
 const { form } = injectFormContext<BannerAdminFormData>();
 </script>
@@ -25,7 +28,7 @@ const { form } = injectFormContext<BannerAdminFormData>();
                 </CapitalizeText>
             </FormLabel>
             <FormControl>
-                <TextInput v-model="form.name" />
+                <TextInput v-model="form.name" :autofocus />
             </FormControl>
             <FormError :message="form.errors.name" />
         </FormField>

@@ -29,7 +29,7 @@ function submit() {
     <Form :form @submit="submit()">
         <Section>
             <SectionContent>
-                <TeamForm />
+                <TeamForm autofocus />
             </SectionContent>
             <SectionFooter class="grid">
                 <FormSubmitButton />

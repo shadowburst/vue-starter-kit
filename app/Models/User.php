@@ -75,6 +75,8 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read \App\Models\Team|null $team
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $trashedTeams
+ * @property-read int|null $trashed_teams_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User admins()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User editors()
