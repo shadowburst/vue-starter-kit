@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="Type extends 'text' | 'number' = 'text'">
 import { cn } from '@/lib/utils';
 import { PinInputRoot, type PinInputRootEmits, type PinInputRootProps, useForwardPropsEmits } from 'reka-ui';
 import { computed, type HTMLAttributes } from 'vue';
 
-const props = withDefaults(defineProps<PinInputRootProps & { class?: HTMLAttributes['class'] }>(), {
+const props = withDefaults(defineProps<PinInputRootProps<Type> & { class?: HTMLAttributes['class'] }>(), {
     modelValue: () => [],
 });
 const emits = defineEmits<PinInputRootEmits>();

@@ -11,7 +11,7 @@ export function useAuth() {
 
     const user = computed(() => page.props.auth!.user);
     const abilities = computed(() => page.props.auth!.abilities);
-    const team = computed(() => user.value.teams.find(({ id }) => id === user.value.team_id)!);
+    const team = computed(() => user.value.teams!.find(({ id }) => id === user.value.team_id)!);
 
     return {
         user: toReactive(user),

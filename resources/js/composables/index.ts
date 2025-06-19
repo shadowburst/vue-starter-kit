@@ -9,6 +9,5 @@ export * from './useIsDesktop';
 export * from './useLayout';
 export * from './useLocale';
 export * from './usePageProp';
-export * from './usePagination';
 export * from './useParser';
 export * from './useRouterComputed';

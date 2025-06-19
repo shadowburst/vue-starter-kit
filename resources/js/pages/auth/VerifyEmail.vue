@@ -26,7 +26,7 @@ function resend() {
 }
 
 const form = useForm({
-    code: [] as string[],
+    code: [] as number[],
 }).transform((data): VerifyEmailRequest => ({ code: data.code.join('') }));
 
 function submit() {

@@ -36,8 +36,8 @@ function sort() {
         <Button class="w-full justify-between text-xs uppercase" size="sm" variant="ghost" @click="sort()">
             <slot />
             <ChevronsUpDownIcon v-if="!active" />
-            <ChevronDownIcon v-else-if="sortDirection === 'asc'" />
-            <ChevronUpIcon v-else-if="sortDirection === 'desc'" />
+            <ChevronDownIcon v-else-if="sortDirection === 'desc'" />
+            <ChevronUpIcon v-else-if="sortDirection === 'asc'" />
         </Button>
     </DataTableHead>
 </template>

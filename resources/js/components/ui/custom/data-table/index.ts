@@ -11,7 +11,6 @@ export { default as DataTableRow, injectDataTableRowContext } from './DataTableR
 export { default as DataTableRowActionItem } from './DataTableRowActionItem.vue';
 export { default as DataTableRowActions } from './DataTableRowActions.vue';
 export { default as DataTableRowCheckbox } from './DataTableRowCheckbox.vue';
-export { default as DataTableRowsActions } from './DataTableRowsActions.vue';
 export { default as DataTableRowsCheckbox } from './DataTableRowsCheckbox.vue';
 export { default as DataTableSortableHead } from './DataTableSortableHead.vue';
 export { default as DataTableTabsList } from './DataTableTabsList.vue';

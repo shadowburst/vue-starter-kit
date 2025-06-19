@@ -23,7 +23,7 @@ const { filters, fields, count } = injectFiltersSheetRootContext();
         <SheetTrigger as-child>
             <Button v-bind="forwarded" :class="{ 'rounded-r-none border-r-0': count > 0 }">
                 <FunnelIcon />
-                <CapitalizeText>
+                <CapitalizeText class="max-sm:hidden">
                     {{ $t('filter') }}
                 </CapitalizeText>
             </Button>

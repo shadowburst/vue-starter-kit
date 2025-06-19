@@ -47,6 +47,7 @@ return [
         'Vite' => 'npm run dev',
 
         // Lazy commands do no automatically start when Solo starts.
+        'Tsc'    => Command::from('npm run tsc')->lazy(),
         'Queue'  => Command::from('php artisan queue:work')->lazy(),
         'Dumps'  => Command::from('php artisan solo:dumps')->lazy(),
         'Reverb' => Command::from('php artisan reverb:start --debug')->lazy(),

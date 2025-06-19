@@ -15,7 +15,6 @@ import {
     DataTableRowActions,
     DataTableRowCheckbox,
     DataTableRowsAction,
-    DataTableRowsActions,
     DataTableRowsCheckbox,
     DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
@@ -204,9 +203,8 @@ const isEnabledFilter = computed<CheckboxCheckedState>({
                         </FiltersSheetContent>
                     </FiltersSheet>
                 </FormContent>
-                <FormContent class="flex items-center justify-between">
-                    <DataTableRowsActions />
-                    <Button as-child>
+                <FormContent class="flex items-center">
+                    <Button class="ml-auto" as-child>
                         <InertiaLink :href="route('admin.banners.create')">
                             <CirclePlusIcon />
                             <CapitalizeText class="max-sm:hidden">

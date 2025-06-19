@@ -129,7 +129,7 @@ const placeholder = computed(() => {
                 </div>
             </ComboboxAnchor>
         </ComboboxTrigger>
-        <ComboboxList>
+        <ComboboxList class="p-1">
             <WhenVisible v-if="!Array.isArray(data) && !pageOptions.length" :data>
                 <template #fallback>
                     <div class="grid place-items-center py-2">

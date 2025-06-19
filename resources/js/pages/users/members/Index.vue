@@ -16,7 +16,6 @@ import {
     DataTableRowActions,
     DataTableRowCheckbox,
     DataTableRowsAction,
-    DataTableRowsActions,
     DataTableRowsCheckbox,
     DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
@@ -240,8 +239,7 @@ const filters = useFilters<UserMemberIndexRequest>(
                     </FiltersSheet>
                 </FormContent>
                 <FormContent class="flex items-center justify-between">
-                    <DataTableRowsActions />
-                    <Button as-child>
+                    <Button class="ml-auto" as-child>
                         <InertiaLink :href="route('users.members.create')">
                             <CirclePlusIcon />
                             <CapitalizeText class="max-sm:hidden">
