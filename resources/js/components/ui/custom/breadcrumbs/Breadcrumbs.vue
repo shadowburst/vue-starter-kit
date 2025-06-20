@@ -8,6 +8,7 @@ import {
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { TextLink } from '@/components/ui/custom/link';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import type { BreadcrumbItemType } from '@/types';
 
 type Props = {
@@ -21,9 +22,17 @@ defineProps<Props>();
         <BreadcrumbList>
             <template v-for="(item, index) in breadcrumbs" :key="index">
                 <BreadcrumbItem>
-                    <BreadcrumbPage v-if="index === breadcrumbs.length - 1">{{ item.title }}</BreadcrumbPage>
+                    <CapitalizeText v-if="index === breadcrumbs.length - 1" as-child>
+                        <BreadcrumbPage>
+                            {{ item.title }}
+                        </BreadcrumbPage>
+                    </CapitalizeText>
                     <BreadcrumbLink v-else as-child>
-                        <TextLink :href="item.href ?? '#'">{{ item.title }}</TextLink>
+                        <CapitalizeText as-child>
+                            <TextLink :href="item.href ?? '#'">
+                                {{ item.title }}
+                            </TextLink>
+                        </CapitalizeText>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator v-if="index !== breadcrumbs.length - 1" />

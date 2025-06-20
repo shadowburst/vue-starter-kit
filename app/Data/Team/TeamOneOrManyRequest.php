@@ -41,7 +41,11 @@ class TeamOneOrManyRequest extends Data
         $team = app(Team::class);
 
         return [
-            'ids.*' => ['integer', 'distinct', Rule::exists($team->getTable(), $team->getKeyName())],
+            'ids.*' => [
+                'integer',
+                'distinct',
+                Rule::exists($team->getTable(), $team->getKeyName()),
+            ],
         ];
     }
 }

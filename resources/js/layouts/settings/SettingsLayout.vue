@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
+import { ResponsiveTabs, ResponsiveTabsTrigger } from '@/components/ui/custom/responsive-tabs';
 import { Section, SectionContent } from '@/components/ui/custom/section';
-import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Separator } from '@/components/ui/separator';
 import { useLayout, useRouterComputed } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 import { PaletteIcon, ShieldPlusIcon, UserIcon } from 'lucide-vue-next';
 
@@ -47,23 +45,10 @@ const sidebarNavItems = useRouterComputed((): NavItem[] => [
     <Section>
         <SectionContent>
             <div class="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
-                <aside class="w-full max-w-xl lg:w-48">
-                    <nav class="flex flex-col space-y-1 space-x-0">
-                        <Button
-                            v-for="item in sidebarNavItems"
-                            :key="item.href"
-                            variant="ghost"
-                            :class="['w-full justify-start', { 'bg-muted': item.isActive }]"
-                            as-child
-                        >
-                            <Link :href="item.href">
-                                <component :is="item.icon" />
-                                <CapitalizeText>
-                                    {{ item.title }}
-                                </CapitalizeText>
-                            </Link>
-                        </Button>
-                    </nav>
+                <aside class="min-w-48">
+                    <ResponsiveTabs :tabs="sidebarNavItems" orientation="vertical">
+                        <ResponsiveTabsTrigger align="start" />
+                    </ResponsiveTabs>
                 </aside>
 
                 <Separator class="md:hidden" />

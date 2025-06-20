@@ -41,7 +41,11 @@ class BannerOneOrManyRequest extends Data
         $banner = app(Banner::class);
 
         return [
-            'ids.*' => ['integer', Rule::exists($banner->getTable(), $banner->getKeyName())],
+            'ids.*' => [
+                'integer',
+                'distinct',
+                Rule::exists($banner->getTable(), $banner->getKeyName()),
+            ],
         ];
     }
 }

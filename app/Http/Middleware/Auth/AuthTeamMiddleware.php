@@ -7,6 +7,7 @@ use App\Models\Team;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthTeamMiddleware
@@ -37,7 +38,15 @@ class AuthTeamMiddleware
 
         // Select the first available team
         Services::user()->selectTeam->execute($user, $team);
-        Services::team()->setCurrent($user->team);
+        if (Route::is('teams.*')) {
+            /** @var int $routeTeam */
+            $routeTeam = (int) ($request->team ?? 0);
+            if ($routeTeam > 0 && $user->is_owner && $user->hasTeam($routeTeam)) {
+                // If the user is accessing their configuration set to current route team
+                $team = $routeTeam;
+            }
+        }
+        Services::team()->setCurrent($team);
 
         return $next($request);
     }

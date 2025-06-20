@@ -42,7 +42,12 @@ class UserMemberOneOrManyRequest extends Data
         $user = app(User::class);
 
         return [
-            'ids.*' => ['integer', 'distinct', Rule::exists($user->getTable(), $user->getKeyName())->where($user->getOwnerIdColumn(), Auth::user()->getKey())],
+            'ids.*' => [
+                'integer',
+                'distinct',
+                Rule::exists($user->getTable(), $user->getKeyName())
+                    ->where($user->getOwnerIdColumn(), Auth::user()->getKey()),
+            ],
         ];
     }
 }

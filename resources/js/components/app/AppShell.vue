@@ -19,7 +19,7 @@ onUnmounted(
 <template>
     <ConfigProvider :locale>
         <AppAlertDialog>
-            <div class="container mx-auto grid h-full overflow-hidden rounded-xl">
+            <div class="container grid h-full overflow-hidden rounded-xl max-xl:mx-auto">
                 <slot />
             </div>
             <AppToaster />
