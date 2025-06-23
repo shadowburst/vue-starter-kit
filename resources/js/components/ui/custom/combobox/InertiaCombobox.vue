@@ -136,6 +136,11 @@ const placeholder = computed(() => {
                         <LoadingIcon variant="primary" />
                     </div>
                 </template>
+                <ComboboxEmpty>
+                    <CapitalizeText>
+                        {{ $t('components.ui.custom.combobox.empty') }}
+                    </CapitalizeText>
+                </ComboboxEmpty>
             </WhenVisible>
             <template v-else>
                 <ComboboxVirtualizer
@@ -153,7 +158,9 @@ const placeholder = computed(() => {
                     </div>
                 </ComboboxVirtualizer>
                 <ComboboxEmpty>
-                    {{ $t('components.ui.custom.combobox.empty') }}
+                    <CapitalizeText>
+                        {{ $t('components.ui.custom.combobox.empty') }}
+                    </CapitalizeText>
                 </ComboboxEmpty>
             </template>
         </ComboboxList>
