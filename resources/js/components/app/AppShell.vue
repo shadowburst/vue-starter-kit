@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import AppAlertDialog from '@/components/app/AppAlertDialog.vue';
 import AppToaster from '@/components/app/AppToaster.vue';
-import { useLocale } from '@/composables';
-import { router } from '@inertiajs/vue3';
+import { useAutofocus, useLocale } from '@/composables';
 import { ConfigProvider } from 'reka-ui';
-import { onUnmounted } from 'vue';
 
 const { locale } = useLocale();
-
-// Try to focus on element after navigating
-onUnmounted(
-    router.on('navigate', () => {
-        document.querySelector<HTMLElement>('[autofocus]')?.focus();
-    }),
-);
+useAutofocus();
 </script>
 
 <template>

@@ -2,6 +2,7 @@ export * from './forms';
 export * from './useAlert';
 export * from './useArrayWrap';
 export * from './useAuth';
+export * from './useAutofocus';
 export * from './useComputedForm';
 export * from './useFilters';
 export * from './useFormatter';

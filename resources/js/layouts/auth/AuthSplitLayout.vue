@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppToaster from '@/components/app/AppToaster.vue';
 import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
+import { useAutofocus } from '@/composables';
 import { Link, usePage } from '@inertiajs/vue3';
 
 const page = usePage();
@@ -11,6 +12,7 @@ type Props = {
     description: string;
 };
 defineProps<Props>();
+useAutofocus();
 </script>
 
 <template>
