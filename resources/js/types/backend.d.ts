@@ -162,7 +162,7 @@ export type TeamIndexProps = {
             total: number;
         };
     };
-    trashed_filters?: Array<{ value: TrashedFilter; label: string }>;
+    trashedFilters?: Array<{ value: TrashedFilter; label: string }>;
 };
 export type TeamIndexRequest = {
     q?: string;
@@ -278,7 +278,7 @@ export type UserMemberIndexProps = {
             total: number;
         };
     };
-    trashed_filters?: Array<{ value: TrashedFilter; label: string }>;
+    trashedFilters?: Array<{ value: TrashedFilter; label: string }>;
 };
 export type UserMemberIndexRequest = {
     q?: string;

@@ -1,3 +1,8 @@
+<script lang="ts">
+export type EnumComboboxProps<T extends string> = Omit<Partial<InertiaComboboxProps<Enum<T>>>, 'modelValue'>;
+export type EnumComboboxEmits<T extends string> = InertiaComboboxEmits<Enum<T>>;
+</script>
+
 <script setup lang="ts" generic="T extends string">
 import { useArrayWrap, usePageProp } from '@/composables';
 import { Enum } from '@/types';
@@ -14,14 +19,14 @@ defineOptions({
 
 type TEnum = Enum<T>;
 
-type Props = Omit<Partial<InertiaComboboxProps<TEnum>>, 'modelValue'>;
+type Props = EnumComboboxProps<T>;
 const props = withDefaults(defineProps<Props>(), {
-    multiplePlaceholder: (items: TEnum[]) => transChoice('components.ui.custom.combobox.selected', items.length),
+    multiplePlaceholder: () => (items: TEnum[]) => transChoice('components.ui.custom.combobox.selected', items.length),
     by: 'value',
     label: 'label',
 });
 
-type Emits = InertiaComboboxEmits<TEnum>;
+type Emits = EnumComboboxEmits<T>;
 const emits = defineEmits<Emits>();
 
 const forwarded = useForwardPropsEmits(props, emits);
