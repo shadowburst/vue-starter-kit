@@ -5,6 +5,9 @@ export type InertiaComboboxProps<T extends Record<string, any>> = Omit<ComboboxR
     label: Extract<keyof T, string>;
     by: Extract<keyof T, string>;
     multiplePlaceholder?: (items: T[]) => string;
+    group?: boolean;
+    groupBy?: Extract<keyof T, string> | ((item: T) => string);
+    filter?: (item: T) => boolean;
     class?: HTMLAttributes['class'];
 };
 export type InertiaComboboxEmits<T extends Record<string, any>> = ComboboxRootEmits<T>;
@@ -16,6 +19,7 @@ import {
     Combobox,
     ComboboxAnchor,
     ComboboxEmpty,
+    ComboboxGroup,
     ComboboxInput,
     ComboboxItem,
     ComboboxItemIndicator,
@@ -84,9 +88,42 @@ const options = computed((): T[] => {
 
 const { contains } = useFilter({ sensitivity: 'base' });
 const searchTerm = ref<string>('');
-const filteredOptions = computed(() =>
-    options.value.filter(({ [props.label]: label }) => contains(label, searchTerm.value)),
+const filteredOptions = computed((): T[] =>
+    (props.filter ? options.value.filter(props.filter) : options.value).filter(({ [props.label]: label }) =>
+        contains(label, searchTerm.value),
+    ),
 );
+
+type Group = {
+    label: string;
+    options: T[];
+};
+const groups = computed((): Group[] => {
+    if (!props.group || !props.groupBy) {
+        return [
+            {
+                label: '',
+                options: filteredOptions.value,
+            },
+        ];
+    }
+
+    return filteredOptions.value
+        .reduce((groups, option) => {
+            const groupLabel = typeof props.groupBy === 'string' ? props.groupBy : props.groupBy!(option);
+            const groupIndex = groups.findIndex((group) => group.label === groupLabel);
+            if (groupIndex > -1) {
+                groups[groupIndex].options.push(option);
+            } else {
+                groups.push({
+                    label: groupLabel,
+                    options: [option],
+                });
+            }
+            return groups;
+        }, [] as Group[])
+        .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
+});
 
 const placeholder = computed(() => {
     if (!model.value) {
@@ -129,7 +166,7 @@ const placeholder = computed(() => {
                 </div>
             </ComboboxAnchor>
         </ComboboxTrigger>
-        <ComboboxList class="p-1">
+        <ComboboxList>
             <WhenVisible v-if="!Array.isArray(data) && !pageOptions.length" :data>
                 <template #fallback>
                     <div class="grid place-items-center py-2">
@@ -143,20 +180,26 @@ const placeholder = computed(() => {
                 </ComboboxEmpty>
             </WhenVisible>
             <template v-else>
-                <ComboboxVirtualizer
-                    v-slot="{ option, virtualizer }"
-                    :options="filteredOptions"
-                    :text-content="(option) => option[label]"
+                <ComboboxGroup
+                    v-for="group in groups"
+                    :key="group.label"
+                    :heading="groups.length > 1 ? group.label : undefined"
                 >
-                    <div class="w-full" :ref="(node) => virtualizer.measureElement(node as Element)">
-                        <ComboboxItem :value="option" :text-value="option[label]">
-                            <ComboboxItemIndicator />
-                            <CapitalizeText class="min-w-0 grow break-words">
-                                {{ option[label] }}
-                            </CapitalizeText>
-                        </ComboboxItem>
-                    </div>
-                </ComboboxVirtualizer>
+                    <ComboboxVirtualizer
+                        v-slot="{ option, virtualizer }"
+                        :options="group.options"
+                        :text-content="(option) => option[label]"
+                    >
+                        <div class="w-full" :ref="(node) => virtualizer.measureElement(node as Element)">
+                            <ComboboxItem :value="option" :text-value="option[label]">
+                                <ComboboxItemIndicator />
+                                <CapitalizeText class="min-w-0 grow break-words">
+                                    {{ option[label] }}
+                                </CapitalizeText>
+                            </ComboboxItem>
+                        </div>
+                    </ComboboxVirtualizer>
+                </ComboboxGroup>
                 <ComboboxEmpty>
                     <CapitalizeText>
                         {{ $t('components.ui.custom.combobox.empty') }}
