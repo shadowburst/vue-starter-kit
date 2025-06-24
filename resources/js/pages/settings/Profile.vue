@@ -103,7 +103,7 @@ function submit() {
                         </FormControl>
                         <FormError :message="form.errors.last_name" />
                     </FormField>
-                    <FormField required>
+                    <FormField>
                         <FormLabel>
                             <CapitalizeText>
                                 {{ $t('models.user.fields.phone') }}

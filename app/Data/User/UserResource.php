@@ -8,6 +8,7 @@ use Spatie\LaravelData\Attributes\AutoWhenLoadedLazy;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
+use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -29,7 +30,7 @@ class UserResource extends Resource
         public bool $is_member,
 
         #[AutoWhenLoadedLazy]
-        public Lazy|MediaResource|null $avatar,
+        public Lazy|Optional|MediaResource $avatar,
 
         #[AutoWhenLoadedLazy]
         #[DataCollectionOf(TeamListResource::class)]
