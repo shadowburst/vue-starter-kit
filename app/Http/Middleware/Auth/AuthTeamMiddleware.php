@@ -39,9 +39,9 @@ class AuthTeamMiddleware
         // Select the first available team
         Services::user()->selectTeam->execute($user, $team);
         if (Route::is('teams.*')) {
-            /** @var int $routeTeam */
-            $routeTeam = (int) ($request->team ?? 0);
-            if ($routeTeam > 0 && $user->is_owner && $user->hasTeam($routeTeam)) {
+            /** @var Team|string|int|null $routeTeam */
+            $routeTeam = $request->team;
+            if ($routeTeam && $user->hasTeam($routeTeam)) {
                 // If the user is accessing their configuration set to current route team
                 $team = $routeTeam;
             }

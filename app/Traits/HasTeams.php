@@ -30,7 +30,7 @@ trait HasTeams
     }
 
     /**
-     * @param  int|array|Team|Collection  $teams
+     * @param  string|int|array|Team|Collection  $teams
      */
     public function hasTeam($teams): bool
     {
@@ -38,7 +38,7 @@ trait HasTeams
 
         $modelTeams = Collection::wrap($this->teams)->merge($this->trashedTeams);
 
-        if (is_int($teams)) {
+        if (is_int($teams) || is_string($teams)) {
             return $modelTeams->contains('id', $teams);
         }
 
