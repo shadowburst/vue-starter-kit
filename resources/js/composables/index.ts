@@ -1,5 +1,6 @@
 export * from './forms';
 export * from './useAlert';
+export * from './useAppearance';
 export * from './useArrayWrap';
 export * from './useAuth';
 export * from './useAutofocus';
