@@ -1,3 +1,4 @@
+import { TeamResource, UserAbilitiesResource, UserResource } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { toReactive } from '@vueuse/core';
 import { computed } from 'vue';
@@ -11,11 +12,11 @@ export function useAuth() {
 
     const user = computed(() => page.props.auth!.user);
     const abilities = computed(() => page.props.auth!.abilities);
-    const team = computed(() => user.value.teams!.find(({ id }) => id === user.value.team_id)!);
+    const team = computed(() => page.props.auth!.team);
 
     return {
-        user: toReactive(user),
-        abilities: toReactive(abilities),
-        team: toReactive(team),
+        user: toReactive(user) as UserResource,
+        abilities: toReactive(abilities) as UserAbilitiesResource,
+        team: toReactive(team) as TeamResource,
     };
 }

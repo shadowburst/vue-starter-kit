@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import AppLogo from '@/components/AppLogo.vue';
+import TeamLogo from '@/components/team/TeamLogo.vue';
+import TeamLogoIcon from '@/components/team/TeamLogoIcon.vue';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import {
     DropdownMenu,
@@ -11,24 +12,15 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { useAuth } from '@/composables';
-import { NavItem } from '@/types';
+import { useAuth, usePageProp } from '@/composables';
+import { TeamListResource } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { ChevronsUpDownIcon, CircleIcon } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { CheckIcon, ChevronsUpDownIcon, PlusIcon } from 'lucide-vue-next';
 
 const { isMobile, state } = useSidebar();
 
-const { user } = useAuth();
-
-const teams = computed((): NavItem[] =>
-    user.teams.map((team) => ({
-        title: team.name,
-        href: route('teams.select', { team }),
-        isActive: user.team_id === team.id,
-        options: { method: 'patch' },
-    })),
-);
+const { team: currentTeam, abilities } = useAuth();
+const teams = usePageProp<TeamListResource[]>('auth.user.teams', []);
 </script>
 
 <template>
@@ -41,7 +33,7 @@ const teams = computed((): NavItem[] =>
                             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                             size="lg"
                         >
-                            <AppLogo />
+                            <TeamLogo :team="currentTeam" />
                             <ChevronsUpDownIcon />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -56,26 +48,33 @@ const teams = computed((): NavItem[] =>
                                 {{ $t('models.team.name.many') }}
                             </CapitalizeText>
                         </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem
-                                v-for="{ title, href, isActive, options = {} } in teams"
-                                :key="title"
-                                as-child
-                            >
-                                <Link class="block w-full" v-bind="options" :href>
-                                    <CircleIcon :class="{ 'text-primary fill-current': isActive }" />
+                            <DropdownMenuItem v-for="team in teams" :key="team.name" as-child>
+                                <Link class="block w-full" method="patch" :href="route('teams.select', { team })">
+                                    <TeamLogoIcon class="size-6" :media="team.logo" />
                                     <CapitalizeText>
-                                        {{ title }}
+                                        {{ team.name }}
                                     </CapitalizeText>
+                                    <CheckIcon class="ml-auto" v-if="team.id === currentTeam.id" />
                                 </Link>
                             </DropdownMenuItem>
+                            <template v-if="abilities.teams.create">
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem as-child>
+                                    <Link class="block w-full" :href="route('teams.create')">
+                                        <PlusIcon />
+                                        <CapitalizeText>
+                                            {{ $t('pages.teams.create.title') }}
+                                        </CapitalizeText>
+                                    </Link>
+                                </DropdownMenuItem>
+                            </template>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
                 <SidebarMenuButton v-else size="lg" as-child>
                     <Link :href="route('index')">
-                        <AppLogo />
+                        <TeamLogo :team="currentTeam" />
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
