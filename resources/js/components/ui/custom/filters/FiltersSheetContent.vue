@@ -69,7 +69,7 @@ const { filters, fields, count, data } = injectFiltersSheetRootContext();
         </ScrollArea>
         <WhenVisible v-if="data" :data>
             <template #fallback>
-                <div class="absolute inset-0">
+                <div class="absolute inset-0 grid place-items-center">
                     <LoadingIcon class="mx-auto" variant="primary" />
                 </div>
             </template>
