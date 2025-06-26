@@ -92,6 +92,7 @@ export type MediaResource = {
     id: number;
     uuid: string;
     url: string;
+    custom_properties?: Record<string, any>;
 };
 export type PermissionListResource = {
     id: number;
