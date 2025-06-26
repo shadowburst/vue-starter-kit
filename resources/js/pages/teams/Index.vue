@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TeamLogoIcon from '@/components/team/TeamLogoIcon.vue';
 import TrashedBadge from '@/components/trash/TrashedBadge.vue';
 import TrashedFilterCombobox from '@/components/trash/TrashedFilterCombobox.vue';
 import { Button } from '@/components/ui/button';
@@ -261,7 +262,12 @@ const filters = useFilters<TeamIndexRequest>(
                                 <DataTableRowCheckbox />
                             </DataTableCell>
                             <DataTableCell>
-                                {{ team.name }}
+                                <div class="flex items-center gap-2">
+                                    <TeamLogoIcon :media="team.logo" />
+                                    <CapitalizeText>
+                                        {{ team.name }}
+                                    </CapitalizeText>
+                                </div>
                             </DataTableCell>
                             <DataTableCell v-if="filters.trashed">
                                 <TrashedBadge :item="team" />

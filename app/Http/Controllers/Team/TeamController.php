@@ -33,6 +33,9 @@ class TeamController extends Controller
                         ->search($data->q)
                         ->when($data->trashed, fn (Builder $q) => $q->filterTrashed($data->trashed))
                         ->orderBy($data->sort_by, $data->sort_direction)
+                        ->with([
+                            'logo',
+                        ])
                         ->paginate(
                             perPage: $data->per_page ?? Config::integer('default.per_page'),
                             page: $data->page ?? 1,
@@ -73,7 +76,9 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         return Inertia::render('teams/Edit', TeamFormProps::from([
-            'team' => $team,
+            'team' => $team->loadMissing([
+                'logo',
+            ]),
         ]));
     }
 

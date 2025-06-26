@@ -34,6 +34,8 @@ class CreateOrUpdateTeam
 
             if ($team->wasRecentlyCreated && $data->user) {
                 Services::team()->forTeam($team, fn () => $data->user->assignRole(RoleName::OWNER));
+            } else {
+                Services::media()->update->execute($team, Team::COLLECTION_LOGO, $data->logo);
             }
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), $th->getTrace());

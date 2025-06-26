@@ -2,19 +2,24 @@
 
 namespace App\Models;
 
+use App\Data\Team\TeamSettingsData;
 use App\Traits\BelongsToCreator;
 use App\Traits\HasPolicy;
+use App\Traits\InteractsWithMedia;
 use App\Traits\Searchable;
 use App\Traits\Trashable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * @property int $id
  * @property int|null $creator_id
  * @property string $name
+ * @property \Spatie\LaravelData\Contracts\BaseData|null $settings
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -26,6 +31,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read \App\Models\User|null $creator
  * @property-read true $is_trashable
  * @property bool $is_trashed
+ * @property-read \App\Models\Media|null $logo
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectDepartment> $projectDepartments
  * @property-read int|null $project_departments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
@@ -44,13 +52,14 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static Builder<static>|Team whereDeletedAt($value)
  * @method static Builder<static>|Team whereId($value)
  * @method static Builder<static>|Team whereName($value)
+ * @method static Builder<static>|Team whereSettings($value)
  * @method static Builder<static>|Team whereUpdatedAt($value)
  * @method static Builder<static>|Team withTrashed()
  * @method static Builder<static>|Team withoutTrashed()
  *
  * @mixin \Eloquent
  */
-class Team extends Model
+class Team extends Model implements HasMedia
 {
     use BelongsToCreator;
 
@@ -58,8 +67,11 @@ class Team extends Model
     use HasFactory;
 
     use HasPolicy;
+    use InteractsWithMedia;
     use Searchable;
     use Trashable;
+
+    const string COLLECTION_LOGO = 'logo';
 
     /**
      * The attributes that are mass assignable.
@@ -69,6 +81,7 @@ class Team extends Model
     protected $fillable = [
         'creator_id',
         'name',
+        'settings',
     ];
 
     /**
@@ -88,7 +101,7 @@ class Team extends Model
     protected function casts(): array
     {
         return [
-            //
+            'settings' => TeamSettingsData::class,
         ];
     }
 
@@ -97,5 +110,19 @@ class Team extends Model
     public function users(): MorphToMany
     {
         return $this->morphedByMany(User::class, 'model', 'model_has_roles')->distinct();
+    }
+
+    public function logo(): MorphOne
+    {
+        return $this->media()->one()
+            ->latestOfMany()
+            ->withAttributes('collection_name', static::COLLECTION_LOGO);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::COLLECTION_LOGO)
+            ->acceptsMimeTypes(['image/svg+xml'])
+            ->singleFile();
     }
 }

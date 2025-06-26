@@ -7,7 +7,7 @@ export { default as AvatarImage } from './AvatarImage.vue';
 export type { AvatarProps } from './interface';
 
 export const avatarVariant = cva(
-    'inline-flex items-center justify-center font-normal text-foreground select-none shrink-0 bg-secondary overflow-hidden',
+    'inline-flex items-center justify-center font-normal text-foreground select-none shrink-0 bg-muted overflow-hidden',
     {
         variants: {
             size: {
