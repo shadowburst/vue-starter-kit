@@ -27,9 +27,13 @@ defineProps<Props>();
                 </CapitalizeText>
             </SidebarGroupLabel>
             <SidebarMenu>
-                <SidebarMenuItem v-for="item in items.filter((item) => !item.hidden)" :key="item.title">
+                <SidebarMenuItem
+                    v-for="item in items.filter((item) => !item.hidden)"
+                    :key="item.title"
+                    @click="clearSessionFilters(item.href)"
+                >
                     <SidebarMenuButton as-child :is-active="item.isActive" :tooltip="item.title">
-                        <InertiaLink :href="item.href" @click="clearSessionFilters(item.href)">
+                        <InertiaLink :href="item.href">
                             <component :is="item.icon" />
                             <span>{{ item.title }}</span>
                         </InertiaLink>
