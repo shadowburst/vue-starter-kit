@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { InertiaLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import {
     SidebarContent,
@@ -10,7 +11,6 @@ import {
 } from '@/components/ui/sidebar';
 import { clearSessionFilters } from '@/composables';
 import type { NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
 
 type Props = {
     items: NavItem[];
@@ -29,10 +29,10 @@ defineProps<Props>();
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items.filter((item) => !item.hidden)" :key="item.title">
                     <SidebarMenuButton as-child :is-active="item.isActive" :tooltip="item.title">
-                        <Link :href="item.href" @click="clearSessionFilters(item.href)">
+                        <InertiaLink :href="item.href" @click="clearSessionFilters(item.href)">
                             <component :is="item.icon" />
                             <span>{{ item.title }}</span>
-                        </Link>
+                        </InertiaLink>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>

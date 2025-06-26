@@ -12,7 +12,9 @@ import { reactiveOmit } from '@vueuse/core';
 import { useForwardProps } from 'reka-ui';
 import { computed, HTMLAttributes } from 'vue';
 
-const props = defineProps<LinkProps>();
+const props = withDefaults(defineProps<LinkProps>(), {
+    prefetch: true,
+});
 const delegatedProps = reactiveOmit(props, 'as', 'disabled', 'href');
 const forwarded = useForwardProps(delegatedProps);
 
