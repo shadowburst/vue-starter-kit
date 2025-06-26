@@ -7,6 +7,7 @@ import { useIsDesktop } from '@/composables';
 import { cn } from '@/lib/utils';
 import { injectTabsRootContext } from 'reka-ui';
 import { HTMLAttributes, ref } from 'vue';
+import { responsiveTabsVariants } from '.';
 import { injectResponsiveTabsRootContext } from './ResponsiveTabs.vue';
 
 type Props = {
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
     align: 'center',
 });
 
-const { tabs } = injectResponsiveTabsRootContext();
+const { tabs, variant } = injectResponsiveTabsRootContext();
 const { modelValue, orientation } = injectTabsRootContext();
 
 const isDesktop = useIsDesktop();
@@ -26,9 +27,24 @@ const open = ref(false);
 </script>
 
 <template>
-    <TabsList v-if="isDesktop" :class="cn('w-full', { 'grid grid-cols-1': orientation === 'vertical' }, props.class)">
-        <TabsTrigger v-for="({ href, title, icon, options = {} }, index) in tabs" :key="index" :value="index" as-child>
-            <InertiaLink v-bind="options ?? {}" :href="href" :class="{ 'justify-start': align === 'start' }">
+    <TabsList
+        v-if="isDesktop"
+        :class="
+            cn(
+                'w-full',
+                { 'grid grid-cols-1': orientation === 'vertical', 'bg-transparent': variant === 'ghost' },
+                props.class,
+            )
+        "
+    >
+        <TabsTrigger
+            v-for="({ href, title, icon, options = {} }, index) in tabs"
+            :key="index"
+            :value="index"
+            as-child
+            :class="cn(responsiveTabsVariants({ variant }), { 'justify-start': align === 'start' })"
+        >
+            <InertiaLink v-bind="options ?? {}" :href="href">
                 <component v-if="icon" :is="icon" />
                 <CapitalizeText>
                     {{ title }}
