@@ -8,7 +8,7 @@ export const responsiveTabsVariants = cva('', {
     variants: {
         variant: {
             default: '',
-            ghost: `data-[state=active]:bg-muted data-[state=active]:shadow-none`,
+            ghost: `hover:bg-muted data-[state=active]:bg-muted transition-colors data-[state=active]:shadow-none`,
         },
     },
     defaultVariants: {

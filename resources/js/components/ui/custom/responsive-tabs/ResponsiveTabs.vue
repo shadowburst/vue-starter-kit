@@ -1,6 +1,6 @@
 <script lang="ts">
 type ResponsiveTabsRootContext = {
-    tabs: Ref<NavItem[]>;
+    tabs: Ref<NavItemHref[]>;
     variant: Ref<ResponsiveTabsVariants['variant']>;
 };
 export const [injectResponsiveTabsRootContext, provideResponsiveTabsRootContext] =
@@ -9,7 +9,7 @@ export const [injectResponsiveTabsRootContext, provideResponsiveTabsRootContext]
 
 <script setup lang="ts">
 import { Tabs } from '@/components/ui/tabs';
-import { NavItem } from '@/types';
+import { NavItemHref } from '@/types';
 
 import { reactiveOmit } from '@vueuse/core';
 import type { TabsRootEmits, TabsRootProps } from 'reka-ui';
@@ -18,7 +18,7 @@ import { toRefs, type HTMLAttributes, type Ref } from 'vue';
 import { ResponsiveTabsVariants } from '.';
 
 type Props = TabsRootProps & {
-    tabs: NavItem[];
+    tabs: NavItemHref[];
     variant?: ResponsiveTabsVariants['variant'];
     class?: HTMLAttributes['class'];
 };

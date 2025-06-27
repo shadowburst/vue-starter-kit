@@ -6,11 +6,19 @@ export type BreadcrumbItemType = {
     href: string;
 };
 
-export type NavItem = {
+type NavItemBase = {
     title: string;
-    href: string;
     icon?: LucideIcon;
     hidden?: bool;
+};
+export type NavItemGroup = NavItemBase & {
+    href?: never;
+    items: NavItemHref[];
+};
+export type NavItemHref = NavItemBase & {
+    items?: never;
+    href: string;
     isActive?: boolean;
     options?: Partial<InertiaLinkProps>;
 };
+export type NavItem = NavItemGroup | NavItemHref;
