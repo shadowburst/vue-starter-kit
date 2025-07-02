@@ -15,7 +15,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import UserAvatar from '@/components/user/UserAvatar.vue';
 import { useAuth } from '@/composables';
-import type { BreadcrumbItemType, NavItem } from '@/types';
+import type { BreadcrumbItemType, NavItemHref } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { LayoutGridIcon, Menu, Search } from 'lucide-vue-next';
 import { computed } from 'vue';
@@ -35,7 +35,7 @@ const activeItemStyles = computed(
         isCurrentRoute.value(url) ? 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100' : '',
 );
 
-const mainNavItems: NavItem[] = [
+const mainNavItems: NavItemHref[] = [
     {
         title: 'Dashboard',
         href: route('index'),
