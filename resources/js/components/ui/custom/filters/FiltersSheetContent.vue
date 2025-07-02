@@ -6,10 +6,10 @@ import { SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import ScrollArea from '@/components/ui/scroll-area/ScrollArea.vue';
 import {
-    SheetClose,
     SheetContent,
     SheetContentProps,
     SheetDescription,
+    SheetFooter,
     SheetHeader,
     SheetTitle,
 } from '@/components/ui/sheet';
@@ -30,27 +30,12 @@ const { filters, fields, count, data } = injectFiltersSheetRootContext();
 <template>
     <SheetContent v-bind="forwarded" :class="cn('w-full', props.class)">
         <SheetHeader>
-            <div v-if="fields.length">
-                <SheetClose as-child>
-                    <Button
-                        class="disabled:invisible"
-                        variant="outline"
-                        :disabled="count === 0"
-                        @click="filters.reset(...fields)"
-                    >
-                        <XIcon />
-                        <CapitalizeText>
-                            {{ $t('reset') }}
-                        </CapitalizeText>
-                    </Button>
-                </SheetClose>
-            </div>
+            <SheetTitle>
+                <CapitalizeText>
+                    {{ $t('components.ui.custom.filters.sheet.title') }}
+                </CapitalizeText>
+            </SheetTitle>
             <VisuallyHidden>
-                <SheetTitle>
-                    <CapitalizeText>
-                        {{ $t('components.ui.custom.filters.sheet.title') }}
-                    </CapitalizeText>
-                </SheetTitle>
                 <SheetDescription>
                     <CapitalizeText>
                         {{ $t('components.ui.custom.filters.sheet.description') }}
@@ -67,6 +52,21 @@ const { filters, fields, count, data } = injectFiltersSheetRootContext();
                 </Form>
             </SectionContent>
         </ScrollArea>
+        <SheetFooter>
+            <div v-if="fields.length">
+                <Button
+                    class="w-full disabled:opacity-0"
+                    variant="outline"
+                    :disabled="count === 0"
+                    @click="filters.reset(...fields)"
+                >
+                    <XIcon />
+                    <CapitalizeText>
+                        {{ $t('reset') }}
+                    </CapitalizeText>
+                </Button>
+            </div>
+        </SheetFooter>
         <WhenVisible v-if="data" :data>
             <template #fallback>
                 <div class="absolute inset-0 grid place-items-center">
