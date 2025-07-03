@@ -18,10 +18,11 @@ type Props = Omit<DateFieldRootProps, 'modelValue' | 'minValue' | 'maxValue'> & 
     maxValue?: DateValue | string;
     minValue?: DateValue | string;
     autofocus?: boolean;
+    disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
-const delegatedProps = reactiveOmit(props, 'modelValue', 'class', 'maxValue', 'minValue', 'autofocus');
+const delegatedProps = reactiveOmit(props, 'modelValue', 'class', 'maxValue', 'minValue', 'autofocus', 'disabled');
 const forwarded = useForwardProps(delegatedProps);
 
 const open = ref<boolean>(false);
@@ -44,19 +45,21 @@ const proxy = computed<DateValue | undefined>({
 <template>
     <Popover v-model:open="open">
         <div
-            class="border-input flex h-9 w-full items-stretch gap-1 rounded-md border bg-transparent text-sm shadow-xs transition-colors select-all disabled:cursor-not-allowed disabled:opacity-50"
+            class="border-input flex h-9 w-full items-stretch gap-1 rounded-md border bg-transparent text-sm shadow-xs transition-colors select-all"
+            :class="{ 'cursor-not-allowed opacity-50 select-none': disabled }"
         >
             <DateFieldRoot
                 class="my-auto mr-auto flex pl-3"
                 v-model="proxy"
                 v-bind="{ ...forwarded, ...$attrs }"
                 v-slot="{ segments }"
+                :disabled
                 :max-value
                 :min-value
             >
                 <template v-for="(item, index) in segments" :key="item.part">
                     <DateFieldInput
-                        class="text-muted-foreground p-0.5"
+                        class="enabled:text-muted-foreground p-0.5"
                         v-if="item.part === 'literal'"
                         :part="item.part"
                     >
@@ -74,7 +77,7 @@ const proxy = computed<DateValue | undefined>({
             </DateFieldRoot>
             <Button
                 class="h-full rounded-none"
-                v-if="model && !required"
+                v-if="model && !required && !disabled"
                 size="icon"
                 variant="ghost"
                 @click="model = undefined"
@@ -82,7 +85,7 @@ const proxy = computed<DateValue | undefined>({
                 <XIcon />
             </Button>
             <PopoverTrigger as-child>
-                <Button class="h-full rounded-l-none" size="icon" variant="ghost">
+                <Button class="h-full rounded-l-none" size="icon" variant="ghost" :disabled>
                     <CalendarIcon />
                 </Button>
             </PopoverTrigger>
