@@ -21,7 +21,7 @@ type TEnum = Enum<T>;
 
 type Props = EnumComboboxProps<T>;
 const props = withDefaults(defineProps<Props>(), {
-    multiplePlaceholder: () => (items: TEnum[]) => transChoice('components.ui.custom.combobox.selected', items.length),
+    multiplePlaceholder: (items: TEnum[]) => transChoice('components.ui.custom.combobox.selected', items.length),
     by: 'value',
     label: 'label',
 });
