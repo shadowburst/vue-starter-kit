@@ -46,7 +46,7 @@ function submit() {
             <SectionHeader v-if="status">
                 <Alert variant="primary">
                     <CheckIcon class="size-4" />
-                    <AlertTitle>
+                    <AlertTitle class="line-clamp-none">
                         {{ status }}
                     </AlertTitle>
                 </Alert>
