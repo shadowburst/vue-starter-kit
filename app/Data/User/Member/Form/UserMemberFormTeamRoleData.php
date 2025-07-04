@@ -19,7 +19,6 @@ class UserMemberFormTeamRoleData extends Data
         public int $team_id,
         #[In([RoleName::MEMBER->value, RoleName::EDITOR->value])]
         public RoleName $role,
-        public ?bool $can_update,
     ) {}
 
     public static function attributes(): array

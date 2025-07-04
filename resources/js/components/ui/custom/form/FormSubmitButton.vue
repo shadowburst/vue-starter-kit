@@ -26,7 +26,12 @@ const disabled = computed(() => formDisabled.value || props.disabled || loading.
 </script>
 
 <template>
-    <Button v-bind="forwarded" :class="cn('relative', loading && 'disabled:opacity-100', props.class)" :disabled>
+    <Button
+        v-if="!formDisabled"
+        v-bind="forwarded"
+        :class="cn('relative', loading && 'disabled:opacity-100', props.class)"
+        :disabled
+    >
         <div class="absolute inset-0 grid place-items-center" v-if="loading">
             <LoadingIcon />
         </div>

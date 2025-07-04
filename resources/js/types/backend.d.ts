@@ -94,7 +94,7 @@ export type MediaResource = {
     url: string;
     custom_properties?: Record<string, any>;
 };
-export type PermissionListResource = {
+export type PermissionResource = {
     id: number;
     name: string;
     display_name: string;
@@ -266,12 +266,10 @@ export type UserMemberFormResource = {
 export type UserMemberFormTeamPermissionData = {
     team_id: number;
     permission: PermissionName;
-    can_update?: boolean;
 };
 export type UserMemberFormTeamRoleData = {
     team_id: number;
     role: RoleName;
-    can_update?: boolean;
 };
 export type UserMemberIndexProps = {
     request: UserMemberIndexRequest;
@@ -323,6 +321,7 @@ export type UserMemberOneOrManyRequest = {
 };
 export type UserResource = {
     id: number;
+    is_admin: boolean;
     owner_id: number;
     team_id?: number;
     first_name: string;
@@ -330,10 +329,18 @@ export type UserResource = {
     full_name: string;
     email: string;
     phone?: string;
-    is_admin: boolean;
-    is_owner: boolean;
-    is_member: boolean;
+    creator_id?: number;
+    deleted_at?: string;
+    is_owner?: boolean;
+    is_member?: boolean;
+    is_editor?: boolean;
+    is_trashed?: boolean;
+    permissions?: Array<PermissionName>;
     avatar?: MediaResource;
+    owner?: UserResource;
+    team?: TeamListResource;
+    active_members?: Array<UserResource>;
+    members?: Array<UserResource>;
     teams?: Array<TeamListResource>;
 };
 export type VerifyEmailProps = {};

@@ -17,7 +17,6 @@ class UserMemberFormTeamPermissionData extends Data
     public function __construct(
         public int $team_id,
         public PermissionName $permission,
-        public ?bool $can_update,
     ) {}
 
     public static function attributes(): array

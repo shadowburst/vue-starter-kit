@@ -6,7 +6,7 @@ use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class PermissionListResource extends Resource
+class PermissionResource extends Resource
 {
     public function __construct(
         public int $id,
