@@ -94,14 +94,14 @@ export type MediaResource = {
     url: string;
     custom_properties?: Record<string, any>;
 };
+export type PermissionName = {
+    name: string;
+    value: string;
+};
 export type PermissionResource = {
     id: number;
     name: string;
     display_name: string;
-};
-export type PermissionName = {
-    name: string;
-    value: string;
 };
 export type RegisterProps = {};
 export type RegisterRequest = {

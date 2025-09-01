@@ -85,7 +85,12 @@ const proxy = computed<DateValue | undefined>({
                 <XIcon />
             </Button>
             <PopoverTrigger as-child>
-                <Button class="h-full rounded-l-none" size="icon" variant="ghost" :disabled>
+                <Button
+                    class="text-muted-foreground h-full rounded-l-none opacity-50"
+                    size="icon"
+                    variant="ghost"
+                    :disabled
+                >
                     <CalendarIcon />
                 </Button>
             </PopoverTrigger>

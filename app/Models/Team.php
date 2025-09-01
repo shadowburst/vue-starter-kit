@@ -19,7 +19,7 @@ use Spatie\MediaLibrary\HasMedia;
  * @property int $id
  * @property int|null $creator_id
  * @property string $name
- * @property \Spatie\LaravelData\Contracts\BaseData|null $settings
+ * @property \Spatie\LaravelData\Contracts\BaseData|\Spatie\LaravelData\Contracts\TransformableData|null $settings
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -34,8 +34,6 @@ use Spatie\MediaLibrary\HasMedia;
  * @property-read \App\Models\Media|null $logo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
  * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectDepartment> $projectDepartments
- * @property-read int|null $project_departments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *
@@ -54,7 +52,7 @@ use Spatie\MediaLibrary\HasMedia;
  * @method static Builder<static>|Team whereName($value)
  * @method static Builder<static>|Team whereSettings($value)
  * @method static Builder<static>|Team whereUpdatedAt($value)
- * @method static Builder<static>|Team withTrashed()
+ * @method static Builder<static>|Team withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Team withoutTrashed()
  *
  * @mixin \Eloquent
