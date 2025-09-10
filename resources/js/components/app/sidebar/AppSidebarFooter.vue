@@ -2,7 +2,7 @@
 import AppUserDropdownMenuContent from '@/components/app/AppUserDropdownMenuContent.vue';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import UserAvatar from '@/components/user/UserAvatar.vue';
+import { UserAvatar } from '@/components/user';
 import { useAuth } from '@/composables';
 import { ChevronsUpDownIcon } from 'lucide-vue-next';
 

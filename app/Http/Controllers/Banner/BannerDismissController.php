@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
 
-class BannerDissmissController extends Controller
+class BannerDismissController extends Controller
 {
     public function update(Banner $banner)
     {

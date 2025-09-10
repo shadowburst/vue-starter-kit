@@ -13,17 +13,21 @@ class BannerAdminFormRequest extends Data
 {
     public function __construct(
         public string $name,
+
         public string $message,
+
         public ?string $action,
+
         public bool $is_enabled,
     ) {}
 
     public static function attributes(): array
     {
         return [
-            'name'    => __('models.banner.fields.name'),
-            'message' => __('models.banner.fields.message'),
-            'action'  => __('models.banner.fields.action'),
+            'name'       => __('models.banner.fields.name'),
+            'message'    => __('models.banner.fields.message'),
+            'action'     => __('models.banner.fields.action'),
+            'is_enabled' => __('models.banner.fields.is_enabled'),
         ];
     }
 

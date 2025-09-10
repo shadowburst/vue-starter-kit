@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Badge } from '@/components/ui/badge';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { RoleListResource } from '@/types';
+import { RoleResource } from '@/types';
 import { computed } from 'vue';
 
 type Props = {
-    role: RoleListResource;
+    role: RoleResource;
 };
 const props = defineProps<Props>();
 

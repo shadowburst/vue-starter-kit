@@ -1,7 +1,7 @@
 import { useComputedForm } from '@/composables';
-import { UserMemberFormRequest, UserMemberFormResource } from '@/types';
+import { UserMemberFormRequest, UserResource } from '@/types';
 
-export function useUserMemberForm(user?: UserMemberFormResource) {
+export function useUserMemberForm(user?: UserResource) {
     const form = useComputedForm({
         id: user?.id,
         first_name: user?.first_name ?? '',

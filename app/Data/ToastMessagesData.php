@@ -10,8 +10,11 @@ class ToastMessagesData extends Data
 {
     public function __construct(
         public ?string $info,
+
         public ?string $success,
+
         public ?string $warning,
+
         public ?string $error,
     ) {}
 }

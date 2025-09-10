@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Data\Banner\BannerAppResource;
+use App\Data\Banner\BannerResource;
 use App\Models\Banner;
 use Closure;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class IncludeBanner
         return $next($request);
     }
 
-    protected function getBanner(): ?BannerAppResource
+    protected function getBanner(): ?BannerResource
     {
         /** @var ?\App\Models\User $user */
         $user = Auth::user();
@@ -45,6 +45,6 @@ class IncludeBanner
             return null;
         }
 
-        return BannerAppResource::from($banner);
+        return BannerResource::from($banner);
     }
 }

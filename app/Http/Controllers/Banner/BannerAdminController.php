@@ -6,11 +6,11 @@ use App\Data\Banner\Admin\Form\BannerAdminFormProps;
 use App\Data\Banner\Admin\Form\BannerAdminFormRequest;
 use App\Data\Banner\Admin\Index\BannerAdminIndexProps;
 use App\Data\Banner\Admin\Index\BannerAdminIndexRequest;
-use App\Data\Banner\Admin\Index\BannerAdminIndexResource;
 use App\Data\Banner\BannerOneOrManyRequest;
+use App\Data\Banner\BannerResource;
+use App\Facades\Services;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Services\ToastService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -20,15 +20,11 @@ use Spatie\LaravelData\PaginatedDataCollection;
 
 class BannerAdminController extends Controller
 {
-    public function __construct(
-        protected ToastService $toastService,
-    ) {}
-
     public function index(BannerAdminIndexRequest $data)
     {
         return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
             'banners' => Lazy::inertia(
-                fn () => BannerAdminIndexResource::collect(
+                fn () => BannerResource::collect(
                     Banner::query()
                         ->search($data->q)
                         ->orderBy($data->sort_by, $data->sort_direction)
@@ -53,7 +49,7 @@ class BannerAdminController extends Controller
         /** @var ?Banner $banner */
         $banner = Banner::create($data->toArray());
 
-        $this->toastService->successOrError->execute($banner != null, __('messages.banners.store.success'));
+        Services::toast()->successOrError->execute($banner != null, __('messages.banners.store.success'));
 
         return to_route('admin.banners.index');
     }
@@ -74,7 +70,7 @@ class BannerAdminController extends Controller
     {
         $success = $banner->update($data->toArray());
 
-        $this->toastService->successOrError->execute($success, __('messages.banners.update.success'));
+        Services::toast()->successOrError->execute($success, __('messages.banners.update.success'));
 
         return to_route('admin.banners.index');
     }
@@ -115,11 +111,10 @@ class BannerAdminController extends Controller
                 ->get()
                 ->each->delete();
             DB::commit();
-            $this->toastService->success->execute(trans_choice('messages.banners.delete.success', $count));
+            Services::toast()->success->execute(trans_choice('messages.banners.delete.success', $count));
         } catch (\Throwable $e) {
             DB::rollBack();
-            $this->toastService->error->execute();
-        } finally {
+            Services::toast()->error->execute();
         }
 
         return back();

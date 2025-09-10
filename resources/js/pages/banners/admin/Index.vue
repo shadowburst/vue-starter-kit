@@ -30,7 +30,7 @@ import { AdminLayout } from '@/layouts';
 import type {
     BannerAdminIndexProps,
     BannerAdminIndexRequest,
-    BannerAdminIndexResource,
+    BannerResource,
     BannerOneOrManyRequest,
 } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
@@ -54,8 +54,8 @@ const props = defineProps<BannerAdminIndexProps>();
 
 const alert = useAlert();
 
-const selectedRows = ref<BannerAdminIndexResource[]>([]);
-const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
+const selectedRows = ref<BannerResource[]>([]);
+const rowsActions: DataTableRowsAction<BannerResource>[] = [
     {
         label: trans('enable'),
         icon: ToggleRightIcon,
@@ -116,7 +116,7 @@ const rowsActions: DataTableRowsAction<BannerAdminIndexResource>[] = [
             }),
     },
 ];
-const rowActions: DataTableRowAction<BannerAdminIndexResource>[] = [
+const rowActions: DataTableRowAction<BannerResource>[] = [
     {
         type: 'href',
         label: trans('edit'),

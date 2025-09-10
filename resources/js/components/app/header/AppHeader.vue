@@ -13,7 +13,7 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import UserAvatar from '@/components/user/UserAvatar.vue';
+import { UserAvatar } from '@/components/user';
 import { useAuth } from '@/composables';
 import type { BreadcrumbItemType, NavItemHref } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';

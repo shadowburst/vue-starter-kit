@@ -38,4 +38,10 @@ return [
         'appearance' => 'Appearance',
     ],
 
+    'teams' => [
+        'form' => [
+            'edit' => 'Details',
+        ],
+    ],
+
 ];

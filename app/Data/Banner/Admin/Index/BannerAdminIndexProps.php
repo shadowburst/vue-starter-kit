@@ -2,6 +2,7 @@
 
 namespace App\Data\Banner\Admin\Index;
 
+use App\Data\Banner\BannerResource;
 use Spatie\LaravelData\Attributes\AutoInertiaLazy;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Lazy;
@@ -14,7 +15,7 @@ class BannerAdminIndexProps extends Resource
 {
     public function __construct(
         #[AutoInertiaLazy]
-        #[DataCollectionOf(BannerAdminIndexResource::class)]
+        #[DataCollectionOf(BannerResource::class)]
         public Lazy|PaginatedDataCollection $banners,
     ) {}
 }

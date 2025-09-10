@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\User\Member\Form;
+namespace App\Data\User\Team;
 
 use App\Enums\Role\RoleName;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +13,11 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[MergeValidationRules]
-class UserMemberFormTeamRoleData extends Data
+class UserTeamRoleData extends Data
 {
     public function __construct(
         public int $team_id,
+
         #[In([RoleName::MEMBER->value, RoleName::EDITOR->value])]
         public RoleName $role,
     ) {}

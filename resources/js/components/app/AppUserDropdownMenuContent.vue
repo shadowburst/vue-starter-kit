@@ -7,7 +7,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import UserAvatar from '@/components/user/UserAvatar.vue';
+import { UserAvatar } from '@/components/user';
 import { clearSessionFilters, useAuth } from '@/composables';
 import { BuildingIcon, LogOutIcon, SettingsIcon, UsersIcon } from 'lucide-vue-next';
 

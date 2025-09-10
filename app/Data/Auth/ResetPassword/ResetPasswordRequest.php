@@ -15,9 +15,13 @@ class ResetPasswordRequest extends Data
 {
     public function __construct(
         public string $token,
+
         public string $email,
-        #[Confirmed, Password(default: true)]
+
+        #[Confirmed]
+        #[Password(default: true)]
         public string $password,
+
         public string $password_confirmation,
     ) {}
 

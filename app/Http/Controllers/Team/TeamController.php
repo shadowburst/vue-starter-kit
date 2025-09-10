@@ -6,8 +6,8 @@ use App\Data\Team\Form\TeamFormProps;
 use App\Data\Team\Form\TeamFormRequest;
 use App\Data\Team\Index\TeamIndexProps;
 use App\Data\Team\Index\TeamIndexRequest;
-use App\Data\Team\Index\TeamIndexResource;
 use App\Data\Team\TeamOneOrManyRequest;
+use App\Data\Team\TeamResource;
 use App\Enums\Trashed\TrashedFilter;
 use App\Facades\Services;
 use App\Http\Controllers\Controller;
@@ -28,7 +28,7 @@ class TeamController extends Controller
         return Inertia::render('teams/Index', TeamIndexProps::from([
             'request' => $data,
             'teams'   => Lazy::inertia(
-                fn () => TeamIndexResource::collect(
+                fn () => TeamResource::collect(
                     Auth::user()->teams()
                         ->search($data->q)
                         ->when($data->trashed, fn (Builder $q) => $q->filterTrashed($data->trashed))
@@ -42,6 +42,13 @@ class TeamController extends Controller
                         )
                         ->withQueryString(),
                     PaginatedDataCollection::class,
+                )->include(
+                    'can_view',
+                    'can_update',
+                    'can_trash',
+                    'can_restore',
+                    'can_delete',
+                    'logo',
                 ),
             ),
             'trashedFilters' => Lazy::inertia(fn () => TrashedFilter::labels()),

@@ -25,8 +25,10 @@ class UpdatePasswordSettingsRequest extends Data
         #[CurrentPassword]
         public string $current_password,
 
-        #[Confirmed, Password(default: true)]
+        #[Confirmed]
+        #[Password(default: true)]
         public string $password,
+
         public string $password_confirmation,
     ) {}
 

@@ -13,14 +13,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
 import { useAuth, usePageProp } from '@/composables';
-import { TeamListResource } from '@/types';
+import { TeamResource } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { CheckIcon, ChevronsUpDownIcon, PlusIcon } from 'lucide-vue-next';
 
 const { isMobile, state } = useSidebar();
 
 const { team: currentTeam, abilities } = useAuth();
-const teams = usePageProp<TeamListResource[]>('auth.user.teams', []);
+const teams = usePageProp<TeamResource[]>('auth.user.teams', []);
 </script>
 
 <template>

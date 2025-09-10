@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Banner\BannerDissmissController;
+use App\Http\Controllers\Banner\BannerDismissController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Settings\AppearanceSettingsController;
@@ -30,7 +30,7 @@ Route::middleware(['auth', 'auth.team', 'auth.include', 'banner.include'])->grou
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::prefix('/banners')->name('banners.')->group(function () {
-        Route::patch('/{banner}/dismiss', [BannerDissmissController::class, 'update'])->name('dismiss');
+        Route::patch('/{banner}/dismiss', [BannerDismissController::class, 'update'])->name('dismiss');
     });
 
     Route::prefix('/media')->name('media.')->controller(MediaController::class)->group(function () {

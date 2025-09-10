@@ -23,7 +23,9 @@ class UpdateProfileSettingsRequest extends Data
         public User $user,
 
         public string $first_name,
+
         public string $last_name,
+
         public ?string $phone,
 
         #[Email]

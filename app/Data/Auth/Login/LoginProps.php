@@ -10,6 +10,7 @@ class LoginProps extends Resource
 {
     public function __construct(
         public bool $canResetPassword,
+
         public ?string $status,
     ) {}
 }

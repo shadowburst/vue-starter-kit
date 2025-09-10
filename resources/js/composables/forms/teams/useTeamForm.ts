@@ -1,7 +1,7 @@
 import { useComputedForm } from '@/composables';
-import { TeamFormRequest, TeamFormResource } from '@/types';
+import { TeamFormRequest, TeamResource } from '@/types';
 
-export function useTeamForm(team?: TeamFormResource) {
+export function useTeamForm(team?: TeamResource) {
     const form = useComputedForm({
         logo: team?.logo,
         name: team?.name ?? '',

@@ -19,12 +19,18 @@ class RegisterRequest extends Data
 {
     public function __construct(
         public string $first_name,
+
         public string $last_name,
+
         public string $phone,
+
         #[Email, Unique(User::class), Lowercase]
         public string $email,
-        #[Confirmed, Password(default: true)]
+
+        #[Confirmed]
+        #[Password(default: true)]
         public string $password,
+
         public string $password_confirmation,
     ) {}
 

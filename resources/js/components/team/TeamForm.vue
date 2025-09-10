@@ -11,11 +11,11 @@ import {
 import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { TeamFormData } from '@/composables';
-import { TeamFormResource } from '@/types';
+import { TeamResource } from '@/types';
 import TeamLogoIcon from './TeamLogoIcon.vue';
 
 type Props = FormProps & {
-    team?: TeamFormResource;
+    team?: TeamResource;
 };
 defineProps<Props>();
 

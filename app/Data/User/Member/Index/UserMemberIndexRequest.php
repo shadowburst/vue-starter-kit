@@ -14,10 +14,15 @@ class UserMemberIndexRequest extends Data
 {
     public function __construct(
         public ?string $q = null,
+
         public ?int $page = null,
+
         public ?int $per_page = null,
+
         public string $sort_by = 'id',
+
         public string $sort_direction = 'desc',
+
         public ?TrashedFilter $trashed = null,
     ) {}
 

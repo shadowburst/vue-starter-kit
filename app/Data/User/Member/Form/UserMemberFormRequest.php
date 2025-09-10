@@ -3,6 +3,8 @@
 namespace App\Data\User\Member\Form;
 
 use App\Attributes\Media;
+use App\Data\User\Team\UserTeamPermissionData;
+use App\Data\User\Team\UserTeamRoleData;
 use App\Models\User;
 use Illuminate\Container\Attributes\RouteParameter;
 use Illuminate\Validation\Rule;
@@ -32,22 +34,26 @@ class UserMemberFormRequest extends Data
         public ?User $member,
 
         public string $first_name,
+
         public string $last_name,
+
         public string $email,
+
         public ?string $phone,
 
         #[Confirmed]
         #[Password(default: true)]
         public ?string $password,
+
         public ?string $password_confirmation,
 
         #[Media]
         public ?string $avatar,
 
-        #[DataCollectionOf(UserMemberFormTeamRoleData::class)]
+        #[DataCollectionOf(UserTeamRoleData::class)]
         public DataCollection $team_roles,
 
-        #[DataCollectionOf(UserMemberFormTeamPermissionData::class)]
+        #[DataCollectionOf(UserTeamPermissionData::class)]
         public DataCollection $team_permissions,
     ) {}
 

@@ -11,9 +11,6 @@ use URL;
 
 class VerifyEmailController extends Controller
 {
-    /**
-     * Mark the authenticated user's email address as verified.
-     */
     public function code(VerifyEmailRequest $data): RedirectResponse
     {
         $user = Auth::user();

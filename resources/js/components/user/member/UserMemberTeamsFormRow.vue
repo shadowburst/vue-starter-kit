@@ -5,11 +5,11 @@ import { DataTableCell, DataTableRow } from '@/components/ui/custom/data-table';
 import { FormControl, FormField, FormLabel, injectFormContext } from '@/components/ui/custom/form';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useAuth, UserMemberFormData } from '@/composables';
-import { PermissionName, type TeamListResource } from '@/types';
+import { PermissionName, type TeamResource } from '@/types';
 import { computed } from 'vue';
 
 type Props = {
-    team: TeamListResource;
+    team: TeamResource;
 };
 const props = defineProps<Props>();
 

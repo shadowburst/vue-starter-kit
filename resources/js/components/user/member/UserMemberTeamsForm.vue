@@ -10,10 +10,10 @@ import {
 import { FormContent } from '@/components/ui/custom/form';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { usePageProp } from '@/composables';
-import type { TeamListResource } from '@/types';
+import type { TeamResource } from '@/types';
 import UserMemberTeamsFormRow from './UserMemberTeamsFormRow.vue';
 
-const teams = usePageProp<TeamListResource[]>('teams', []);
+const teams = usePageProp<TeamResource[]>('teams', []);
 </script>
 
 <template>

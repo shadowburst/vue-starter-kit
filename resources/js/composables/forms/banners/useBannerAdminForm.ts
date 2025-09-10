@@ -1,7 +1,7 @@
 import { useComputedForm } from '@/composables';
-import { BannerAdminFormRequest, BannerAdminFormResource } from '@/types';
+import { BannerAdminFormRequest, BannerResource } from '@/types';
 
-export function useBannerAdminForm(banner?: BannerAdminFormResource) {
+export function useBannerAdminForm(banner?: BannerResource) {
     const form = useComputedForm({
         name: banner?.name ?? '',
         message: banner?.message ?? '',

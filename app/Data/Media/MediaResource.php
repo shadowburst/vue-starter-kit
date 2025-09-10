@@ -12,7 +12,9 @@ class MediaResource extends Resource
 {
     public function __construct(
         public int $id,
+
         public string $uuid,
+
         public string $url,
 
         #[RecordTypeScriptType('string', 'any')]

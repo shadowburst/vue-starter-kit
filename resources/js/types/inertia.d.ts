@@ -1,7 +1,7 @@
 import type { ErrorBag, Errors } from '@inertiajs/core';
 import { FormDataConvertible } from '@inertiajs/core';
 import type { Config } from 'ziggy-js';
-import { BannerAppResource, TeamResource, ToastMessagesData, UserAbilitiesResource, UserResource } from './backend';
+import { BannerResource, TeamResource, ToastMessagesData, UserAbilitiesResource, UserResource } from './backend';
 
 export type Enum<T extends string> = {
     value: T;
@@ -23,7 +23,7 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     default: {
         per_page: number;
     };
-    banner?: BannerAppResource;
+    banner?: BannerResource;
 };
 
 export type FormDataType = Record<string, FormDataConvertible>;

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/custom/form';
 import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import UserAvatar from '@/components/user/UserAvatar.vue';
+import { UserAvatar } from '@/components/user';
 import { UserMemberFormData } from '@/composables';
 
 defineProps<FormProps>();

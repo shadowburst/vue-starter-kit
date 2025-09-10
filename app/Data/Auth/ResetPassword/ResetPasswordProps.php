@@ -10,6 +10,7 @@ class ResetPasswordProps extends Resource
 {
     public function __construct(
         public string $token,
+
         public string $email,
     ) {}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\User\Member\Form;
+namespace App\Data\User\Team;
 
 use App\Enums\Permission\PermissionName;
 use Illuminate\Support\Facades\Auth;
@@ -12,10 +12,11 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[MergeValidationRules]
-class UserMemberFormTeamPermissionData extends Data
+class UserTeamPermissionData extends Data
 {
     public function __construct(
         public int $team_id,
+
         public PermissionName $permission,
     ) {}
 

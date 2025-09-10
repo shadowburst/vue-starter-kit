@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Data\Team\TeamResource;
 use App\Data\User\Member\Form\UserMemberFormProps;
 use App\Data\User\Member\Form\UserMemberFormRequest;
 use App\Data\User\Member\Index\UserMemberIndexProps;
 use App\Data\User\Member\Index\UserMemberIndexRequest;
-use App\Data\User\Member\Index\UserMemberIndexResource;
 use App\Data\User\Member\UserMemberOneOrManyRequest;
+use App\Data\User\UserResource;
 use App\Enums\Permission\PermissionName;
 use App\Enums\Trashed\TrashedFilter;
 use App\Facades\Services;
@@ -29,7 +30,7 @@ class UserMemberController extends Controller
         return Inertia::render('users/members/Index', UserMemberIndexProps::from([
             'request' => $data,
             'users'   => Lazy::inertia(
-                fn () => UserMemberIndexResource::collect(
+                fn () => UserResource::collect(
                     Auth::user()->members()
                         ->search($data->q)
                         ->when($data->trashed, fn (Builder $q) => $q->filterTrashed($data->trashed))
@@ -41,7 +42,15 @@ class UserMemberController extends Controller
                         )
                         ->withQueryString(),
                     PaginatedDataCollection::class,
-                ),
+                )
+                    ->include(
+                        'can_view',
+                        'can_update',
+                        'can_trash',
+                        'can_restore',
+                        'can_delete',
+                        'avatar',
+                    ),
             ),
             'trashedFilters' => Lazy::inertia(fn () => TrashedFilter::labels()),
         ]));
@@ -82,8 +91,17 @@ class UserMemberController extends Controller
         $user = Auth::user();
 
         return Inertia::render('users/members/Edit', UserMemberFormProps::from([
-            'user'        => $member->load(['avatar']),
-            'teams'       => Lazy::closure(fn () => $user->teams),
+            'user' => UserResource::from($member->load(['avatar']))->include(
+                'can_view',
+                'can_update',
+                'can_trash',
+                'can_restore',
+                'can_delete',
+                'avatar',
+                'team_roles',
+                'team_permissions',
+            ),
+            'teams'       => Lazy::closure(fn () => TeamResource::collect($user->teams)),
             'permissions' => Lazy::closure(fn () => PermissionName::labels($user->getAllPermissions()->map->name)),
         ]));
     }

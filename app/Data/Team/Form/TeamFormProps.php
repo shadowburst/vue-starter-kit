@@ -2,6 +2,7 @@
 
 namespace App\Data\Team\Form;
 
+use App\Data\Team\TeamResource;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -9,6 +10,6 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class TeamFormProps extends Resource
 {
     public function __construct(
-        public ?TeamFormResource $team,
+        public ?TeamResource $team,
     ) {}
 }

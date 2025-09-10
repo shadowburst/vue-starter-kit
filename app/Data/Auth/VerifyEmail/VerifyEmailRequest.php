@@ -14,7 +14,8 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class VerifyEmailRequest extends Data
 {
     public function __construct(
-        #[Numeric, Digits(6)]
+        #[Numeric]
+        #[Digits(6)]
         public string $code,
     ) {}
 

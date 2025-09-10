@@ -4,7 +4,7 @@ import { Section, SectionContent } from '@/components/ui/custom/section';
 import { Separator } from '@/components/ui/separator';
 import { useLayout, useRouterComputed } from '@/composables';
 import { AppLayout } from '@/layouts';
-import { type NavItem } from '@/types';
+import { NavItemHref } from '@/types';
 import { trans } from 'laravel-vue-i18n';
 import { PaletteIcon, ShieldPlusIcon, UserIcon } from 'lucide-vue-next';
 
@@ -19,7 +19,7 @@ defineOptions({
     })),
 });
 
-const sidebarNavItems = useRouterComputed((): NavItem[] => [
+const sidebarNavItems = useRouterComputed((): NavItemHref[] => [
     {
         title: trans('layouts.settings.profile'),
         href: route('settings.profile.edit'),

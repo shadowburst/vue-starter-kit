@@ -14,7 +14,7 @@ import {
 import { MediaInput, TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import UserAvatar from '@/components/user/UserAvatar.vue';
+import { UserAvatar } from '@/components/user';
 import { useAuth, useLayout } from '@/composables';
 import { SettingsLayout } from '@/layouts';
 import { EditProfileSettingsProps, UpdateProfileSettingsRequest } from '@/types';

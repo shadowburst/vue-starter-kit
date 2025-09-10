@@ -1,5 +1,5 @@
 export type BannerAdminFormProps = {
-    banner?: BannerAdminFormResource;
+    banner?: BannerResource;
 };
 export type BannerAdminFormRequest = {
     name: string;
@@ -7,16 +7,9 @@ export type BannerAdminFormRequest = {
     action?: string;
     is_enabled: boolean;
 };
-export type BannerAdminFormResource = {
-    id: number;
-    name: string;
-    message: string;
-    action?: string;
-    is_enabled: boolean;
-};
 export type BannerAdminIndexProps = {
     banners?: {
-        data: Array<BannerAdminIndexResource>;
+        data: Array<BannerResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
             current_page: number;
@@ -41,20 +34,16 @@ export type BannerAdminIndexRequest = {
     sort_direction: string;
     is_enabled?: boolean;
 };
-export type BannerAdminIndexResource = {
-    id: number;
-    name: string;
-    is_enabled: boolean;
+export type BannerOneOrManyRequest = {
+    banner?: number;
+    ids?: Array<number>;
 };
-export type BannerAppResource = {
+export type BannerResource = {
     id: number;
     name: string;
     message: string;
     action?: string;
-};
-export type BannerOneOrManyRequest = {
-    banner?: number;
-    ids?: Array<number>;
+    is_enabled: boolean;
 };
 export type ConfirmPasswordProps = {};
 export type ConfirmPasswordRequest = {
@@ -94,10 +83,7 @@ export type MediaResource = {
     url: string;
     custom_properties?: Record<string, any>;
 };
-export type PermissionName = {
-    name: string;
-    value: string;
-};
+export type PermissionName = 'users';
 export type PermissionResource = {
     id: number;
     name: string;
@@ -122,36 +108,24 @@ export type ResetPasswordRequest = {
     password: string;
     password_confirmation: string;
 };
-export type RoleListResource = {
+export type RoleName = 'tester' | 'owner' | 'member' | 'editor';
+export type RoleResource = {
     id: number;
     name: string;
     display_name: string;
 };
-export type RoleName = 'tester' | 'owner' | 'member' | 'editor';
 export type TeamFormProps = {
-    team?: TeamFormResource;
+    team?: TeamResource;
 };
 export type TeamFormRequest = {
     name: string;
     logo?: string;
     settings?: TeamSettingsData;
 };
-export type TeamFormResource = {
-    id: number;
-    creator_id: number;
-    logo?: MediaResource;
-    name: string;
-    settings?: TeamSettingsData;
-    can_view: boolean;
-    can_update: boolean;
-    can_trash: boolean;
-    can_restore: boolean;
-    can_delete: boolean;
-};
 export type TeamIndexProps = {
     request: TeamIndexRequest;
     teams?: {
-        data: Array<TeamIndexResource>;
+        data: Array<TeamResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
             current_page: number;
@@ -177,23 +151,6 @@ export type TeamIndexRequest = {
     sort_direction: string;
     trashed?: TrashedFilter;
 };
-export type TeamIndexResource = {
-    id: number;
-    creator_id: number;
-    logo?: MediaResource;
-    name: string;
-    can_view: boolean;
-    can_update: boolean;
-    can_trash: boolean;
-    can_restore: boolean;
-    can_delete: boolean;
-    deleted_at?: string;
-};
-export type TeamListResource = {
-    id: number;
-    name: string;
-    logo?: MediaResource;
-};
 export type TeamOneOrManyRequest = {
     team?: number;
     ids?: Array<number>;
@@ -201,8 +158,15 @@ export type TeamOneOrManyRequest = {
 export type TeamResource = {
     id: number;
     name: string;
-    logo?: MediaResource;
     settings?: TeamSettingsData;
+    deleted_at?: string;
+    can_view?: boolean;
+    can_update?: boolean;
+    can_trash?: boolean;
+    can_restore?: boolean;
+    can_delete?: boolean;
+    creator?: UserResource;
+    logo?: MediaResource;
 };
 export type TeamSettingsData = {};
 export type ToastMessagesData = {
@@ -228,13 +192,9 @@ export type UserAbilitiesResource = {
     teams: { view_any: boolean; create: boolean };
     users: { view_any: boolean; create: boolean };
 };
-export type UserListResource = {
-    id: number;
-    full_name: string;
-};
 export type UserMemberFormProps = {
-    user?: UserMemberFormResource;
-    teams?: Array<TeamListResource>;
+    user?: UserResource;
+    teams?: Array<TeamResource>;
     permissions?: Array<{ value: PermissionName; label: string }>;
 };
 export type UserMemberFormRequest = {
@@ -245,36 +205,13 @@ export type UserMemberFormRequest = {
     password?: string;
     password_confirmation?: string;
     avatar?: string;
-    team_roles: Array<UserMemberFormTeamRoleData>;
-    team_permissions: Array<UserMemberFormTeamPermissionData>;
-};
-export type UserMemberFormResource = {
-    id: number;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone?: string;
-    can_view: boolean;
-    can_update: boolean;
-    can_trash: boolean;
-    can_restore: boolean;
-    can_delete: boolean;
-    avatar?: MediaResource;
-    team_roles: Array<UserMemberFormTeamRoleData>;
-    team_permissions: Array<UserMemberFormTeamPermissionData>;
-};
-export type UserMemberFormTeamPermissionData = {
-    team_id: number;
-    permission: PermissionName;
-};
-export type UserMemberFormTeamRoleData = {
-    team_id: number;
-    role: RoleName;
+    team_roles: Array<UserTeamRoleData>;
+    team_permissions: Array<UserTeamPermissionData>;
 };
 export type UserMemberIndexProps = {
     request: UserMemberIndexRequest;
     users?: {
-        data: Array<UserMemberIndexResource>;
+        data: Array<UserResource>;
         links: Array<{ url: string; label: string; active: boolean }>;
         meta: {
             current_page: number;
@@ -300,21 +237,6 @@ export type UserMemberIndexRequest = {
     sort_direction: string;
     trashed?: TrashedFilter;
 };
-export type UserMemberIndexResource = {
-    id: number;
-    first_name: string;
-    last_name: string;
-    full_name: string;
-    email: string;
-    phone?: string;
-    can_view: boolean;
-    can_update: boolean;
-    can_trash: boolean;
-    can_restore: boolean;
-    can_delete: boolean;
-    deleted_at?: string;
-    avatar?: MediaResource | null;
-};
 export type UserMemberOneOrManyRequest = {
     user?: number;
     ids?: Array<number>;
@@ -335,13 +257,28 @@ export type UserResource = {
     is_member?: boolean;
     is_editor?: boolean;
     is_trashed?: boolean;
+    can_view?: boolean;
+    can_update?: boolean;
+    can_trash?: boolean;
+    can_restore?: boolean;
+    can_delete?: boolean;
     permissions?: Array<PermissionName>;
     avatar?: MediaResource;
     owner?: UserResource;
-    team?: TeamListResource;
+    team?: TeamResource;
     active_members?: Array<UserResource>;
     members?: Array<UserResource>;
-    teams?: Array<TeamListResource>;
+    teams?: Array<TeamResource>;
+    team_roles?: Array<UserTeamRoleData>;
+    team_permissions?: Array<UserTeamPermissionData>;
+};
+export type UserTeamPermissionData = {
+    team_id: number;
+    permission: PermissionName;
+};
+export type UserTeamRoleData = {
+    team_id: number;
+    role: RoleName;
 };
 export type VerifyEmailProps = {};
 export type VerifyEmailRequest = {

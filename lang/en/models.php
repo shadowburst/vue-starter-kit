@@ -60,6 +60,7 @@ return [
             'deleted_at' => 'archived at',
             'is_trashed' => 'is archived',
             'name'       => 'name',
+            'logo'       => 'logo',
         ],
     ],
 

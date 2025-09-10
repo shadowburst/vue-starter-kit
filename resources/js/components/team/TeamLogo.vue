@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { TeamListResource } from '@/types';
+import { TeamResource } from '@/types';
 import TeamLogoIcon from './TeamLogoIcon.vue';
 
 type Props = {
-    team: TeamListResource;
+    team: TeamResource;
 };
 defineProps<Props>();
 </script>

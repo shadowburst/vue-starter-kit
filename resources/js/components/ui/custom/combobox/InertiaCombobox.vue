@@ -7,6 +7,7 @@ export type InertiaComboboxProps<T extends Record<string, any>> = Omit<ComboboxR
     multiplePlaceholder?: (items: T[]) => string;
     group?: boolean;
     groupBy?: Extract<keyof T, string> | ((item: T) => string);
+    disableOption?: (item: T) => boolean;
     filter?: (item: T) => boolean;
     class?: HTMLAttributes['class'];
 };
@@ -94,9 +95,10 @@ const filteredOptions = computed((): T[] =>
     ),
 );
 
+type GroupOption = T & { _heading?: string };
 type Group = {
     label: string;
-    options: T[];
+    options: GroupOption[];
 };
 const groups = computed((): Group[] => {
     if (!props.group || !props.groupBy) {
@@ -205,7 +207,11 @@ const placeholder = computed(() => {
                                 'pb-1': virtualItem.index === filteredOptions.length - 1,
                             }"
                         >
-                            <ComboboxItem :value="option" :text-value="option[label]">
+                            <ComboboxItem
+                                :value="option"
+                                :text-value="option[label]"
+                                :disabled="disableOption?.(option)"
+                            >
                                 <ComboboxItemIndicator />
                                 <CapitalizeText class="min-w-0 grow break-words">
                                     {{ option[label] }}

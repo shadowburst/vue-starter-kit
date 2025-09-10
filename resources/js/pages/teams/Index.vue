@@ -28,7 +28,7 @@ import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useAlert, useFilters, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
-import { type TeamIndexProps, type TeamIndexRequest, type TeamIndexResource, type TeamOneOrManyRequest } from '@/types';
+import { type TeamIndexProps, type TeamIndexRequest, type TeamResource, type TeamOneOrManyRequest } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, CirclePlusIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
@@ -49,8 +49,8 @@ const props = defineProps<TeamIndexProps>();
 
 const alert = useAlert();
 
-const selectedRows = ref<TeamIndexResource[]>([]);
-const rowsActions: DataTableRowsAction<TeamIndexResource>[] = [
+const selectedRows = ref<TeamResource[]>([]);
+const rowsActions: DataTableRowsAction<TeamResource>[] = [
     {
         label: trans('trash'),
         icon: ArchiveIcon,
@@ -109,7 +109,7 @@ const rowsActions: DataTableRowsAction<TeamIndexResource>[] = [
             }),
     },
 ];
-const rowActions: DataTableRowAction<TeamIndexResource>[] = [
+const rowActions: DataTableRowAction<TeamResource>[] = [
     {
         type: 'href',
         label: trans('edit'),

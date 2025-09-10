@@ -15,7 +15,9 @@ class LoginRequest extends Data
     public function __construct(
         #[Email]
         public string $email,
+
         public string $password,
+
         public ?bool $remember = false,
     ) {}
 

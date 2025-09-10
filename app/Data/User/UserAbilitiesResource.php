@@ -17,6 +17,7 @@ class UserAbilitiesResource extends Resource
             'create'   => 'bool',
         ])]
         public array $teams,
+
         #[TypeScriptType([
             'view_any' => 'bool',
             'create'   => 'bool',

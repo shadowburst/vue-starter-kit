@@ -25,15 +25,10 @@ import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import UserAvatar from '@/components/user/UserAvatar.vue';
+import { UserAvatar } from '@/components/user';
 import { useAlert, useFilters, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
-import type {
-    UserMemberIndexProps,
-    UserMemberIndexRequest,
-    UserMemberIndexResource,
-    UserMemberOneOrManyRequest,
-} from '@/types';
+import type { UserMemberIndexProps, UserMemberIndexRequest, UserMemberOneOrManyRequest, UserResource } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, CirclePlusIcon, EyeIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
@@ -54,8 +49,8 @@ const props = defineProps<UserMemberIndexProps>();
 
 const alert = useAlert();
 
-const selectedRows = ref<UserMemberIndexResource[]>([]);
-const rowsActions: DataTableRowsAction<UserMemberIndexResource>[] = [
+const selectedRows = ref<UserResource[]>([]);
+const rowsActions: DataTableRowsAction<UserResource>[] = [
     {
         label: trans('trash'),
         icon: ArchiveIcon,
@@ -114,7 +109,7 @@ const rowsActions: DataTableRowsAction<UserMemberIndexResource>[] = [
             }),
     },
 ];
-const rowActions: DataTableRowAction<UserMemberIndexResource>[] = [
+const rowActions: DataTableRowAction<UserResource>[] = [
     {
         type: 'href',
         label: trans('edit'),
@@ -126,7 +121,7 @@ const rowActions: DataTableRowAction<UserMemberIndexResource>[] = [
         type: 'href',
         label: trans('view'),
         icon: EyeIcon,
-        hidden: (user) => user.can_update,
+        hidden: (user) => user.can_update ?? false,
         disabled: (user) => !user.can_view,
         href: (member) => route('users.members.edit', { member }),
     },
