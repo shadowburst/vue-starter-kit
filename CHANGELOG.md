@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/shadowburst/vue-starter-kit/compare/v1.0.0...v1.0.1) (2025-09-10)
+
+
+### Bug Fixes
+
+* **js:** warnings after update ([a594031](https://github.com/shadowburst/vue-starter-kit/commit/a594031e9923534d054adf10081212e1326f0b24))
+
+
+### Miscellaneous Chores
+
+* **style:** auto-format ([0b208f9](https://github.com/shadowburst/vue-starter-kit/commit/0b208f929832643f1a97528ea6abd0c8587f0f28))
+
 ## 1.0.0 (2025-09-01)
 
 
