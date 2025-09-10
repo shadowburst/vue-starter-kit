@@ -28,7 +28,7 @@ import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useAlert, useFilters, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
-import { type TeamIndexProps, type TeamIndexRequest, type TeamResource, type TeamOneOrManyRequest } from '@/types';
+import { type TeamIndexProps, type TeamIndexRequest, type TeamOneOrManyRequest, type TeamResource } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, CirclePlusIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';

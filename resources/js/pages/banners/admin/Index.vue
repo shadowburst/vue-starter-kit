@@ -27,12 +27,7 @@ import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Switch } from '@/components/ui/switch';
 import { useAlert, useFilters, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
-import type {
-    BannerAdminIndexProps,
-    BannerAdminIndexRequest,
-    BannerResource,
-    BannerOneOrManyRequest,
-} from '@/types';
+import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerOneOrManyRequest, BannerResource } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { CirclePlusIcon, PencilIcon, ToggleLeftIcon, ToggleRightIcon, Trash2Icon } from 'lucide-vue-next';
