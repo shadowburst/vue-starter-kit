@@ -1,9 +1,9 @@
 <script lang="ts">
-export type FormContext<TForm extends FormDataType> = {
+export type FormContext<TForm extends FormDataType<TForm>> = {
     form: InertiaForm<TForm>;
     disabled: Ref<boolean>;
 };
-export function injectFormContext<TForm extends FormDataType>(fallback?: FormContext<TForm>): FormContext<TForm> {
+export function injectFormContext<TForm extends FormDataType<TForm>>(fallback?: FormContext<TForm>): FormContext<TForm> {
     const context = inject('FormContext', fallback);
 
     if (!context) {
@@ -12,12 +12,12 @@ export function injectFormContext<TForm extends FormDataType>(fallback?: FormCon
 
     return context;
 }
-export function provideFormContext<TForm extends FormDataType>(contextValue: FormContext<TForm>) {
+export function provideFormContext<TForm extends FormDataType<TForm>>(contextValue: FormContext<TForm>) {
     return provide('FormContext', contextValue);
 }
 </script>
 
-<script setup lang="ts" generic="TForm extends FormDataType">
+<script setup lang="ts" generic="TForm extends FormDataType<TForm>">
 import { cn } from '@/lib/utils';
 import { FormDataType } from '@/types';
 import { InertiaForm } from '@inertiajs/vue3';

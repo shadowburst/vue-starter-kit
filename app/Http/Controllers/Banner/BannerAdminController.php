@@ -27,6 +27,7 @@ class BannerAdminController extends Controller
                 fn () => BannerResource::collect(
                     Banner::query()
                         ->search($data->q)
+                        ->when(! is_null($data->is_enabled), fn (Builder $q) => $q->whereIsEnabled($data->is_enabled))
                         ->orderBy($data->sort_by, $data->sort_direction)
                         ->paginate(
                             perPage: $data->per_page ?? Config::integer('default.per_page'),

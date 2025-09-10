@@ -43,21 +43,17 @@ const sidebarNavItems = useRouterComputed((): NavItemHref[] => [
 
 <template>
     <Section>
-        <SectionContent>
-            <div class="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
-                <aside class="min-w-48">
-                    <ResponsiveTabs :tabs="sidebarNavItems" orientation="vertical">
-                        <ResponsiveTabsTrigger align="start" />
-                    </ResponsiveTabs>
-                </aside>
+        <SectionContent class="flex flex-col gap-x-8 gap-y-4 md:flex-row">
+            <aside class="min-w-48">
+                <ResponsiveTabs :tabs="sidebarNavItems" orientation="vertical" variant="ghost">
+                    <ResponsiveTabsTrigger align="start" />
+                </ResponsiveTabs>
+            </aside>
 
-                <Separator class="md:hidden" />
+            <Separator class="md:hidden" />
 
-                <div class="flex-1 md:max-w-2xl">
-                    <section class="max-w-xl space-y-8">
-                        <slot />
-                    </section>
-                </div>
+            <div class="flex-1 space-y-8 *:not-[.w-full]:max-w-xl">
+                <slot />
             </div>
         </SectionContent>
     </Section>

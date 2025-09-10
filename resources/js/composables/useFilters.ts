@@ -2,32 +2,32 @@ import { FormDataType } from '@/types';
 import { router, VisitOptions } from '@inertiajs/core';
 import { InertiaForm, useForm } from '@inertiajs/vue3';
 import { reactiveOmit, toReactive, useDebounceFn, useSessionStorage } from '@vueuse/core';
-import { isEqual } from 'es-toolkit';
+import { isEqual } from 'lodash-es';
 import { computed, nextTick, watch, WatchOptions } from 'vue';
 
-type FiltersParams<TForm extends FormDataType> = {
+type FiltersParams<TForm extends FormDataType<TForm>> = {
     [K in keyof TForm]: NonNullable<TForm[K]>;
 };
-type FiltersOptions<TForm extends FormDataType> = VisitOptions &
+type FiltersOptions<TForm extends FormDataType<TForm>> = VisitOptions &
     WatchOptions & {
         transform?: (data: TForm) => TForm;
         onReload?: (key: (keyof TForm)[]) => void;
         debounceReload?: (key: (keyof TForm)[]) => boolean;
     };
-export type FiltersForm<TForm extends FormDataType> = InertiaForm<TForm> & {
+export type FiltersForm<TForm extends FormDataType<TForm>> = InertiaForm<TForm> & {
     params: FiltersParams<TForm>;
 };
 
-export default function useFilters<TForm extends FormDataType>(
+export default function useFilters<TForm extends FormDataType<TForm>>(
     data: TForm | (() => TForm),
     options?: FiltersOptions<TForm>,
 ): FiltersForm<TForm>;
-export default function useFilters<TForm extends FormDataType>(
+export default function useFilters<TForm extends FormDataType<TForm>>(
     rememberKey: string,
     data: TForm | (() => TForm),
     options?: FiltersOptions<TForm>,
 ): FiltersForm<TForm>;
-export function useFilters<TForm extends FormDataType>(
+export function useFilters<TForm extends FormDataType<TForm>>(
     rememberKeyOrData: string | TForm | (() => TForm),
     maybeDataOrOptions?: TForm | (() => TForm) | FiltersOptions<TForm>,
     maybeOptions: FiltersOptions<TForm> = {},
@@ -102,7 +102,8 @@ export function useFilters<TForm extends FormDataType>(
             }
 
             const keys = Object.keys(newValue).filter(
-                (key) => !isEqual(newValue[key], oldValue[key]),
+                (key) =>
+                    !isEqual(newValue[key as keyof FiltersParams<TForm>], oldValue[key as keyof FiltersParams<TForm>]),
             ) as (keyof TForm)[];
 
             if (options.debounceReload?.(keys) ?? true) {

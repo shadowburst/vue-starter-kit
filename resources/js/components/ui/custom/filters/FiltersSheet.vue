@@ -1,13 +1,13 @@
 <script lang="ts">
-type Field<TForm extends FormDataType> = keyof TForm;
+type Field<TForm extends FormDataType<TForm>> = keyof TForm;
 
-type FiltersSheetRootContext<TForm extends FormDataType> = {
+type FiltersSheetRootContext<TForm extends FormDataType<TForm>> = {
     filters: FiltersForm<TForm>;
     fields: Ref<Field<TForm>[]>;
     count: Ref<number>;
     data: Ref<Arrayable<string> | undefined>;
 };
-export function injectFiltersSheetRootContext<TForm extends FormDataType>(
+export function injectFiltersSheetRootContext<TForm extends FormDataType<TForm>>(
     fallback?: FiltersSheetRootContext<TForm>,
 ): FiltersSheetRootContext<TForm> {
     const context = inject('FiltersSheetRoot', fallback);
@@ -18,14 +18,14 @@ export function injectFiltersSheetRootContext<TForm extends FormDataType>(
 
     return context;
 }
-export function provideFiltersSheetRootContext<TForm extends FormDataType>(
+export function provideFiltersSheetRootContext<TForm extends FormDataType<TForm>>(
     contextValue: FiltersSheetRootContext<TForm>,
 ) {
     return provide('FiltersSheetRoot', contextValue);
 }
 </script>
 
-<script setup lang="ts" generic="TForm extends FormDataType">
+<script setup lang="ts" generic="TForm extends FormDataType<TForm>">
 import { Sheet } from '@/components/ui/sheet';
 import { FiltersForm } from '@/composables';
 import { FormDataType } from '@/types';
@@ -49,12 +49,17 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
 const data = computed(() => props.data);
 const fields = computed((): Field<TForm>[] =>
-    Object.keys({ ...props.filters.data(), ...props.filters.params }).filter(
-        (key) => props.pick.includes(key) || !props.omit.includes(key),
-    ),
+    Object.keys({ ...props.filters.data(), ...props.filters.params })
+        .map((key) => key as keyof TForm)
+        .filter((key) => props.pick.includes(key) || !props.omit.includes(key)),
 );
 
-const count = computed(() => Object.keys(props.filters.params).filter((key) => fields.value.includes(key)).length);
+const count = computed(
+    () =>
+        Object.keys(props.filters.params)
+            .map((key) => key as keyof TForm)
+            .filter((key) => fields.value.includes(key)).length,
+);
 
 provideFiltersSheetRootContext({
     filters: props.filters,
