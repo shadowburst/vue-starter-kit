@@ -3,7 +3,9 @@ export type FormContext<TForm extends FormDataType<TForm>> = {
     form: InertiaForm<TForm>;
     disabled: Ref<boolean>;
 };
-export function injectFormContext<TForm extends FormDataType<TForm>>(fallback?: FormContext<TForm>): FormContext<TForm> {
+export function injectFormContext<TForm extends FormDataType<TForm>>(
+    fallback?: FormContext<TForm>,
+): FormContext<TForm> {
     const context = inject('FormContext', fallback);
 
     if (!context) {
