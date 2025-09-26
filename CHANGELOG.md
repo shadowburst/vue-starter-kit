@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.0](https://github.com/shadowburst/vue-starter-kit/compare/v1.0.0...v1.1.0) (2025-09-26)
+
+
+### Features
+
+* **ui:** auto expand sidebar on hover. Closes [#10](https://github.com/shadowburst/vue-starter-kit/issues/10) ([4f90d40](https://github.com/shadowburst/vue-starter-kit/commit/4f90d406253bc30b18aa0299dc5e47ab175bc321))
+
+
+### Bug Fixes
+
+* **js:** warnings after update ([a594031](https://github.com/shadowburst/vue-starter-kit/commit/a594031e9923534d054adf10081212e1326f0b24))
+
+
+### Miscellaneous Chores
+
+* **style:** auto-format ([dcfe8cd](https://github.com/shadowburst/vue-starter-kit/commit/dcfe8cd07b495fbb48277c3cfd22e9be3fb855cd))
+* **style:** auto-format ([0b208f9](https://github.com/shadowburst/vue-starter-kit/commit/0b208f929832643f1a97528ea6abd0c8587f0f28))
+
 ## 1.0.0 (2025-09-01)
 
 
