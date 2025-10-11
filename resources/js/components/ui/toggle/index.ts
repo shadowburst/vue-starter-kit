@@ -1,4 +1,5 @@
-import { cva, type VariantProps } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 
 export { default as Toggle } from './Toggle.vue';
 
@@ -17,7 +18,7 @@ export const toggleVariants = cva(
             },
         },
         defaultVariants: {
-            variant: 'outline',
+            variant: 'default',
             size: 'default',
         },
     },

@@ -23,20 +23,20 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 <template>
     <div
         v-if="collapsible === 'none'"
-        v-bind="$attrs"
         data-slot="sidebar"
         :class="cn('bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col', props.class)"
+        v-bind="$attrs"
     >
         <slot />
     </div>
 
-    <Sheet v-else-if="isMobile" v-bind="$attrs" :open="openMobile" @update:open="setOpenMobile">
+    <Sheet v-else-if="isMobile" :open="openMobile" v-bind="$attrs" @update:open="setOpenMobile">
         <SheetContent
-            class="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
             data-sidebar="sidebar"
             data-slot="sidebar"
             data-mobile="true"
             :side="side"
+            class="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
             :style="{
                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
             }"
@@ -52,8 +52,8 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
     </Sheet>
 
     <div
-        class="group peer text-sidebar-foreground hidden md:block"
         v-else
+        class="group peer text-sidebar-foreground hidden md:block"
         data-slot="sidebar"
         :data-state="state"
         :data-collapsible="state === 'collapsed' ? collapsible : ''"
@@ -74,7 +74,6 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             "
         />
         <div
-            v-bind="$attrs"
             :class="
                 cn(
                     'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
@@ -88,10 +87,11 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
                     props.class,
                 )
             "
+            v-bind="$attrs"
         >
             <div
-                class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
                 data-sidebar="sidebar"
+                class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
             >
                 <slot />
             </div>

@@ -3,7 +3,8 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
 import { ChevronRight } from 'lucide-vue-next';
-import { CalendarNext, type CalendarNextProps, useForwardProps } from 'reka-ui';
+import type { CalendarNextProps } from 'reka-ui';
+import { CalendarNext, useForwardProps } from 'reka-ui';
 import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<CalendarNextProps & { class?: HTMLAttributes['class'] }>();
@@ -15,7 +16,6 @@ const forwardedProps = useForwardProps(delegatedProps);
 
 <template>
     <CalendarNext
-        v-bind="forwardedProps"
         data-slot="calendar-next-button"
         :class="
             cn(
@@ -25,6 +25,7 @@ const forwardedProps = useForwardProps(delegatedProps);
                 props.class,
             )
         "
+        v-bind="forwardedProps"
     >
         <slot>
             <ChevronRight class="size-4" />

@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
-import {
-    NavigationMenuRoot,
-    type NavigationMenuRootEmits,
-    type NavigationMenuRootProps,
-    useForwardPropsEmits,
-} from 'reka-ui';
+import type { NavigationMenuRootEmits, NavigationMenuRootProps } from 'reka-ui';
+import { NavigationMenuRoot, useForwardPropsEmits } from 'reka-ui';
 import type { HTMLAttributes } from 'vue';
 import NavigationMenuViewport from './NavigationMenuViewport.vue';
 
@@ -29,9 +25,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
 <template>
     <NavigationMenuRoot
-        v-bind="forwarded"
         data-slot="navigation-menu"
         :data-viewport="viewport"
+        v-bind="forwarded"
         :class="cn('group/navigation-menu relative flex max-w-max flex-1 items-center justify-center', props.class)"
     >
         <slot />

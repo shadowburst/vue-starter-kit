@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { buttonVariants, type ButtonVariants } from '@/components/ui/button';
+import type { ButtonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
 import { ChevronRightIcon } from 'lucide-vue-next';
@@ -25,9 +26,9 @@ const forwarded = useForwardProps(delegatedProps);
 
 <template>
     <PaginationNext
-        v-bind="forwarded"
         data-slot="pagination-next"
         :class="cn(buttonVariants({ variant: 'ghost', size }), 'gap-1 px-2.5 sm:pr-2.5', props.class)"
+        v-bind="forwarded"
     >
         <slot>
             <span class="hidden sm:block">Next</span>

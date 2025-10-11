@@ -2,7 +2,8 @@
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
-import { CalendarCellTrigger, type CalendarCellTriggerProps, useForwardProps } from 'reka-ui';
+import type { CalendarCellTriggerProps } from 'reka-ui';
+import { CalendarCellTrigger, useForwardProps } from 'reka-ui';
 import type { HTMLAttributes } from 'vue';
 
 const props = withDefaults(defineProps<CalendarCellTriggerProps & { class?: HTMLAttributes['class'] }>(), {
@@ -16,7 +17,6 @@ const forwardedProps = useForwardProps(delegatedProps);
 
 <template>
     <CalendarCellTrigger
-        v-bind="forwardedProps"
         data-slot="calendar-cell-trigger"
         :class="
             cn(
@@ -34,6 +34,7 @@ const forwardedProps = useForwardProps(delegatedProps);
                 props.class,
             )
         "
+        v-bind="forwardedProps"
     >
         <slot />
     </CalendarCellTrigger>

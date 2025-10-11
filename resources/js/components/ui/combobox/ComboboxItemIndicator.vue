@@ -1,24 +1,19 @@
 <script setup lang="ts">
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-    ComboboxItemIndicatorProps,
-    injectComboboxItemContext,
-    injectComboboxRootContext,
-    useForwardProps,
-} from 'reka-ui';
+import { cn } from '@/lib/utils';
+import { reactiveOmit } from '@vueuse/core';
+import type { ComboboxItemIndicatorProps } from 'reka-ui';
+import { ComboboxItemIndicator, useForwardProps } from 'reka-ui';
+import type { HTMLAttributes } from 'vue';
 
-const props = defineProps<ComboboxItemIndicatorProps>();
-const forwarded = useForwardProps(props);
+const props = defineProps<ComboboxItemIndicatorProps & { class?: HTMLAttributes['class'] }>();
 
-const { multiple, modelValue } = injectComboboxRootContext();
-const { isSelected } = injectComboboxItemContext();
+const delegatedProps = reactiveOmit(props, 'class');
+
+const forwarded = useForwardProps(delegatedProps);
 </script>
 
 <template>
-    <Checkbox
-        v-if="multiple || modelValue"
-        v-bind="forwarded"
-        :model-value="isSelected"
-        :class="{ invisible: !multiple && !isSelected }"
-    />
+    <ComboboxItemIndicator data-slot="combobox-item-indicator" v-bind="forwarded" :class="cn('ml-auto', props.class)">
+        <slot />
+    </ComboboxItemIndicator>
 </template>

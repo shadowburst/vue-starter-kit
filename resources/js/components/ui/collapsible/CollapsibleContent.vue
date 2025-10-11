@@ -1,25 +1,12 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
-import { CollapsibleContent, type CollapsibleContentProps } from 'reka-ui';
-import { HTMLAttributes } from 'vue';
+import type { CollapsibleContentProps } from 'reka-ui';
+import { CollapsibleContent } from 'reka-ui';
 
-type Props = CollapsibleContentProps & {
-    class?: HTMLAttributes['class'];
-};
-const props = defineProps<Props>();
+const props = defineProps<CollapsibleContentProps>();
 </script>
 
 <template>
-    <CollapsibleContent
-        v-bind="props"
-        data-slot="collapsible-content"
-        :class="
-            cn(
-                'data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down overflow-hidden transition-all',
-                props.class,
-            )
-        "
-    >
+    <CollapsibleContent data-slot="collapsible-content" v-bind="props">
         <slot />
     </CollapsibleContent>
 </template>
