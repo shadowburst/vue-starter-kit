@@ -20,7 +20,7 @@ const { user } = useAuth();
                             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                             size="lg"
                         >
-                            <UserAvatar class="size-8" :user />
+                            <UserAvatar :user />
                             <div class="grid flex-1 text-left text-sm leading-tight">
                                 <span class="truncate font-medium">{{ user.full_name }}</span>
                             </div>

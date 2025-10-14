@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
-import { Avatar, AvatarFallback, AvatarProps } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import type { MediaResource } from '@/types';
 import { reactiveOmit } from '@vueuse/core';
 import { useAxios } from '@vueuse/integrations/useAxios.mjs';
 import { useForwardProps } from 'reka-ui';
-import { ref, watch } from 'vue';
+import { HTMLAttributes, ref, watch } from 'vue';
 
-type Props = AvatarProps & {
+type Props = {
     media?: MediaResource;
+    class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
 const delegatedProps = reactiveOmit(props, 'media', 'class');
@@ -35,7 +36,7 @@ watch(
 
 <template>
     <Avatar v-bind="forwarded" :class="cn('p-1', props.class)">
-        <AvatarFallback class="rounded-lg" v-if="!svgSrc">
+        <AvatarFallback class="rounded-lg bg-transparent" v-if="!svgSrc">
             <AppLogoIcon />
         </AvatarFallback>
         <AvatarFallback class="rounded-lg *:size-full *:fill-current" v-else as-child>

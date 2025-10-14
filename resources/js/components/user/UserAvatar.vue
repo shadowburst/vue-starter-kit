@@ -1,16 +1,27 @@
 <script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage, AvatarProps } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
 import type { PartialPick, UserResource } from '@/types';
-import { reactiveOmit } from '@vueuse/core';
-import { useForwardProps } from 'reka-ui';
-import { computed } from 'vue';
+import { cva, VariantProps } from 'class-variance-authority';
+import { computed, HTMLAttributes } from 'vue';
 
-type Props = AvatarProps & {
+const avatarVariant = cva('', {
+    variants: {
+        size: {
+            sm: 'size-10 text-xs',
+            base: 'size-16 text-2xl',
+            lg: 'size-32 text-5xl',
+        },
+    },
+});
+type AvatarVariants = VariantProps<typeof avatarVariant>;
+
+type Props = {
     user: PartialPick<UserResource, 'first_name' | 'last_name'>;
+    size?: AvatarVariants['size'];
+    class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
-const delegatedProps = reactiveOmit(props, 'user');
-const forwarded = useForwardProps(delegatedProps);
 
 const initials = computed(() =>
     [props.user.first_name[0]?.toUpperCase(), props.user.last_name[0]?.toUpperCase()].filter(Boolean).join(''),
@@ -18,7 +29,7 @@ const initials = computed(() =>
 </script>
 
 <template>
-    <Avatar v-bind="forwarded" :key="user.avatar?.id">
+    <Avatar :key="user.avatar?.id" :class="cn(avatarVariant({ size }), props.class)">
         <AvatarImage v-if="user.avatar" :src="user.avatar.url" :alt="user.full_name" />
         <AvatarFallback class="text-foreground rounded-lg">
             {{ initials }}

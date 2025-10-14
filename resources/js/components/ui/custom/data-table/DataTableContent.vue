@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="TData">
-import { LoadingIcon } from '@/components/ui/custom/loading';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TabsContent } from '@/components/ui/tabs';
 import { injectDataTableRootContext } from './DataTable.vue';
@@ -30,7 +30,7 @@ const { loading, rows } = injectDataTableRootContext<TData>();
                     </TableRow>
                 </TableBody>
                 <div class="absolute inset-0 grid place-items-center">
-                    <LoadingIcon variant="primary" />
+                    <Spinner class="text-primary" />
                 </div>
             </Table>
             <Table v-else>
@@ -41,7 +41,7 @@ const { loading, rows } = injectDataTableRootContext<TData>();
     </TabsContent>
     <TabsContent v-else-if="tab === 'card'" :value="tab">
         <div class="grid place-items-center p-4" v-if="loading">
-            <LoadingIcon variant="primary" />
+            <Spinner class="text-primary" />
         </div>
         <template v-else-if="rows.length">
             <slot />

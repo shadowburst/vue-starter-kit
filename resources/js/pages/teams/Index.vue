@@ -57,7 +57,7 @@ const rowsActions: DataTableRowsAction<TeamResource>[] = [
         disabled: (items) => items.some((team) => !team.can_trash),
         callback: (items) =>
             alert({
-                variant: 'warning',
+                variant: 'destructive',
                 description: transChoice('messages.teams.trash.confirm', items.length),
                 callback: () =>
                     router.delete<TeamOneOrManyRequest>(route('teams.trash'), {
@@ -75,7 +75,6 @@ const rowsActions: DataTableRowsAction<TeamResource>[] = [
         disabled: (items) => items.some((team) => !team.can_restore),
         callback: (items) =>
             alert({
-                variant: 'success',
                 description: transChoice('messages.teams.restore.confirm', items.length),
                 callback: () =>
                     router.patch<TeamOneOrManyRequest>(
@@ -123,7 +122,7 @@ const rowActions: DataTableRowAction<TeamResource>[] = [
         disabled: (team) => !team.can_trash,
         callback: (team) =>
             alert({
-                variant: 'warning',
+                variant: 'destructive',
                 description: transChoice('messages.teams.trash.confirm', 1),
                 callback: () =>
                     router.delete<TeamOneOrManyRequest>(route('teams.trash', { team }), {
@@ -138,7 +137,6 @@ const rowActions: DataTableRowAction<TeamResource>[] = [
         disabled: (team) => !team.can_restore,
         callback: (team) =>
             alert({
-                variant: 'success',
                 description: transChoice('messages.teams.restore.confirm', 1),
                 callback: () =>
                     router.patch<TeamOneOrManyRequest>(route('teams.restore', { team }), undefined, {

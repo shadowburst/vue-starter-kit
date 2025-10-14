@@ -126,7 +126,7 @@ const mainNavItems: NavItemHref[] = [
                                 variant="ghost"
                                 size="icon"
                             >
-                                <UserAvatar class="size-8 overflow-hidden rounded-full" :user />
+                                <UserAvatar :user />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent class="w-56" align="end">

@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import { Button, ButtonProps } from '@/components/ui/button';
-import { LoadingIcon } from '@/components/ui/custom/loading';
+import { Button } from '@/components/ui/button';
 import { CapitalizeText } from '@/components/ui/custom/typography';
+import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import { reactiveOmit } from '@vueuse/core';
 import { SaveIcon } from 'lucide-vue-next';
-import { useForwardProps } from 'reka-ui';
-import { computed } from 'vue';
+import { computed, HTMLAttributes } from 'vue';
 import { injectFormContext } from './Form.vue';
 
-type Props = ButtonProps & {
+type Props = {
     disabled?: boolean;
+    class?: HTMLAttributes['class'];
 };
-const props = withDefaults(defineProps<Props>(), {
-    type: 'submit',
-});
-const delegatedProps = reactiveOmit(props, 'disabled', 'class');
-const forwarded = useForwardProps(delegatedProps);
+const props = defineProps<Props>();
 
 const { form, disabled: formDisabled } = injectFormContext();
 
@@ -26,14 +21,9 @@ const disabled = computed(() => formDisabled.value || props.disabled || loading.
 </script>
 
 <template>
-    <Button
-        v-if="!formDisabled"
-        v-bind="forwarded"
-        :class="cn('relative', loading && 'disabled:opacity-100', props.class)"
-        :disabled
-    >
+    <Button v-if="!formDisabled" :class="cn('relative', loading && 'disabled:opacity-100', props.class)" :disabled>
         <div class="absolute inset-0 grid place-items-center" v-if="loading">
-            <LoadingIcon />
+            <Spinner />
         </div>
         <div class="contents" :class="{ invisible: loading }">
             <slot>

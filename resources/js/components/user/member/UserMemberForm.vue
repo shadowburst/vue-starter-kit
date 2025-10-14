@@ -35,7 +35,7 @@ const { form } = injectFormContext<UserMemberFormData>();
                     collection="avatar"
                     type="image"
                 >
-                    <UserAvatar size="lg" shape="circle" :user="form" />
+                    <UserAvatar :user="form" />
                 </MediaInput>
             </FormControl>
             <FormError :message="form.errors.avatar" />

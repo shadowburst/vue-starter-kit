@@ -1,5 +1,5 @@
 <script lang="ts">
-export type AppAlertDialogVariant = 'default' | 'success' | 'warning' | 'destructive';
+export type AppAlertDialogVariant = 'default' | 'destructive';
 export type AppAlertDialogParams = {
     variant: AppAlertDialogVariant;
     title?: string;

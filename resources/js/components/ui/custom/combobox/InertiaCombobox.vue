@@ -27,8 +27,8 @@ import {
     ComboboxList,
     ComboboxTrigger,
 } from '@/components/ui/combobox';
-import { LoadingIcon } from '@/components/ui/custom/loading';
 import { CapitalizeText } from '@/components/ui/custom/typography';
+import { Spinner } from '@/components/ui/spinner';
 import { useArrayWrap, usePageProp } from '@/composables';
 import { cn } from '@/lib/utils';
 import { WhenVisible } from '@inertiajs/vue3';
@@ -178,7 +178,7 @@ const placeholder = computed(() => {
             <WhenVisible v-if="!Array.isArray(data) && !pageOptions.length" :data>
                 <template #fallback>
                     <div class="grid place-items-center py-2">
-                        <LoadingIcon variant="primary" />
+                        <Spinner class="text-primary" />
                     </div>
                 </template>
                 <ComboboxEmpty>

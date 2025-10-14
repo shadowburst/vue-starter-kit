@@ -17,7 +17,10 @@ const banner = computed(() => usePage().props.banner);
 </script>
 
 <template>
-    <div v-if="banner" :class="cn('bg-warning/20 grid items-stretch rounded-t-xl border-b sm:flex', props.class)">
+    <div
+        v-if="banner"
+        :class="cn('bg-muted text-muted-foreground grid items-stretch rounded-t-xl border-b sm:flex', props.class)"
+    >
         <Alert class="grow border-0 bg-transparent">
             <InfoIcon />
             <AlertTitle>

@@ -57,7 +57,7 @@ const rowsActions: DataTableRowsAction<UserResource>[] = [
         disabled: (items) => items.some((user) => !user.can_trash),
         callback: (items) =>
             alert({
-                variant: 'warning',
+                variant: 'destructive',
                 description: transChoice('messages.users.members.trash.confirm', items.length),
                 callback: () =>
                     router.delete<UserMemberOneOrManyRequest>(route('users.members.trash'), {
@@ -75,7 +75,6 @@ const rowsActions: DataTableRowsAction<UserResource>[] = [
         disabled: (items) => items.some((user) => !user.can_restore),
         callback: (items) =>
             alert({
-                variant: 'success',
                 description: transChoice('messages.users.members.restore.confirm', items.length),
                 callback: () =>
                     router.patch<UserMemberOneOrManyRequest>(
@@ -132,7 +131,7 @@ const rowActions: DataTableRowAction<UserResource>[] = [
         disabled: (user) => !user.can_trash,
         callback: (member) =>
             alert({
-                variant: 'warning',
+                variant: 'destructive',
                 description: transChoice('messages.users.members.trash.confirm', 1),
                 callback: () =>
                     router.delete<UserMemberOneOrManyRequest>(route('users.members.trash', { member }), {
@@ -147,7 +146,6 @@ const rowActions: DataTableRowAction<UserResource>[] = [
         disabled: (user) => !user.can_restore,
         callback: (member) =>
             alert({
-                variant: 'success',
                 description: transChoice('messages.users.members.restore.confirm', 1),
                 callback: () =>
                     router.patch<UserMemberOneOrManyRequest>(route('users.members.restore', { member }), undefined, {
