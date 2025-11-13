@@ -7,32 +7,38 @@ use Illuminate\Support\Facades\Gate;
 
 trait HasPolicy
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $policies = [
+        'view',
+        'update',
+        'delete',
+    ];
+
     public static function bootHasPolicy(): void {}
 
-    public function initializeHasPolicy(): void {}
-
-    protected function canView(): Attribute
+    public function initializeHasPolicy(): void
     {
-        return Attribute::get(fn (): bool => Gate::check('view', $this));
+        if ($this->is_trashable) {
+            $this->policies[] = 'trash';
+            $this->policies[] = 'restore';
+        }
     }
 
-    protected function canUpdate(): Attribute
+    public function getPolicies(): array
     {
-        return Attribute::get(fn (): bool => Gate::check('update', $this));
+        return $this->policies;
     }
 
-    protected function canTrash(): Attribute
+    protected function policy(): Attribute
     {
-        return Attribute::get(fn (): bool => $this->is_trashable && Gate::check('trash', $this));
-    }
-
-    protected function canRestore(): Attribute
-    {
-        return Attribute::get(fn (): bool => $this->is_trashable && Gate::check('restore', $this));
-    }
-
-    protected function canDelete(): Attribute
-    {
-        return Attribute::get(fn (): bool => Gate::check('delete', $this));
+        return Attribute::get(
+            fn (): array => collect($this->getPolicies())
+                ->mapWithKeys(fn (string $permission) => [$permission => Gate::check($permission, $this)])
+                ->toArray(),
+        );
     }
 }

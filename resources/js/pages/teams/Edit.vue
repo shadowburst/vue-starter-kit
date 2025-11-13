@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TeamForm from '@/components/team/TeamForm.vue';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormActions, FormSubmitButton } from '@/components/ui/custom/form';
 import { useLayout, useTeamForm } from '@/composables';
 import { TeamsFormLayout } from '@/layouts';
 import { TeamFormProps } from '@/types';
@@ -45,11 +45,13 @@ function submit() {
                     {{ $t('pages.teams.edit.description') }}
                 </CardDescription>
             </CardHeader>
-            <CardContent class="sm:flex">
+            <CardContent>
                 <TeamForm :team autofocus />
             </CardContent>
             <CardFooter>
-                <FormSubmitButton />
+                <FormActions>
+                    <FormSubmitButton />
+                </FormActions>
             </CardFooter>
         </Card>
     </Form>

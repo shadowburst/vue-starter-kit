@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Data\Settings\Profile;
+namespace App\Data\Settings\Account;
 
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class EditProfileSettingsProps extends Resource
+class EditAccountSettingsProps extends Resource
 {
     public function __construct(
-        public bool $mustVerifyEmail,
+        //
     ) {}
 }

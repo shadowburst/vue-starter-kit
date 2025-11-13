@@ -4,9 +4,9 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Banner\BannerDismissController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\Settings\AccountSettingsController;
 use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
-use App\Http\Controllers\Settings\ProfileSettingsController;
 use App\Http\Controllers\Settings\SecuritySettingsController;
 use App\Http\Controllers\Team\TeamController;
 use App\Http\Controllers\Team\TeamFirstController;
@@ -38,8 +38,8 @@ Route::middleware(['auth', 'auth.team', 'auth.include', 'banner.include'])->grou
     });
 
     Route::prefix('/settings')->name('settings.')->group(function () {
-        Route::redirect('/', '/settings/profile')->name('index');
-        Route::prefix('/profile')->name('profile.')->controller(ProfileSettingsController::class)->group(function () {
+        Route::redirect('/', '/settings/account')->name('index');
+        Route::prefix('/account')->name('account.')->controller(AccountSettingsController::class)->group(function () {
             Route::get('/', 'edit')->name('edit');
             Route::patch('/', 'update')->name('update');
             Route::delete('/', 'destroy')->name('destroy');

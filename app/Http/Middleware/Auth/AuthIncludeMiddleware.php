@@ -38,7 +38,7 @@ class AuthIncludeMiddleware
 
         Inertia::share([
             'auth' => [
-                'user'      => UserResource::from($user)->include('permissions'),
+                'user'      => UserResource::from($user)->include('avatar'),
                 'abilities' => UserAbilitiesResource::from($user),
                 'team'      => TeamResource::from(Services::team()->current()),
             ],

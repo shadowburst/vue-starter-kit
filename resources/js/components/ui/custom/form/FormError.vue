@@ -1,24 +1,15 @@
 <script setup lang="ts">
-import { ErrorText } from '@/components/ui/custom/typography';
-import { watch } from 'vue';
+import { FieldError } from '@/components/ui/field';
+import { useArrayMap } from '@vueuse/core';
 import { injectFormFieldContext } from './FormField.vue';
 
-type Props = {
-    message?: string;
-};
-const props = defineProps<Props>();
-
-const { errorId, error } = injectFormFieldContext();
-
-watch(
-    () => props.message,
-    () => (error.value = props.message),
-    { immediate: true },
+const formContext = injectFormFieldContext();
+const errors = useArrayMap(
+    () => formContext.errors.value,
+    (message) => ({ message }),
 );
 </script>
 
 <template>
-    <ErrorText v-if="error" :id="errorId">
-        {{ error }}
-    </ErrorText>
+    <FieldError :errors />
 </template>

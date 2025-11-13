@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Actions\Settings\Profile;
+namespace App\Actions\Settings\Account;
 
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueueableAction\QueueableAction;
 
-class DeleteProfile
+class DeleteAccount
 {
     use QueueableAction;
 

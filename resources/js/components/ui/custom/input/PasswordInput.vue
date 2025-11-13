@@ -1,35 +1,39 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
+import { reactiveOmit, useToggle } from '@vueuse/core';
 import { EyeIcon, EyeOffIcon } from 'lucide-vue-next';
-import { useForwardExpose, useForwardPropsEmits } from 'reka-ui';
-import { computed, ref } from 'vue';
-import { InputEmits, InputProps } from './interface';
+import { useForwardExpose, useForwardProps } from 'reka-ui';
+import { HTMLAttributes } from 'vue';
 
 defineOptions({
     inheritAttrs: false,
 });
 
-const props = defineProps<InputProps>();
-const emits = defineEmits<InputEmits>();
-const forwarded = useForwardPropsEmits(props, emits);
+type Props = {
+    disabled?: boolean;
+    class?: HTMLAttributes['class'];
+};
+const props = defineProps<Props>();
+const delegatedProps = reactiveOmit(props, 'class');
+const forwarded = useForwardProps(delegatedProps);
 
-const type = ref<InputProps['type']>('password');
-const hidden = computed((): boolean => type.value === 'password');
-function toggle() {
-    type.value = hidden.value ? 'text' : 'password';
-}
+const model = defineModel<string>();
+
+const [type, toggleType] = useToggle('password', {
+    truthyValue: 'password',
+    falsyValue: 'text',
+});
 
 const { forwardRef } = useForwardExpose();
 </script>
 
 <template>
-    <div class="relative w-full">
-        <Input class="pe-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
-        <div class="absolute inset-y-px end-px grid place-items-center" v-if="!disabled">
-            <Button class="h-full rounded-l-none" size="icon" variant="ghost" :tabindex @click="toggle()">
-                <component :is="hidden ? EyeOffIcon : EyeIcon" />
-            </Button>
-        </div>
-    </div>
+    <InputGroup :class="props.class">
+        <InputGroupInput v-bind="{ ...$attrs, ...forwarded }" v-model="model" :type :ref="forwardRef" />
+        <InputGroupAddon align="inline-end">
+            <InputGroupButton size="icon-xs" @click="toggleType()">
+                <component :is="type === 'password' ? EyeOffIcon : EyeIcon" />
+            </InputGroupButton>
+        </InputGroupAddon>
+    </InputGroup>
 </template>

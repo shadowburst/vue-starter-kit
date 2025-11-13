@@ -33,7 +33,7 @@ return [
     ],
 
     'settings' => [
-        'profile'    => 'Profile',
+        'account'    => 'Account',
         'security'   => 'Security',
         'appearance' => 'Appearance',
     ],

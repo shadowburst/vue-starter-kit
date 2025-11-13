@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TeamForm from '@/components/team/TeamForm.vue';
-import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormActions, FormSubmitButton } from '@/components/ui/custom/form';
 import {
     Section,
     SectionContent,
@@ -43,7 +43,7 @@ function submit() {
     <Head :title="$t('pages.teams.create.title')" />
 
     <Form :form @submit="submit()">
-        <Section>
+        <Section class="sm:max-w-fit">
             <SectionHeader>
                 <SectionTitle>
                     {{ $t('pages.teams.create.title') }}
@@ -52,11 +52,13 @@ function submit() {
                     {{ $t('pages.teams.create.description') }}
                 </SectionDescription>
             </SectionHeader>
-            <SectionContent class="sm:flex">
+            <SectionContent>
                 <TeamForm autofocus />
             </SectionContent>
             <SectionFooter>
-                <FormSubmitButton />
+                <FormActions>
+                    <FormSubmitButton />
+                </FormActions>
             </SectionFooter>
         </Section>
     </Form>

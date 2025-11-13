@@ -54,7 +54,7 @@ const rowsActions: DataTableRowsAction<TeamResource>[] = [
     {
         label: trans('trash'),
         icon: ArchiveIcon,
-        disabled: (items) => items.some((team) => !team.can_trash),
+        disabled: (items) => items.some((team) => !team.policy?.trash),
         callback: (items) =>
             alert({
                 variant: 'destructive',
@@ -72,7 +72,7 @@ const rowsActions: DataTableRowsAction<TeamResource>[] = [
     {
         label: trans('restore'),
         icon: ArchiveRestoreIcon,
-        disabled: (items) => items.some((team) => !team.can_restore),
+        disabled: (items) => items.some((team) => !team.policy?.restore),
         callback: (items) =>
             alert({
                 description: transChoice('messages.teams.restore.confirm', items.length),
@@ -92,7 +92,7 @@ const rowsActions: DataTableRowsAction<TeamResource>[] = [
     {
         label: trans('delete'),
         icon: Trash2Icon,
-        disabled: (items) => items.some((team) => !team.can_delete),
+        disabled: (items) => items.some((team) => !team.policy?.delete),
         callback: (items) =>
             alert({
                 variant: 'destructive',
@@ -119,7 +119,7 @@ const rowActions: DataTableRowAction<TeamResource>[] = [
         type: 'callback',
         label: trans('trash'),
         icon: ArchiveIcon,
-        disabled: (team) => !team.can_trash,
+        disabled: (team) => !team.policy?.trash,
         callback: (team) =>
             alert({
                 variant: 'destructive',
@@ -134,7 +134,7 @@ const rowActions: DataTableRowAction<TeamResource>[] = [
         type: 'callback',
         label: trans('restore'),
         icon: ArchiveRestoreIcon,
-        disabled: (team) => !team.can_restore,
+        disabled: (team) => !team.policy?.restore,
         callback: (team) =>
             alert({
                 description: transChoice('messages.teams.restore.confirm', 1),
@@ -148,7 +148,7 @@ const rowActions: DataTableRowAction<TeamResource>[] = [
         type: 'callback',
         label: trans('delete'),
         icon: Trash2Icon,
-        disabled: (team) => !team.can_delete,
+        disabled: (team) => !team.policy?.delete,
         callback: (team) =>
             alert({
                 variant: 'destructive',

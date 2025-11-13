@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions\Settings\Profile;
+namespace App\Actions\Settings\Account;
 
-use App\Data\Settings\Profile\UpdateProfileSettingsRequest;
+use App\Data\Settings\Account\UpdateAccountSettingsRequest;
 use App\Facades\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
-class UpdateProfileSettings
+class UpdateAccountSettings
 {
     use QueueableAction;
 
@@ -16,7 +16,7 @@ class UpdateProfileSettings
         //
     ) {}
 
-    public function execute(UpdateProfileSettingsRequest $data): bool
+    public function execute(UpdateAccountSettingsRequest $data): bool
     {
         DB::beginTransaction();
 

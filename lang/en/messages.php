@@ -39,12 +39,12 @@ return [
                 'success' => 'Password updated successfully',
             ],
         ],
-        'profile' => [
+        'account' => [
             'update' => [
-                'success' => 'Profile updated successfully',
+                'success' => 'Account updated successfully',
             ],
             'delete' => [
-                'success' => 'Profile deleted successfully',
+                'success' => 'Account deleted successfully',
             ],
         ],
     ],

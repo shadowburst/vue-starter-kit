@@ -31,7 +31,7 @@ class UserTeamPermissionData extends Data
     public static function rules(ValidationContext $context): array
     {
         return [
-            'team_id' => [Rule::in(Auth::user()->teams->where('can_update', true)->pluck('id'))],
+            'team_id' => [Rule::in(Auth::user()->teams->where('policy.update', true)->pluck('id'))],
         ];
     }
 }

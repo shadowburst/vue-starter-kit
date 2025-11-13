@@ -54,7 +54,7 @@ const rowsActions: DataTableRowsAction<UserResource>[] = [
     {
         label: trans('trash'),
         icon: ArchiveIcon,
-        disabled: (items) => items.some((user) => !user.can_trash),
+        disabled: (items) => items.some((user) => !user.policy?.trash),
         callback: (items) =>
             alert({
                 variant: 'destructive',
@@ -72,7 +72,7 @@ const rowsActions: DataTableRowsAction<UserResource>[] = [
     {
         label: trans('restore'),
         icon: ArchiveRestoreIcon,
-        disabled: (items) => items.some((user) => !user.can_restore),
+        disabled: (items) => items.some((user) => !user.policy?.restore),
         callback: (items) =>
             alert({
                 description: transChoice('messages.users.members.restore.confirm', items.length),
@@ -92,7 +92,7 @@ const rowsActions: DataTableRowsAction<UserResource>[] = [
     {
         label: trans('delete'),
         icon: Trash2Icon,
-        disabled: (items) => items.some((user) => !user.can_delete),
+        disabled: (items) => items.some((user) => !user.policy?.delete),
         callback: (items) =>
             alert({
                 variant: 'destructive',
@@ -113,22 +113,22 @@ const rowActions: DataTableRowAction<UserResource>[] = [
         type: 'href',
         label: trans('edit'),
         icon: PencilIcon,
-        hidden: (user) => !user.can_update,
+        hidden: (user) => !user.policy?.update,
         href: (member) => route('users.members.edit', { member }),
     },
     {
         type: 'href',
         label: trans('view'),
         icon: EyeIcon,
-        hidden: (user) => user.can_update ?? false,
-        disabled: (user) => !user.can_view,
+        hidden: (user) => user.policy?.update ?? false,
+        disabled: (user) => !user.policy?.view,
         href: (member) => route('users.members.edit', { member }),
     },
     {
         type: 'callback',
         label: trans('trash'),
         icon: ArchiveIcon,
-        disabled: (user) => !user.can_trash,
+        disabled: (user) => !user.policy?.trash,
         callback: (member) =>
             alert({
                 variant: 'destructive',
@@ -143,7 +143,7 @@ const rowActions: DataTableRowAction<UserResource>[] = [
         type: 'callback',
         label: trans('restore'),
         icon: ArchiveRestoreIcon,
-        disabled: (user) => !user.can_restore,
+        disabled: (user) => !user.policy?.restore,
         callback: (member) =>
             alert({
                 description: transChoice('messages.users.members.restore.confirm', 1),
@@ -157,7 +157,7 @@ const rowActions: DataTableRowAction<UserResource>[] = [
         type: 'callback',
         label: trans('delete'),
         icon: Trash2Icon,
-        disabled: (user) => !user.can_delete,
+        disabled: (user) => !user.policy?.delete,
         callback: (member) =>
             alert({
                 variant: 'destructive',

@@ -23,17 +23,13 @@ use Spatie\MediaLibrary\HasMedia;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read bool $can_delete
- * @property-read bool $can_restore
- * @property-read bool $can_trash
- * @property-read bool $can_update
- * @property-read bool $can_view
  * @property-read \App\Models\User|null $creator
  * @property-read true $is_trashable
  * @property bool $is_trashed
  * @property-read \App\Models\Media|null $logo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \App\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read array $policy
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *

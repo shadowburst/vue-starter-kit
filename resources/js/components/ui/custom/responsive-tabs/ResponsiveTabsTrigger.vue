@@ -3,7 +3,7 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useIsDesktop } from '@/composables';
+import { useResponsiveState } from '@/composables';
 import { cn } from '@/lib/utils';
 import { injectTabsRootContext } from 'reka-ui';
 import { HTMLAttributes, ref } from 'vue';
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { tabs, variant } = injectResponsiveTabsRootContext();
 const { modelValue, orientation } = injectTabsRootContext();
 
-const isDesktop = useIsDesktop();
+const { isDesktop } = useResponsiveState();
 
 const open = ref(false);
 </script>

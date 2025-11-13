@@ -80,10 +80,10 @@ return [
 
     'settings' => [
         'title'   => 'Settings',
-        'profile' => [
-            'title'       => 'Profile settings',
+        'account' => [
+            'title'       => 'Account settings',
             'information' => [
-                'title'            => 'Profile information',
+                'title'            => 'Account information',
                 'description'      => 'Update your name and email address',
                 'unverified_email' => 'Your email address is unverified.',
                 'verify_email'     => 'Click here to verify.',

@@ -1,35 +1,39 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
+import { reactiveOmit } from '@vueuse/core';
 import { SearchIcon, XIcon } from 'lucide-vue-next';
-import { useForwardExpose, useForwardPropsEmits } from 'reka-ui';
-import { ref } from 'vue';
-import { InputEmits, InputProps } from './interface';
+import { useForwardExpose, useForwardProps } from 'reka-ui';
+import { HTMLAttributes } from 'vue';
 
 defineOptions({
     inheritAttrs: false,
 });
 
-const props = defineProps<InputProps>();
-const emits = defineEmits<InputEmits>();
-const forwarded = useForwardPropsEmits(props, emits);
+type Props = {
+    disabled?: boolean;
+    class?: HTMLAttributes['class'];
+};
+const props = defineProps<Props>();
+const delegatedProps = reactiveOmit(props, 'class');
+const forwarded = useForwardProps(delegatedProps);
 
-const type = ref<InputProps['type']>('search');
+const model = defineModel<string>();
+
 const { forwardRef } = useForwardExpose();
 </script>
 
 <template>
-    <div class="relative w-full">
-        <div class="absolute inset-y-px start-px grid w-9 place-items-center">
-            <SearchIcon class="size-4" />
-        </div>
-        <Input class="px-10" v-bind="{ ...forwarded, ...$attrs }" :ref="forwardRef" :type />
-        <div class="absolute inset-y-px end-px grid place-items-center" v-if="modelValue && !disabled">
-            <Button class="h-full rounded-l-none" size="icon" variant="ghost" @click="$emit('update:modelValue', '')">
+    <InputGroup :class="props.class">
+        <InputGroupInput v-bind="{ ...$attrs, ...forwarded }" v-model="model" type="search" :ref="forwardRef" />
+        <InputGroupAddon>
+            <SearchIcon />
+        </InputGroupAddon>
+        <InputGroupAddon v-if="model && !disabled" align="inline-end">
+            <InputGroupButton size="icon-xs" @click="model = ''">
                 <XIcon />
-            </Button>
-        </div>
-    </div>
+            </InputGroupButton>
+        </InputGroupAddon>
+    </InputGroup>
 </template>
 
 <style scoped>

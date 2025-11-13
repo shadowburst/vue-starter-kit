@@ -43,11 +43,7 @@ class TeamController extends Controller
                         ->withQueryString(),
                     PaginatedDataCollection::class,
                 )->include(
-                    'can_view',
-                    'can_update',
-                    'can_trash',
-                    'can_restore',
-                    'can_delete',
+                    'policy',
                     'logo',
                 ),
             ),

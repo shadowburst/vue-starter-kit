@@ -1,20 +1,12 @@
 <script setup lang="ts">
+import { PasswordSettingsForm } from '@/components/settings/security';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-    Form,
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormSubmitButton,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
-import { CapitalizeText } from '@/components/ui/custom/typography';
+import { Form, FormSubmitButton } from '@/components/ui/custom/form';
 import { useLayout } from '@/composables';
+import { usePasswordSettingsForm } from '@/composables/settings';
 import { SettingsLayout } from '@/layouts';
-import { EditSecuritySettingsProps, UpdatePasswordSettingsRequest } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
+import { EditSecuritySettingsProps } from '@/types';
+import { Head } from '@inertiajs/vue3';
 
 defineOptions({
     layout: useLayout(SettingsLayout, () => ({})),
@@ -22,11 +14,7 @@ defineOptions({
 
 defineProps<EditSecuritySettingsProps>();
 
-const form = useForm<UpdatePasswordSettingsRequest>({
-    current_password: '',
-    password: '',
-    password_confirmation: '',
-});
+const form = usePasswordSettingsForm();
 
 function submit() {
     form.patch(route('settings.password.update'), {
@@ -49,49 +37,7 @@ function submit() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <FormContent>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.current_password') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput
-                                v-model="form.current_password"
-                                type="password"
-                                autocomplete="current-password"
-                            />
-                        </FormControl>
-                        <FormError :message="form.errors.current_password" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.password" type="password" autocomplete="new-password" />
-                        </FormControl>
-                        <FormError :message="form.errors.password" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password_confirmation') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput
-                                v-model="form.password_confirmation"
-                                type="password"
-                                autocomplete="new-password"
-                            />
-                        </FormControl>
-                        <FormError :message="form.errors.password_confirmation" />
-                    </FormField>
-                </FormContent>
+                <PasswordSettingsForm />
             </CardContent>
             <CardFooter>
                 <FormSubmitButton />

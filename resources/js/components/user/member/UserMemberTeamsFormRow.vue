@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Checkbox } from '@/components/ui/checkbox';
 import { EnumCombobox } from '@/components/ui/custom/combobox';
 import { DataTableCell, DataTableRow } from '@/components/ui/custom/data-table';
-import { FormControl, FormField, FormLabel, injectFormContext } from '@/components/ui/custom/form';
+import { CheckboxField } from '@/components/ui/custom/field';
+import { FormControl, FormField, injectFormContext } from '@/components/ui/custom/form';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { useAuth, UserMemberFormData } from '@/composables';
+import { UserMemberFormData } from '@/composables';
 import { PermissionName, type TeamResource } from '@/types';
 import { computed } from 'vue';
 
@@ -13,16 +13,16 @@ type Props = {
 };
 const props = defineProps<Props>();
 
-const {} = useAuth();
 const { form } = injectFormContext<UserMemberFormData>();
 
 const read = computed<boolean>({
-    get: () => form.team_roles.findIndex(({ team_id, role }) => team_id === props.team.id && role === 'member') > -1,
+    get: () =>
+        form.value.team_roles.findIndex(({ team_id, role }) => team_id === props.team.id && role === 'member') > -1,
     set: (value) => {
         if (value) {
             if (!read.value) {
-                form.team_roles = [
-                    ...form.team_roles,
+                form.value.team_roles = [
+                    ...form.value.team_roles,
                     {
                         team_id: props.team.id,
                         role: 'member',
@@ -30,7 +30,7 @@ const read = computed<boolean>({
                 ];
             }
         } else {
-            form.team_roles = form.team_roles.filter(
+            form.value.team_roles = form.value.team_roles.filter(
                 ({ team_id, role }) => !(team_id === props.team.id && role === 'member'),
             );
             write.value = false;
@@ -38,12 +38,13 @@ const read = computed<boolean>({
     },
 });
 const write = computed<boolean>({
-    get: () => form.team_roles.findIndex(({ team_id, role }) => team_id === props.team.id && role === 'editor') > -1,
+    get: () =>
+        form.value.team_roles.findIndex(({ team_id, role }) => team_id === props.team.id && role === 'editor') > -1,
     set: (value) => {
         if (value) {
             if (!write.value) {
-                form.team_roles = [
-                    ...form.team_roles,
+                form.value.team_roles = [
+                    ...form.value.team_roles,
                     {
                         team_id: props.team.id,
                         role: 'editor',
@@ -52,7 +53,7 @@ const write = computed<boolean>({
             }
             read.value = true;
         } else {
-            form.team_roles = form.team_roles.filter(
+            form.value.team_roles = form.value.team_roles.filter(
                 ({ team_id, role }) => !(team_id === props.team.id && role === 'editor'),
             );
         }
@@ -60,10 +61,12 @@ const write = computed<boolean>({
 });
 const teamPermissions = computed<PermissionName[]>({
     get: () =>
-        form.team_permissions.filter(({ team_id }) => team_id === props.team.id).map(({ permission }) => permission),
+        form.value.team_permissions
+            .filter(({ team_id }) => team_id === props.team.id)
+            .map(({ permission }) => permission),
     set: (value) => {
-        form.team_permissions = [
-            ...form.team_permissions.filter(({ team_id }) => team_id !== props.team.id),
+        form.value.team_permissions = [
+            ...form.value.team_permissions.filter(({ team_id }) => team_id !== props.team.id),
             ...value.map((permission) => ({
                 team_id: props.team.id,
                 permission,
@@ -80,29 +83,11 @@ const teamPermissions = computed<PermissionName[]>({
                 {{ team.name }}
             </CapitalizeText>
         </DataTableCell>
-        <DataTableCell>
-            <FormField>
-                <FormLabel>
-                    <FormControl>
-                        <Checkbox v-model="read" />
-                    </FormControl>
-                    <CapitalizeText>
-                        {{ $t('read') }}
-                    </CapitalizeText>
-                </FormLabel>
-            </FormField>
+        <DataTableCell class="p-2!">
+            <CheckboxField v-model="read" :label="$t('read')" />
         </DataTableCell>
-        <DataTableCell>
-            <FormField>
-                <FormLabel>
-                    <FormControl>
-                        <Checkbox v-model="write" />
-                    </FormControl>
-                    <CapitalizeText>
-                        {{ $t('write') }}
-                    </CapitalizeText>
-                </FormLabel>
-            </FormField>
+        <DataTableCell class="p-2!">
+            <CheckboxField v-model="write" :label="$t('write')" />
         </DataTableCell>
         <DataTableCell>
             <FormField>

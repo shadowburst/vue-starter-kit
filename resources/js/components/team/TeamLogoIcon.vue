@@ -9,7 +9,7 @@ import { useForwardProps } from 'reka-ui';
 import { HTMLAttributes, ref, watch } from 'vue';
 
 type Props = {
-    media?: MediaResource;
+    media: MediaResource | null | undefined;
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();

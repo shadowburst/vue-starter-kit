@@ -2,27 +2,31 @@
 
 namespace App\Data\User;
 
+use App\Attributes\ModelPolicy;
 use App\Data\Media\MediaResource;
 use App\Data\Team\TeamResource;
 use App\Data\User\Team\UserTeamPermissionData;
 use App\Data\User\Team\UserTeamRoleData;
-use App\Enums\Permission\PermissionName;
 use App\Facades\Services;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
+use App\Traits\WithModel;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
-use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Resource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 class UserResource extends Resource
 {
+    use WithModel;
+
+    protected string $modelClass = User::class;
+
     public function __construct(
         public int $id,
 
@@ -40,6 +44,8 @@ class UserResource extends Resource
 
         public string $email,
 
+        public ?Carbon $email_verified_at,
+
         public ?string $phone,
 
         public ?int $creator_id,
@@ -54,24 +60,17 @@ class UserResource extends Resource
 
         public Lazy|bool $is_trashed,
 
-        public Lazy|bool $can_view,
+        #[ModelPolicy(User::class)]
+        public Lazy|array $policy,
 
-        public Lazy|bool $can_update,
-
-        public Lazy|bool $can_trash,
-
-        public Lazy|bool $can_restore,
-
-        public Lazy|bool $can_delete,
-
-        /** @var Lazy|array<PermissionName> */
+        /** @var Lazy|array<\App\Enums\Permission\PermissionName> */
         public Lazy|array $permissions,
 
-        public Lazy|Optional|MediaResource $avatar,
+        public Lazy|null|MediaResource $avatar,
 
-        public Lazy|UserResource $owner,
+        public Lazy|null|UserResource $owner,
 
-        public Lazy|TeamResource $team,
+        public Lazy|null|TeamResource $team,
 
         #[DataCollectionOf(UserResource::class)]
         public Lazy|DataCollection $active_members,
@@ -91,74 +90,70 @@ class UserResource extends Resource
 
     public static function fromModel(User $user): static
     {
-        return static::from([
-            'id'             => $user->id,
-            'is_admin'       => $user->is_admin,
-            'owner_id'       => $user->owner_id,
-            'team_id'        => $user->team_id,
-            'first_name'     => $user->first_name,
-            'last_name'      => $user->last_name,
-            'full_name'      => $user->full_name,
-            'email'          => $user->email,
-            'phone'          => $user->phone,
-            'creator_id'     => $user->creator_id,
-            'deleted_at'     => $user->deleted_at,
-            'is_owner'       => Lazy::create(fn () => $user->is_owner),
-            'is_member'      => Lazy::create(fn () => $user->is_member),
-            'is_editor'      => Lazy::create(fn () => $user->is_editor),
-            'is_trashed'     => Lazy::create(fn () => $user->is_trashed),
-            'can_view'       => Lazy::create(fn () => $user->can_view),
-            'can_update'     => Lazy::create(fn () => $user->can_update),
-            'can_trash'      => Lazy::create(fn () => $user->can_trash),
-            'can_restore'    => Lazy::create(fn () => $user->can_restore),
-            'can_delete'     => Lazy::create(fn () => $user->can_delete),
-            'permissions'    => Lazy::create(fn () => $user->getAllPermissions()->map->name),
-            'avatar'         => Lazy::create(fn () => $user->avatar ? MediaResource::from($user->avatar) : Optional::create()),
-            'owner'          => Lazy::create(fn () => UserResource::from($user->owner)),
-            'team'           => Lazy::create(fn () => TeamResource::from($user->team)),
-            'active_members' => Lazy::create(fn () => UserResource::collect($user->activeMembers)),
-            'members'        => Lazy::create(fn () => UserResource::collect($user->members)),
-            'teams'          => Lazy::create(fn () => TeamResource::collect($user->teams)),
-            'team_roles'     => Lazy::create(
-                function () use ($user) {
-                    $teamRoles = collect();
+        $dto = new static(
+            id                : $user->id,
+            is_admin          : $user->is_admin,
+            owner_id          : $user->owner_id,
+            team_id           : $user->team_id,
+            first_name        : $user->first_name,
+            last_name         : $user->last_name,
+            full_name         : $user->full_name,
+            email             : $user->email,
+            email_verified_at : $user->email_verified_at,
+            phone             : $user->phone,
+            creator_id        : $user->creator_id,
+            deleted_at        : $user->deleted_at,
+            is_owner          : Lazy::create(fn () => $user->is_owner),
+            is_member         : Lazy::create(fn () => $user->is_member),
+            is_editor         : Lazy::create(fn () => $user->is_editor),
+            is_trashed        : Lazy::create(fn () => $user->is_trashed),
+            policy            : Lazy::create(fn () => $user->policy),
+            permissions       : Lazy::create(fn () => $user->getAllPermissions()->map->name),
+            avatar            : Lazy::create(fn () => $user->avatar ? MediaResource::from($user->avatar) : null),
+            owner             : Lazy::create(fn () => $user->owner ? UserResource::from($user->owner) : null),
+            team              : Lazy::create(fn () => $user->team ? TeamResource::from($user->team) : null),
+            active_members    : Lazy::create(fn () => UserResource::collect($user->activeMembers)),
+            members           : Lazy::create(fn () => UserResource::collect($user->members)),
+            teams             : Lazy::create(fn () => TeamResource::collect($user->teams)),
+            team_roles        : Lazy::create(function () use ($user) {
+                $teamRoles = collect();
 
-                    Services::team()->forEachTeam(
-                        $user->teams,
-                        function (Team $team) use ($user, $teamRoles) {
-                            $user->unsetRelation('roles');
-                            $teamRoles->push(...$user->roles->map(
-                                fn (Role $role) => [
-                                    'team_id' => $team->id,
-                                    'role'    => $role->name,
-                                ],
-                            ));
-                        },
-                    );
+                Services::team()->forEachTeam(
+                    $user->teams,
+                    function (Team $team) use ($user, $teamRoles) {
+                        $user->unsetRelation('roles');
+                        $teamRoles->push(...$user->roles->map(
+                            fn (Role $role) => [
+                                'team_id' => $team->id,
+                                'role'    => $role->name,
+                            ],
+                        ));
+                    },
+                );
 
-                    return UserTeamRoleData::collect($teamRoles);
-                },
-            ),
-            'team_permissions' => Lazy::create(
-                function () use ($user) {
-                    $teamPermissions = collect();
+                return UserTeamRoleData::collect($teamRoles);
+            }),
+            team_permissions  : Lazy::create(function () use ($user) {
+                $teamPermissions = collect();
+                Services::team()->forEachTeam(
+                    $user->teams,
+                    function (Team $team) use ($user, $teamPermissions) {
+                        $user->unsetRelation('permissions');
+                        $teamPermissions->push(...$user->getDirectPermissions()->map(
+                            fn (Permission $permission) => [
+                                'team_id'    => $team->id,
+                                'permission' => $permission->name,
+                            ],
+                        ));
+                    },
+                );
 
-                    Services::team()->forEachTeam(
-                        $user->teams,
-                        function (Team $team) use ($user, $teamPermissions) {
-                            $user->unsetRelation('permissions');
-                            $teamPermissions->push(...$user->getDirectPermissions()->map(
-                                fn (Permission $permission) => [
-                                    'team_id'    => $team->id,
-                                    'permission' => $permission->name,
-                                ],
-                            ));
-                        },
-                    );
+                return UserTeamPermissionData::collect($teamPermissions);
+            }),
+        );
 
-                    return UserTeamPermissionData::collect($teamPermissions);
-                },
-            ),
-        ], );
+        $dto->model = $user;
+
+        return $dto;
     }
 }

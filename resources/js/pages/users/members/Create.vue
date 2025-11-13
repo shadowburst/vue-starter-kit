@@ -44,7 +44,7 @@ function submit() {
     <Head :title="$t('pages.users.members.create.title')" />
 
     <Form :form @submit="submit()">
-        <Section>
+        <Section class="sm:max-w-fit">
             <SectionHeader>
                 <SectionTitle>
                     {{ $t('pages.users.members.create.title') }}
@@ -53,10 +53,10 @@ function submit() {
                     {{ $t('pages.users.members.create.description') }}
                 </SectionDescription>
             </SectionHeader>
-            <SectionContent class="sm:flex">
+            <SectionContent>
                 <UserMemberForm />
             </SectionContent>
-            <SectionContent class="sm:flex">
+            <SectionContent>
                 <UserMemberTeamsForm />
             </SectionContent>
             <SectionFooter>

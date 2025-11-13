@@ -44,11 +44,7 @@ class UserMemberController extends Controller
                     PaginatedDataCollection::class,
                 )
                     ->include(
-                        'can_view',
-                        'can_update',
-                        'can_trash',
-                        'can_restore',
-                        'can_delete',
+                        'policy',
                         'avatar',
                     ),
             ),
@@ -92,11 +88,7 @@ class UserMemberController extends Controller
 
         return Inertia::render('users/members/Edit', UserMemberFormProps::from([
             'user' => UserResource::from($member->load(['avatar']))->include(
-                'can_view',
-                'can_update',
-                'can_trash',
-                'can_restore',
-                'can_delete',
+                'policy',
                 'avatar',
                 'team_roles',
                 'team_permissions',

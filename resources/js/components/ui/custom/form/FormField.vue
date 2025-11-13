@@ -1,57 +1,61 @@
 <script lang="ts">
+export type FormFieldProps = {
+    id?: string;
+    name?: string;
+    label?: string;
+    description?: string;
+    errors?: Arrayable<string>;
+    required?: boolean;
+    disabled?: boolean;
+    orientation?: FieldVariants['orientation'];
+    class?: HTMLAttributes['class'];
+};
 type FormFieldContext = {
     id: Ref<string>;
     name: Ref<string>;
+    label: Ref<string | undefined>;
+    description: Ref<string | undefined>;
+    errors: Ref<string[]>;
     required: Ref<boolean>;
     disabled: Ref<boolean>;
-    descriptionId: Ref<string>;
-    errorId: Ref<string>;
-    error: Ref<string | undefined>;
 };
 
 export const [injectFormFieldContext, provideFormFieldContext] = createContext<FormFieldContext>('FormFieldContext');
 </script>
 
 <script setup lang="ts">
+import { Field, FieldVariants } from '@/components/ui/field';
+import { useArrayWrap } from '@/composables';
 import { cn } from '@/lib/utils';
-import { toRefs } from '@vueuse/core';
+import { Arrayable, toRefs } from '@vueuse/core';
 import { createContext } from 'reka-ui';
-import { computed, HTMLAttributes, ref, Ref, useId } from 'vue';
+import { computed, HTMLAttributes, Ref, useId } from 'vue';
 import { injectFormContext } from './Form.vue';
 
-type Props = {
-    id?: string;
-    name?: string;
-    required?: boolean;
-    disabled?: boolean;
-    class?: HTMLAttributes['class'];
-};
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FormFieldProps>(), {
     id: () => useId(),
 });
 
 const { disabled: formDisabled } = injectFormContext();
 const disabled = computed((): boolean => props.disabled || formDisabled.value);
 
-const { id, required } = toRefs(props);
+const { id, label, description, required } = toRefs(props);
 const name = computed((): string => props.name ?? id.value);
-const descriptionId = computed((): string => `${id.value}-description`);
-const errorId = computed((): string => `${id.value}-error`);
-const error = ref<string>();
+const errors = computed(() => useArrayWrap(props.errors).value.map((message) => message));
 
 provideFormFieldContext({
     id,
     name,
+    label,
+    description,
+    errors,
     required,
     disabled,
-    descriptionId,
-    errorId,
-    error,
 });
 </script>
 
 <template>
-    <div :class="cn('grid gap-1', props.class)">
+    <Field :orientation :data-invalid="errors.length > 0 || undefined" :class="cn('', props.class)">
         <slot />
-    </div>
+    </Field>
 </template>

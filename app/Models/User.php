@@ -48,11 +48,6 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read \App\Models\Media|null $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Banner> $banners
  * @property-read int|null $banners_count
- * @property-read bool $can_delete
- * @property-read bool $can_restore
- * @property-read bool $can_trash
- * @property-read bool $can_update
- * @property-read bool $can_view
  * @property-read User|null $creator
  * @property-read bool $is_editor
  * @property-read bool $is_member
@@ -70,6 +65,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property-read User|null $owner
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
  * @property-read int|null $permissions_count
+ * @property-read array $policy
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Role> $roles
  * @property-read int|null $roles_count
  * @property-read \App\Models\Team|null $team

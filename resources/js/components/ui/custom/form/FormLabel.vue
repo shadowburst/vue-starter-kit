@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Label } from '@/components/ui/label';
+import { CapitalizeText } from '@/components/ui/custom/typography';
+import { FieldLabel } from '@/components/ui/field';
 import { cn } from '@/lib/utils';
 import { LabelProps } from 'reka-ui';
 import { HTMLAttributes } from 'vue';
@@ -10,20 +11,18 @@ type Props = LabelProps & {
 };
 const props = defineProps<Props>();
 
-const { id, required } = injectFormFieldContext();
+const { id, label, required } = injectFormFieldContext();
 </script>
 
 <template>
-    <Label
-        :for="props.for ?? id"
-        :aria-required="required"
-        :class="
-            cn(
-                `not-[&:has([role=checkbox])]:aria-required:after:text-destructive gap-1 text-xs font-medium not-[&:has([role=checkbox])]:aria-required:after:content-['*'] [&:has([role=checkbox])]:gap-2`,
-                props.class,
-            )
-        "
-    >
-        <slot />
-    </Label>
+    <FieldLabel v-if="label" :for="props.for ?? id" :aria-required="required" :class="cn('gap-1', props.class)">
+        <slot :label>
+            <CapitalizeText>
+                {{ label }}
+            </CapitalizeText>
+            <span v-if="required !== false" class="text-muted-foreground text-xs italic">
+                ({{ $t(required ? 'required' : 'optional') }})
+            </span>
+        </slot>
+    </FieldLabel>
 </template>

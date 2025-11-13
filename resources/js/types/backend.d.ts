@@ -51,10 +51,8 @@ export type ConfirmPasswordRequest = {
 };
 export type DashboardAdminIndexProps = {};
 export type DashboardIndexProps = {};
+export type EditAccountSettingsProps = {};
 export type EditAppearanceSettingsProps = {};
-export type EditProfileSettingsProps = {
-    mustVerifyEmail: boolean;
-};
 export type EditSecuritySettingsProps = {};
 export type ForgotPasswordProps = {
     status?: string;
@@ -160,13 +158,9 @@ export type TeamResource = {
     name: string;
     settings?: TeamSettingsData;
     deleted_at?: string;
-    can_view?: boolean;
-    can_update?: boolean;
-    can_trash?: boolean;
-    can_restore?: boolean;
-    can_delete?: boolean;
-    creator?: UserResource;
-    logo?: MediaResource;
+    creator?: UserResource | null;
+    logo?: MediaResource | null;
+    policy?: Record<'view' | 'update' | 'delete' | 'trash' | 'restore', boolean>;
 };
 export type TeamSettingsData = {};
 export type ToastMessagesData = {
@@ -176,17 +170,17 @@ export type ToastMessagesData = {
     error?: string;
 };
 export type TrashedFilter = 'only' | 'with';
-export type UpdatePasswordSettingsRequest = {
-    current_password: string;
-    password: string;
-    password_confirmation: string;
-};
-export type UpdateProfileSettingsRequest = {
+export type UpdateAccountSettingsRequest = {
     first_name: string;
     last_name: string;
     phone?: string;
     email: string;
     avatar?: string;
+};
+export type UpdatePasswordSettingsRequest = {
+    current_password: string;
+    password: string;
+    password_confirmation: string;
 };
 export type UserAbilitiesResource = {
     teams: { view_any: boolean; create: boolean };
@@ -250,6 +244,7 @@ export type UserResource = {
     last_name: string;
     full_name: string;
     email: string;
+    email_verified_at?: string;
     phone?: string;
     creator_id?: number;
     deleted_at?: string;
@@ -257,15 +252,11 @@ export type UserResource = {
     is_member?: boolean;
     is_editor?: boolean;
     is_trashed?: boolean;
-    can_view?: boolean;
-    can_update?: boolean;
-    can_trash?: boolean;
-    can_restore?: boolean;
-    can_delete?: boolean;
+    policy?: Record<'view' | 'update' | 'delete' | 'trash' | 'restore', boolean>;
     permissions?: Array<PermissionName>;
-    avatar?: MediaResource;
-    owner?: UserResource;
-    team?: TeamResource;
+    avatar?: MediaResource | null;
+    owner?: UserResource | null;
+    team?: TeamResource | null;
     active_members?: Array<UserResource>;
     members?: Array<UserResource>;
     teams?: Array<TeamResource>;

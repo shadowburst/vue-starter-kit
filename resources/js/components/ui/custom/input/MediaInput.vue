@@ -32,7 +32,7 @@ const { modelType, modelId, collection, type = 'other', ...props } = defineProps
 const model = defineModel<MediaResource>();
 const error = defineModel<string>('error');
 
-const { execute } = useAxios<MediaResource>();
+const { execute: storeMedia } = useAxios<MediaResource>();
 
 const accept = computed(() => {
     if (props.accept) {
@@ -57,7 +57,7 @@ async function submit(event: Event) {
         return;
     }
 
-    execute(route('media.store', { modelType, modelId, collection }), {
+    storeMedia(route('media.store', { modelType, modelId, collection }), {
         method: 'POST',
         data: objectToFormData({ file }),
     })

@@ -14,7 +14,9 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
-        @inertia
+        <div vaul-drawer-wrapper>
+            @inertia
+        </div>
 
         @if (app()->hasDebugModeEnabled())
         <script>

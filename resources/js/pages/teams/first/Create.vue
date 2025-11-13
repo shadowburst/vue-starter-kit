@@ -28,10 +28,10 @@ function submit() {
 
     <Form :form @submit="submit()">
         <Section>
-            <SectionContent>
+            <SectionContent class="sm:flex">
                 <TeamForm autofocus />
             </SectionContent>
-            <SectionFooter class="grid">
+            <SectionFooter>
                 <FormSubmitButton />
 
                 <div class="text-muted-foreground space-x-1 text-center text-sm">

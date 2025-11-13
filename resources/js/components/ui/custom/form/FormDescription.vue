@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
-import type { HTMLAttributes } from 'vue';
+import { FieldDescription } from '@/components/ui/field';
 import { injectFormFieldContext } from './FormField.vue';
 
-type Props = {
-    class?: HTMLAttributes['class'];
-};
-const props = defineProps<Props>();
-
-const { descriptionId } = injectFormFieldContext();
+const { description } = injectFormFieldContext();
 </script>
 
 <template>
-    <p :id="descriptionId" :class="cn('text-muted-foreground text-sm', props.class)">
-        <slot />
-    </p>
+    <FieldDescription v-if="description">
+        {{ description }}
+    </FieldDescription>
 </template>

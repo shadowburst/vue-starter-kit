@@ -1,21 +1,24 @@
 <script setup lang="ts">
+import { FieldDescription, FieldLabel, FieldSet } from '@/components/ui/field';
 import { cn } from '@/lib/utils';
-import { reactiveOmit } from '@vueuse/core';
-import { Primitive, PrimitiveProps, useForwardProps } from 'reka-ui';
 import { HTMLAttributes } from 'vue';
 
-type Props = PrimitiveProps & {
+type Props = {
+    title?: string;
+    description?: string;
     class?: HTMLAttributes['class'];
 };
-const props = withDefaults(defineProps<Props>(), {
-    as: 'div',
-});
-const delegatedProps = reactiveOmit(props, 'class');
-const forwarded = useForwardProps(delegatedProps);
+const props = defineProps<Props>();
 </script>
 
 <template>
-    <Primitive v-bind="forwarded" :class="cn('grid gap-4', props.class)">
+    <FieldSet :class="cn('', props.class)">
+        <FieldLabel v-if="props.title">
+            {{ props.title }}
+        </FieldLabel>
+        <FieldDescription v-if="props.description">
+            {{ props.description }}
+        </FieldDescription>
         <slot />
-    </Primitive>
+    </FieldSet>
 </template>

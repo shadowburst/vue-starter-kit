@@ -21,10 +21,10 @@ defineOptions({
 
 const sidebarNavItems = useRouterComputed((): NavItemHref[] => [
     {
-        title: trans('layouts.settings.profile'),
-        href: route('settings.profile.edit'),
+        title: trans('layouts.settings.account'),
+        href: route('settings.account.edit'),
         icon: UserIcon,
-        isActive: route().current('settings.profile.edit'),
+        isActive: route().current('settings.account.edit'),
     },
     {
         title: trans('layouts.settings.security'),

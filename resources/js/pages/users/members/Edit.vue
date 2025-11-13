@@ -44,8 +44,8 @@ function submit() {
 <template>
     <Head :title="$t('pages.users.members.edit.title')" />
 
-    <Form :form :disabled="!user!.can_update" @submit="submit()">
-        <Section>
+    <Form :form :disabled="!user?.policy?.update" @submit="submit()">
+        <Section class="sm:max-w-fit">
             <SectionHeader>
                 <SectionTitle>
                     {{ $t('pages.users.members.edit.title') }}
@@ -54,10 +54,10 @@ function submit() {
                     {{ $t('pages.users.members.edit.description') }}
                 </SectionDescription>
             </SectionHeader>
-            <SectionContent class="sm:flex">
-                <UserMemberForm />
+            <SectionContent>
+                <UserMemberForm :user />
             </SectionContent>
-            <SectionContent class="sm:flex">
+            <SectionContent>
                 <UserMemberTeamsForm />
             </SectionContent>
             <SectionFooter>

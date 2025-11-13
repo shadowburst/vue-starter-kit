@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Data\Settings\Profile;
+namespace App\Data\Settings\Account;
 
 use App\Attributes\Media;
 use App\Models\User;
-use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\FromAuthenticatedUser;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Attributes\Validation\Email;
+use Spatie\LaravelData\Attributes\Validation\Unique;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Support\Validation\References\AuthenticatedUserReference;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\Hidden;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[MergeValidationRules]
-class UpdateProfileSettingsRequest extends Data
+class UpdateAccountSettingsRequest extends Data
 {
     public function __construct(
         #[Hidden]
@@ -29,6 +30,7 @@ class UpdateProfileSettingsRequest extends Data
         public ?string $phone,
 
         #[Email]
+        #[Unique('users', 'email', ignore: new AuthenticatedUserReference)]
         public string $email,
 
         #[Media]
@@ -50,7 +52,7 @@ class UpdateProfileSettingsRequest extends Data
     public static function rules(ValidationContext $context): array
     {
         return [
-            'email' => [Rule::unique(User::class)->ignore(request()->user())],
+            //
         ];
     }
 }
