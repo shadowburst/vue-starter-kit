@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.0](https://github.com/shadowburst/vue-starter-kit/compare/v1.0.0...v1.1.0) (2025-11-13)
+
+
+### Features
+
+* **form:** use field components & rename profile to account ([a7e0855](https://github.com/shadowburst/vue-starter-kit/commit/a7e08557721f742ae5f5ffdad489ae70bcc2500a))
+* **js:** update shadcn components ([fbfe15a](https://github.com/shadowburst/vue-starter-kit/commit/fbfe15a603bcd6e7dba6220e9167b11fd3375e51))
+* **ui:** auto expand sidebar on hover. Closes [#10](https://github.com/shadowburst/vue-starter-kit/issues/10) ([4f90d40](https://github.com/shadowburst/vue-starter-kit/commit/4f90d406253bc30b18aa0299dc5e47ab175bc321))
+
+
+### Bug Fixes
+
+* **js:** warnings after update ([a594031](https://github.com/shadowburst/vue-starter-kit/commit/a594031e9923534d054adf10081212e1326f0b24))
+* **ts:** tsc errors and warnings ([316f505](https://github.com/shadowburst/vue-starter-kit/commit/316f505d3a70360f23330fcaf82c0b2d7b4d30ce))
+
+
+### Miscellaneous Chores
+
+* **style:** auto-format ([dcfe8cd](https://github.com/shadowburst/vue-starter-kit/commit/dcfe8cd07b495fbb48277c3cfd22e9be3fb855cd))
+* **style:** auto-format ([0b208f9](https://github.com/shadowburst/vue-starter-kit/commit/0b208f929832643f1a97528ea6abd0c8587f0f28))
+
 ## 1.0.0 (2025-09-01)
 
 
