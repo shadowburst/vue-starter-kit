@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PasswordSettingsForm } from '@/components/settings/security';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormActions, FormSubmitButton } from '@/components/ui/custom/form';
 import { useLayout } from '@/composables';
 import { usePasswordSettingsForm } from '@/composables/settings';
 import { SettingsLayout } from '@/layouts';
@@ -40,7 +40,9 @@ function submit() {
                 <PasswordSettingsForm />
             </CardContent>
             <CardFooter>
-                <FormSubmitButton />
+                <FormActions>
+                    <FormSubmitButton />
+                </FormActions>
             </CardFooter>
         </Card>
     </Form>
