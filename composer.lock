@@ -9514,7 +9514,7 @@
                         "Pest\\Plugins\\Only",
                         "Pest\\Plugins\\Printer",
                         "Pest\\Plugins\\ProcessIsolation",
-                        "Pest\\Plugins\\Account",
+                        "Pest\\Plugins\\Profile",
                         "Pest\\Plugins\\Retry",
                         "Pest\\Plugins\\Snapshot",
                         "Pest\\Plugins\\Verbose",
