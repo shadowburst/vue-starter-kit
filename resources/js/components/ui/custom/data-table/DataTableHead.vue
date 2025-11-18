@@ -11,7 +11,12 @@ const props = defineProps<Props>();
 
 <template>
     <TableHead
-        :class="cn('text-xs uppercase [&:has([role=actions])]:pl-0 [&:has([role=actions])]:text-end', props.class)"
+        :class="
+            cn(
+                'text-xs uppercase [&:has([role=actions])]:pl-0 [&:has([role=actions])]:text-end [&:has([role=checkbox])]:w-1',
+                props.class,
+            )
+        "
     >
         <slot />
     </TableHead>
