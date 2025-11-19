@@ -20,7 +20,7 @@ trait HasTeams
     public function teams(): MorphToMany
     {
         return $this->morphToMany(Team::class, 'model', 'model_has_roles')
-            ->distinct();
+            ->distinct([app(Team::class)->getQualifiedKeyName()]);
     }
 
     public function trashedTeams(): MorphToMany

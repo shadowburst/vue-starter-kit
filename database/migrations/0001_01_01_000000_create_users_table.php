@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('owner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('full_name')->virtualAs('CONCAT_WS(" ", first_name, last_name)');
+            $table->string('full_name')->virtualAs("first_name || ' ' || last_name");
             $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
