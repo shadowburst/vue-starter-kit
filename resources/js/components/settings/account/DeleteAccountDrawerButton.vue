@@ -75,7 +75,7 @@ function submit() {
                     />
                 </FormContent>
                 <DrawerFooter>
-                    <FormSubmitButton :disabled="!form.password" variant="destructive">
+                    <FormSubmitButton :disabled="!form.password" variant="destructive" :icon="false">
                         {{ $t('components.settings.account.delete_dialog.action') }}
                     </FormSubmitButton>
                     <DrawerClose as-child @click="form.reset()">

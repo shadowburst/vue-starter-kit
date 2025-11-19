@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormActions, FormGroup, FormSubmitButton } from '@/components/ui/custom/form';
 import {
     Section,
     SectionContent,
@@ -8,8 +8,7 @@ import {
     SectionHeader,
     SectionTitle,
 } from '@/components/ui/custom/section';
-import UserMemberForm from '@/components/user/member/UserMemberForm.vue';
-import UserMemberTeamsForm from '@/components/user/member/UserMemberTeamsForm.vue';
+import { UserMemberForm, UserMemberTeamsForm } from '@/components/user/member';
 import { useLayout, useUserMemberForm } from '@/composables';
 import { AppLayout } from '@/layouts';
 import { UserMemberFormProps } from '@/types';
@@ -44,7 +43,7 @@ function submit() {
     <Head :title="$t('pages.users.members.create.title')" />
 
     <Form :form @submit="submit()">
-        <Section class="sm:max-w-fit">
+        <Section class="sm:max-w-xl">
             <SectionHeader>
                 <SectionTitle>
                     {{ $t('pages.users.members.create.title') }}
@@ -54,13 +53,15 @@ function submit() {
                 </SectionDescription>
             </SectionHeader>
             <SectionContent>
-                <UserMemberForm />
-            </SectionContent>
-            <SectionContent>
-                <UserMemberTeamsForm />
+                <FormGroup>
+                    <UserMemberForm />
+                    <UserMemberTeamsForm />
+                </FormGroup>
             </SectionContent>
             <SectionFooter>
-                <FormSubmitButton />
+                <FormActions>
+                    <FormSubmitButton />
+                </FormActions>
             </SectionFooter>
         </Section>
     </Form>

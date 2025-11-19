@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Form, FormContent, FormControl, FormError, FormField, FormSubmitButton } from '@/components/ui/custom/form';
+import { OTPField } from '@/components/ui/custom/field';
+import { Form, FormContent, FormSubmitButton } from '@/components/ui/custom/form';
 import { TextLink } from '@/components/ui/custom/link';
 import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { VerifyEmailProps, VerifyEmailRequest } from '@/types';
@@ -25,9 +25,9 @@ function resend() {
     resendForm.post(route('verification.send'));
 }
 
-const form = useForm({
-    code: [] as number[],
-}).transform((data): VerifyEmailRequest => ({ code: data.code.join('') }));
+const form = useForm<VerifyEmailRequest>({
+    code: '',
+});
 
 function submit() {
     form.clearErrors();
@@ -44,21 +44,15 @@ function submit() {
         <Section>
             <SectionContent>
                 <FormContent>
-                    <FormField id="code" required :disabled="form.processing">
-                        <FormControl>
-                            <PinInput v-model="form.code" otp type="number" placeholder="○" @complete="submit()">
-                                <PinInputGroup>
-                                    <PinInputSlot class="size-14 text-xl" v-for="(key, index) in 6" :key :index />
-                                </PinInputGroup>
-                            </PinInput>
-                        </FormControl>
-                        <FormError :message="form.errors.code" />
-                    </FormField>
+                    <OTPField v-model="form.code" :errors="form.errors.code" required class="mx-auto w-auto" />
                 </FormContent>
             </SectionContent>
-            <SectionFooter class="grid">
+            <SectionFooter>
+                <FormSubmitButton :icon="false">
+                    {{ $t('verify') }}
+                </FormSubmitButton>
                 <Form class="grid" :form="resendForm" @submit="resend()">
-                    <FormSubmitButton variant="secondary">
+                    <FormSubmitButton variant="secondary" :icon="false">
                         {{ $t('pages.auth.verify_email.resend_email') }}
                     </FormSubmitButton>
                 </Form>

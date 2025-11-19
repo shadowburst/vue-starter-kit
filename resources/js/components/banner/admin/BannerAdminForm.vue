@@ -1,69 +1,41 @@
 <script setup lang="ts">
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormProps,
-    injectFormContext,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
-import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Textarea } from '@/components/ui/textarea';
+import { CheckboxField, TextareaField, TextField } from '@/components/ui/custom/field';
+import { FormContent, FormProps, injectFormContext } from '@/components/ui/custom/form';
 import { BannerAdminFormData } from '@/composables';
+import { cn } from '@/lib/utils';
 
-defineProps<FormProps>();
+const props = defineProps<FormProps>();
 
 const { form } = injectFormContext<BannerAdminFormData>();
 </script>
 
 <template>
-    <FormContent class="sm:grid-cols-2">
-        <FormField required>
-            <FormLabel>
-                <CapitalizeText>
-                    {{ $t('models.banner.fields.name') }}
-                </CapitalizeText>
-            </FormLabel>
-            <FormControl>
-                <TextInput v-model="form.name" :autofocus />
-            </FormControl>
-            <FormError :message="form.errors.name" />
-        </FormField>
-        <FormField>
-            <FormLabel>
-                <CapitalizeText>
-                    {{ $t('models.banner.fields.action') }}
-                </CapitalizeText>
-            </FormLabel>
-            <FormControl>
-                <TextInput v-model="form.action" type="url" />
-            </FormControl>
-            <FormError :message="form.errors.action" />
-        </FormField>
-        <FormField class="col-span-full" required>
-            <FormLabel>
-                <CapitalizeText>
-                    {{ $t('models.banner.fields.message') }}
-                </CapitalizeText>
-            </FormLabel>
-            <FormControl>
-                <Textarea v-model="form.message" />
-            </FormControl>
-            <FormError :message="form.errors.message" />
-        </FormField>
-        <FormField>
-            <FormLabel>
-                <FormControl>
-                    <Checkbox v-model="form.is_enabled" />
-                </FormControl>
-                <CapitalizeText>
-                    {{ $t('models.banner.fields.is_enabled') }}
-                </CapitalizeText>
-            </FormLabel>
-            <FormError :message="form.errors.is_enabled" />
-        </FormField>
+    <FormContent :class="cn('sm:grid-cols-2', props.class)">
+        <TextField
+            v-model="form.name"
+            :label="$t('models.banner.fields.name')"
+            :errors="form.errors.name"
+            autofocus
+            required
+        />
+        <TextField
+            v-model="form.action"
+            :label="$t('models.banner.fields.action')"
+            :errors="form.errors.action"
+            type="url"
+        />
+        <TextareaField
+            v-model="form.message"
+            :label="$t('models.banner.fields.message')"
+            :errors="form.errors.message"
+            class="col-span-full"
+            required
+            :maxlength="255"
+        />
+        <CheckboxField
+            v-model="form.is_enabled"
+            :label="$t('models.banner.fields.is_enabled')"
+            :errors="form.errors.is_enabled"
+        />
     </FormContent>
 </template>

@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import {
-    Form,
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormSubmitButton,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
+import { TextField } from '@/components/ui/custom/field';
+import { Form, FormContent, FormSubmitButton } from '@/components/ui/custom/form';
 import { TextLink } from '@/components/ui/custom/link';
 import { Section, SectionContent, SectionFooter, SectionHeader } from '@/components/ui/custom/section';
-import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ForgotPasswordProps, ForgotPasswordRequest } from '@/types';
@@ -53,21 +44,19 @@ function submit() {
             </SectionHeader>
             <SectionContent>
                 <FormContent>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.email') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.email" type="email" autocomplete="off" autofocus />
-                        </FormControl>
-                        <FormError :message="form.errors.email" />
-                    </FormField>
+                    <TextField
+                        v-model="form.email"
+                        :label="$t('models.user.fields.email')"
+                        type="email"
+                        autocomplete="off"
+                        :errors="form.errors.email"
+                        :tabindex="1"
+                        autofocus
+                    />
                 </FormContent>
             </SectionContent>
-            <SectionFooter class="grid">
-                <FormSubmitButton>
+            <SectionFooter>
+                <FormSubmitButton :icon="false">
                     {{ $t('pages.auth.forgot_password.email_link') }}
                 </FormSubmitButton>
                 <div class="text-muted-foreground space-x-1 text-center text-sm">

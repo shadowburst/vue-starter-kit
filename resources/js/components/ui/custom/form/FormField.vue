@@ -21,6 +21,18 @@ type FormFieldContext = {
 };
 
 export const [injectFormFieldContext, provideFormFieldContext] = createContext<FormFieldContext>('FormFieldContext');
+
+export const formFieldPropKeys = [
+    'id',
+    'name',
+    'label',
+    'description',
+    'errors',
+    'required',
+    'disabled',
+    'orientation',
+    'class',
+] as const;
 </script>
 
 <script setup lang="ts">

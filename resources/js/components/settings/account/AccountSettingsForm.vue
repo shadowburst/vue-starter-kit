@@ -10,13 +10,13 @@ import { UserResource } from '@/types';
 type Props = FormProps & {
     user?: UserResource;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const { form } = injectFormContext<AccountSettingsFormData>();
 </script>
 
 <template>
-    <FormContent>
+    <FormContent :class="props.class">
         <MediaField
             v-if="user"
             v-model="form.avatar"
@@ -25,7 +25,6 @@ const { form } = injectFormContext<AccountSettingsFormData>();
             :model-id="user.id"
             collection="avatar"
             type="image"
-            class="w-min"
         >
             <template #preview>
                 <UserAvatar size="lg" :user="{ ...user, avatar: form.avatar }" />

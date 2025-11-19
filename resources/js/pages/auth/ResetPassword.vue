@@ -1,16 +1,7 @@
 <script setup lang="ts">
-import {
-    Form,
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormSubmitButton,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
+import { TextField } from '@/components/ui/custom/field';
+import { Form, FormContent, FormSubmitButton } from '@/components/ui/custom/form';
 import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/section';
-import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ResetPasswordProps, ResetPasswordRequest } from '@/types';
@@ -49,47 +40,35 @@ function submit() {
         <Section>
             <SectionContent>
                 <FormContent>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.email') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.email" type="email" autocomplete="email" readonly />
-                        </FormControl>
-                        <FormError :message="form.errors.email" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.password" type="password" autocomplete="new-password" />
-                        </FormControl>
-                        <FormError :message="form.errors.password" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password_confirmation') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput
-                                v-model="form.password_confirmation"
-                                type="password"
-                                autocomplete="new-password"
-                            />
-                        </FormControl>
-                        <FormError :message="form.errors.password_confirmation" />
-                    </FormField>
+                    <TextField
+                        v-model="form.email"
+                        :label="$t('models.user.fields.email')"
+                        type="email"
+                        autocomplete="email"
+                        :errors="form.errors.email"
+                        :tabindex="1"
+                        readonly
+                    />
+                    <TextField
+                        v-model="form.password"
+                        :label="$t('models.user.fields.password')"
+                        type="password"
+                        autocomplete="new-password"
+                        :errors="form.errors.password"
+                        :tabindex="2"
+                    />
+                    <TextField
+                        v-model="form.password_confirmation"
+                        :label="$t('models.user.fields.password_confirmation')"
+                        type="password"
+                        autocomplete="new-password"
+                        :errors="form.errors.password_confirmation"
+                        :tabindex="3"
+                    />
                 </FormContent>
             </SectionContent>
-            <SectionFooter class="grid">
-                <FormSubmitButton>
+            <SectionFooter>
+                <FormSubmitButton :icon="false">
                     {{ $t('pages.auth.reset_password.action') }}
                 </FormSubmitButton>
             </SectionFooter>

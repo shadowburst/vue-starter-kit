@@ -1,14 +1,6 @@
 <script setup lang="ts">
-import {
-    Form,
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormSubmitButton,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
+import { TextField } from '@/components/ui/custom/field';
+import { Form, FormContent, FormSubmitButton } from '@/components/ui/custom/form';
 import { TextLink } from '@/components/ui/custom/link';
 import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
@@ -50,80 +42,59 @@ function submit() {
         <Section>
             <SectionContent>
                 <FormContent>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.first_name') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.first_name" autofocus autocomplete="given-name" />
-                        </FormControl>
-                        <FormError :message="form.errors.first_name" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.last_name') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.last_name" autocomplete="family-name" />
-                        </FormControl>
-                        <FormError :message="form.errors.last_name" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.phone') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.phone" type="tel" autocomplete="phone" />
-                        </FormControl>
-                        <FormError :message="form.errors.phone" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.email') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.email" type="email" autocomplete="email" />
-                        </FormControl>
-                        <FormError :message="form.errors.email" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.password" type="password" autocomplete="new-password" />
-                        </FormControl>
-                        <FormError :message="form.errors.password" />
-                    </FormField>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password_confirmation') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput
-                                v-model="form.password_confirmation"
-                                type="password"
-                                autocomplete="new-password"
-                            />
-                        </FormControl>
-                        <FormError :message="form.errors.password_confirmation" />
-                    </FormField>
+                    <TextField
+                        v-model="form.first_name"
+                        :label="$t('models.user.fields.first_name')"
+                        type="text"
+                        autocomplete="given-name"
+                        :errors="form.errors.first_name"
+                        :tabindex="1"
+                        autofocus
+                    />
+                    <TextField
+                        v-model="form.last_name"
+                        :label="$t('models.user.fields.last_name')"
+                        type="text"
+                        autocomplete="family-name"
+                        :errors="form.errors.last_name"
+                        :tabindex="2"
+                    />
+                    <TextField
+                        v-model="form.phone"
+                        :label="$t('models.user.fields.phone')"
+                        type="tel"
+                        autocomplete="phone"
+                        :errors="form.errors.phone"
+                        :tabindex="3"
+                    />
+                    <TextField
+                        v-model="form.email"
+                        :label="$t('models.user.fields.email')"
+                        type="email"
+                        autocomplete="email"
+                        :errors="form.errors.email"
+                        :tabindex="4"
+                    />
+                    <TextField
+                        v-model="form.password"
+                        :label="$t('models.user.fields.password')"
+                        type="password"
+                        autocomplete="new-password"
+                        :errors="form.errors.password"
+                        :tabindex="5"
+                    />
+                    <TextField
+                        v-model="form.password_confirmation"
+                        :label="$t('models.user.fields.password_confirmation')"
+                        type="password"
+                        autocomplete="new-password"
+                        :errors="form.errors.password_confirmation"
+                        :tabindex="6"
+                    />
                 </FormContent>
             </SectionContent>
-            <SectionFooter class="grid">
-                <FormSubmitButton>
+            <SectionFooter>
+                <FormSubmitButton :icon="false">
                     {{ $t('pages.auth.register.action') }}
                 </FormSubmitButton>
                 <div class="text-muted-foreground text-center text-sm">

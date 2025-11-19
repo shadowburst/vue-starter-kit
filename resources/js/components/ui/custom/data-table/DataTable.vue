@@ -126,7 +126,7 @@ provideDataTableRootContext(rootContext);
 </script>
 
 <template>
-    <Tabs class="max-w-full" v-model="tab">
+    <Tabs class="max-w-full" v-model="tab" orientation="vertical">
         <slot :rows />
     </Tabs>
 </template>

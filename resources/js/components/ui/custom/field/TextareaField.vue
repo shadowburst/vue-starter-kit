@@ -8,7 +8,7 @@ import {
     FormFieldProps,
     FormLabel,
 } from '@/components/ui/custom/form';
-import { TextInput, TextInputProps } from '@/components/ui/custom/input';
+import { Textarea } from '@/components/ui/textarea';
 import { reactiveOmit, reactivePick } from '@vueuse/core';
 import { useForwardProps } from 'reka-ui';
 
@@ -16,12 +16,12 @@ defineOptions({
     inheritAttrs: false,
 });
 
-type Props = FormFieldProps &
-    TextInputProps & {
-        maxlength?: number;
-    };
+type Props = FormFieldProps & {
+    defaultValue?: string;
+    maxlength?: number;
+};
 const props = withDefaults(defineProps<Props>(), {
-    maxlength: 255,
+    maxlength: 1500,
 });
 const forwardedFieldProps = useForwardProps(reactivePick(props, ...formFieldPropKeys));
 const forwardedOtherProps = useForwardProps(reactiveOmit(props, ...formFieldPropKeys));
@@ -36,7 +36,7 @@ const model = defineModel<string>();
         </slot>
         <slot name="input">
             <FormControl>
-                <TextInput v-bind="{ ...$attrs, ...forwardedOtherProps }" v-model="model" :type />
+                <Textarea v-bind="{ ...$attrs, ...forwardedOtherProps }" v-model="model" />
             </FormControl>
         </slot>
         <slot name="description">

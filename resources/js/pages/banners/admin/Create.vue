@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BannerAdminForm from '@/components/banner/admin/BannerAdminForm.vue';
-import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormActions, FormSubmitButton } from '@/components/ui/custom/form';
 import { Section, SectionContent, SectionFooter, SectionHeader, SectionTitle } from '@/components/ui/custom/section';
 import { useBannerAdminForm, useLayout } from '@/composables';
 import { AdminLayout } from '@/layouts';
@@ -35,17 +35,19 @@ function submit() {
     <Head :title="$t('pages.banners.admin.create.title')" />
 
     <Form :form @submit="submit()">
-        <Section>
+        <Section class="sm:max-w-xl">
             <SectionHeader>
                 <SectionTitle>
                     {{ $t('pages.banners.admin.create.title') }}
                 </SectionTitle>
             </SectionHeader>
-            <SectionContent class="sm:flex">
+            <SectionContent>
                 <BannerAdminForm autofocus />
             </SectionContent>
             <SectionFooter>
-                <FormSubmitButton />
+                <FormActions>
+                    <FormSubmitButton />
+                </FormActions>
             </SectionFooter>
         </Section>
     </Form>

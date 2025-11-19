@@ -15,7 +15,7 @@ const forwarded = useForwardProps(delegatedProps);
 </script>
 
 <template>
-    <Primitive v-bind="forwarded" :class="cn('ml-auto flex gap-2', props.class)">
+    <Primitive v-bind="forwarded" :class="cn('flex w-full items-center justify-end gap-2', props.class)">
         <slot />
     </Primitive>
 </template>

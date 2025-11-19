@@ -28,7 +28,7 @@ function submit() {
 
     <Form :form @submit="submit()">
         <Section>
-            <SectionContent class="sm:flex">
+            <SectionContent>
                 <TeamForm autofocus />
             </SectionContent>
             <SectionFooter>

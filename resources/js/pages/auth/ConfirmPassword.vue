@@ -1,16 +1,7 @@
 <script setup lang="ts">
-import {
-    Form,
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormSubmitButton,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
+import { TextField } from '@/components/ui/custom/field';
+import { Form, FormContent, FormSubmitButton } from '@/components/ui/custom/form';
 import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/section';
-import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout } from '@/composables';
 import { AuthLayout } from '@/layouts';
 import { ConfirmPasswordProps, ConfirmPasswordRequest } from '@/types';
@@ -46,26 +37,19 @@ function submit() {
         <Section>
             <SectionContent>
                 <FormContent>
-                    <FormField required>
-                        <FormLabel>
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.password') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput
-                                v-model="form.password"
-                                type="password"
-                                autocomplete="current-password"
-                                autofocus
-                            />
-                        </FormControl>
-                        <FormError :message="form.errors.password" />
-                    </FormField>
+                    <TextField
+                        v-model="form.password"
+                        :label="$t('models.user.fields.password')"
+                        type="password"
+                        autocomplete="current-password"
+                        :errors="form.errors.password"
+                        :tabindex="1"
+                        autofocus
+                    />
                 </FormContent>
             </SectionContent>
-            <SectionFooter class="grid">
-                <FormSubmitButton>
+            <SectionFooter>
+                <FormSubmitButton :icon="false">
                     {{ $t('pages.auth.confirm_password.action') }}
                 </FormSubmitButton>
             </SectionFooter>

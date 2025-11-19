@@ -21,7 +21,7 @@ import {
     DataTableSortableHead,
 } from '@/components/ui/custom/data-table';
 import { FiltersSheet, FiltersSheetContent, FiltersSheetTrigger } from '@/components/ui/custom/filters';
-import { FormContent, FormControl, FormField, FormLabel } from '@/components/ui/custom/form';
+import { FormActions, FormControl, FormField, FormLabel } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
@@ -200,7 +200,7 @@ const filters = useFilters<TeamIndexRequest>(
                 :rows-actions
                 :row-actions
             >
-                <FormContent class="flex items-center">
+                <FormActions>
                     <TextInput v-model="filters.q" type="search" />
                     <FiltersSheet
                         :filters
@@ -221,9 +221,7 @@ const filters = useFilters<TeamIndexRequest>(
                             </FormField>
                         </FiltersSheetContent>
                     </FiltersSheet>
-                </FormContent>
-                <FormContent class="flex items-center justify-between">
-                    <Button class="ml-auto" as-child>
+                    <Button as-child>
                         <InertiaLink :href="route('teams.create')">
                             <CirclePlusIcon />
                             <CapitalizeText class="max-sm:hidden">
@@ -231,7 +229,7 @@ const filters = useFilters<TeamIndexRequest>(
                             </CapitalizeText>
                         </InertiaLink>
                     </Button>
-                </FormContent>
+                </FormActions>
                 <DataTableContent tab="table">
                     <DataTableHeader>
                         <DataTableRow>

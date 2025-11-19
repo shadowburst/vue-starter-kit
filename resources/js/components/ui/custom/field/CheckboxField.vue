@@ -5,10 +5,11 @@ import {
     FormDescription,
     FormError,
     FormField,
+    formFieldPropKeys,
     FormFieldProps,
     FormLabel,
 } from '@/components/ui/custom/form';
-import { reactiveOmit } from '@vueuse/core';
+import { reactiveOmit, reactivePick } from '@vueuse/core';
 import { CheckboxRootProps, useForwardProps } from 'reka-ui';
 
 defineOptions({
@@ -20,17 +21,17 @@ const props = withDefaults(defineProps<Props>(), {
     orientation: 'horizontal',
     required: false,
 });
-const delegatedProps = reactiveOmit(props, 'defaultValue', 'value', 'modelValue');
-const forwarded = useForwardProps(delegatedProps);
+const forwardedFieldProps = useForwardProps(reactivePick(props, ...formFieldPropKeys));
+const forwardedOtherProps = useForwardProps(reactiveOmit(props, ...formFieldPropKeys));
 
 const model = defineModel<boolean | 'indeterminate'>();
 </script>
 
 <template>
-    <FormField v-bind="forwarded">
+    <FormField v-bind="forwardedFieldProps">
         <slot name="input">
             <FormControl>
-                <Checkbox v-bind="{ ...$attrs }" v-model="model" :default-value :value />
+                <Checkbox v-bind="{ ...$attrs, ...forwardedOtherProps }" v-model="model" />
             </FormControl>
         </slot>
         <slot name="label">

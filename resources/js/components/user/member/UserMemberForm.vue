@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { AccountSettingsForm } from '@/components/settings/account';
 import { TextField } from '@/components/ui/custom/field';
-import { FormProps, injectFormContext } from '@/components/ui/custom/form';
-import { FieldGroup, FieldSeparator } from '@/components/ui/field';
+import { FormContent, FormGroup, FormProps, FormSeparator, injectFormContext } from '@/components/ui/custom/form';
 import { UserMemberFormData } from '@/composables';
 import { UserResource } from '@/types';
 
 type Props = FormProps & {
     user?: UserResource;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const { form } = injectFormContext<UserMemberFormData>();
 </script>
 
 <template>
-    <FieldGroup>
+    <FormGroup :class="props.class">
         <AccountSettingsForm :user />
-        <FieldSeparator />
-        <FieldGroup>
+        <FormSeparator />
+        <FormContent>
             <TextField
                 v-model="form.password"
                 :label="$t('models.user.fields.password')"
@@ -35,6 +34,6 @@ const { form } = injectFormContext<UserMemberFormData>();
                 autocomplete="new-password"
                 required
             />
-        </FieldGroup>
-    </FieldGroup>
+        </FormContent>
+    </FormGroup>
 </template>

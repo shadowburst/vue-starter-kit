@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormActions, FormGroup, FormSubmitButton } from '@/components/ui/custom/form';
 import {
     Section,
     SectionContent,
@@ -45,7 +45,7 @@ function submit() {
     <Head :title="$t('pages.users.members.edit.title')" />
 
     <Form :form :disabled="!user?.policy?.update" @submit="submit()">
-        <Section class="sm:max-w-fit">
+        <Section class="sm:max-w-xl">
             <SectionHeader>
                 <SectionTitle>
                     {{ $t('pages.users.members.edit.title') }}
@@ -55,13 +55,15 @@ function submit() {
                 </SectionDescription>
             </SectionHeader>
             <SectionContent>
-                <UserMemberForm :user />
-            </SectionContent>
-            <SectionContent>
-                <UserMemberTeamsForm />
+                <FormGroup>
+                    <UserMemberForm />
+                    <UserMemberTeamsForm />
+                </FormGroup>
             </SectionContent>
             <SectionFooter>
-                <FormSubmitButton />
+                <FormActions>
+                    <FormSubmitButton />
+                </FormActions>
             </SectionFooter>
         </Section>
     </Form>

@@ -12,7 +12,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <FieldSet :class="cn('', props.class)">
+    <FieldSet :class="cn('grid', props.class)">
         <FieldLabel v-if="props.title">
             {{ props.title }}
         </FieldLabel>

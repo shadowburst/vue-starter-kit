@@ -12,11 +12,12 @@ import {
     FormDescription,
     FormError,
     FormField,
+    formFieldPropKeys,
     FormFieldProps,
     FormLabel,
 } from '@/components/ui/custom/form';
 import { useArrayWrap } from '@/composables';
-import { reactiveOmit } from '@vueuse/core';
+import { reactiveOmit, reactivePick } from '@vueuse/core';
 import { useForwardProps } from 'reka-ui';
 
 defineOptions({
@@ -33,8 +34,8 @@ type Props = FormFieldProps & {
 const props = withDefaults(defineProps<Props>(), {
     type: 'other',
 });
-const delegatedProps = reactiveOmit(props, 'modelType', 'modelId', 'collection', 'type', 'accept');
-const forwarded = useForwardProps(delegatedProps);
+const forwardedFieldProps = useForwardProps(reactivePick(props, ...formFieldPropKeys));
+const forwardedOtherProps = useForwardProps(reactiveOmit(props, ...formFieldPropKeys));
 
 const model = defineModel<MediaResource | null>();
 
@@ -88,13 +89,13 @@ async function submit(event: Event) {
 </script>
 
 <template>
-    <FormField v-bind="forwarded" :errors>
+    <FormField v-bind="forwardedFieldProps" :errors>
         <slot name="label">
             <FormLabel />
         </slot>
         <slot name="input">
             <FormControl>
-                <div class="relative">
+                <div class="relative w-min!">
                     <slot name="preview" />
                     <Button
                         v-if="!disabled"
@@ -104,7 +105,13 @@ async function submit(event: Event) {
                         class="absolute right-0 bottom-0"
                     >
                         <UploadIcon />
-                        <input v-bind="$attrs" class="sr-only" type="file" :accept @change="submit($event)" />
+                        <input
+                            v-bind="{ ...$attrs, ...forwardedOtherProps }"
+                            class="sr-only"
+                            type="file"
+                            :accept
+                            @change="submit($event)"
+                        />
                     </Button>
                     <Button
                         v-if="!disabled && model"

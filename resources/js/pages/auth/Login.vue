@@ -1,16 +1,7 @@
 <script setup lang="ts">
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-    Form,
-    FormContent,
-    FormControl,
-    FormError,
-    FormField,
-    FormLabel,
-    FormSubmitButton,
-} from '@/components/ui/custom/form';
-import { TextInput } from '@/components/ui/custom/input';
+import { CheckboxField, TextField } from '@/components/ui/custom/field';
+import { Form, FormContent, FormLabel, FormSubmitButton } from '@/components/ui/custom/form';
 import { TextLink } from '@/components/ui/custom/link';
 import { Section, SectionContent, SectionFooter, SectionHeader } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
@@ -19,7 +10,7 @@ import { AuthLayout } from '@/layouts';
 import { LoginProps, LoginRequest } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { CheckIcon } from 'lucide-vue-next';
+import { CheckIcon, LogInIcon } from 'lucide-vue-next';
 
 defineOptions({
     layout: useLayout(AuthLayout, () => ({
@@ -58,57 +49,42 @@ function submit() {
             </SectionHeader>
             <SectionContent>
                 <FormContent>
-                    <FormField required>
-                        <FormLabel class="after:content-['']!">
-                            <CapitalizeText>
-                                {{ $t('models.user.fields.email') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                        <FormControl>
-                            <TextInput v-model="form.email" type="email" autofocus autocomplete="email" :tabindex="1" />
-                        </FormControl>
-                        <FormError :message="form.errors.email" />
-                    </FormField>
-                    <FormField required>
-                        <div class="flex items-center justify-between">
-                            <FormLabel class="after:content-['']!">
-                                <CapitalizeText>
-                                    {{ $t('models.user.fields.password') }}
-                                </CapitalizeText>
-                            </FormLabel>
-                            <TextLink
-                                class="text-sm"
-                                v-if="canResetPassword"
-                                :href="route('password.request')"
-                                :tabindex="5"
-                            >
-                                {{ $t('pages.auth.login.forgot_password') }}
-                            </TextLink>
-                        </div>
-                        <FormControl>
-                            <TextInput
-                                v-model="form.password"
-                                type="password"
-                                autocomplete="current-password"
-                                :tabindex="2"
-                            />
-                        </FormControl>
-                        <FormError :message="form.errors.password" />
-                    </FormField>
-                    <FormField>
-                        <FormLabel>
-                            <FormControl>
-                                <Checkbox v-model="form.remember" :tabindex="3" />
-                            </FormControl>
-                            <CapitalizeText>
-                                {{ $t('pages.auth.login.remember_me') }}
-                            </CapitalizeText>
-                        </FormLabel>
-                    </FormField>
+                    <TextField
+                        v-model="form.email"
+                        :label="$t('models.user.fields.email')"
+                        :errors="form.errors.email"
+                        type="email"
+                        autofocus
+                        autocomplete="email"
+                        :tabindex="1"
+                    />
+                    <TextField
+                        v-model="form.password"
+                        :label="$t('models.user.fields.password')"
+                        :errors="form.errors.password"
+                        type="password"
+                        autocomplete="current-password"
+                        :tabindex="2"
+                    >
+                        <template #label>
+                            <div class="flex items-center justify-between">
+                                <FormLabel />
+                                <TextLink
+                                    class="text-sm"
+                                    v-if="canResetPassword"
+                                    :href="route('password.request')"
+                                    :tabindex="5"
+                                >
+                                    {{ $t('pages.auth.login.forgot_password') }}
+                                </TextLink>
+                            </div>
+                        </template>
+                    </TextField>
+                    <CheckboxField v-model="form.remember" :label="$t('pages.auth.login.remember_me')" :tabindex="3" />
                 </FormContent>
             </SectionContent>
-            <SectionFooter class="grid">
-                <FormSubmitButton :tabindex="4">
+            <SectionFooter>
+                <FormSubmitButton :tabindex="4" :icon="LogInIcon">
                     {{ $t('pages.auth.login.action') }}
                 </FormSubmitButton>
                 <div class="text-muted-foreground text-center text-sm">

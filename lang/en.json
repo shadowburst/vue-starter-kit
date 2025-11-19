@@ -27,5 +27,6 @@
     "success": "success",
     "trash": "archive",
     "trashed": "archived",
+    "verify": "verify",
     "warning": "warning"
 }

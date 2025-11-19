@@ -8,13 +8,13 @@ import TeamLogoIcon from './TeamLogoIcon.vue';
 type Props = FormProps & {
     team?: TeamResource;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const { form } = injectFormContext<TeamFormData>();
 </script>
 
 <template>
-    <FormContent>
+    <FormContent :class="props.class">
         <MediaField
             v-if="team"
             v-model="form.logo"

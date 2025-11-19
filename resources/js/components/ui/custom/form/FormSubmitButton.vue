@@ -6,16 +6,19 @@ import { cn } from '@/lib/utils';
 import { reactiveOmit } from '@vueuse/core';
 import { CheckIcon, SaveIcon } from 'lucide-vue-next';
 import { PrimitiveProps, useForwardProps } from 'reka-ui';
-import { computed, HTMLAttributes } from 'vue';
+import { computed, FunctionalComponent, HTMLAttributes } from 'vue';
 import { injectFormContext } from './Form.vue';
 
 type Props = PrimitiveProps & {
     variant?: ButtonVariants['variant'];
     size?: ButtonVariants['size'];
+    icon?: FunctionalComponent | false;
     disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    icon: undefined,
+});
 const delegatedProps = reactiveOmit(props, 'disabled', 'class');
 const forwarded = useForwardProps(delegatedProps);
 
@@ -31,6 +34,19 @@ const disabled = computed(
         formContext.disabled.value ||
         formContext.form.value.recentlySuccessful,
 );
+
+const icon = computed(() => {
+    if (props.icon === false) {
+        return;
+    }
+    if (loading.value) {
+        return Spinner;
+    }
+    if (formContext.form.value.recentlySuccessful) {
+        return CheckIcon;
+    }
+    return props.icon ?? SaveIcon;
+});
 </script>
 
 <template>
@@ -39,15 +55,13 @@ const disabled = computed(
         v-bind="forwarded"
         type="submit"
         :disabled
-        :class="cn('', { 'disabled:opacity-100': loading || formContext.form.value.recentlySuccessful }, props.class)"
+        :class="cn({ 'disabled:opacity-100': loading || formContext.form.value.recentlySuccessful }, props.class)"
     >
-        <slot>
-            <Spinner v-if="loading" />
-            <CheckIcon v-else-if="formContext.form.value.recentlySuccessful" />
-            <SaveIcon v-else />
-            <CapitalizeText>
+        <component v-if="icon" :is="icon" />
+        <CapitalizeText>
+            <slot>
                 {{ $t('save') }}
-            </CapitalizeText>
-        </slot>
+            </slot>
+        </CapitalizeText>
     </Button>
 </template>
