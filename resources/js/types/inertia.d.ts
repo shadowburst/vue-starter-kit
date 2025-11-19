@@ -1,6 +1,6 @@
 import type { ErrorBag, Errors } from '@inertiajs/core';
 import type { Config } from 'ziggy-js';
-import { BannerResource, TeamResource, ToastMessagesData, UserAbilitiesResource, UserResource } from './backend';
+import { AuthAbilitiesResource, BannerResource, TeamResource, ToastMessagesData, UserResource } from './backend';
 export { FormDataType } from '@inertiajs/core';
 
 export type Enum<T extends string> = {
@@ -10,10 +10,10 @@ export type Enum<T extends string> = {
 
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     name: string;
-    auth?: {
-        user: UserResource;
-        abilities: UserAbilitiesResource;
-        team: TeamResource;
+    auth: {
+        abilities: AuthAbilitiesResource;
+        team?: TeamResource;
+        user?: UserResource;
     };
     toast: ToastMessagesData;
     errors: Errors & ErrorBag;

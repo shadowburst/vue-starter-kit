@@ -17,7 +17,7 @@ defineProps<EditAccountSettingsProps>();
 
 const { user } = useAuth();
 
-const form = useAccountSettingsForm(user);
+const form = useAccountSettingsForm(user.value);
 
 function submit() {
     form.patch(route('settings.account.update'));

@@ -1,3 +1,9 @@
+export type AuthAbilitiesResource = {
+    register: boolean;
+    verify_email: boolean;
+    teams: { view_any: boolean; create: boolean };
+    users: { view_any: boolean; create: boolean };
+};
 export type BannerAdminFormProps = {
     banner?: BannerResource;
 };
@@ -181,10 +187,6 @@ export type UpdatePasswordSettingsRequest = {
     current_password: string;
     password: string;
     password_confirmation: string;
-};
-export type UserAbilitiesResource = {
-    teams: { view_any: boolean; create: boolean };
-    users: { view_any: boolean; create: boolean };
 };
 export type UserMemberFormProps = {
     user?: UserResource;

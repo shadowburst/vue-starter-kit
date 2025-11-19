@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Data\User\UserResource;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Traits\BelongsToCreator;
 use App\Traits\HasPolicy;
@@ -20,6 +21,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use Spatie\LaravelData\WithData;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 
@@ -128,6 +130,9 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     use Notifiable;
     use Searchable;
     use Trashable;
+    use WithData;
+
+    protected $dataClass = UserResource::class;
 
     const string COLLECTION_AVATAR = 'avatar';
 

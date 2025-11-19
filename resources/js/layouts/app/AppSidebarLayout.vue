@@ -24,7 +24,7 @@ const items = useRouterComputed((): NavItem[] => [
         title: trans('layouts.app.sidebar.items.admin'),
         href: route('admin.index'),
         icon: MonitorCogIcon,
-        hidden: !user.is_admin,
+        hidden: !user.value.is_admin,
     },
     {
         title: trans('layouts.app.sidebar.items.index'),

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Data\Team\TeamResource;
 use App\Data\Team\TeamSettingsData;
 use App\Traits\BelongsToCreator;
 use App\Traits\HasPolicy;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\LaravelData\WithData;
 use Spatie\MediaLibrary\HasMedia;
 
 /**
@@ -64,6 +66,9 @@ class Team extends Model implements HasMedia
     use InteractsWithMedia;
     use Searchable;
     use Trashable;
+    use WithData;
+
+    protected $dataClass = TeamResource::class;
 
     const string COLLECTION_LOGO = 'logo';
 

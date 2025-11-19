@@ -2,9 +2,7 @@
 
 namespace App\Http\Middleware\Auth;
 
-use App\Data\Team\TeamResource;
-use App\Data\User\UserAbilitiesResource;
-use App\Data\User\UserResource;
+use App\Data\Auth\AuthAbilitiesResource;
 use App\Facades\Services;
 use Closure;
 use Illuminate\Http\Request;
@@ -21,26 +19,11 @@ class AuthIncludeMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
-        if (! $user) {
-            Inertia::share([
-                'auth' => null,
-            ]);
-
-            return $next($request);
-        }
-
-        $user->loadMissing([
-            'avatar',
-            'teams.logo',
-            'team.logo',
-        ]);
-
         Inertia::share([
             'auth' => [
-                'user'      => UserResource::from($user)->include('avatar'),
-                'abilities' => UserAbilitiesResource::from($user),
-                'team'      => TeamResource::from(Services::team()->current()),
+                'abilities' => new AuthAbilitiesResource,
+                'user'      => Auth::user()?->getData()?->include('avatar', 'teams.{id,name,logo}'),
+                'team'      => Services::team()->current()?->getData(),
             ],
         ]);
 
