@@ -11,7 +11,6 @@ enum RoleName: string
     case TESTER = 'tester';
     case OWNER = 'owner';
     case MEMBER = 'member';
-
     case EDITOR = 'editor';
 
     public function label(): string
