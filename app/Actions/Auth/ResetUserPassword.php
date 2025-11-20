@@ -4,7 +4,6 @@ namespace App\Actions\Auth;
 
 use App\Data\Auth\ResetPassword\ResetPasswordRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
 
 class ResetUserPassword implements ResetsUserPasswords
@@ -19,7 +18,7 @@ class ResetUserPassword implements ResetsUserPasswords
         $data = app(ResetPasswordRequest::class);
 
         $user
-            ->forceFill(['password' => Hash::make($data->password)])
+            ->forceFill(['password' => $data->password])
             ->save();
     }
 }
