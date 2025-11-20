@@ -24,7 +24,7 @@ it('should authenticate users using their password', function () {
         route('login'),
         LoginRequest::from([
             'email'    => $user->email,
-            'password' => 'password',
+            'password' => 'Password-1234',
         ])->toArray(),
     )->assertRedirectToRoute('index');
 

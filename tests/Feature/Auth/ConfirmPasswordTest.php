@@ -21,7 +21,7 @@ it('should let users confirm their password', function () {
 
     actingAs($user)
         ->post(route('password.confirm'), [
-            'password' => 'password',
+            'password' => 'Password-1234',
         ])
         ->assertRedirect()
         ->assertSessionHasNoErrors();
