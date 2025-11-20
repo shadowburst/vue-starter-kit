@@ -1,34 +1,34 @@
 import { DateValue, getLocalTimeZone } from '@internationalized/date';
-import { injectConfigProviderContext, useDateFormatter } from 'reka-ui';
+import { useDateFormatter } from 'reka-ui';
 import { useLocale } from './useLocale';
 import { useParser } from './useParser';
+
 export function useFormatter() {
     const parse = useParser();
 
     const { locale } = useLocale();
-    const config = injectConfigProviderContext();
 
     return {
-        date(value?: DateValue | string, options: Intl.DateTimeFormatOptions = {}): string {
+        date(value?: DateValue | string | number, options?: Intl.DateTimeFormatOptions): string {
             try {
-                const date = typeof value === 'string' ? parse.toDate(value) : value;
+                const date = parse.toDate(value);
                 if (!date) {
                     return '';
                 }
-                const formatter = useDateFormatter(config.locale?.value ?? locale.value);
-                return formatter.custom(date.toDate(getLocalTimeZone()), { dateStyle: 'medium', ...options });
+                const formatter = useDateFormatter(locale.value);
+                return formatter.custom(date.toDate(getLocalTimeZone()), options ?? { dateStyle: 'medium' });
             } catch (error) {
                 console.error(error);
                 return '';
             }
         },
-        timestamp(value?: DateValue | string): string {
+        timestamp(value?: DateValue | string | number): number {
             try {
                 const date = parse.toDateTime(value);
-                return date?.toString() ?? '';
+                return date?.toDate(getLocalTimeZone()).getTime() ?? 0;
             } catch (error) {
                 console.error(error);
-                return '';
+                return 0;
             }
         },
     };

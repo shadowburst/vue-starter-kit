@@ -36,7 +36,7 @@ return [
      * types.
      */
     'transformers' => [
-        DateTimeInterface::class                       => Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer::class,
+        DateTimeInterface::class                       => \App\Transformers\TimestampMsTransformer::class,
         \Illuminate\Contracts\Support\Arrayable::class => Spatie\LaravelData\Transformers\ArrayableTransformer::class,
         BackedEnum::class                              => Spatie\LaravelData\Transformers\EnumTransformer::class,
     ],
@@ -46,7 +46,7 @@ return [
      * object from simple types.
      */
     'casts' => [
-        DateTimeInterface::class => Spatie\LaravelData\Casts\DateTimeInterfaceCast::class,
+        DateTimeInterface::class => \App\Casts\TimestampMsCast::class,
         BackedEnum::class        => Spatie\LaravelData\Casts\EnumCast::class,
         //        Enumerable::class => Spatie\LaravelData\Casts\EnumerableCast::class,
     ],

@@ -2,25 +2,25 @@ import { DateValue, fromDate, getLocalTimeZone, toCalendarDate, toCalendarDateTi
 
 export function useParser() {
     return {
-        toDate(value?: DateValue | string) {
+        toDate(value?: DateValue | string | number) {
             if (!value) {
                 return;
             }
-            if (typeof value !== 'string') {
-                return toCalendarDate(value);
+            if (typeof value === 'string' || typeof value === 'number') {
+                const date = fromDate(new Date(value), getLocalTimeZone());
+                return toCalendarDate(date);
             }
-            const date = fromDate(new Date(value), getLocalTimeZone());
-            return toCalendarDate(date);
+            return toCalendarDate(value);
         },
-        toDateTime(value?: DateValue | string) {
+        toDateTime(value?: DateValue | string | number) {
             if (!value) {
                 return;
             }
-            if (typeof value !== 'string') {
-                return toCalendarDateTime(value);
+            if (typeof value === 'string' || typeof value === 'number') {
+                const date = fromDate(new Date(value), getLocalTimeZone());
+                return toCalendarDateTime(date);
             }
-            const date = fromDate(new Date(value), getLocalTimeZone());
-            return toCalendarDateTime(date);
+            return toCalendarDateTime(value);
         },
     };
 }
