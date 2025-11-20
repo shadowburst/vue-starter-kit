@@ -1,6 +1,8 @@
 <script setup lang="ts" generic="TData">
 import { CapitalizeText } from '@/components/ui/custom/typography';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
+import { PackageOpenIcon } from 'lucide-vue-next';
 import { injectDataTableRootContext } from './DataTable.vue';
 
 const { rows } = injectDataTableRootContext<TData>();
@@ -13,10 +15,19 @@ const { rows } = injectDataTableRootContext<TData>();
         </template>
         <template v-else>
             <TableRow>
-                <TableCell class="h-24 text-center" colspan="100">
-                    <CapitalizeText>
-                        {{ $t('components.ui.custom.data_table.empty') }}
-                    </CapitalizeText>
+                <TableCell colspan="100">
+                    <Empty>
+                        <EmptyHeader>
+                            <EmptyMedia variant="icon">
+                                <PackageOpenIcon />
+                            </EmptyMedia>
+                            <EmptyTitle>
+                                <CapitalizeText>
+                                    {{ $t('components.ui.custom.data_table.empty') }}
+                                </CapitalizeText>
+                            </EmptyTitle>
+                        </EmptyHeader>
+                    </Empty>
                 </TableCell>
             </TableRow>
         </template>
