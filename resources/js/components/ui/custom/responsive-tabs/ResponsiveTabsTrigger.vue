@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useResponsiveState } from '@/composables';
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
+import { TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useTailwindBreakpoints } from '@/composables';
 import { cn } from '@/lib/utils';
-import { injectTabsRootContext } from 'reka-ui';
+import { injectTabsRootContext, VisuallyHidden } from 'reka-ui';
 import { HTMLAttributes, ref } from 'vue';
 import { responsiveTabsVariants } from '.';
 import { injectResponsiveTabsRootContext } from './ResponsiveTabs.vue';
@@ -18,21 +26,21 @@ const props = withDefaults(defineProps<Props>(), {
     align: 'center',
 });
 
-const { tabs, variant } = injectResponsiveTabsRootContext();
-const { modelValue, orientation } = injectTabsRootContext();
+const { activeTab, tabs, variant } = injectResponsiveTabsRootContext();
+const { orientation } = injectTabsRootContext();
 
-const { isDesktop } = useResponsiveState();
+const { sm } = useTailwindBreakpoints();
 
 const open = ref(false);
 </script>
 
 <template>
     <TabsList
-        v-if="isDesktop"
+        v-if="sm"
         :class="
             cn(
                 'w-full',
-                { 'grid grid-cols-1': orientation === 'vertical', 'bg-transparent': variant === 'ghost' },
+                { 'grid h-auto grid-cols-1': orientation === 'vertical', 'bg-transparent': variant === 'ghost' },
                 props.class,
             )
         "
@@ -52,37 +60,37 @@ const open = ref(false);
             </InertiaLink>
         </TabsTrigger>
     </TabsList>
-    <Select v-else v-model="modelValue" v-model:open="open">
-        <SelectTrigger :class="cn('w-full', props.class)">
-            <TabsContent v-for="(tab, index) in tabs" :key="tab.href" :value="index" as-child>
-                <SelectValue class="flex items-center gap-2">
+    <Drawer v-else v-model:open="open">
+        <DrawerTrigger v-if="activeTab" as-child>
+            <Button variant="outline">
+                <component v-if="activeTab.icon" :is="activeTab.icon" />
+                <CapitalizeText>
+                    {{ activeTab.title }}
+                </CapitalizeText>
+            </Button>
+        </DrawerTrigger>
+        <DrawerContent class="gap-1 p-1">
+            <VisuallyHidden>
+                <DrawerHeader>
+                    <DrawerTitle> </DrawerTitle>
+                    <DrawerDescription> </DrawerDescription>
+                </DrawerHeader>
+            </VisuallyHidden>
+            <Button
+                v-for="tab in tabs"
+                :key="tab.href"
+                variant="ghost"
+                size="lg"
+                as-child
+                :class="{ 'bg-muted': tab.isActive }"
+            >
+                <InertiaLink v-bind="tab.options" :href="tab.href" @click="open = false">
                     <component v-if="tab.icon" :is="tab.icon" />
                     <CapitalizeText>
                         {{ tab.title }}
                     </CapitalizeText>
-                </SelectValue>
-            </TabsContent>
-        </SelectTrigger>
-        <SelectContent>
-            <InertiaLink
-                v-for="({ href, title, icon, options = {} }, index) in tabs"
-                v-bind="options"
-                :key="href"
-                :href="href"
-                @click="
-                    () => {
-                        modelValue = index;
-                        open = false;
-                    }
-                "
-            >
-                <SelectItem :value="index" @select.prevent>
-                    <component v-if="icon" :is="icon" />
-                    <CapitalizeText>
-                        {{ title }}
-                    </CapitalizeText>
-                </SelectItem>
-            </InertiaLink>
-        </SelectContent>
-    </Select>
+                </InertiaLink>
+            </Button>
+        </DrawerContent>
+    </Drawer>
 </template>

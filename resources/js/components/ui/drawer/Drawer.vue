@@ -1,10 +1,7 @@
 <script lang="ts" setup>
-import { useResponsiveState } from '@/composables';
-import { reactiveOmit } from '@vueuse/core';
 import { useForwardPropsEmits } from 'reka-ui';
 import type { DrawerRootEmits, DrawerRootProps } from 'vaul-vue';
 import { DrawerRoot } from 'vaul-vue';
-import { computed } from 'vue';
 
 const props = withDefaults(defineProps<Omit<DrawerRootProps, 'fadeFromIndex'>>(), {
     shouldScaleBackground: true,
@@ -12,15 +9,11 @@ const props = withDefaults(defineProps<Omit<DrawerRootProps, 'fadeFromIndex'>>()
 
 const emits = defineEmits<DrawerRootEmits>();
 
-const deletedProps = reactiveOmit(props, 'direction');
-const forwarded = useForwardPropsEmits(deletedProps, emits);
-
-const { isMobile } = useResponsiveState();
-const direction = computed(() => props.direction ?? (isMobile.value ? 'bottom' : 'top'));
+const forwarded = useForwardPropsEmits(props, emits);
 </script>
 
 <template>
-    <DrawerRoot data-slot="drawer" v-bind="forwarded" :direction>
+    <DrawerRoot data-slot="drawer" v-bind="forwarded">
         <slot />
     </DrawerRoot>
 </template>

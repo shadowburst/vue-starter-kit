@@ -11,5 +11,5 @@ export * from './useLayout';
 export * from './useLocale';
 export * from './usePageProp';
 export * from './useParser';
-export * from './useResponsiveState';
 export * from './useRouterComputed';
+export * from './useTailwindBreakpoints';

@@ -1,5 +1,6 @@
 <script lang="ts">
 type ResponsiveTabsRootContext = {
+    activeTab: Ref<NavItemHref | undefined>;
     tabs: Ref<NavItemHref[]>;
     variant: Ref<ResponsiveTabsVariants['variant']>;
 };
@@ -14,7 +15,7 @@ import { NavItemHref } from '@/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { TabsRootEmits, TabsRootProps } from 'reka-ui';
 import { createContext, useForwardPropsEmits } from 'reka-ui';
-import { toRefs, type HTMLAttributes, type Ref } from 'vue';
+import { computed, toRefs, type HTMLAttributes, type Ref } from 'vue';
 import { ResponsiveTabsVariants } from '.';
 
 type Props = TabsRootProps & {
@@ -29,12 +30,14 @@ const delegatedProps = reactiveOmit(props, 'class', 'tabs', 'modelValue');
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
 const { tabs, variant } = toRefs(props);
+const activeTab = computed(() => tabs.value.find((tab) => tab.isActive));
 provideResponsiveTabsRootContext({
+    activeTab,
     tabs,
     variant,
 });
 
-const model = defineModel<string | number>({
+const model = defineModel<number>({
     get: () => tabs.value.findIndex((tab) => tab.isActive),
 });
 </script>
