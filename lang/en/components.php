@@ -12,17 +12,6 @@ return [
     |
     */
 
-    'app' => [
-        'alert_dialog' => [
-            'title' => [
-                'default'     => 'Confirm',
-                'success'     => 'Confirm',
-                'warning'     => 'Warning',
-                'destructive' => 'Warning',
-            ],
-        ],
-    ],
-
     'settings' => [
         'account' => [
             'delete_dialog' => [
@@ -36,6 +25,12 @@ return [
 
     'ui' => [
         'custom' => [
+            'alert_drawer' => [
+                'title' => [
+                    'default'     => 'Confirm',
+                    'destructive' => 'Warning',
+                ],
+            ],
             'combobox' => [
                 'selected' => '1 item selected|:count items selected',
                 'empty'    => 'nothing to display',
