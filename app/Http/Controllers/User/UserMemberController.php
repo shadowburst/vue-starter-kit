@@ -98,9 +98,9 @@ class UserMemberController extends Controller
         ]));
     }
 
-    public function update(UserMemberFormRequest $data)
+    public function update(UserMemberFormRequest $data, User $member)
     {
-        $user = Services::user()->createOrUpdateMember->execute($data);
+        $user = Services::user()->createOrUpdateMember->execute($data, $member);
 
         if ($user == null) {
             Services::toast()->error->execute();

@@ -82,6 +82,8 @@ return [
             'password'              => 'password',
             'password_confirmation' => 'confirm password',
             'phone'                 => 'phone',
+            'team_permissions'      => 'permissions',
+            'team_roles'            => 'roles',
         ],
         'member' => [
             'name' => [

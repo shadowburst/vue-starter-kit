@@ -10,7 +10,6 @@ use Illuminate\Container\Attributes\RouteParameter;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\FromAuthenticatedUser;
-use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Attributes\Validation\Confirmed;
 use Spatie\LaravelData\Attributes\Validation\Password;
@@ -28,10 +27,6 @@ class UserMemberFormRequest extends Data
         #[Hidden]
         #[FromAuthenticatedUser]
         public User $owner,
-
-        #[Hidden]
-        #[FromRouteParameter('member')]
-        public ?User $member,
 
         public string $first_name,
 
@@ -60,7 +55,15 @@ class UserMemberFormRequest extends Data
     public static function attributes(): array
     {
         return [
-            //
+            'avatar'                => __('models.user.fields.avatar'),
+            'email'                 => __('models.user.fields.email'),
+            'first_name'            => __('models.user.fields.first_name'),
+            'last_name'             => __('models.user.fields.last_name'),
+            'password'              => __('models.user.fields.password'),
+            'password_confirmation' => __('models.user.fields.password_confirmation'),
+            'phone'                 => __('models.user.fields.phone'),
+            'team_permissions'      => __('models.user.fields.team_permissions'),
+            'team_roles'            => __('models.user.fields.team_roles'),
         ];
     }
 

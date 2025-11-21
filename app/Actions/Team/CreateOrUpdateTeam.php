@@ -18,11 +18,9 @@ class CreateOrUpdateTeam
         //
     ) {}
 
-    public function execute(TeamFormRequest $data): ?Team
+    public function execute(TeamFormRequest $data, ?Team $team = null): ?Team
     {
         DB::beginTransaction();
-
-        $team = $data->team;
 
         try {
             if (! $team) {

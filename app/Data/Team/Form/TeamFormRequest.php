@@ -4,10 +4,8 @@ namespace App\Data\Team\Form;
 
 use App\Attributes\Media;
 use App\Data\Team\TeamSettingsData;
-use App\Models\Team;
 use App\Models\User;
 use Spatie\LaravelData\Attributes\FromAuthenticatedUser;
-use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
@@ -22,10 +20,6 @@ class TeamFormRequest extends Data
         #[Hidden]
         #[FromAuthenticatedUser]
         public ?User $user,
-
-        #[Hidden]
-        #[FromRouteParameter('team')]
-        public ?Team $team,
 
         public string $name,
 

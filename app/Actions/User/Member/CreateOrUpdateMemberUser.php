@@ -17,11 +17,9 @@ class CreateOrUpdateMemberUser
         //
     ) {}
 
-    public function execute(UserMemberFormRequest $data): ?User
+    public function execute(UserMemberFormRequest $data, ?User $user = null): ?User
     {
         DB::beginTransaction();
-
-        $user = $data->member;
 
         try {
             $owner = $data->owner;

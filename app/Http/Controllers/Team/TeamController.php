@@ -87,7 +87,7 @@ class TeamController extends Controller
 
     public function update(Team $team, TeamFormRequest $data)
     {
-        $team = Services::team()->createOrUpdate->execute($data);
+        $team = Services::team()->createOrUpdate->execute($data, $team);
 
         if ($team == null) {
             Services::toast()->error->execute();

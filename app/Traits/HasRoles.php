@@ -70,7 +70,7 @@ trait HasRoles
 
     public function scopeMembers(Builder $query): Builder
     {
-        return $query->whereNot(fn (Builder $q) => $q->owners());
+        return $query->whereNot->owners();
     }
 
     public function scopeEditors(Builder $query): Builder
