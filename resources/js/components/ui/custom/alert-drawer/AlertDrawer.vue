@@ -69,13 +69,13 @@ provideAlertDrawerContext({
                     </DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter>
-                    <Button v-if="callback" :variant as-child @click="callback()">
-                        <DrawerAction>
+                    <DrawerClose as-child>
+                        <Button v-if="callback" :variant @click="callback()">
                             <CapitalizeText>
                                 {{ $t('confirm') }}
                             </CapitalizeText>
-                        </DrawerAction>
-                    </Button>
+                        </Button>
+                    </DrawerClose>
                     <DrawerClose as-child>
                         <Button variant="ghost">
                             <CapitalizeText>
