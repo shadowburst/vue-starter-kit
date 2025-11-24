@@ -36,8 +36,10 @@ return [
                 'empty'    => 'nothing to display',
             ],
             'data_table' => [
+                'empty' => [
+                    'title' => 'No records found',
+                ],
                 'selected'      => ':selected of :rows row(s) selected',
-                'empty'         => 'nothing to display',
                 'rows_per_page' => 'rows per page',
                 'pages'         => 'page :current of :total',
             ],
