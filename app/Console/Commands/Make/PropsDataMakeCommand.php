@@ -6,14 +6,14 @@ use Spatie\LaravelData\Commands\DataMakeCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-#[AsCommand(name: 'make:request', description: 'Create a new request data class')]
-class RequestMakeCommand extends DataMakeCommand
+#[AsCommand(name: 'make:data:props', description: 'Create a new props data class')]
+class PropsDataMakeCommand extends DataMakeCommand
 {
-    protected $name = 'make:request';
+    protected $name = 'make:data:props';
 
     protected function getStub(): string
     {
-        return $this->resolveStubPath('/stubs/request.stub');
+        return $this->resolveStubPath('/stubs/data-props.stub');
     }
 
     protected function getOptions(): array
@@ -31,7 +31,7 @@ class RequestMakeCommand extends DataMakeCommand
                 's',
                 InputOption::VALUE_REQUIRED,
                 'Suffix the class with this value.',
-                'Request',
+                'Props',
             ],
             [
                 'force',

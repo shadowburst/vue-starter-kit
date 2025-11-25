@@ -6,14 +6,14 @@ use Spatie\LaravelData\Commands\DataMakeCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-#[AsCommand(name: 'make:resource', description: 'Create a new resource data class')]
-class ResourceMakeCommand extends DataMakeCommand
+#[AsCommand(name: 'make:data:resource', description: 'Create a new resource data class')]
+class ResourceDataMakeCommand extends DataMakeCommand
 {
     protected $name = 'make:resource';
 
     protected function getStub(): string
     {
-        return $this->resolveStubPath('/stubs/resource.stub');
+        return $this->resolveStubPath('/stubs/data-resource.stub');
     }
 
     protected function getOptions(): array
