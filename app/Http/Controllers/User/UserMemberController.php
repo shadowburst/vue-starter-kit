@@ -16,7 +16,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -34,11 +33,10 @@ class UserMemberController extends Controller
                     Auth::user()->members()
                         ->search($data->q)
                         ->when($data->trashed, fn (Builder $q) => $q->filterTrashed($data->trashed))
-                        ->orderBy($data->sort_by, $data->sort_direction)
                         ->with(['avatar'])
                         ->paginate(
-                            perPage: $data->per_page ?? Config::integer('default.per_page'),
-                            page: $data->page ?? 1,
+                            page: $data->page,
+                            perPage: $data->per_page,
                         )
                         ->withQueryString(),
                     PaginatedDataCollection::class,

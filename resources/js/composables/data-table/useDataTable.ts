@@ -1,47 +1,105 @@
-import { DataTableAction } from '@/components/ui/custom/data-table-v2';
+import { DataTableAction, DataTableState } from '@/components/ui/custom/data-table-v2';
 import { valueUpdater } from '@/components/ui/table/utils';
-import { ColumnDef, getCoreRowModel, Table, TableOptionsWithReactiveData, useVueTable } from '@tanstack/vue-table';
-import { MaybeRefOrGetter, ref, toValue } from 'vue';
+import { PaginatedCollection } from '@/types';
+import {
+    ColumnDef,
+    ColumnPinningState,
+    getCoreRowModel,
+    PaginationState,
+    RowSelectionState,
+    TableOptionsWithReactiveData,
+    useVueTable,
+} from '@tanstack/vue-table';
+import { computed, MaybeRefOrGetter, ref, toValue, watch } from 'vue';
 
 export type UseDataTableOptions<TData> = {
-    data: MaybeRefOrGetter<TData[]>;
+    data: MaybeRefOrGetter<PaginatedCollection<TData> | TData[]>;
     columns: ColumnDef<TData>[];
     actions?: DataTableAction<TData>[];
-};
+} & Pick<TableOptionsWithReactiveData<TData>, 'initialState' | 'manualPagination' | 'rowCount' | 'onPaginationChange'>;
+
 export type UseDataTableReturn<TData> = {
-    table: Table<TData>;
+    table: DataTableState<TData>;
     actions: DataTableAction<TData>[];
 };
+
 export function useDataTable<TData>({
     data,
     columns,
     actions = [],
+    initialState = {},
+    onPaginationChange,
+    ...options
 }: UseDataTableOptions<TData>): UseDataTableReturn<TData> {
-    const options: Partial<TableOptionsWithReactiveData<TData>> = {
-        state: {},
-    };
+    const paginatedData = computed(() => {
+        const value = toValue(data);
+        if (Array.isArray(value)) {
+            return;
+        }
+        return value;
+    });
 
-    const hasMultiActions = actions.some((action) => action.type === 'multi');
-    if (hasMultiActions) {
-        const rowSelection = ref({});
-        options.onRowSelectionChange = (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection);
-        options.state = {
-            ...options.state,
-            get rowSelection() {
-                return rowSelection.value;
-            },
-        };
-    }
+    const rowSelection = ref<RowSelectionState>(initialState.rowSelection ?? {});
+    const columnPinning = ref<ColumnPinningState>(initialState.columnPinning ?? {});
+    const columnVisibility = ref<Record<string, boolean>>(initialState.columnVisibility ?? {});
+    const pagination = ref<PaginationState>({
+        pageIndex: paginatedData.value?.meta.current_page ? paginatedData.value.meta.current_page - 1 : 0,
+        pageSize: paginatedData.value?.meta.per_page ?? 15,
+        ...initialState.pagination,
+    });
 
     const table = useVueTable({
         get data() {
-            return toValue(data);
+            const value = toValue(data);
+            return Array.isArray(value) ? value : value.data;
         },
         get columns() {
             return toValue(columns);
         },
         getCoreRowModel: getCoreRowModel(),
+        onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
+        onColumnPinningChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnPinning),
+        onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
+        onPaginationChange: (updaterOrValue) => {
+            valueUpdater(updaterOrValue, pagination);
+            table.resetRowSelection(true);
+            onPaginationChange?.(updaterOrValue);
+        },
+        get manualPagination() {
+            return paginatedData.value !== undefined || options.manualPagination;
+        },
+        get rowCount() {
+            return paginatedData.value?.meta.total ?? options.rowCount;
+        },
+        state: {
+            get rowSelection() {
+                return rowSelection.value;
+            },
+            get columnPinning() {
+                return columnPinning.value;
+            },
+            get columnVisibility() {
+                return columnVisibility.value;
+            },
+            get pagination() {
+                return pagination.value;
+            },
+        },
         ...options,
+    });
+
+    watch(paginatedData, () => {
+        if (!paginatedData.value) {
+            return;
+        }
+        if (
+            paginatedData.value.meta.current_page === table.getState().pagination.pageIndex + 1 &&
+            paginatedData.value.meta.per_page === table.getState().pagination.pageSize
+        ) {
+            return;
+        }
+        table.setPageSize(paginatedData.value.meta.per_page);
+        table.setPageIndex(paginatedData.value.meta.current_page - 1);
     });
 
     return { table, actions };

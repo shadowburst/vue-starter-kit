@@ -19,11 +19,13 @@ export function provideDataTableRowContext<TData>(contextValue: DataTableRowCont
 
 <script setup lang="ts" generic="TData">
 import { TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 import { Row } from '@tanstack/vue-table';
-import { inject, provide, Ref, toRefs } from 'vue';
+import { HTMLAttributes, inject, provide, Ref, toRefs } from 'vue';
 
 type Props = {
     row?: Row<TData>;
+    class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
 
@@ -35,7 +37,10 @@ provideDataTableRowContext({
 </script>
 
 <template>
-    <TableRow :data-state="row?.getIsSelected() ? 'selected' : undefined">
+    <TableRow
+        :data-state="row?.getIsSelected() ? 'selected' : undefined"
+        :class="cn('group/data-table-row', props.class)"
+    >
         <slot />
     </TableRow>
 </template>

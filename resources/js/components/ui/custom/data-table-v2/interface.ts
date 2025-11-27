@@ -31,3 +31,5 @@ export type DataTableMultiAction<T> = DataTableBaseAction<T[]> & {
 
 export type DataTableRowAction<T> = DataTableCallbackAction<T> | DataTableCustomAction<T> | DataTableHrefAction<T>;
 export type DataTableAction<T> = DataTableRowAction<T> | DataTableMultiAction<T>;
+
+export type { Table as DataTableState } from '@tanstack/vue-table';

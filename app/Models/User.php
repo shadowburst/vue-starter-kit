@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Data\User\UserResource;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Traits\BelongsToCreator;
+use App\Traits\BelongsToTeam;
 use App\Traits\HasPolicy;
 use App\Traits\HasRoles;
 use App\Traits\HasTeams;
@@ -29,7 +30,6 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property int $id
  * @property bool $is_admin
  * @property int $owner_id
- * @property int|null $team_id
  * @property string $first_name
  * @property string $last_name
  * @property string $full_name
@@ -37,14 +37,15 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $two_factor_secret
- * @property string|null $two_factor_recovery_codes
- * @property string|null $two_factor_confirmed_at
  * @property string|null $remember_token
  * @property int|null $creator_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_confirmed_at
+ * @property int|null $team_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $activeMembers
  * @property-read int|null $active_members_count
  * @property-read \App\Models\Media|null $avatar
@@ -121,6 +122,7 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use BelongsToCreator;
+    use BelongsToTeam;
     use HasFactory;
     use HasOneTimePasswords;
     use HasPolicy;

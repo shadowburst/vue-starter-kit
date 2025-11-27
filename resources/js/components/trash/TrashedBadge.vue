@@ -1,16 +1,19 @@
-<script setup lang="ts" generic="T extends { deleted_at?: string }">
+<script setup lang="ts">
 import { Badge } from '@/components/ui/badge';
 import { useFormatter } from '@/composables';
+import { computed } from 'vue';
+
 type Props = {
-    item: T;
+    date: string | undefined;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const format = useFormatter();
+const date = computed(() => format.date(props.date));
 </script>
 
 <template>
-    <Badge v-if="item.deleted_at" variant="destructive">
-        {{ format.date(item.deleted_at) }}
+    <Badge v-if="date" variant="destructive">
+        {{ date }}
     </Badge>
 </template>

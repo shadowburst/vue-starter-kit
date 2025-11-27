@@ -2,9 +2,12 @@
 
 namespace App\Data\User\Member\Index;
 
+use App\Data\Support\SortFieldData;
 use App\Enums\Trashed\TrashedFilter;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -13,15 +16,14 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 class UserMemberIndexRequest extends Data
 {
     public function __construct(
-        public ?string $q = null,
-
         public ?int $page = null,
 
         public ?int $per_page = null,
 
-        public string $sort_by = 'id',
+        #[DataCollectionOf(SortFieldData::class)]
+        public ?DataCollection $sort = null,
 
-        public string $sort_direction = 'desc',
+        public ?string $q = null,
 
         public ?TrashedFilter $trashed = null,
     ) {}
@@ -29,12 +31,11 @@ class UserMemberIndexRequest extends Data
     public static function attributes(): array
     {
         return [
-            'q'              => __('query'),
-            'page'           => __('page'),
-            'per_page'       => __('per_page'),
-            'sort_by'        => __('sort_by'),
-            'sort_direction' => __('sort_direction'),
-            'trashed'        => __('models.user.fields.is_trashed'),
+            'q'        => __('query'),
+            'page'     => __('page'),
+            'per_page' => __('per_page'),
+            'sort'     => __('sort'),
+            'trashed'  => __('models.user.fields.is_trashed'),
         ];
     }
 

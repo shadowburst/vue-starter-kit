@@ -118,6 +118,10 @@ export type RoleResource = {
     name: string;
     display_name: string;
 };
+export type SortFieldData = {
+    id: string;
+    desc: boolean;
+};
 export type TeamFormProps = {
     team?: TeamResource;
 };
@@ -226,11 +230,10 @@ export type UserMemberIndexProps = {
     trashedFilters?: Array<{ value: TrashedFilter; label: string }>;
 };
 export type UserMemberIndexRequest = {
-    q?: string;
     page?: number;
     per_page?: number;
-    sort_by: string;
-    sort_direction: string;
+    sort?: Array<SortFieldData>;
+    q?: string;
     trashed?: TrashedFilter;
 };
 export type UserMemberOneOrManyRequest = {

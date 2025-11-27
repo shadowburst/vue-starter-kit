@@ -5,12 +5,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-vue-next';
 import { injectDataTableRootContext } from './DataTable.vue';
 
-const { table } = injectDataTableRootContext<TData>();
+const { table, multiActions } = injectDataTableRootContext<TData>();
 </script>
 
 <template>
     <div class="flex gap-4">
-        <div class="text-muted-foreground flex-1 text-sm">
+        <div v-if="multiActions.length" class="text-muted-foreground flex-1 pl-2 text-sm">
             {{
                 $t('components.ui.custom.data_table.selected', {
                     selected: table.getFilteredSelectedRowModel().rows.length.toString(),
@@ -31,8 +31,8 @@ const { table } = injectDataTableRootContext<TData>();
                         <SelectValue :placeholder="`${table.getState().pagination.pageSize}`" />
                     </SelectTrigger>
                     <SelectContent side="top">
-                        <SelectItem v-for="perPage in [15, 50, 100, 200]" :key="perPage" :value="`${perPage}`">
-                            {{ perPage }}
+                        <SelectItem v-for="value in [15, 50, 100, 200]" :key="value" :value>
+                            {{ value }}
                         </SelectItem>
                     </SelectContent>
                 </Select>
@@ -52,7 +52,7 @@ const { table } = injectDataTableRootContext<TData>();
                     class="max-lg:hidden"
                     size="icon"
                     variant="outline"
-                    :disabled="table.getCanPreviousPage()"
+                    :disabled="!table.getCanPreviousPage()"
                     @click="table.setPageIndex(0)"
                 >
                     <span class="sr-only">Go to first page</span>
@@ -61,13 +61,13 @@ const { table } = injectDataTableRootContext<TData>();
                 <Button
                     size="icon"
                     variant="outline"
-                    :disabled="table.getCanPreviousPage()"
+                    :disabled="!table.getCanPreviousPage()"
                     @click="table.previousPage()"
                 >
                     <span class="sr-only">Go to previous page</span>
                     <ChevronLeftIcon />
                 </Button>
-                <Button size="icon" variant="outline" :disabled="table.getCanNextPage()" @click="table.nextPage()">
+                <Button size="icon" variant="outline" :disabled="!table.getCanNextPage()" @click="table.nextPage()">
                     <span class="sr-only">Go to next page</span>
                     <ChevronRightIcon />
                 </Button>
@@ -75,7 +75,7 @@ const { table } = injectDataTableRootContext<TData>();
                     class="max-lg:hidden"
                     size="icon"
                     variant="outline"
-                    :disabled="table.getCanNextPage()"
+                    :disabled="!table.getCanNextPage()"
                     @click="table.setPageIndex(table.getPageCount() - 1)"
                 >
                     <span class="sr-only">Go to last page</span>

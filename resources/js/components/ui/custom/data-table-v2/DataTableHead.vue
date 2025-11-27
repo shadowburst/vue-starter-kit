@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script setup lang="ts" generic="TData">
 import { TableHead } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 import { HTMLAttributes } from 'vue';
@@ -13,7 +13,7 @@ const props = defineProps<Props>();
     <TableHead
         :class="
             cn(
-                'text-xs uppercase [&:has([role=actions])]:pl-0 [&:has([role=actions])]:text-end [&:has([role=checkbox])]:w-1',
+                'bg-background text-xs uppercase [&:has([role=actions])]:text-end [&:has([role=checkbox])]:w-1 [&:has([role=checkbox])]:pl-0',
                 props.class,
             )
         "

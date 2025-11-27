@@ -6,6 +6,7 @@ export * from './useAuth';
 export * from './useAutofocus';
 export * from './useComputedForm';
 export * from './useFilters';
+export * from './useFiltersForm';
 export * from './useFormatter';
 export * from './useLayout';
 export * from './useLocale';

@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { TrashedBadge } from '@/components/trash';
 import { DataTable } from '@/components/ui/custom/data-table-v2';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { UserAvatar } from '@/components/user';
-import { useAlert, useFilters, useLayout } from '@/composables';
+import { useAlert, useFiltersForm, useLayout } from '@/composables';
 import { createDataTableActionHelper } from '@/composables/data-table';
 import { useUserTable } from '@/composables/user';
 import { AppLayout } from '@/layouts';
-import type { UserMemberIndexProps, UserMemberIndexRequest, UserMemberOneOrManyRequest, UserResource } from '@/types';
+import type { UserMemberIndexProps, UserMemberOneOrManyRequest, UserResource } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, EyeIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
+import { onMounted } from 'vue';
 
 defineOptions({
     layout: useLayout(AppLayout, () => ({
@@ -26,11 +28,15 @@ defineOptions({
 
 const props = defineProps<UserMemberIndexProps>();
 
-const alert = useAlert();
+const { filters, reload } = useFiltersForm(props.request, {
+    only: ['users', 'request'],
+});
+onMounted(() => reload());
 
+const alert = useAlert();
 const actionHelper = createDataTableActionHelper<UserResource>();
-const { table, actions, defineCell } = useUserTable({
-    data: () => props.users?.data ?? [],
+const { table, columns, actions } = useUserTable({
+    data: () => props.users ?? [],
     actions: [
         actionHelper.href({
             label: trans('edit'),
@@ -147,31 +153,12 @@ const { table, actions, defineCell } = useUserTable({
             disabled: (items) => items.some((member) => !member.policy?.delete),
         }),
     ],
+    onPaginationChange: () => {
+        filters.page = table.getState().pagination.pageIndex + 1;
+        filters.per_page = table.getState().pagination.pageSize;
+        reload();
+    },
 });
-
-const filters = useFilters<UserMemberIndexRequest>(
-    route('users.members.index'),
-    {
-        q: props.request.q ?? '',
-        page: props.request.page ?? props.users?.meta.current_page,
-        per_page: props.request.per_page ?? props.users?.meta.per_page,
-        sort_by: props.request.sort_by,
-        sort_direction: props.request.sort_direction,
-        trashed: props.request.trashed,
-    },
-    {
-        only: ['users'],
-        immediate: true,
-        debounceReload(keys) {
-            return !keys.includes('page') && !keys.includes('per_page');
-        },
-        onReload(keys) {
-            if (!keys.includes('page')) {
-                filters.page = 1;
-            }
-        },
-    },
-);
 </script>
 
 <template>
@@ -179,8 +166,8 @@ const filters = useFilters<UserMemberIndexRequest>(
 
     <Section>
         <SectionContent>
-            <DataTable :table :actions>
-                <defineCell.fullName v-slot="{ row }">
+            <DataTable :table :columns :actions>
+                <template #full_name="{ row }">
                     <InertiaLink
                         :href="route('users.members.edit', { member: row.original })"
                         class="flex items-center gap-2"
@@ -190,16 +177,10 @@ const filters = useFilters<UserMemberIndexRequest>(
                             {{ row.original.full_name }}
                         </CapitalizeText>
                     </InertiaLink>
-                </defineCell.fullName>
-                <defineCell.email v-slot="{ row }">
-                    {{ row.original.email }}
-                </defineCell.email>
-                <defineCell.phone v-slot="{ row }">
-                    {{ row.original.phone }}
-                </defineCell.phone>
-                <defineCell.deletedAt v-slot="{ row }">
-                    {{ row.original.deleted_at }}
-                </defineCell.deletedAt>
+                </template>
+                <template #deleted_at="{ row }">
+                    <TrashedBadge :date="row.original.deleted_at" />
+                </template>
             </DataTable>
         </SectionContent>
     </Section>

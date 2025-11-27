@@ -25,7 +25,7 @@ export function createDataTableActionHelper<T>() {
                 ...options,
             };
         },
-        multi(options: Omit<DataTableMultiAction<T[]>, 'type'>): DataTableMultiAction<T[]> {
+        multi(options: Omit<DataTableMultiAction<T>, 'type'>): DataTableMultiAction<T> {
             return {
                 type: 'multi',
                 ...options,

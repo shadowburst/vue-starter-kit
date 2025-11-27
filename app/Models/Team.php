@@ -21,10 +21,10 @@ use Spatie\MediaLibrary\HasMedia;
  * @property int $id
  * @property int|null $creator_id
  * @property string $name
- * @property \Spatie\LaravelData\Contracts\BaseData|\Spatie\LaravelData\Contracts\TransformableData|null $settings
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Spatie\LaravelData\Contracts\BaseData|\Spatie\LaravelData\Contracts\TransformableData|null $settings
  * @property-read \App\Models\User|null $creator
  * @property-read true $is_trashable
  * @property bool $is_trashed
