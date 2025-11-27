@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.1.0](https://github.com/shadowburst/vue-starter-kit/compare/v1.0.0...v1.1.0) (2025-11-27)
+
+
+### Features
+
+* **app:** adapt to postgresql ([7ebf1b9](https://github.com/shadowburst/vue-starter-kit/commit/7ebf1b9dc0cc525a00bb70561c16767b78fda74a))
+* **auth:** better auth abilities that handles guests ([661986e](https://github.com/shadowburst/vue-starter-kit/commit/661986e3a176d35ac25008c3e2f3683bf5a44e36))
+* **data:** use unix timestamps for dates ([fa447fd](https://github.com/shadowburst/vue-starter-kit/commit/fa447fda5a0b7385289a6bead7a650505d89d602))
+* **form:** use field components & rename profile to account ([a7e0855](https://github.com/shadowburst/vue-starter-kit/commit/a7e08557721f742ae5f5ffdad489ae70bcc2500a))
+* **js:** update shadcn components ([fbfe15a](https://github.com/shadowburst/vue-starter-kit/commit/fbfe15a603bcd6e7dba6220e9167b11fd3375e51))
+* **ui:** auto expand sidebar on hover. Closes [#10](https://github.com/shadowburst/vue-starter-kit/issues/10) ([4f90d40](https://github.com/shadowburst/vue-starter-kit/commit/4f90d406253bc30b18aa0299dc5e47ab175bc321))
+* **ui:** new reponsive tabs and breakpoints composable ([5d34fab](https://github.com/shadowburst/vue-starter-kit/commit/5d34fab328caa9a3140c9a284b55686b9bb377ee))
+* **ui:** replace AlertDialog with AlertDrawer ([bc44698](https://github.com/shadowburst/vue-starter-kit/commit/bc44698d8bc2f9787eee9d2d0dbdcc5c2244f017))
+* **ui:** use empty for table and fix title component ([cf8d93e](https://github.com/shadowburst/vue-starter-kit/commit/cf8d93e33cce70d779b4d81488084245e52b9eb2))
+* **ui:** use field components and add OTP field ([c2e5511](https://github.com/shadowburst/vue-starter-kit/commit/c2e5511429a0ba1019d629dd17733930b46385e7))
+* **user:** simplify setting password ([032ff4a](https://github.com/shadowburst/vue-starter-kit/commit/032ff4a6a6ffe82d6c044cb53173abc69e12f6d5))
+
+
+### Bug Fixes
+
+* **data-table:** checkbox column width ([397fd85](https://github.com/shadowburst/vue-starter-kit/commit/397fd85571aa6dd087110d8393dafe04c98c8088))
+* **js:** warnings after update ([a594031](https://github.com/shadowburst/vue-starter-kit/commit/a594031e9923534d054adf10081212e1326f0b24))
+* **permission:** add permissions to owner role ([af7c44d](https://github.com/shadowburst/vue-starter-kit/commit/af7c44d568e01784b54ccae0857f8787c582a0ab))
+* **security:** move form actions to correct place ([d70d883](https://github.com/shadowburst/vue-starter-kit/commit/d70d8835db9c3d43e6451ceb702f852c978c2a16))
+* **test:** password test fckup ([cd2ee54](https://github.com/shadowburst/vue-starter-kit/commit/cd2ee541681e659cfac3b53755e7eec2cc25a829))
+* **test:** profile -&gt; account fckup ([694e904](https://github.com/shadowburst/vue-starter-kit/commit/694e904c4f6726b9a2d2aac77ffe84ad2dce97d3))
+* **ts:** tsc errors and warnings ([316f505](https://github.com/shadowburst/vue-starter-kit/commit/316f505d3a70360f23330fcaf82c0b2d7b4d30ce))
+* **ui:** close alert drawer on action ([be050fc](https://github.com/shadowburst/vue-starter-kit/commit/be050fca31d5564716c111da6f83ca69a3f0d33a))
+
+
+### Miscellaneous Chores
+
+* **style:** auto-format ([dcfe8cd](https://github.com/shadowburst/vue-starter-kit/commit/dcfe8cd07b495fbb48277c3cfd22e9be3fb855cd))
+* **style:** auto-format ([0b208f9](https://github.com/shadowburst/vue-starter-kit/commit/0b208f929832643f1a97528ea6abd0c8587f0f28))
+
 ## 1.0.0 (2025-09-01)
 
 
