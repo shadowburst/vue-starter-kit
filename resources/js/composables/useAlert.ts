@@ -1,7 +1,7 @@
-import { injectAlertDrawerContext } from '@/components/ui/custom/alert-drawer';
+import { injectAlertModalContext } from '@/components/ui/custom/alert-modal';
 
 export function useAlert() {
-    const { alert } = injectAlertDrawerContext();
+    const { alert } = injectAlertModalContext();
 
     return alert;
 }

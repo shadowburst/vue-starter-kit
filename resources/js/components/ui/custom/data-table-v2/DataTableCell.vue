@@ -16,8 +16,9 @@ const { row } = injectDataTableRowContext();
     <TableCell
         :class="
             cn(
-                'group-hover/data-table-row:bg-muted/50 bg-background [&:has([role=actions])]:text-end',
+                '[&:has([role=actions])]:text-end',
                 row?.getIsSelected() ? 'bg-muted' : '',
+                row?.getIsPinned() ? 'group-hover/data-table-row:bg-muted bg-background' : '',
                 props.class,
             )
         "

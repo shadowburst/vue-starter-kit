@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppToaster from '@/components/app/AppToaster.vue';
-import { AlertDrawer } from '@/components/ui/custom/alert-drawer';
+import { AlertModal } from '@/components/ui/custom/alert-modal';
 import { useAutofocus, useLocale } from '@/composables';
 import { router } from '@inertiajs/vue3';
 import { ConfigProvider } from 'reka-ui';
@@ -13,11 +13,11 @@ onUnmounted(router.on('navigate', () => router.flushAll()));
 
 <template>
     <ConfigProvider :locale>
-        <AlertDrawer>
+        <AlertModal>
             <div class="container grid h-full overflow-hidden rounded-xl max-xl:mx-auto">
                 <slot />
             </div>
             <AppToaster />
-        </AlertDrawer>
+        </AlertModal>
     </ConfigProvider>
 </template>

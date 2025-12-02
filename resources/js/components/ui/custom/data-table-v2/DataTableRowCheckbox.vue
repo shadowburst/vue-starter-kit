@@ -1,14 +1,13 @@
 <script setup lang="ts" generic="TData">
 import { Checkbox } from '@/components/ui/checkbox';
-import { CellContext } from '@tanstack/vue-table';
+import { injectDataTableRowContext } from '@/components/ui/custom/data-table-v2/DataTableRow.vue';
 import { computed } from 'vue';
 
-type Props = CellContext<any, unknown>;
-const { row } = defineProps<Props>();
+const { row } = injectDataTableRowContext<TData>();
 
 const checked = computed<boolean>({
-    get: () => row.getIsSelected(),
-    set: (value) => row.toggleSelected(value),
+    get: () => row.value?.getIsSelected() ?? false,
+    set: (value) => row.value?.toggleSelected(value),
 });
 </script>
 

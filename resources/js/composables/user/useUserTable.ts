@@ -21,30 +21,34 @@ export function useUserTable({
         columns: [
             {
                 id: 'select',
-                header: (props) => h(DataTableHeadCheckbox, props),
-                cell: (props) => h(DataTableRowCheckbox, props),
+                header: () => h(DataTableHeadCheckbox),
+                cell: () => h(DataTableRowCheckbox),
             },
             {
-                accessorKey: 'full_name',
+                id: 'full_name',
+                accessorFn: (row) => row.full_name,
                 header: () => trans('models.user.fields.full_name'),
             },
             {
-                accessorKey: 'email',
+                id: 'email',
+                accessorFn: (row) => row.email,
                 header: () => trans('models.user.fields.email'),
             },
             {
-                accessorKey: 'phone',
+                id: 'phone',
+                accessorFn: (row) => row.phone,
                 header: () => trans('models.user.fields.phone'),
             },
             {
-                accessorKey: 'deleted_at',
+                id: 'deleted_at',
+                accessorFn: (row) => row.deleted_at,
                 header: () => trans('models.user.fields.deleted_at'),
                 enableHiding: true,
             },
             {
                 id: 'actions',
-                header: (props) => h(DataTableHeadActions, props),
-                cell: (props) => h(DataTableRowActions, props),
+                header: () => h(DataTableHeadActions),
+                cell: () => h(DataTableRowActions),
                 enablePinning: true,
             },
         ],

@@ -2,7 +2,6 @@ import { DataTableAction, DataTableState } from '@/components/ui/custom/data-tab
 import { valueUpdater } from '@/components/ui/table/utils';
 import { PaginatedCollection } from '@/types';
 import {
-    ColumnDef,
     ColumnPinningState,
     getCoreRowModel,
     PaginationState,
@@ -14,9 +13,11 @@ import { computed, MaybeRefOrGetter, ref, toValue, watch } from 'vue';
 
 export type UseDataTableOptions<TData> = {
     data: MaybeRefOrGetter<PaginatedCollection<TData> | TData[]>;
-    columns: ColumnDef<TData>[];
     actions?: DataTableAction<TData>[];
-} & Pick<TableOptionsWithReactiveData<TData>, 'initialState' | 'manualPagination' | 'rowCount' | 'onPaginationChange'>;
+} & Pick<
+    TableOptionsWithReactiveData<TData>,
+    'columns' | 'initialState' | 'manualPagination' | 'rowCount' | 'onPaginationChange'
+>;
 
 export type UseDataTableReturn<TData> = {
     table: DataTableState<TData>;
@@ -48,7 +49,7 @@ export function useDataTable<TData>({
         ...initialState.pagination,
     });
 
-    const table = useVueTable({
+    const table = useVueTable<TData>({
         get data() {
             const value = toValue(data);
             return Array.isArray(value) ? value : value.data;

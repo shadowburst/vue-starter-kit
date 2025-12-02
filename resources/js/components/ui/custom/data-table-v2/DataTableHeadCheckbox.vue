@@ -8,14 +8,11 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { HeaderContext } from '@tanstack/vue-table';
 import { ChevronDownIcon } from 'lucide-vue-next';
 import { CheckboxCheckedState } from 'reka-ui';
 import { computed } from 'vue';
 import { injectDataTableRootContext } from './DataTable.vue';
 import { DataTableMultiAction } from './interface';
-
-defineProps<HeaderContext<any, unknown>>();
 
 const { table, multiActions } = injectDataTableRootContext<TData>();
 
