@@ -1,4 +1,5 @@
-import { DataTableAction, DataTableState } from '@/components/ui/custom/data-table-v2';
+import { ActionItem } from '@/components/ui/custom/action-menu';
+import { DataTableState } from '@/components/ui/custom/data-table-v2';
 import { valueUpdater } from '@/components/ui/table/utils';
 import { PaginatedCollection } from '@/types';
 import {
@@ -13,7 +14,8 @@ import { computed, MaybeRefOrGetter, ref, toValue, watch } from 'vue';
 
 export type UseDataTableOptions<TData> = {
     data: MaybeRefOrGetter<PaginatedCollection<TData> | TData[]>;
-    actions?: DataTableAction<TData>[];
+    multiActions?: ActionItem<TData[]>[];
+    rowActions?: ActionItem<TData>[];
 } & Pick<
     TableOptionsWithReactiveData<TData>,
     'columns' | 'initialState' | 'manualPagination' | 'rowCount' | 'onPaginationChange'
@@ -21,13 +23,15 @@ export type UseDataTableOptions<TData> = {
 
 export type UseDataTableReturn<TData> = {
     table: DataTableState<TData>;
-    actions: DataTableAction<TData>[];
+    multiActions: ActionItem<TData[]>[];
+    rowActions: ActionItem<TData>[];
 };
 
 export function useDataTable<TData>({
     data,
     columns,
-    actions = [],
+    multiActions = [],
+    rowActions = [],
     initialState = {},
     onPaginationChange,
     ...options
@@ -103,5 +107,5 @@ export function useDataTable<TData>({
         table.setPageIndex(paginatedData.value.meta.current_page - 1);
     });
 
-    return { table, actions };
+    return { table, multiActions, rowActions };
 }

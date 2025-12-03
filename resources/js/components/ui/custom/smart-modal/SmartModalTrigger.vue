@@ -11,11 +11,11 @@ const props = defineProps<Props>();
 const forwardedDialogProps = useForwardProps(props as DialogTriggerProps);
 const forwardedDrawerProps = useForwardProps(props as DrawerTriggerProps);
 
-const { isDialog } = injectSmartModalRootContext();
+const { isDesktop } = injectSmartModalRootContext();
 </script>
 
 <template>
-    <DialogTrigger v-if="isDialog" v-bind="forwardedDialogProps">
+    <DialogTrigger v-if="isDesktop" v-bind="forwardedDialogProps">
         <slot />
     </DialogTrigger>
     <DrawerTrigger v-else v-bind="forwardedDrawerProps">

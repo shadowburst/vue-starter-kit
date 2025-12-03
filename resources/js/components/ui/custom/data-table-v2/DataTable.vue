@@ -1,8 +1,8 @@
 <script lang="ts">
 type DataTableRootContext<TData> = {
     table: Ref<UseDataTableReturn<TData>['table']>;
-    multiActions: Ref<DataTableMultiAction<TData>[]>;
-    rowActions: Ref<DataTableRowAction<TData>[]>;
+    multiActions: Ref<ActionItem<TData[]>[]>;
+    rowActions: Ref<ActionItem<TData>[]>;
 };
 
 export function injectDataTableRootContext<TData>(fallback?: DataTableRootContext<TData>): DataTableRootContext<TData> {
@@ -20,16 +20,17 @@ export function provideDataTableRootContext<TData>(contextValue: DataTableRootCo
 </script>
 
 <script setup lang="ts" generic="TData, TColumn extends string">
+import { ActionItem } from '@/components/ui/custom/action-menu';
 import { Table, TableBody, TableHeader } from '@/components/ui/table';
 import { UseDataTableReturn } from '@/composables/data-table';
 import { FlexRender } from '@tanstack/vue-table';
-import { computed, inject, provide, Ref, toRefs } from 'vue';
+import { inject, provide, Ref, toRefs } from 'vue';
 import DataTableCell from './DataTableCell.vue';
 import DataTableEmpty from './DataTableEmpty.vue';
 import DataTableHead from './DataTableHead.vue';
 import DataTablePagination from './DataTablePagination.vue';
 import DataTableRow from './DataTableRow.vue';
-import { DataTableAction, DataTableMultiAction, DataTableRowAction, DataTableState } from './interface';
+import { DataTableState } from './interface';
 
 defineOptions({
     inheritAttrs: false,
@@ -38,16 +39,16 @@ defineOptions({
 type Props = {
     table: DataTableState<TData>;
     columns: readonly TColumn[];
-    actions?: DataTableAction<TData>[];
+    multiActions?: ActionItem<TData[]>[];
+    rowActions?: ActionItem<TData>[];
 };
 const props = withDefaults(defineProps<Props>(), {
-    actions: () => [],
+    multiActions: () => [],
+    rowActions: () => [],
 });
 
-const { table, actions } = toRefs(props);
+const { table, multiActions, rowActions } = toRefs(props);
 
-const multiActions = computed(() => actions.value.filter((action) => action.type === 'multi'));
-const rowActions = computed(() => actions.value.filter((action) => action.type !== 'multi'));
 provideDataTableRootContext<TData>({
     table,
     multiActions,

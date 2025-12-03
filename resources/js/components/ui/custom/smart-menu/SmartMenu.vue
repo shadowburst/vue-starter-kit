@@ -1,27 +1,32 @@
 <script lang="ts">
-type SmartModalRootContext = {
+type SmartMenuContext = {
     isDesktop: Ref<boolean>;
 };
 
-export const [injectSmartModalRootContext, provideSmartModalRootContext] =
-    createContext<SmartModalRootContext>('SmartModalRootContext');
+export const [injectSmartMenuContext, provideSmartMenuContext] = createContext<SmartMenuContext>('SmartMenuContext');
 </script>
 
 <script setup lang="ts">
-import { Dialog } from '@/components/ui/dialog';
 import { Drawer } from '@/components/ui/drawer';
+import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import { useTailwindBreakpoints } from '@/composables';
-import { createContext, DialogRootEmits, DialogRootProps, useForwardPropsEmits } from 'reka-ui';
+import {
+    createContext,
+    DialogRootEmits,
+    DropdownMenuRootEmits,
+    DropdownMenuRootProps,
+    useForwardPropsEmits,
+} from 'reka-ui';
 import { DrawerRootProps } from 'vaul-vue';
 import { Ref } from 'vue';
 
-type Props = DialogRootProps & DrawerRootProps;
+type Props = DropdownMenuRootProps & DrawerRootProps;
 const props = defineProps<Props>();
 
-type Emits = DialogRootEmits;
+type Emits = DropdownMenuRootEmits & DialogRootEmits;
 const emits = defineEmits<Emits>();
 
-const forwardedDialogProps = useForwardPropsEmits(props as DialogRootProps, emits);
+const forwardedDropdownMenuProps = useForwardPropsEmits(props as DropdownMenuRootProps, emits);
 const forwardedDrawerProps = useForwardPropsEmits(props as DrawerRootProps, emits);
 
 const isOpen = defineModel<boolean>('open', {
@@ -30,15 +35,15 @@ const isOpen = defineModel<boolean>('open', {
 
 const { sm: isDesktop } = useTailwindBreakpoints();
 
-provideSmartModalRootContext({
+provideSmartMenuContext({
     isDesktop,
 });
 </script>
 
 <template>
-    <Dialog v-if="isDesktop" v-bind="forwardedDialogProps" v-model:open="isOpen">
+    <DropdownMenu v-if="isDesktop" v-bind="forwardedDropdownMenuProps" v-model:open="isOpen">
         <slot />
-    </Dialog>
+    </DropdownMenu>
     <Drawer v-else v-bind="forwardedDrawerProps" v-model:open="isOpen">
         <slot />
     </Drawer>

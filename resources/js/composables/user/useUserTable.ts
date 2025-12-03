@@ -9,15 +9,9 @@ import { UserResource } from '@/types';
 import { trans } from 'laravel-vue-i18n';
 import { h } from 'vue';
 
-export function useUserTable({
-    data = [],
-    actions = [],
-    initialState = {},
-    ...options
-}: Partial<UseDataTableOptions<UserResource>>) {
+export function useUserTable({ data = [], initialState = {}, ...options }: Partial<UseDataTableOptions<UserResource>>) {
     const table = useDataTable({
         data,
-        actions,
         columns: [
             {
                 id: 'select',

@@ -11,11 +11,11 @@ const props = defineProps<Props>();
 const forwardedDialogProps = useForwardProps(props as DialogDescriptionProps);
 const forwardedDrawerProps = useForwardProps(props as DrawerDescriptionProps);
 
-const { isDialog } = injectSmartModalRootContext();
+const { isDesktop } = injectSmartModalRootContext();
 </script>
 
 <template>
-    <DialogDescription v-if="isDialog" v-bind="forwardedDialogProps">
+    <DialogDescription v-if="isDesktop" v-bind="forwardedDialogProps">
         <slot />
     </DialogDescription>
     <DrawerDescription v-else v-bind="forwardedDrawerProps">
