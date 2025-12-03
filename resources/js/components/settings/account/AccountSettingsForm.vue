@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { MediaField, TextField } from '@/components/ui/custom/field';
+import { MediaField } from '@/components/media';
+import { TextField } from '@/components/ui/custom/field';
 import { FormContent, FormProps, injectFormContext } from '@/components/ui/custom/form';
 import { TextLink } from '@/components/ui/custom/link';
 import { FieldDescription } from '@/components/ui/field';
