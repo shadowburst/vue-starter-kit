@@ -172,7 +172,7 @@ watch(
                                 >
                                     <div
                                         v-html="qrCodeSvg"
-                                        class="flex aspect-square size-full items-center justify-center"
+                                        class="aspect-square w-full justify-center rounded-lg bg-white p-2 [&_svg]:size-full"
                                     />
                                 </div>
                             </div>
