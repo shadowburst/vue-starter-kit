@@ -36,7 +36,7 @@ const state = reactive<AlertModalState>({
 });
 
 function alert(options: Partial<AlertModalState>) {
-    Object.assign(state, {variant: 'default', ...options})
+    Object.assign(state, { variant: 'default', ...options });
     open.value = true;
 }
 
@@ -52,7 +52,7 @@ provideAlertModalContext({
             <div class="mx-auto sm:max-w-fit">
                 <SmartModalHeader>
                     <SmartModalTitle>
-                        {{ state.title ?? $t(`components.ui.custom.alert_drawer.title.${state.variant}`) }}
+                        {{ state.title ?? $t(`components.ui.custom.alert_modal.title.${state.variant}`) }}
                     </SmartModalTitle>
                     <SmartModalDescription v-if="state.description">
                         {{ state.description }}

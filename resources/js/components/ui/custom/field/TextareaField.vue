@@ -12,10 +12,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { reactiveOmit, reactivePick } from '@vueuse/core';
 import { useForwardProps } from 'reka-ui';
 
-defineOptions({
-    inheritAttrs: false,
-});
-
 type Props = FormFieldProps & {
     defaultValue?: string;
     maxlength?: number;
@@ -31,18 +27,12 @@ const model = defineModel<string>();
 
 <template>
     <FormField v-bind="forwardedFieldProps">
-        <slot name="label">
+        <slot>
             <FormLabel />
-        </slot>
-        <slot name="input">
             <FormControl>
-                <Textarea v-bind="{ ...$attrs, ...forwardedOtherProps }" v-model="model" />
+                <Textarea v-bind="forwardedOtherProps" v-model="model" />
             </FormControl>
-        </slot>
-        <slot name="description">
             <FormDescription />
-        </slot>
-        <slot name="error">
             <FormError />
         </slot>
     </FormField>

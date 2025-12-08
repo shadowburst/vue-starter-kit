@@ -6,7 +6,9 @@ const { description } = injectFormFieldContext();
 </script>
 
 <template>
-    <FieldDescription v-if="description">
-        {{ description }}
+    <FieldDescription v-if="description || $slots.default">
+        <slot>
+            {{ description }}
+        </slot>
     </FieldDescription>
 </template>

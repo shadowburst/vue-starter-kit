@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { DialogFooter } from '@/components/ui/dialog';
 import { DrawerFooter } from '@/components/ui/drawer';
-import { useForwardProps } from 'reka-ui';
+import { cn } from '@/lib/utils';
 import { HTMLAttributes } from 'vue';
 import { injectSmartModalRootContext } from './SmartModal.vue';
 
@@ -10,16 +10,14 @@ type Props = {
 };
 const props = defineProps<Props>();
 
-const forwarded = useForwardProps(props);
-
 const { isDesktop } = injectSmartModalRootContext();
 </script>
 
 <template>
-    <DialogFooter v-if="isDesktop" v-bind="forwarded">
+    <DialogFooter v-if="isDesktop" :class="props.class">
         <slot />
     </DialogFooter>
-    <DrawerFooter v-else v-bind="forwarded">
+    <DrawerFooter v-else :class="cn('flex-col-reverse p-0', props.class)">
         <slot />
     </DrawerFooter>
 </template>

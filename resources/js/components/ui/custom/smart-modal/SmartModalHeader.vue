@@ -20,7 +20,7 @@ const { isDesktop } = injectSmartModalRootContext();
     <DialogHeader v-if="isDesktop" v-bind="forwarded">
         <slot />
     </DialogHeader>
-    <DrawerHeader v-else :class="cn('p-0', forwarded.class)">
+    <DrawerHeader v-else :class="cn('p-0', props.class)">
         <slot />
     </DrawerHeader>
 </template>

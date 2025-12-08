@@ -14,10 +14,6 @@ import { useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 import { REGEXP_ONLY_DIGITS, type OTPInputProps } from 'vue-input-otp';
 
-defineOptions({
-    inheritAttrs: false,
-});
-
 type Props = FormFieldProps & Partial<OTPInputProps>;
 const props = withDefaults(defineProps<Props>(), {
     maxlength: 6,
@@ -34,22 +30,16 @@ const model = defineModel<string>({
 
 <template>
     <FormField v-bind="forwardedFieldProps">
-        <slot name="label">
+        <slot>
             <FormLabel />
-        </slot>
-        <slot name="input">
             <FormControl>
-                <InputOTP v-bind="{ ...$attrs, ...forwardedOtherProps }" v-model="model">
+                <InputOTP v-bind="forwardedOtherProps" v-model="model">
                     <InputOTPGroup>
                         <InputOTPSlot v-for="index in slots" :key="index" :index />
                     </InputOTPGroup>
                 </InputOTP>
             </FormControl>
-        </slot>
-        <slot name="description">
             <FormDescription />
-        </slot>
-        <slot name="error">
             <FormError />
         </slot>
     </FormField>

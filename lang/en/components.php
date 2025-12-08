@@ -14,7 +14,7 @@ return [
 
     'settings' => [
         'account' => [
-            'delete_dialog' => [
+            'delete_modal' => [
                 'title'                => 'Are you sure you want to delete your account?',
                 'description'          => 'Once your account is deleted, all of its resources and data will also be permanently deleted.',
                 'password_description' => 'Please enter your password to confirm you would like to permanently delete your account.',
@@ -25,7 +25,7 @@ return [
 
     'ui' => [
         'custom' => [
-            'alert_drawer' => [
+            'alert_modal' => [
                 'title' => [
                     'default'     => 'Confirm',
                     'destructive' => 'Warning',

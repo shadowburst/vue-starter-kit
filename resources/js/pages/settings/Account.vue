@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AccountSettingsForm, DeleteAccountDrawerButton } from '@/components/settings/account';
+import { AccountSettingsForm, DeleteAccountModalButton } from '@/components/settings/account';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormActions, FormSubmitButton } from '@/components/ui/custom/form';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
@@ -58,7 +58,7 @@ function submit() {
             </ItemDescription>
         </ItemContent>
         <ItemActions>
-            <DeleteAccountDrawerButton />
+            <DeleteAccountModalButton />
         </ItemActions>
     </Item>
 </template>

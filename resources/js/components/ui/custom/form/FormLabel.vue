@@ -15,8 +15,13 @@ const { id, label, required } = injectFormFieldContext();
 </script>
 
 <template>
-    <FieldLabel v-if="label" :for="props.for ?? id" :aria-required="required" :class="cn('gap-1', props.class)">
-        <slot :label>
+    <FieldLabel
+        v-if="label || $slots.default"
+        :for="props.for ?? id"
+        :aria-required="required"
+        :class="cn('gap-1', props.class)"
+    >
+        <slot>
             <CapitalizeText>
                 {{ label }}
             </CapitalizeText>

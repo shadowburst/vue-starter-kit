@@ -18,6 +18,7 @@ type FormFieldContext = {
     errors: Ref<string[]>;
     required: Ref<boolean>;
     disabled: Ref<boolean>;
+    attrs: Ref<HTMLAttributes>;
 };
 
 export const [injectFormFieldContext, provideFormFieldContext] = createContext<FormFieldContext>('FormFieldContext');
@@ -38,10 +39,9 @@ export const formFieldPropKeys = [
 <script setup lang="ts">
 import { Field, FieldVariants } from '@/components/ui/field';
 import { useArrayWrap } from '@/composables';
-import { cn } from '@/lib/utils';
 import { Arrayable, toRefs } from '@vueuse/core';
 import { createContext } from 'reka-ui';
-import { computed, HTMLAttributes, Ref, useId } from 'vue';
+import { computed, HTMLAttributes, Ref, useAttrs, useId } from 'vue';
 import { injectFormContext } from './Form.vue';
 
 const props = withDefaults(defineProps<FormFieldProps>(), {
@@ -54,6 +54,7 @@ const disabled = computed((): boolean => props.disabled || formDisabled.value);
 const { id, label, description, required } = toRefs(props);
 const name = computed((): string => props.name ?? id.value);
 const errors = computed(() => useArrayWrap(props.errors).value.map((message) => message));
+const attrs = computed(() => useAttrs());
 
 provideFormFieldContext({
     id,
@@ -63,11 +64,12 @@ provideFormFieldContext({
     errors,
     required,
     disabled,
+    attrs,
 });
 </script>
 
 <template>
-    <Field :orientation :data-invalid="errors.length > 0 || undefined" :class="cn('', props.class)">
+    <Field :orientation :data-invalid="errors.length > 0 || undefined" :class="props.class">
         <slot />
     </Field>
 </template>

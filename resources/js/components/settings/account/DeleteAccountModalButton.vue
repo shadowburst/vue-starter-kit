@@ -3,17 +3,17 @@ import { Button } from '@/components/ui/button';
 import { TextField } from '@/components/ui/custom/field';
 import { Form, FormContent, FormSubmitButton } from '@/components/ui/custom/form';
 import { TextInput } from '@/components/ui/custom/input';
-import { CapitalizeText } from '@/components/ui/custom/typography';
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
+    SmartModal,
+    SmartModalClose,
+    SmartModalContent,
+    SmartModalDescription,
+    SmartModalFooter,
+    SmartModalHeader,
+    SmartModalTitle,
+    SmartModalTrigger,
+} from '@/components/ui/custom/smart-modal';
+import { CapitalizeText } from '@/components/ui/custom/typography';
 import { ConfirmPasswordRequest } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { whenever } from '@vueuse/core';
@@ -44,25 +44,25 @@ function submit() {
 </script>
 
 <template>
-    <Drawer v-model:open="open">
-        <DrawerTrigger as-child>
+    <SmartModal v-model:open="open">
+        <SmartModalTrigger as-child>
             <Button variant="destructive">
                 <CapitalizeText>
-                    {{ $t('components.settings.account.delete_dialog.action') }}
+                    {{ $t('components.settings.account.delete_modal.action') }}
                 </CapitalizeText>
             </Button>
-        </DrawerTrigger>
-        <DrawerContent>
+        </SmartModalTrigger>
+        <SmartModalContent>
             <Form :form class="mx-auto sm:max-w-fit" @submit="submit()">
-                <DrawerHeader>
-                    <DrawerTitle>
-                        {{ $t('components.settings.account.delete_dialog.title') }}
-                    </DrawerTitle>
-                    <DrawerDescription>
-                        {{ $t('components.settings.account.delete_dialog.description') }}
-                    </DrawerDescription>
-                </DrawerHeader>
-                <FormContent class="p-4">
+                <SmartModalHeader>
+                    <SmartModalTitle>
+                        {{ $t('components.settings.account.delete_modal.title') }}
+                    </SmartModalTitle>
+                    <SmartModalDescription>
+                        {{ $t('components.settings.account.delete_modal.description') }}
+                    </SmartModalDescription>
+                </SmartModalHeader>
+                <FormContent>
                     <TextField
                         v-model="form.password"
                         ref="password"
@@ -70,23 +70,23 @@ function submit() {
                         autocomplete="current-password"
                         required
                         :label="$t('models.user.fields.password')"
-                        :description="$t('components.settings.account.delete_dialog.password_description')"
+                        :description="$t('components.settings.account.delete_modal.password_description')"
                         :errors="form.errors.password"
                     />
                 </FormContent>
-                <DrawerFooter>
-                    <FormSubmitButton :disabled="!form.password" variant="destructive" :icon="false">
-                        {{ $t('components.settings.account.delete_dialog.action') }}
-                    </FormSubmitButton>
-                    <DrawerClose as-child @click="form.reset()">
+                <SmartModalFooter>
+                    <SmartModalClose as-child @click="form.reset()">
                         <Button variant="ghost">
                             <CapitalizeText>
                                 {{ $t('cancel') }}
                             </CapitalizeText>
                         </Button>
-                    </DrawerClose>
-                </DrawerFooter>
+                    </SmartModalClose>
+                    <FormSubmitButton :disabled="!form.password" variant="destructive" :icon="false">
+                        {{ $t('components.settings.account.delete_modal.action') }}
+                    </FormSubmitButton>
+                </SmartModalFooter>
             </Form>
-        </DrawerContent>
-    </Drawer>
+        </SmartModalContent>
+    </SmartModal>
 </template>

@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { MediaField } from '@/components/media';
 import { TextField } from '@/components/ui/custom/field';
-import { FormContent, FormProps, injectFormContext } from '@/components/ui/custom/form';
+import {
+    FormContent,
+    FormControl,
+    FormError,
+    FormLabel,
+    FormProps,
+    injectFormContext,
+} from '@/components/ui/custom/form';
+import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { FieldDescription } from '@/components/ui/field';
 import { UserAvatar } from '@/components/user';
@@ -46,22 +54,18 @@ const { form } = injectFormContext<AccountSettingsFormData>();
             autocomplete="family-name"
             required
         />
-        <TextField
-            v-model="form.email"
-            :label="$t('models.user.fields.email')"
-            :errors="form.errors.email"
-            type="email"
-            autocomplete="email"
-            required
-        >
-            <template #description v-if="user && !user.email_verified_at">
-                <FieldDescription>
-                    {{ $t('pages.settings.account.information.unverified_email') }}
-                    <TextLink :href="route('verification.notice')">
-                        {{ $t('pages.settings.account.information.verify_email') }}
-                    </TextLink>
-                </FieldDescription>
-            </template>
+        <TextField :label="$t('models.user.fields.email')" :errors="form.errors.email" required>
+            <FormLabel />
+            <FormControl>
+                <TextInput v-model="form.email" type="email" autocomplete="email" />
+            </FormControl>
+            <FieldDescription v-if="user && !user.email_verified_at">
+                {{ $t('pages.settings.account.information.unverified_email') }}
+                <TextLink :href="route('verification.notice')">
+                    {{ $t('pages.settings.account.information.verify_email') }}
+                </TextLink>
+            </FieldDescription>
+            <FormError />
         </TextField>
         <TextField
             v-model="form.phone"

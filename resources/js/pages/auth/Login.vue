@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { CheckboxField, TextField } from '@/components/ui/custom/field';
-import { Form, FormContent, FormLabel, FormSubmitButton } from '@/components/ui/custom/form';
+import { Form, FormContent, FormControl, FormError, FormLabel, FormSubmitButton } from '@/components/ui/custom/form';
+import { TextInput } from '@/components/ui/custom/input';
 import { TextLink } from '@/components/ui/custom/link';
 import { Section, SectionContent, SectionFooter, SectionHeader } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
@@ -58,27 +59,22 @@ function submit() {
                         autocomplete="email"
                         :tabindex="1"
                     />
-                    <TextField
-                        v-model="form.password"
-                        :label="$t('models.user.fields.password')"
-                        :errors="form.errors.password"
-                        type="password"
-                        autocomplete="current-password"
-                        :tabindex="2"
-                    >
-                        <template #label>
-                            <div class="flex items-center justify-between">
-                                <FormLabel />
-                                <TextLink
-                                    class="text-sm"
-                                    v-if="canResetPassword"
-                                    :href="route('password.request')"
-                                    :tabindex="5"
-                                >
-                                    {{ $t('pages.auth.login.forgot_password') }}
-                                </TextLink>
-                            </div>
-                        </template>
+                    <TextField :label="$t('models.user.fields.password')" :errors="form.errors.password" :tabindex="2">
+                        <div class="flex items-center justify-between">
+                            <FormLabel />
+                            <TextLink
+                                class="text-sm"
+                                v-if="canResetPassword"
+                                :href="route('password.request')"
+                                :tabindex="5"
+                            >
+                                {{ $t('pages.auth.login.forgot_password') }}
+                            </TextLink>
+                        </div>
+                        <FormControl>
+                            <TextInput v-model="form.password" type="password" autocomplete="current-password" />
+                        </FormControl>
+                        <FormError />
                     </TextField>
                     <CheckboxField v-model="form.remember" :label="$t('pages.auth.login.remember_me')" :tabindex="3" />
                 </FormContent>
