@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { ButtonProps } from '@/components/ui/button/interface';
+import { DrawerClose } from '@/components/ui/drawer';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { DropdownMenuItemProps, useForwardProps } from 'reka-ui';
 import { injectSmartMenuContext } from './SmartMenu.vue';
@@ -18,7 +19,9 @@ const { isDesktop } = injectSmartMenuContext();
     <DropdownMenuItem v-if="isDesktop" v-bind="forwardedDropdownMenuProps">
         <slot />
     </DropdownMenuItem>
-    <Button v-else variant="ghost" size="lg" v-bind="forwardedButtonProps">
-        <slot />
-    </Button>
+    <DrawerClose v-else>
+        <Button variant="ghost" size="lg" v-bind="forwardedButtonProps">
+            <slot />
+        </Button>
+    </DrawerClose>
 </template>

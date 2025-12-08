@@ -52,8 +52,8 @@ function submit() {
                 </CapitalizeText>
             </Button>
         </SmartModalTrigger>
-        <SmartModalContent>
-            <Form :form class="mx-auto sm:max-w-fit" @submit="submit()">
+        <SmartModalContent as-child>
+            <Form :form @submit="submit()">
                 <SmartModalHeader>
                     <SmartModalTitle>
                         {{ $t('components.settings.account.delete_modal.title') }}

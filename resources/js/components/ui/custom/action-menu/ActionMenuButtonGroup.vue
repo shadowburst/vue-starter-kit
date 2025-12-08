@@ -1,15 +1,19 @@
 <script setup lang="ts">
+import { ActionItem } from '@/components/ui/custom/action-menu/interface';
 import { cn } from '@/lib/utils';
-import { HTMLAttributes } from 'vue';
-import { injectActionMenuContext } from './ActionMenu.vue';
+import { computed, HTMLAttributes } from 'vue';
+import { provideActionMenuContext } from './ActionMenu.vue';
 import ActionMenuButton from './ActionMenuButton.vue';
 
 type Props = {
+    actions: ActionItem[];
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
 
-const { actions } = injectActionMenuContext();
+provideActionMenuContext({
+    actions: computed(() => props.actions),
+});
 </script>
 
 <template>

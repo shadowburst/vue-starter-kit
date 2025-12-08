@@ -2,29 +2,32 @@
 import { DialogScrollContent } from '@/components/ui/dialog';
 import { DrawerContent } from '@/components/ui/drawer';
 import { cn } from '@/lib/utils';
-import { DialogContentProps, Slot, useForwardProps } from 'reka-ui';
+import { reactiveOmit } from '@vueuse/core';
+import { DialogContentProps, Primitive, useForwardProps } from 'reka-ui';
 import { HTMLAttributes } from 'vue';
 import { injectSmartModalRootContext } from './SmartModal.vue';
 
 type Props = DialogContentProps & {
     class?: HTMLAttributes['class'];
 };
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    as: 'div',
+});
 
-const forwarded = useForwardProps(props);
+const forwarded = useForwardProps(reactiveOmit(props, 'as', 'asChild', 'class'));
 
 const { isDesktop } = injectSmartModalRootContext();
 </script>
 
 <template>
     <DialogScrollContent v-if="isDesktop" v-bind="forwarded">
-        <Slot :class="cn('grid gap-4', props.class)">
+        <Primitive :as :as-child :class="cn('grid w-full gap-4', props.class)">
             <slot />
-        </Slot>
+        </Primitive>
     </DialogScrollContent>
     <DrawerContent v-else v-bind="forwarded">
-        <Slot :class="cn('grid gap-6 p-4', props.class)">
+        <Primitive :as :as-child :class="cn('grid gap-6 p-4', props.class)">
             <slot />
-        </Slot>
+        </Primitive>
     </DrawerContent>
 </template>

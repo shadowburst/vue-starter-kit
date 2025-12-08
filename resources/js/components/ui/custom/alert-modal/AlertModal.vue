@@ -49,35 +49,33 @@ provideAlertModalContext({
     <SmartModal v-model:open="open">
         <slot />
         <SmartModalContent>
-            <div class="mx-auto sm:max-w-fit">
-                <SmartModalHeader>
-                    <SmartModalTitle>
-                        {{ state.title ?? $t(`components.ui.custom.alert_modal.title.${state.variant}`) }}
-                    </SmartModalTitle>
-                    <SmartModalDescription v-if="state.description">
-                        {{ state.description }}
-                    </SmartModalDescription>
-                    <SmartModalDescription class="text-xs italic" v-if="state.footnote">
-                        {{ state.footnote }}
-                    </SmartModalDescription>
-                </SmartModalHeader>
-                <SmartModalFooter>
-                    <SmartModalClose as-child>
-                        <Button v-if="state.callback" :variant="state.variant" @click="state.callback()">
-                            <CapitalizeText>
-                                {{ $t('confirm') }}
-                            </CapitalizeText>
-                        </Button>
-                    </SmartModalClose>
-                    <SmartModalClose as-child>
-                        <Button variant="ghost">
-                            <CapitalizeText>
-                                {{ $t('cancel') }}
-                            </CapitalizeText>
-                        </Button>
-                    </SmartModalClose>
-                </SmartModalFooter>
-            </div>
+            <SmartModalHeader>
+                <SmartModalTitle>
+                    {{ state.title ?? $t(`components.ui.custom.alert_modal.title.${state.variant}`) }}
+                </SmartModalTitle>
+                <SmartModalDescription v-if="state.description">
+                    {{ state.description }}
+                </SmartModalDescription>
+                <SmartModalDescription class="text-xs italic" v-if="state.footnote">
+                    {{ state.footnote }}
+                </SmartModalDescription>
+            </SmartModalHeader>
+            <SmartModalFooter>
+                <SmartModalClose as-child>
+                    <Button variant="ghost">
+                        <CapitalizeText>
+                            {{ $t('cancel') }}
+                        </CapitalizeText>
+                    </Button>
+                </SmartModalClose>
+                <SmartModalClose as-child>
+                    <Button v-if="state.callback" :variant="state.variant" @click="state.callback()">
+                        <CapitalizeText>
+                            {{ $t('confirm') }}
+                        </CapitalizeText>
+                    </Button>
+                </SmartModalClose>
+            </SmartModalFooter>
         </SmartModalContent>
     </SmartModal>
 </template>

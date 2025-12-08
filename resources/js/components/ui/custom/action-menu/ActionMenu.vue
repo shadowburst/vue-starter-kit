@@ -9,7 +9,7 @@ export const [injectActionMenuContext, provideActionMenuContext] =
 
 <script setup lang="ts">
 import { createContext } from 'reka-ui';
-import { computed, Ref } from 'vue';
+import { Ref } from 'vue';
 import ActionMenuButtonGroup from './ActionMenuButtonGroup.vue';
 import ActionMenuDropdown from './ActionMenuDropdown.vue';
 import { ActionItem } from './interface';
@@ -18,16 +18,12 @@ type Props = {
     actions: ActionItem[];
     variant?: 'dropdown' | 'buttons';
 };
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
     variant: 'dropdown',
-});
-
-provideActionMenuContext({
-    actions: computed(() => props.actions),
 });
 </script>
 
 <template>
-    <ActionMenuDropdown v-if="variant === 'dropdown'" />
-    <ActionMenuButtonGroup v-if="variant === 'buttons'" />
+    <ActionMenuDropdown v-if="variant === 'dropdown'" :actions />
+    <ActionMenuButtonGroup v-if="variant === 'buttons'" :actions />
 </template>

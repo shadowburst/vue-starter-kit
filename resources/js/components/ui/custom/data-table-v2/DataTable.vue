@@ -1,8 +1,7 @@
 <script lang="ts">
 type DataTableRootContext<TData> = {
     table: Ref<UseDataTableReturn<TData>['table']>;
-    selectedActions: Ref<ActionItem<TData[]>[]>;
-    rowActions: Ref<ActionItem<TData>[]>;
+    getActions: (items: TData[]) => ActionItem[];
 };
 
 export function injectDataTableRootContext<TData>(fallback?: DataTableRootContext<TData>): DataTableRootContext<TData> {
@@ -24,7 +23,7 @@ import { ActionItem } from '@/components/ui/custom/action-menu';
 import { Table, TableBody, TableHeader } from '@/components/ui/table';
 import { UseDataTableReturn } from '@/composables/data-table';
 import { FlexRender } from '@tanstack/vue-table';
-import { inject, provide, Ref, toRefs } from 'vue';
+import { computed, inject, provide, Ref } from 'vue';
 import DataTableCell from './DataTableCell.vue';
 import DataTableEmpty from './DataTableEmpty.vue';
 import DataTableHead from './DataTableHead.vue';
@@ -39,20 +38,15 @@ defineOptions({
 type Props = {
     table: DataTableState<TData>;
     columns: readonly TColumn[];
-    selectedActions?: (items: TData[]) => ActionItem[];
-    rowActions?: (item: TData) => ActionItem[];
+    getActions?: (items: TData[]) => ActionItem[];
 };
 const props = withDefaults(defineProps<Props>(), {
-    selectedActions: () => [],
-    rowActions: () => [],
+    getActions: () => [],
 });
 
-const { table, selectedActions, rowActions } = toRefs(props);
-
 provideDataTableRootContext<TData>({
-    table,
-    selectedActions,
-    rowActions,
+    table: computed(() => props.table),
+    getActions: props.getActions,
 });
 </script>
 
