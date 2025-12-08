@@ -5,12 +5,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-vue-next';
 import { injectDataTableRootContext } from './DataTable.vue';
 
-const { table, multiActions } = injectDataTableRootContext<TData>();
+const { table, selectedActions } = injectDataTableRootContext<TData>();
 </script>
 
 <template>
     <div class="flex gap-4">
-        <div v-if="multiActions.length" class="text-muted-foreground flex-1 pl-2 text-sm">
+        <div v-if="selectedActions.length" class="text-muted-foreground flex-1 pl-2 text-sm">
             {{
                 $t('components.ui.custom.data_table.selected', {
                     selected: table.getFilteredSelectedRowModel().rows.length.toString(),

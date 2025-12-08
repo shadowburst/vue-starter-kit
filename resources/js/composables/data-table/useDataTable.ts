@@ -14,8 +14,8 @@ import { computed, MaybeRefOrGetter, ref, toValue, watch } from 'vue';
 
 export type UseDataTableOptions<TData> = {
     data: MaybeRefOrGetter<PaginatedCollection<TData> | TData[]>;
-    multiActions?: ActionItem<TData[]>[];
-    rowActions?: ActionItem<TData>[];
+    selectedActions?: (items: TData[]) => ActionItem[];
+    rowActions?: (item: TData) => ActionItem[];
 } & Pick<
     TableOptionsWithReactiveData<TData>,
     'columns' | 'initialState' | 'manualPagination' | 'rowCount' | 'onPaginationChange'
@@ -23,15 +23,15 @@ export type UseDataTableOptions<TData> = {
 
 export type UseDataTableReturn<TData> = {
     table: DataTableState<TData>;
-    multiActions: ActionItem<TData[]>[];
-    rowActions: ActionItem<TData>[];
+    selectedActions?: (items: TData[]) => ActionItem[];
+    rowActions?: (item: TData) => ActionItem[];
 };
 
 export function useDataTable<TData>({
     data,
     columns,
-    multiActions = [],
-    rowActions = [],
+    selectedActions,
+    rowActions,
     initialState = {},
     onPaginationChange,
     ...options
@@ -107,5 +107,5 @@ export function useDataTable<TData>({
         table.setPageIndex(paginatedData.value.meta.current_page - 1);
     });
 
-    return { table, multiActions, rowActions };
+    return { table, selectedActions, rowActions };
 }

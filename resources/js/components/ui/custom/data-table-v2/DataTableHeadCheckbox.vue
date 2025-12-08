@@ -6,7 +6,7 @@ import { CheckboxCheckedState } from 'reka-ui';
 import { computed } from 'vue';
 import { injectDataTableRootContext } from './DataTable.vue';
 
-const { table, multiActions } = injectDataTableRootContext<TData>();
+const { table, selectedActions } = injectDataTableRootContext<TData>();
 
 const checked = computed<CheckboxCheckedState>({
     get: () => table.value.getIsAllPageRowsSelected() || (table.value.getIsSomeRowsSelected() && 'indeterminate'),
@@ -20,8 +20,8 @@ const selectedRows = computed(() => table.value.getSelectedRowModel().rows.map((
     <ButtonGroup>
         <Checkbox v-model="checked" class="my-auto" />
         <ActionMenu
-            v-if="table.getRowCount() > 0 && multiActions.length"
-            :actions="multiActions"
+            v-if="table.getRowCount() > 0 && selectedActions.length"
+            :actions="selectedActions"
             :payload="selectedRows"
         />
     </ButtonGroup>

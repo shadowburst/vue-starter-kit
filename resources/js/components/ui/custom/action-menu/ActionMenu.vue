@@ -1,32 +1,22 @@
 <script lang="ts">
-type ActionMenuContext<T> = {
-    actions: Ref<ActionItem<T>[]>;
-    payload: Ref<T>;
+type ActionMenuContext = {
+    actions: Ref<ActionItem[]>;
 };
 
-export function injectActionMenuContext<TData>(fallback?: ActionMenuContext<TData>): ActionMenuContext<TData> {
-    const context = inject('ActionMenuContext', fallback);
-
-    if (!context) {
-        throw new Error('Injection `ActionMenuContext` not found. Component must be used within an `ActionMenu`');
-    }
-
-    return context;
-}
-export function provideActionMenuContext<TData>(contextValue: ActionMenuContext<TData>) {
-    return provide('ActionMenuContext', contextValue);
-}
+export const [injectActionMenuContext, provideActionMenuContext] =
+    createContext<ActionMenuContext>('ActionMenuContext');
 </script>
 
-<script setup lang="ts" generic="T">
-import { computed, inject, provide, Ref } from 'vue';
+<script setup lang="ts">
+import { createContext } from 'reka-ui';
+import { computed, Ref } from 'vue';
+import ActionMenuButtonGroup from './ActionMenuButtonGroup.vue';
 import ActionMenuDropdown from './ActionMenuDropdown.vue';
 import { ActionItem } from './interface';
 
 type Props = {
-    actions: ActionItem<T>[];
-    payload: T;
-    variant?: 'full' | 'icon' | 'dropdown';
+    actions: ActionItem[];
+    variant?: 'dropdown' | 'buttons';
 };
 const props = withDefaults(defineProps<Props>(), {
     variant: 'dropdown',
@@ -34,10 +24,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 provideActionMenuContext({
     actions: computed(() => props.actions),
-    payload: computed(() => props.payload),
 });
 </script>
 
 <template>
     <ActionMenuDropdown v-if="variant === 'dropdown'" />
+    <ActionMenuButtonGroup v-if="variant === 'buttons'" />
 </template>

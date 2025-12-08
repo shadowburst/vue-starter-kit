@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { TrashedBadge } from '@/components/trash';
-import { createActionItemHelper } from '@/components/ui/custom/action-menu';
 import { DataTable } from '@/components/ui/custom/data-table-v2';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
@@ -9,7 +8,7 @@ import { UserAvatar } from '@/components/user';
 import { useAlert, useFiltersForm, useLayout } from '@/composables';
 import { useUserTable } from '@/composables/user';
 import { AppLayout } from '@/layouts';
-import type { UserMemberIndexProps, UserMemberOneOrManyRequest, UserResource } from '@/types';
+import type { UserMemberIndexProps, UserMemberOneOrManyRequest } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, EyeIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
@@ -34,15 +33,13 @@ const { filters, reload } = useFiltersForm(props.request, {
 onMounted(() => reload());
 
 const alert = useAlert();
-const multiActionHelper = createActionItemHelper<UserResource[]>();
-const rowActionHelper = createActionItemHelper<UserResource>();
-const { table, columns, multiActions, rowActions } = useUserTable({
+const { table, columns } = useUserTable({
     data: () => props.users ?? [],
-    multiActions: [
-        multiActionHelper.callback({
+    selectedActions: (items) => [
+        {
             label: trans('trash'),
             icon: ArchiveIcon,
-            callback: (items) =>
+            callback: () =>
                 alert({
                     variant: 'destructive',
                     description: transChoice('messages.users.members.trash.confirm', items.length),
@@ -55,12 +52,12 @@ const { table, columns, multiActions, rowActions } = useUserTable({
                             },
                         }),
                 }),
-            disabled: (items) => items.some((member) => !member.policy?.trash),
-        }),
-        multiActionHelper.callback({
+            disabled: items.some((member) => !member.policy?.trash),
+        },
+        {
             label: trans('restore'),
             icon: ArchiveRestoreIcon,
-            callback: (items) =>
+            callback: () =>
                 alert({
                     description: transChoice('messages.users.members.restore.confirm', items.length),
                     callback: () =>
@@ -75,12 +72,12 @@ const { table, columns, multiActions, rowActions } = useUserTable({
                             },
                         ),
                 }),
-            disabled: (items) => items.some((member) => !member.policy?.restore),
-        }),
-        multiActionHelper.callback({
+            disabled: items.some((member) => !member.policy?.restore),
+        },
+        {
             label: trans('delete'),
             icon: Trash2Icon,
-            callback: (items) =>
+            callback: () =>
                 alert({
                     variant: 'destructive',
                     description: transChoice('messages.users.members.delete.confirm', items.length),
@@ -93,27 +90,27 @@ const { table, columns, multiActions, rowActions } = useUserTable({
                             },
                         }),
                 }),
-            disabled: (items) => items.some((member) => !member.policy?.delete),
-        }),
+            disabled: items.some((member) => !member.policy?.delete),
+        },
     ],
-    rowActions: [
-        rowActionHelper.href({
+    rowActions: (member) => [
+        {
             label: trans('edit'),
             icon: PencilIcon,
-            href: (member) => route('users.members.edit', { member }),
-            hidden: (member) => !member.policy?.update,
-        }),
-        rowActionHelper.href({
+            href: route('users.members.edit', { member }),
+            hidden: !member.policy?.update,
+        },
+        {
             label: trans('view'),
             icon: EyeIcon,
-            href: (member) => route('users.members.edit', { member }),
-            hidden: (member) => member.policy?.update ?? false,
-            disabled: (member) => !member.policy?.view,
-        }),
-        rowActionHelper.callback({
+            href: route('users.members.edit', { member }),
+            hidden: member.policy?.update ?? false,
+            disabled: !member.policy?.view,
+        },
+        {
             label: trans('trash'),
             icon: Trash2Icon,
-            callback: (member) =>
+            callback: () =>
                 alert({
                     variant: 'destructive',
                     description: transChoice('messages.users.members.trash.confirm', 1),
@@ -122,12 +119,12 @@ const { table, columns, multiActions, rowActions } = useUserTable({
                             only: ['users'],
                         }),
                 }),
-            disabled: (member) => !member.policy?.trash,
-        }),
-        rowActionHelper.callback({
+            disabled: !member.policy?.trash,
+        },
+        {
             label: trans('restore'),
             icon: ArchiveRestoreIcon,
-            callback: (member) =>
+            callback: () =>
                 alert({
                     description: transChoice('messages.users.members.restore.confirm', 1),
                     callback: () =>
@@ -139,12 +136,12 @@ const { table, columns, multiActions, rowActions } = useUserTable({
                             },
                         ),
                 }),
-            disabled: (member) => !member.policy?.restore,
-        }),
-        rowActionHelper.callback({
+            disabled: !member.policy?.restore,
+        },
+        {
             label: trans('delete'),
             icon: Trash2Icon,
-            callback: (member) =>
+            callback: () =>
                 alert({
                     variant: 'destructive',
                     description: transChoice('messages.users.members.delete.confirm', 1),
@@ -153,8 +150,8 @@ const { table, columns, multiActions, rowActions } = useUserTable({
                             only: ['users'],
                         }),
                 }),
-            disabled: (member) => !member.policy?.delete,
-        }),
+            disabled: !member.policy?.delete,
+        },
     ],
     onPaginationChange: () => {
         filters.page = table.getState().pagination.pageIndex + 1;

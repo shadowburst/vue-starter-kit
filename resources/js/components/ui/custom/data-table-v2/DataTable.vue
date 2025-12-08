@@ -1,7 +1,7 @@
 <script lang="ts">
 type DataTableRootContext<TData> = {
     table: Ref<UseDataTableReturn<TData>['table']>;
-    multiActions: Ref<ActionItem<TData[]>[]>;
+    selectedActions: Ref<ActionItem<TData[]>[]>;
     rowActions: Ref<ActionItem<TData>[]>;
 };
 
@@ -39,19 +39,19 @@ defineOptions({
 type Props = {
     table: DataTableState<TData>;
     columns: readonly TColumn[];
-    multiActions?: ActionItem<TData[]>[];
-    rowActions?: ActionItem<TData>[];
+    selectedActions?: (items: TData[]) => ActionItem[];
+    rowActions?: (item: TData) => ActionItem[];
 };
 const props = withDefaults(defineProps<Props>(), {
-    multiActions: () => [],
+    selectedActions: () => [],
     rowActions: () => [],
 });
 
-const { table, multiActions, rowActions } = toRefs(props);
+const { table, selectedActions, rowActions } = toRefs(props);
 
 provideDataTableRootContext<TData>({
     table,
-    multiActions,
+    selectedActions,
     rowActions,
 });
 </script>

@@ -1,25 +1,21 @@
+import { ButtonVariants } from '@/components/ui/button';
 import { LucideIcon } from 'lucide-vue-next';
-import { VNode } from 'vue';
 
-type BaseActionItem<T> = {
-    disabled?: boolean | ((payload: T) => boolean);
-    hidden?: boolean | ((payload: T) => boolean);
-};
-export type HrefActionItem<T> = BaseActionItem<T> & {
-    type: 'href';
+type BaseActionItem = {
     label: string;
     icon: LucideIcon;
-    href: string | ((payload: T) => string);
+    disabled?: boolean;
+    hidden?: boolean;
+    variant?: ButtonVariants['variant'];
+    size?: ButtonVariants['size'];
 };
-export type CallbackActionItem<T> = BaseActionItem<T> & {
-    type: 'callback';
-    label: string;
-    icon: LucideIcon;
-    callback: (payload: T) => void;
+export type HrefActionItem = BaseActionItem & {
+    href: string;
+    callback?: never;
 };
-export type CustomActionItem<T> = BaseActionItem<T> & {
-    type: 'custom';
-    component: (payload: T) => VNode;
+export type CallbackActionItem = BaseActionItem & {
+    callback: () => void;
+    href?: never;
 };
 
-export type ActionItem<T> = CallbackActionItem<T> | CustomActionItem<T> | HrefActionItem<T>;
+export type ActionItem = CallbackActionItem | HrefActionItem;
