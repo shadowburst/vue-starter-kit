@@ -1,7 +1,7 @@
-import { DateValue, getLocalTimeZone } from '@internationalized/date';
+import { getLocalTimeZone } from '@internationalized/date';
 import { useDateFormatter } from 'reka-ui';
 import { useLocale } from './useLocale';
-import { useParser } from './useParser';
+import { ParsableDateValue, useParser } from './useParser';
 
 export function useFormatter() {
     const parse = useParser();
@@ -9,7 +9,7 @@ export function useFormatter() {
     const { locale } = useLocale();
 
     return {
-        date(value?: DateValue | string | number, options?: Intl.DateTimeFormatOptions): string {
+        date(value?: ParsableDateValue, options?: Intl.DateTimeFormatOptions): string {
             try {
                 const date = parse.toDate(value);
                 if (!date) {
@@ -18,17 +18,8 @@ export function useFormatter() {
                 const formatter = useDateFormatter(locale.value);
                 return formatter.custom(date.toDate(getLocalTimeZone()), options ?? { dateStyle: 'medium' });
             } catch (error) {
-                console.error(error);
+                console.warn(error);
                 return '';
-            }
-        },
-        timestamp(value?: DateValue | string | number): number {
-            try {
-                const date = parse.toDateTime(value);
-                return date?.toDate(getLocalTimeZone()).getTime() ?? 0;
-            } catch (error) {
-                console.error(error);
-                return 0;
             }
         },
     };
