@@ -51,7 +51,7 @@ provideDataTableRootContext<TData>({
 </script>
 
 <template>
-    <div class="grid gap-y-4">
+    <div class="sticky inset-x-0 top-0 grid gap-y-4">
         <Table v-bind="$attrs" class="relative overflow-x-auto">
             <TableHeader>
                 <DataTableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">

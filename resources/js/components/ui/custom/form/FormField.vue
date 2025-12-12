@@ -44,6 +44,9 @@ import { createContext } from 'reka-ui';
 import { computed, HTMLAttributes, Ref, useAttrs, useId } from 'vue';
 import { injectFormContext } from './Form.vue';
 
+defineOptions({
+    inheritAttrs: false,
+});
 const props = withDefaults(defineProps<FormFieldProps>(), {
     id: () => useId(),
 });

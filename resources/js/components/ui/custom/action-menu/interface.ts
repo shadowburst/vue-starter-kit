@@ -5,7 +5,6 @@ type BaseActionItem = {
     label: string;
     icon: LucideIcon;
     disabled?: boolean;
-    hidden?: boolean;
     variant?: ButtonVariants['variant'];
     size?: ButtonVariants['size'];
 };
