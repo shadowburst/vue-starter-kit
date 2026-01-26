@@ -3,7 +3,9 @@ import AppShell from '@/components/app/AppShell.vue';
 import AppSidebar from '@/components/app/sidebar/AppSidebar.vue';
 import { Breadcrumbs } from '@/components/ui/custom/breadcrumbs';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { useRouterComputed } from '@/composables';
+import { useInertiaComputed } from '@/composables';
+import { index } from '@/routes';
+import admin from '@/routes/admin';
 import type { BreadcrumbItemType, NavItem } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
@@ -16,23 +18,21 @@ const { breadcrumbs = [] } = defineProps<Props>();
 
 const sidebarOpen = usePage().props.sidebarOpen;
 
-const items = useRouterComputed((): NavItem[] => [
+const items = useInertiaComputed((): NavItem[] => [
     {
         title: trans('layouts.admin.sidebar.items.app'),
-        href: route('index'),
+        href: index.url(),
         icon: MonitorIcon,
     },
     {
         title: trans('layouts.admin.sidebar.items.index'),
-        href: route('admin.index'),
+        href: admin.index.url(),
         icon: LayoutGridIcon,
-        isActive: route().current('admin.index'),
     },
     {
         title: trans('layouts.admin.sidebar.items.banners'),
-        href: route('admin.banners.index'),
+        href: admin.banners.index.url(),
         icon: TextQuoteIcon,
-        isActive: route().current('admin.banners.*'),
     },
 ]);
 </script>

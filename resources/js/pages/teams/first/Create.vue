@@ -6,6 +6,8 @@ import { Section, SectionContent, SectionFooter } from '@/components/ui/custom/s
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { useLayout, useTeamForm } from '@/composables';
 import { AuthLayout } from '@/layouts';
+import TeamFirstController from '@/wayfinder/App/Http/Controllers/Team/TeamFirstController';
+import AuthenticatedSessionController from '@/wayfinder/Laravel/Fortify/Http/Controllers/AuthenticatedSessionController';
 import { Head } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
 
@@ -16,17 +18,13 @@ defineOptions({
     })),
 });
 
-const form = useTeamForm();
-
-function submit() {
-    form.post(route('teams.first.store'));
-}
+const form = useTeamForm(TeamFirstController.store());
 </script>
 
 <template>
     <Head :title="$t('pages.teams.first.create.title')" />
 
-    <Form :form @submit="submit()">
+    <Form :form @submit="form.submit()">
         <Section>
             <SectionContent>
                 <TeamForm autofocus />
@@ -37,7 +35,7 @@ function submit() {
                 <div class="text-muted-foreground space-x-1 text-center text-sm">
                     {{ $t('pages.teams.first.required.not_you') }}
                     <CapitalizeText as-child>
-                        <TextLink :href="route('logout')" method="post">
+                        <TextLink :href="AuthenticatedSessionController.destroy()">
                             {{ $t('logout') }}
                         </TextLink>
                     </CapitalizeText>

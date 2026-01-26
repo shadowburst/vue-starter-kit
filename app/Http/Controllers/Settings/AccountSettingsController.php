@@ -2,35 +2,48 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Actions\Settings\Account\DeleteAccount;
+use App\Actions\Settings\Account\UpdateAccountSettings;
 use App\Data\Auth\ConfirmPassword\ConfirmPasswordRequest;
-use App\Data\Settings\Account\EditAccountSettingsProps;
 use App\Data\Settings\Account\UpdateAccountSettingsRequest;
-use App\Facades\Services;
 use App\Http\Controllers\Controller;
+use App\Support\Toast;
 use Inertia\Inertia;
 
 class AccountSettingsController extends Controller
 {
     public function edit()
     {
-        return Inertia::render('settings/Account', EditAccountSettingsProps::from([]));
+        return Inertia::render('settings/Account', []);
     }
 
     public function update(UpdateAccountSettingsRequest $data)
     {
-        $success = Services::settings()->updateAccount->execute($data);
+        $success = app(UpdateAccountSettings::class)->execute($data);
 
-        Services::toast()->successOrError->execute($success, __('messages.settings.account.update.success'));
+        if (! $success) {
+            Toast::error(__('messages.error'));
 
-        return to_route('settings.account.edit');
+            return back();
+        }
+
+        Toast::success(__('messages.settings.account.update.success'));
+
+        return to_action([AccountSettingsController::class, 'edit']);
     }
 
     public function destroy(ConfirmPasswordRequest $data)
     {
-        $success = Services::settings()->deleteAccount->execute();
+        $success = app(DeleteAccount::class)->execute();
 
-        Services::toast()->successOrError->execute($success, __('messages.settings.account.delete.success'));
+        if (! $success) {
+            Toast::error(__('messages.error'));
 
-        return to_route('index');
+            return back();
+        }
+
+        Toast::success(__('messages.settings.account.delete.success'));
+
+        return to_action([AccountSettingsController::class, 'edit']);
     }
 }

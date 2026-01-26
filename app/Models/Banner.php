@@ -2,36 +2,13 @@
 
 namespace App\Models;
 
-use App\Traits\Searchable;
+use App\Traits\Models\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property int $id
- * @property string $name
- * @property string $message
- * @property string|null $action
- * @property bool $is_enabled
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
- *
- * @method static \Database\Factories\BannerFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner search(?string $q)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereAction($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereIsEnabled($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereUpdatedAt($value)
- *
- * @mixin \Eloquent
+ * @mixin IdeHelperBanner
  */
 class Banner extends Model
 {

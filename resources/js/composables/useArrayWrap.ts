@@ -1,5 +1,5 @@
-import { Arrayable, MaybeRefOrGetter } from '@vueuse/core';
-import { computed, ComputedRef, toValue } from 'vue';
+import { Arrayable } from '@vueuse/core';
+import { computed, ComputedRef, MaybeRefOrGetter, toValue } from 'vue';
 
 export type UseArrayWrapReturn<T = any> = ComputedRef<NonNullable<T>[]>;
 

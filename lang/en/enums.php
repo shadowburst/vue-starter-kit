@@ -27,6 +27,15 @@ return [
         ],
     ],
 
+    'toast' => [
+        'type' => [
+            'info'    => 'notification',
+            'success' => 'success',
+            'warning' => 'warning',
+            'error'   => 'error',
+        ],
+    ],
+
     'trashed' => [
         'filter' => [
             'with' => 'with archived',

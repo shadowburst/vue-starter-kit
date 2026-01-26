@@ -3,10 +3,10 @@
 namespace App\Data\Team;
 
 use App\Attributes\ModelPolicy;
-use App\Data\Media\MediaResource;
+use App\Data\Media\MediaData;
 use App\Data\User\UserResource;
 use App\Models\Team;
-use App\Traits\WithModel;
+use App\Traits\Data\WithModel;
 use Carbon\Carbon;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Resource;
@@ -30,7 +30,7 @@ class TeamResource extends Resource
 
         public Lazy|null|UserResource $creator,
 
-        public Lazy|null|MediaResource $logo,
+        public Lazy|null|MediaData $logo,
 
         #[ModelPolicy(Team::class)]
         public Lazy|array $policy,
@@ -44,7 +44,7 @@ class TeamResource extends Resource
             settings   : $team->settings,
             deleted_at : $team->deleted_at,
             creator    : Lazy::create(fn () => $team->creator ? UserResource::from($team->creator) : null),
-            logo       : Lazy::create(fn () => $team->logo ? MediaResource::from($team->logo) : null),
+            logo       : Lazy::create(fn () => $team->logo ? MediaData::from($team->logo) : null),
             policy     : Lazy::create(fn () => $team->policy),
         );
 

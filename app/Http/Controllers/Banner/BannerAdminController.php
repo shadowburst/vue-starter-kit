@@ -2,47 +2,43 @@
 
 namespace App\Http\Controllers\Banner;
 
-use App\Data\Banner\Admin\Form\BannerAdminFormProps;
 use App\Data\Banner\Admin\Form\BannerAdminFormRequest;
-use App\Data\Banner\Admin\Index\BannerAdminIndexProps;
 use App\Data\Banner\Admin\Index\BannerAdminIndexRequest;
 use App\Data\Banner\BannerOneOrManyRequest;
 use App\Data\Banner\BannerResource;
-use App\Facades\Services;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Support\Toast;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
-use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\PaginatedDataCollection;
 
 class BannerAdminController extends Controller
 {
     public function index(BannerAdminIndexRequest $data)
     {
-        return Inertia::render('banners/admin/Index', BannerAdminIndexProps::from([
-            'banners' => Lazy::inertia(
+        return Inertia::render('banners/admin/Index', [
+            'banners' => Inertia::optional(
                 fn () => BannerResource::collect(
                     Banner::query()
                         ->search($data->q)
                         ->when(! is_null($data->is_enabled), fn (Builder $q) => $q->whereIsEnabled($data->is_enabled))
                         ->orderBy($data->sort_by, $data->sort_direction)
                         ->paginate(
-                            perPage: $data->per_page ?? Config::integer('default.per_page'),
+                            perPage: $data->per_page,
                             page: $data->page ?? 1,
                         )
                         ->withQueryString(),
                     PaginatedDataCollection::class,
                 ),
             ),
-        ]));
+        ]);
     }
 
     public function create()
     {
-        return Inertia::render('banners/admin/Create', BannerAdminFormProps::from([]));
+        return Inertia::render('banners/admin/Create', []);
     }
 
     public function store(BannerAdminFormRequest $data)
@@ -50,9 +46,15 @@ class BannerAdminController extends Controller
         /** @var ?Banner $banner */
         $banner = Banner::create($data->toArray());
 
-        Services::toast()->successOrError->execute($banner != null, __('messages.banners.store.success'));
+        if ($banner == null) {
+            Toast::error(__('messages.error'));
 
-        return to_route('admin.banners.index');
+            return back();
+        }
+
+        Toast::success(__('messages.banners.store.success'));
+
+        return to_action([BannerAdminController::class, 'index']);
     }
 
     public function show(Banner $banner)
@@ -62,18 +64,24 @@ class BannerAdminController extends Controller
 
     public function edit(Banner $banner)
     {
-        return Inertia::render('banners/admin/Edit', BannerAdminFormProps::from([
+        return Inertia::render('banners/admin/Edit', [
             'banner' => $banner,
-        ]));
+        ]);
     }
 
     public function update(Banner $banner, BannerAdminFormRequest $data)
     {
         $success = $banner->update($data->toArray());
 
-        Services::toast()->successOrError->execute($success, __('messages.banners.update.success'));
+        if (! $success) {
+            Toast::error(__('messages.error'));
 
-        return to_route('admin.banners.index');
+            return back();
+        }
+
+        Toast::success(__('messages.banners.update.success'));
+
+        return to_action([BannerAdminController::class, 'index']);
     }
 
     public function enable(BannerOneOrManyRequest $data)
@@ -112,10 +120,10 @@ class BannerAdminController extends Controller
                 ->get()
                 ->each->delete();
             DB::commit();
-            Services::toast()->success->execute(trans_choice('messages.banners.delete.success', $count));
+            Toast::success(trans_choice('messages.banners.destroy.success', $count));
         } catch (\Throwable $e) {
             DB::rollBack();
-            Services::toast()->error->execute();
+            Toast::error(__('messages.error'));
         }
 
         return back();

@@ -11,7 +11,7 @@ const { action } = defineProps<Props>();
 </script>
 
 <template>
-    <SmartMenuItem v-if="action.href" as-child>
+    <SmartMenuItem v-if="action.type === 'href'" as-child>
         <InertiaLink :href="action.href" :disabled="action.disabled">
             <component :is="action.icon" />
             <CapitalizeText>
@@ -19,7 +19,7 @@ const { action } = defineProps<Props>();
             </CapitalizeText>
         </InertiaLink>
     </SmartMenuItem>
-    <SmartMenuItem v-else-if="action.callback" :disabled="action.disabled" @click="action.callback()">
+    <SmartMenuItem v-else :disabled="action.disabled" @click="action.callback()">
         <component :is="action.icon" />
         <CapitalizeText>
             {{ action.label }}

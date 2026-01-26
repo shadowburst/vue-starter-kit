@@ -25,10 +25,13 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { Switch } from '@/components/ui/switch';
-import { useAlert, useFilters, useLayout } from '@/composables';
+import { useAlert, useLayout } from '@/composables';
+import { useDataTableFilters } from '@/composables/filters';
 import { AdminLayout } from '@/layouts';
 import type { BannerAdminIndexProps, BannerAdminIndexRequest, BannerOneOrManyRequest, BannerResource } from '@/types';
+import BannerAdminController from '@/wayfinder/App/Http/Controllers/Banner/BannerAdminController';
 import { Head, router } from '@inertiajs/vue3';
+import { useUrlSearchParams } from '@vueuse/core';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { CirclePlusIcon, PencilIcon, ToggleLeftIcon, ToggleRightIcon, Trash2Icon } from 'lucide-vue-next';
 import { CheckboxCheckedState } from 'reka-ui';
@@ -134,28 +137,18 @@ const rowActions: DataTableRowAction<BannerResource>[] = [
     },
 ];
 
-const filters = useFilters<BannerAdminIndexRequest>(
-    route('admin.banners.index'),
+const params = useUrlSearchParams('history');
+const filters = useDataTableFilters<BannerAdminIndexRequest>(
+    BannerAdminController.index(),
     {
-        q: route().params.q ?? '',
+        q: params.q ?? '',
         is_enabled: route().params.is_enabled == undefined ? undefined : Boolean(route().params.is_enabled),
         page: props.banners?.meta.current_page,
         per_page: props.banners?.meta.per_page,
         sort_by: route().params.sort_by,
         sort_direction: route().params.sort_direction,
     },
-    {
-        only: ['banners'],
-        immediate: true,
-        debounceReload(keys) {
-            return !keys.includes('page') && !keys.includes('per_page');
-        },
-        onReload(keys) {
-            if (!keys.includes('page')) {
-                filters.page = 1;
-            }
-        },
-    },
+    { only: ['banners'] },
 );
 
 const isEnabledFilter = computed<CheckboxCheckedState>({

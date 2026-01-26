@@ -2,9 +2,10 @@
 
 namespace App\Actions\User\Member;
 
+use App\Actions\Media\UpdateMedia;
 use App\Data\User\Member\Form\UserMemberFormRequest;
-use App\Facades\Services;
 use App\Models\User;
+use App\Services\TeamService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueueableAction\QueueableAction;
@@ -27,11 +28,11 @@ class CreateOrUpdateMemberUser
                 $user = $owner->members()->create($data->toArray());
             } else {
                 $user->update($data->except('member')->exceptWhen('password', is_null($data->password))->toArray());
-                Services::media()->update->execute($user, User::COLLECTION_AVATAR, $data->avatar);
+                app(UpdateMedia::class)->execute($user, User::COLLECTION_AVATAR, $data->avatar);
             }
 
             /** @var User $user */
-            Services::team()->forEachTeam(
+            app(TeamService::class)->forEachTeam(
                 $owner->teams,
                 function () use ($user) {
                     $user->syncRoles();
@@ -43,7 +44,7 @@ class CreateOrUpdateMemberUser
 
             /** @var UserMemberFormTeamRoleData $teamRole */
             foreach ($data->team_roles as $teamRole) {
-                Services::team()->forTeam(
+                app(TeamService::class)->forTeam(
                     $teamRole->team_id,
                     fn () => $user->assignRole($teamRole->role),
                 );
@@ -53,7 +54,7 @@ class CreateOrUpdateMemberUser
             foreach ($data->team_permissions as $teamPermission) {
                 // Only give permissions if given access to the team
                 if ($data->team_roles->toCollection()->map->team_id->contains($teamPermission->team_id)) {
-                    Services::team()->forTeam(
+                    app(TeamService::class)->forTeam(
                         $teamPermission->team_id,
                         fn () => $user->givePermissionTo($teamPermission->permission),
                     );

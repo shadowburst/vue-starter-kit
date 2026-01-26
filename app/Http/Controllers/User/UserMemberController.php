@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\User\Member\CreateOrUpdateMemberUser;
 use App\Data\Team\TeamResource;
-use App\Data\User\Member\Form\UserMemberFormProps;
 use App\Data\User\Member\Form\UserMemberFormRequest;
-use App\Data\User\Member\Index\UserMemberIndexProps;
 use App\Data\User\Member\Index\UserMemberIndexRequest;
 use App\Data\User\Member\UserMemberOneOrManyRequest;
 use App\Data\User\UserResource;
 use App\Enums\Permission\PermissionName;
 use App\Enums\Trashed\TrashedFilter;
-use App\Facades\Services;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Toast;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,9 +25,9 @@ class UserMemberController extends Controller
 {
     public function index(UserMemberIndexRequest $data)
     {
-        return Inertia::render('users/members/Index', UserMemberIndexProps::from([
+        return Inertia::render('users/members/Index', [
             'request' => $data,
-            'users'   => Lazy::inertia(
+            'users'   => Inertia::optional(
                 fn () => UserResource::collect(
                     Auth::user()->members()
                         ->search($data->q)
@@ -47,32 +46,32 @@ class UserMemberController extends Controller
                     ),
             ),
             'trashedFilters' => Lazy::inertia(fn () => TrashedFilter::labels()),
-        ]));
+        ]);
     }
 
     public function create()
     {
         $user = Auth::user();
 
-        return Inertia::render('users/members/Create', UserMemberFormProps::from([
-            'teams'       => Lazy::closure(fn () => $user->teams),
-            'permissions' => Lazy::closure(fn () => PermissionName::labels($user->getAllPermissions()->map->name)),
-        ]));
+        return Inertia::render('users/members/Create', [
+            'teams'       => fn () => $user->teams,
+            'permissions' => fn () => PermissionName::labels($user->getAllPermissions()->map->name),
+        ]);
     }
 
     public function store(UserMemberFormRequest $data)
     {
-        $user = Services::user()->createOrUpdateMember->execute($data);
+        $user = app(CreateOrUpdateMemberUser::class)->execute($data);
 
         if ($user == null) {
-            Services::toast()->error->execute();
+            Toast::error(__('messages.error'));
 
             return back();
         }
 
-        Services::toast()->success->execute(__('messages.users.members.store.success'));
+        Toast::success(__('messages.users.members.store.success'));
 
-        return to_route('users.members.index');
+        return to_action([static::class, 'index']);
     }
 
     public function show(User $user)
@@ -84,31 +83,31 @@ class UserMemberController extends Controller
     {
         $user = Auth::user();
 
-        return Inertia::render('users/members/Edit', UserMemberFormProps::from([
+        return Inertia::render('users/members/Edit', [
             'user' => UserResource::from($member->load(['avatar']))->include(
                 'policy',
                 'avatar',
                 'team_roles',
                 'team_permissions',
             ),
-            'teams'       => Lazy::closure(fn () => TeamResource::collect($user->teams)),
-            'permissions' => Lazy::closure(fn () => PermissionName::labels($user->getAllPermissions()->map->name)),
-        ]));
+            'teams'       => fn () => TeamResource::collect($user->teams),
+            'permissions' => fn () => PermissionName::labels($user->getAllPermissions()->map->name),
+        ]);
     }
 
     public function update(UserMemberFormRequest $data, User $member)
     {
-        $user = Services::user()->createOrUpdateMember->execute($data, $member);
+        $user = app(CreateOrUpdateMemberUser::class)->execute($data, $member);
 
         if ($user == null) {
-            Services::toast()->error->execute();
+            Toast::error(__('messages.error'));
 
             return back();
         }
 
-        Services::toast()->success->execute(__('messages.users.members.update.success'));
+        Toast::success(__('messages.users.members.update.success'));
 
-        return to_route('users.members.index');
+        return to_action([static::class, 'index']);
     }
 
     public function trash(UserMemberOneOrManyRequest $data)
@@ -121,11 +120,11 @@ class UserMemberController extends Controller
                 ->get()
                 ->each->delete();
             DB::commit();
-            Services::toast()->success->execute(trans_choice('messages.users.members.trash.success', $count));
+            Toast::success(trans_choice('messages.users.members.trash.success', $count));
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
-            Services::toast()->error->execute();
+            Toast::error(__('messages.error'));
         }
 
         return back();
@@ -142,11 +141,11 @@ class UserMemberController extends Controller
                 ->get()
                 ->each->restore();
             DB::commit();
-            Services::toast()->success->execute(trans_choice('messages.users.members.restore.success', $count));
+            Toast::success(trans_choice('messages.users.members.restore.success', $count));
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
-            Services::toast()->error->execute();
+            Toast::error(__('messages.error'));
         }
 
         return back();
@@ -163,11 +162,11 @@ class UserMemberController extends Controller
                 ->get()
                 ->each->forceDelete();
             DB::commit();
-            Services::toast()->success->execute(trans_choice('messages.users.members.delete.success', $count));
+            Toast::success(trans_choice('messages.users.members.delete.success', $count));
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), $th->getTrace());
             DB::rollBack();
-            Services::toast()->error->execute();
+            Toast::error(__('messages.error'));
         }
 
         return back();

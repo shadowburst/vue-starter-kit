@@ -1,8 +1,8 @@
 <?php
 
 use App\Enums\Role\RoleName;
-use App\Facades\Services;
 use App\Models\User;
+use App\Services\TeamService;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -17,7 +17,7 @@ it('should redirect guests to the login page', function () {
 it('should let authenticated users visit the dashboard', function () {
     /** @var User $user */
     $user = User::factory()->create();
-    Services::team()->forTeam(
+    app(TeamService::class)->forTeam(
         $user->team,
         fn () => $user->assignRole(RoleName::OWNER),
     );

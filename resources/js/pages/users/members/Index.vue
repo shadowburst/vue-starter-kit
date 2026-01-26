@@ -6,14 +6,15 @@ import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
 import { UserAvatar } from '@/components/user';
-import { useAlert, useFiltersForm, useLayout } from '@/composables';
+import { useAlert, useLayout } from '@/composables';
+import { useDataTableFilters } from '@/composables/filters';
 import { useUserTable } from '@/composables/user';
 import { AppLayout } from '@/layouts';
 import type { UserMemberIndexProps, UserMemberOneOrManyRequest, UserResource } from '@/types';
+import UserMemberController from '@/wayfinder/App/Http/Controllers/User/UserMemberController';
 import { Head, router } from '@inertiajs/vue3';
 import { trans, transChoice } from 'laravel-vue-i18n';
 import { ArchiveIcon, ArchiveRestoreIcon, EyeIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next';
-import { onMounted } from 'vue';
 
 defineOptions({
     layout: useLayout(AppLayout, () => ({
@@ -28,10 +29,9 @@ defineOptions({
 
 const props = defineProps<UserMemberIndexProps>();
 
-const { filters, reload } = useFiltersForm(props.request, {
+const filters = useDataTableFilters(UserMemberController.index(), props.request, {
     only: ['users', 'request'],
 });
-onMounted(() => reload());
 
 const alert = useAlert();
 const { table, columns } = useUserTable({

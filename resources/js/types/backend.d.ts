@@ -75,17 +75,21 @@ export type LoginRequest = {
     password: string;
     remember?: boolean;
 };
+export type MediaCollectionData = {
+    name: string;
+    mime_types: Array<string>;
+    max: number;
+    items: Array<MediaData>;
+};
+export type MediaData = {
+    uuid: string;
+    name: string;
+    mime_type: string;
+};
 export type MediaFormRequest = {
     model_type: string;
-    model_id: number;
-    collection: string;
+    collection_name: string;
     file: File;
-};
-export type MediaResource = {
-    id: number;
-    uuid: string;
-    url: string;
-    custom_properties?: Record<string, any>;
 };
 export type PermissionName = 'users';
 export type PermissionResource = {
@@ -169,16 +173,21 @@ export type TeamResource = {
     settings?: TeamSettingsData;
     deleted_at?: string;
     creator?: UserResource | null;
-    logo?: MediaResource | null;
+    logo?: MediaData | null;
     policy?: Record<'view' | 'update' | 'delete' | 'trash' | 'restore', boolean>;
 };
 export type TeamSettingsData = {};
-export type ToastMessagesData = {
-    info?: string;
-    success?: string;
-    warning?: string;
-    error?: string;
+export type ToastActionData = {
+    label: string;
+    url: string;
 };
+export type ToastData = {
+    type: ToastType;
+    message: string;
+    title?: string;
+    action?: ToastActionData;
+};
+export type ToastType = 'info' | 'success' | 'warning' | 'error';
 export type TrashedFilter = 'only' | 'with';
 export type UpdateAccountSettingsRequest = {
     first_name: string;
@@ -259,7 +268,7 @@ export type UserResource = {
     is_trashed?: boolean;
     policy?: Record<'view' | 'update' | 'delete' | 'trash' | 'restore', boolean>;
     permissions?: Array<PermissionName>;
-    avatar?: MediaResource | null;
+    avatar?: MediaData | null;
     owner?: UserResource | null;
     team?: TeamResource | null;
     active_members?: Array<UserResource>;

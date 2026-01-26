@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\ServicesManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Vite;
@@ -24,8 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
-
-        $this->app->singleton('services', fn () => new ServicesManager);
 
         Route::bind(
             'member',

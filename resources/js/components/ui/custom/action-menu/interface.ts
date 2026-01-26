@@ -9,12 +9,12 @@ type BaseActionItem = {
     size?: ButtonVariants['size'];
 };
 export type HrefActionItem = BaseActionItem & {
+    type: 'href';
     href: string;
-    callback?: never;
 };
 export type CallbackActionItem = BaseActionItem & {
+    type: 'callback';
     callback: () => void;
-    href?: never;
 };
 
 export type ActionItem = CallbackActionItem | HrefActionItem;

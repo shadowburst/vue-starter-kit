@@ -26,7 +26,8 @@ import { TextInput } from '@/components/ui/custom/input';
 import { InertiaLink } from '@/components/ui/custom/link';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { CapitalizeText } from '@/components/ui/custom/typography';
-import { useAlert, useFilters, useLayout } from '@/composables';
+import { useAlert, useLayout } from '@/composables';
+import { useDataTableFilters } from '@/composables/filters';
 import { AppLayout } from '@/layouts';
 import { type TeamIndexProps, type TeamIndexRequest, type TeamOneOrManyRequest, type TeamResource } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
@@ -161,7 +162,7 @@ const rowActions: DataTableRowAction<TeamResource>[] = [
     },
 ];
 
-const filters = useFilters<TeamIndexRequest>(
+const filters = useDataTableFilters<TeamIndexRequest>(
     route('teams.index'),
     {
         q: props.request.q ?? '',

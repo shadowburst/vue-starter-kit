@@ -4,6 +4,7 @@ namespace App\Actions\Media;
 
 use App\Data\Media\MediaFormRequest;
 use App\Models\Media;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
@@ -20,19 +21,18 @@ class CreateMedia
     /**
      * @throws FileUnacceptableForCollection
      */
-    public function execute(MediaFormRequest $data): Media
+    public function execute(MediaFormRequest $data, User $user): Media
     {
-        $class = Relation::getMorphedModel($data->model_type);
+        /** @var \Illuminate\Database\Eloquent\Model&\Spatie\MediaLibrary\HasMedia&\App\Traits\Models\InteractsWithMedia $model */
+        $model = app(Relation::getMorphedModel($data->model_type));
 
-        /** @var \Illuminate\Database\Eloquent\Model&\Spatie\MediaLibrary\HasMedia $model */
-        $model = app($class)->query()->findOrFail($data->model_id);
+        $media = $user
+            ->addMedia($data->file);
 
-        $media = $model
-            ->addMedia($data->file)
-            ->toMediaCollection(Media::COLLECTION_TEMP);
+        $media = $media->toMediaCollection(User::COLLECTION_TEMP);
 
         /** @var \Spatie\MediaLibrary\MediaCollections\MediaCollection $collection */
-        $collection = method_exists($model, 'getMediaCollection') ? $model->getMediaCollection($data->collection) : null;
+        $collection = $model->getMediaCollection($data->collection_name);
 
         $file = PendingFile::createFromMedia($media);
         $unacceptableForCollection = ! ($collection->acceptsFile)($file, $model);

@@ -2,13 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\ToastService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use Inertia\Inertia;
 use Inertia\Middleware;
-use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -40,19 +37,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $toast = app(ToastService::class);
-
         return [
             ...parent::share($request),
-            'name'  => Config::string('app.name'),
-            'toast' => Inertia::always($toast->get()),
-            'ziggy' => [
-                ...(new Ziggy)->toArray(),
-                'location' => $request->url(),
-            ],
+            'name'        => Config::string('app.name'),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale'      => App::getLocale(),
-            'default'     => Config::array('default'),
         ];
     }
 }

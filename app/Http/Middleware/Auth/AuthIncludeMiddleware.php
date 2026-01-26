@@ -3,7 +3,7 @@
 namespace App\Http\Middleware\Auth;
 
 use App\Data\Auth\AuthAbilitiesResource;
-use App\Facades\Services;
+use App\Services\TeamService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,7 @@ class AuthIncludeMiddleware
             'auth' => [
                 'abilities' => new AuthAbilitiesResource,
                 'user'      => Auth::user()?->getData()?->include('avatar', 'teams.{id,name,logo}'),
-                'team'      => Services::team()->current()?->getData(),
+                'team'      => app(TeamService::class)->current()?->getData(),
             ],
         ]);
 

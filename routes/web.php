@@ -3,7 +3,6 @@
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Banner\BannerDismissController;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Settings\AccountSettingsController;
 use App\Http\Controllers\Settings\AppearanceSettingsController;
 use App\Http\Controllers\Settings\PasswordSettingsController;
@@ -33,8 +32,9 @@ Route::middleware(['auth', 'auth.team', 'auth.include', 'banner.include'])->grou
         Route::patch('/{banner}/dismiss', [BannerDismissController::class, 'update'])->name('dismiss');
     });
 
-    Route::prefix('/media')->name('media.')->controller(MediaController::class)->group(function () {
-        Route::post('/{modelType}/{modelId}/{collection}', 'store')->name('store');
+    Route::prefix('/media')->name('media.')->controller(\App\Http\Controllers\MediaController::class)->group(function () {
+        Route::get('/show/{media:uuid}', 'show')->name('show');
+        Route::post('/store/{modelType}/{collection}', 'store')->name('store');
     });
 
     Route::prefix('/settings')->name('settings.')->group(function () {

@@ -1,135 +1,105 @@
-<script setup lang="ts">
-import { Button } from '@/components/ui/button';
-import { objectToFormData } from '@/lib/inertia';
-import { MediaResource } from '@/types';
-import { useAxios } from '@vueuse/integrations/useAxios';
-import { AxiosError } from 'axios';
-import { UploadIcon, XIcon } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+<script lang="ts">
+export type MediaFieldProps = FormFieldProps & {
+    collection: MediaCollectionData;
+    modelType: string;
+    customProperties?: Record<string, any>;
+};
+</script>
 
-import {
-    FormControl,
-    FormDescription,
-    FormError,
-    FormField,
-    formFieldPropKeys,
-    FormFieldProps,
-    FormLabel,
-} from '@/components/ui/custom/form';
-import { useArrayWrap } from '@/composables';
-import { reactiveOmit, reactivePick } from '@vueuse/core';
+<script setup lang="ts">
+import { FormField, formFieldPropKeys, FormFieldProps } from '@/components/ui/custom/form';
+import { objectToFormData } from '@/lib/inertia';
+import { MediaCollectionData, MediaData } from '@/types';
+import MediaController from '@/wayfinder/App/Http/Controllers/MediaController';
+import { reactivePick, useDropZone, useFileDialog } from '@vueuse/core';
+import { useAxios } from '@vueuse/integrations/useAxios';
+import axios, { AxiosError } from 'axios';
 import { useForwardProps } from 'reka-ui';
+import { computed, ref, useTemplateRef } from 'vue';
 
 defineOptions({
     inheritAttrs: false,
 });
 
-type Props = FormFieldProps & {
-    modelType: string;
-    modelId: number;
-    collection: string;
-    type?: 'document' | 'image' | 'video' | 'other';
-    accept?: HTMLInputElement['accept'];
-};
-const props = withDefaults(defineProps<Props>(), {
-    type: 'other',
+const props = withDefaults(defineProps<MediaFieldProps>(), {
+    customProperties: () => ({}),
 });
-const forwardedFieldProps = useForwardProps(reactivePick(props, ...formFieldPropKeys));
-const forwardedOtherProps = useForwardProps(reactiveOmit(props, ...formFieldPropKeys));
 
-const model = defineModel<MediaResource | null>();
+const forwardedFieldProps = useForwardProps(reactivePick(props, ...formFieldPropKeys));
+
+const model = defineModel<MediaData>();
 
 const error = ref<string>();
-const errors = computed((): string[] => {
+const errors = computed(() => {
     if (error.value) {
         return [error.value];
     }
 
-    return useArrayWrap(props.errors).value;
+    return props.errors;
 });
 
-const { execute: storeMedia } = useAxios<MediaResource>();
+const dataTypes = computed(() => props.collection.mime_types);
+const accept = computed(() => dataTypes.value.join(','));
 
-const accept = computed(() => {
-    if (props.accept) {
-        return props.accept;
-    }
+const progress = ref(0);
+const storeMedia = useAxios<MediaData>(
+    '',
+    { method: 'POST' },
+    axios.create({
+        onUploadProgress: (progressEvent) => {
+            progress.value = (progressEvent.progress ?? 0) * 100;
+        },
+    }),
+    { immediate: false },
+);
 
-    switch (props.type) {
-        case 'document':
-            return 'text/*,application/pdf';
-        case 'image':
-            return 'image/jpeg,image/png';
-        case 'video':
-            return 'video/mp4,video/webm';
-        default:
-            return '';
-    }
-});
+function submit(file: File) {
+    const { modelType, collection, customProperties } = props;
 
-async function submit(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) {
-        return;
-    }
-
-    const { modelType, modelId, collection } = props;
-
-    storeMedia(route('media.store', { modelType, modelId, collection }), {
-        method: 'POST',
-        data: objectToFormData({ file }),
-    })
+    progress.value = 0;
+    storeMedia
+        .execute(MediaController.store({ modelType, collection: collection.name }).url, {
+            data: objectToFormData({
+                file,
+                custom_properties: customProperties,
+            }),
+        })
         .then((response) => {
             model.value = response.data.value;
+            error.value = undefined;
         })
         .catch(({ response }: AxiosError<{ message: string }>) => {
             error.value = response?.data.message;
         });
 }
+
+const dropZoneRef = useTemplateRef('dropZone');
+const { isOverDropZone } = useDropZone(dropZoneRef, {
+    dataTypes,
+    onDrop: (files) => {
+        if (!files?.length) {
+            return;
+        }
+        submit(files[0]);
+    },
+});
+
+const { open: openFileDialog, onChange } = useFileDialog({
+    accept,
+    reset: true,
+});
+onChange((files) => {
+    if (!files?.length) {
+        return;
+    }
+    submit(files[0]);
+});
 </script>
 
 <template>
     <FormField v-bind="forwardedFieldProps" :errors>
-        <slot name="label">
-            <FormLabel />
-        </slot>
-        <slot name="input">
-            <FormControl>
-                <div class="relative w-min!">
-                    <slot name="preview" />
-                    <Button
-                        v-if="!disabled"
-                        as="label"
-                        variant="outline"
-                        size="icon-sm"
-                        class="absolute right-0 bottom-0"
-                    >
-                        <UploadIcon />
-                        <input
-                            v-bind="{ ...$attrs, ...forwardedOtherProps }"
-                            class="sr-only"
-                            type="file"
-                            :accept
-                            @change="submit($event)"
-                        />
-                    </Button>
-                    <Button
-                        v-if="!disabled && model"
-                        variant="outline"
-                        size="icon-sm"
-                        class="absolute top-0 right-0"
-                        @click="model = undefined"
-                    >
-                        <XIcon />
-                    </Button>
-                </div>
-            </FormControl>
-        </slot>
-        <slot name="description">
-            <FormDescription />
-        </slot>
-        <slot name="error">
-            <FormError />
-        </slot>
+        <div ref="dropZone" class="contents">
+            <slot :is-over-drop-zone :open-file-dialog :progress />
+        </div>
     </FormField>
 </template>

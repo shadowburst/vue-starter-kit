@@ -2,7 +2,8 @@
 
 namespace App\Http\Middleware\Auth;
 
-use App\Facades\Services;
+use App\Actions\User\SelectUserTeam;
+use App\Http\Controllers\Dashboard\DashboardController;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +30,10 @@ class AuthNoTeamMiddleware
         if ($team) {
             if (! $user->team) {
                 // Select the first available team
-                Services::user()->selectTeam->execute($user, $team);
+                app(SelectUserTeam::class)->execute($user, $team);
             }
 
-            return to_route('index');
+            return to_action([DashboardController::class, 'index']);
         }
 
         return $next($request);

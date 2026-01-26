@@ -1,3 +1,3 @@
-export { default as FiltersSheet, injectFiltersSheetRootContext } from './FiltersSheet.vue';
-export { default as FiltersSheetContent } from './FiltersSheetContent.vue';
-export { default as FiltersSheetTrigger } from './FiltersSheetTrigger.vue';
+export { default as FiltersContent } from './FiltersContent.vue';
+export { default as FiltersProvider } from './FiltersProvider.vue';
+export { default as FiltersTrigger } from './FiltersTrigger.vue';

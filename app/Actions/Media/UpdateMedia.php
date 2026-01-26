@@ -3,6 +3,8 @@
 namespace App\Actions\Media;
 
 use App\Models\Media;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueueableAction\QueueableAction;
 
@@ -14,7 +16,7 @@ class UpdateMedia
         //
     ) {}
 
-    public function execute(HasMedia $model, string $collection, ?string $uuid): bool
+    public function execute(User $user, HasMedia&Model $model, string $collection, ?string $uuid): bool
     {
         // Reset collection if null given
         if (! $uuid) {
@@ -24,16 +26,16 @@ class UpdateMedia
         }
 
         /** @var ?\App\Models\Media $media */
-        $media = rescue(fn () => $model->getMedia('*')->sole('uuid', $uuid));
+        $media = Media::findByUuid($uuid);
         if (! $media) {
             return false;
         }
 
-        if ($media->collection_name == $collection) {
+        if ($media->model()->is($model) && $media->collection_name == $collection) {
             return true;
         }
 
-        if ($media->collection_name == Media::COLLECTION_TEMP) {
+        if ($media->model()->is($user) && $media->collection_name == User::COLLECTION_TEMP) {
             $media->move($model, $collection);
 
             return true;

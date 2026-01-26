@@ -2,8 +2,9 @@
 import { ResponsiveTabs, ResponsiveTabsTrigger } from '@/components/ui/custom/responsive-tabs';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { Separator } from '@/components/ui/separator';
-import { useLayout, useRouterComputed } from '@/composables';
+import { useInertiaComputed, useLayout } from '@/composables';
 import { AppLayout } from '@/layouts';
+import settings from '@/routes/settings';
 import { NavItemHref } from '@/types';
 import { trans } from 'laravel-vue-i18n';
 import { PaletteIcon, ShieldPlusIcon, UserIcon } from 'lucide-vue-next';
@@ -13,30 +14,27 @@ defineOptions({
         breadcrumbs: [
             {
                 title: trans('pages.settings.title'),
-                href: route('settings.index'),
+                href: settings.index.url(),
             },
         ],
     })),
 });
 
-const sidebarNavItems = useRouterComputed((): NavItemHref[] => [
+const sidebarNavItems = useInertiaComputed((): NavItemHref[] => [
     {
         title: trans('layouts.settings.account'),
-        href: route('settings.account.edit'),
+        href: settings.account.edit.url(),
         icon: UserIcon,
-        isActive: route().current('settings.account.edit'),
     },
     {
         title: trans('layouts.settings.security'),
-        href: route('settings.security.edit'),
+        href: settings.security.edit.url(),
         icon: ShieldPlusIcon,
-        isActive: route().current('settings.security.edit'),
     },
     {
         title: trans('layouts.settings.appearance'),
-        href: route('settings.appearance.edit'),
+        href: settings.appearance.edit.url(),
         icon: PaletteIcon,
-        isActive: route().current('settings.appearance.edit'),
     },
 ]);
 </script>

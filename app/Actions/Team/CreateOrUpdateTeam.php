@@ -2,10 +2,11 @@
 
 namespace App\Actions\Team;
 
+use App\Actions\Media\UpdateMedia;
 use App\Data\Team\Form\TeamFormRequest;
 use App\Enums\Role\RoleName;
-use App\Facades\Services;
 use App\Models\Team;
+use App\Services\TeamService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueueableAction\QueueableAction;
@@ -31,9 +32,9 @@ class CreateOrUpdateTeam
             }
 
             if ($team->wasRecentlyCreated && $data->user) {
-                Services::team()->forTeam($team, fn () => $data->user->assignRole(RoleName::OWNER));
+                app(TeamService::class)->forTeam($team, fn () => $data->user->assignRole(RoleName::OWNER));
             } else {
-                Services::media()->update->execute($team, Team::COLLECTION_LOGO, $data->logo);
+                app(UpdateMedia::class)->execute($team, Team::COLLECTION_LOGO, $data->logo);
             }
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), $th->getTrace());

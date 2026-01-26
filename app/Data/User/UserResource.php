@@ -3,16 +3,16 @@
 namespace App\Data\User;
 
 use App\Attributes\ModelPolicy;
-use App\Data\Media\MediaResource;
+use App\Data\Media\MediaData;
 use App\Data\Team\TeamResource;
 use App\Data\User\Team\UserTeamPermissionData;
 use App\Data\User\Team\UserTeamRoleData;
-use App\Facades\Services;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
-use App\Traits\WithModel;
+use App\Services\TeamService;
+use App\Traits\Data\WithModel;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
@@ -23,6 +23,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 #[TypeScript]
 class UserResource extends Resource
 {
+    /** @use WithModel<User> */
     use WithModel;
 
     protected string $modelClass = User::class;
@@ -66,7 +67,7 @@ class UserResource extends Resource
         /** @var Lazy|array<\App\Enums\Permission\PermissionName> */
         public Lazy|array $permissions,
 
-        public Lazy|null|MediaResource $avatar,
+        public Lazy|null|MediaData $avatar,
 
         public Lazy|null|UserResource $owner,
 
@@ -109,7 +110,7 @@ class UserResource extends Resource
             is_trashed        : Lazy::create(fn () => $user->is_trashed),
             policy            : Lazy::create(fn () => $user->policy),
             permissions       : Lazy::create(fn () => $user->getAllPermissions()->map->name),
-            avatar            : Lazy::create(fn () => $user->avatar ? MediaResource::from($user->avatar) : null),
+            avatar            : Lazy::create(fn () => $user->avatar ? MediaData::from($user->avatar) : null),
             owner             : Lazy::create(fn () => $user->owner ? UserResource::from($user->owner) : null),
             team              : Lazy::create(fn () => $user->team ? TeamResource::from($user->team) : null),
             active_members    : Lazy::create(fn () => UserResource::collect($user->activeMembers)),
@@ -118,7 +119,7 @@ class UserResource extends Resource
             team_roles        : Lazy::create(function () use ($user) {
                 $teamRoles = collect();
 
-                Services::team()->forEachTeam(
+                app(TeamService::class)->forEachTeam(
                     $user->teams,
                     function (Team $team) use ($user, $teamRoles) {
                         $user->unsetRelation('roles');
@@ -135,7 +136,7 @@ class UserResource extends Resource
             }),
             team_permissions  : Lazy::create(function () use ($user) {
                 $teamPermissions = collect();
-                Services::team()->forEachTeam(
+                app(TeamService::class)->forEachTeam(
                     $user->teams,
                     function (Team $team) use ($user, $teamPermissions) {
                         $user->unsetRelation('permissions');

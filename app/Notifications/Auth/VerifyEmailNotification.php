@@ -6,7 +6,6 @@ use App\Notifications\Brevo\BrevoChannel;
 use App\Notifications\Brevo\BrevoMessage;
 use App\Notifications\Brevo\SendsToBrevo;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Spatie\OneTimePasswords\Notifications\OneTimePasswordNotification;
 
 class VerifyEmailNotification extends OneTimePasswordNotification implements SendsToBrevo

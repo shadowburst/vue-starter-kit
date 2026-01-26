@@ -18,7 +18,6 @@ export type NavItemGroup = NavItemBase & {
 export type NavItemHref = NavItemBase & {
     items?: never;
     href: string;
-    isActive?: boolean;
     options?: Partial<InertiaLinkProps>;
 };
 export type NavItem = NavItemGroup | NavItemHref;

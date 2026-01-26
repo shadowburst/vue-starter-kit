@@ -1,6 +1,5 @@
 <script lang="ts">
 export type LinkProps = InertiaLinkProps & {
-    href?: string;
     disabled?: boolean;
     class?: HTMLAttributes['class'];
 };
@@ -20,7 +19,7 @@ const forwarded = useForwardProps(delegatedProps);
 
 const disabled = computed((): LinkProps['disabled'] => props.disabled || undefined);
 const as = computed((): LinkProps['as'] => (props.disabled ? 'button' : props.as));
-const href = computed((): LinkProps['href'] => (props.disabled || !props.href ? '#' : props.href));
+const href = computed((): LinkProps['href'] => (props.disabled ? '#' : props.href));
 const prefetch = computed((): LinkProps['prefetch'] => props.prefetch && (!props.method || props.method === 'get'));
 </script>
 

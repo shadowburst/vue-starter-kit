@@ -1,8 +1,9 @@
-import { useComputedForm } from '@/composables';
+import { usePageForm } from '@/composables/form';
 import { TeamFormRequest, TeamResource } from '@/types';
+import { UrlMethodPair } from '@inertiajs/core';
 
-export function useTeamForm(team?: TeamResource) {
-    const form = useComputedForm({
+export function useTeamForm(urlMethodPair: UrlMethodPair | (() => UrlMethodPair), team?: TeamResource) {
+    const form = usePageForm(urlMethodPair, {
         logo: team?.logo,
         name: team?.name ?? '',
         settings: team?.settings ?? {},

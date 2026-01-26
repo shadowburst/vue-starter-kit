@@ -2,42 +2,47 @@
 import { ResponsiveTabs, ResponsiveTabsTrigger } from '@/components/ui/custom/responsive-tabs';
 import { Section, SectionContent } from '@/components/ui/custom/section';
 import { Separator } from '@/components/ui/separator';
-import { clearSessionFilters, useLayout, usePageProp, useRouterComputed } from '@/composables';
+import { useInertiaComputed, useLayout, usePageProp } from '@/composables';
 import { AppLayout } from '@/layouts';
-import { NavItemHref } from '@/types';
+import teams from '@/routes/teams';
+import { NavItemHref, TeamResource } from '@/types';
 import { trans } from 'laravel-vue-i18n';
 import { SquarePenIcon } from 'lucide-vue-next';
 
 defineOptions({
-    layout: useLayout(AppLayout, () => ({
-        breadcrumbs: [
-            {
-                title: trans('pages.teams.index.title'),
-                href: route('teams.index'),
-            },
-            {
-                title: usePageProp<string>('team.name', route().params.team).value,
-                href: route('teams.edit', { team: route().params.team }),
-            },
-        ],
-    })),
+    layout: useLayout(AppLayout, () => {
+        const team = usePageProp<TeamResource>('team');
+        if (!team.value) {
+            return {};
+        }
+
+        return {
+            breadcrumbs: [
+                {
+                    title: trans('pages.teams.index.title'),
+                    href: teams.index.url(),
+                },
+                {
+                    title: team.value.name,
+                    href: teams.edit.url({ team: team.value.id }),
+                },
+            ],
+        };
+    }),
 });
 
-const sidebarNavItems = useRouterComputed((): NavItemHref[] =>
-    [
-        {
-            title: trans('layouts.teams.form.edit'),
-            href: route('teams.edit', { team: route().params.team }),
-            icon: SquarePenIcon,
-            isActive: route().current('teams.edit'),
-        },
-    ].map((item) =>
-        Object.assign(item, {
-            options: {
-                onBefore: () => clearSessionFilters(item.href),
-            },
-        }),
-    ),
+const team = usePageProp<TeamResource>('team');
+
+const sidebarNavItems = useInertiaComputed((): NavItemHref[] =>
+    team.value
+        ? [
+              {
+                  title: trans('layouts.teams.form.edit'),
+                  href: teams.edit.url({ team: team.value }),
+                  icon: SquarePenIcon,
+              },
+          ]
+        : [],
 );
 </script>
 

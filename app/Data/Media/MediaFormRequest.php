@@ -20,11 +20,8 @@ class MediaFormRequest extends Data
         #[FromRouteParameter('modelType')]
         public string $model_type,
 
-        #[FromRouteParameter('modelId')]
-        public int $model_id,
-
         #[FromRouteParameter('collection')]
-        public string $collection,
+        public string $collection_name,
 
         #[LiteralTypeScriptType('File')]
         public UploadedFile $file,
@@ -43,10 +40,10 @@ class MediaFormRequest extends Data
         abort_if(! $modelClass, Response::HTTP_NOT_FOUND);
 
         /** @var \Illuminate\Database\Eloquent\Model&\Spatie\MediaLibrary\HasMedia $model */
-        $model = app($modelClass)->findOrFail($context->payload['model_id']);
+        $model = app($modelClass);
 
         /** @var ?\Spatie\MediaLibrary\MediaCollections\MediaCollection $collection */
-        $collection = method_exists($model, 'getMediaCollection') ? $model->getMediaCollection($context->payload['collection']) : null;
+        $collection = method_exists($model, 'getMediaCollection') ? $model->getMediaCollection($context->payload['collection_name']) : null;
         abort_if(! $collection, Response::HTTP_NOT_FOUND);
 
         $mimeTypes = implode(',', $collection->acceptsMimeTypes);

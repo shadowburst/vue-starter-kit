@@ -2,8 +2,8 @@
 
 namespace App\Actions\Settings\Account;
 
+use App\Actions\Media\UpdateMedia;
 use App\Data\Settings\Account\UpdateAccountSettingsRequest;
-use App\Facades\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
@@ -29,7 +29,7 @@ class UpdateAccountSettings
             $user->sendEmailVerificationNotification();
         }
 
-        $success = Services::media()->update->execute($user, User::COLLECTION_AVATAR, $data->avatar) && $user->save();
+        $success = app(UpdateMedia::class)->execute($user, User::COLLECTION_AVATAR, $data->avatar) && $user->save();
 
         if (! $success) {
             DB::rollBack();

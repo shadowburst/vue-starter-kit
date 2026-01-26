@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware\Auth;
 
-use App\Facades\Services;
+use App\Actions\User\SelectUserTeam;
+use App\Http\Controllers\Team\TeamFirstController;
 use App\Models\Team;
+use App\Services\TeamService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthTeamMiddleware
@@ -32,21 +33,13 @@ class AuthTeamMiddleware
             $user->update(['team_id' => null]);
 
             return $user->can('create', Team::class)
-                ? to_route('teams.first.create')
-                : to_route('teams.first.required');
+                ? to_action([TeamFirstController::class, 'create'])
+                : to_action([TeamFirstController::class, 'required']);
         }
 
         // Select the first available team
-        Services::user()->selectTeam->execute($user, $team);
-        if (Route::is('teams.*')) {
-            /** @var Team|string|int|null $routeTeam */
-            $routeTeam = $request->team;
-            if ($routeTeam && $user->hasTeam($routeTeam)) {
-                // If the user is accessing their configuration set to current route team
-                $team = $routeTeam;
-            }
-        }
-        Services::team()->setCurrent($team);
+        app(SelectUserTeam::class)->execute($user, $team);
+        app(TeamService::class)->setCurrent($team);
 
         return $next($request);
     }

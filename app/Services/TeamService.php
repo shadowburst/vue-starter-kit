@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
-use App\Actions\Team\CreateOrUpdateTeam;
 use App\Models\Team;
+use Illuminate\Container\Attributes\Singleton;
 
+#[Singleton]
 class TeamService
 {
     protected ?Team $current = null;
 
-    public function __construct(
-        public CreateOrUpdateTeam $createOrUpdate,
+    protected function __construct(
+        //
     ) {}
 
     public function currentId(): ?int

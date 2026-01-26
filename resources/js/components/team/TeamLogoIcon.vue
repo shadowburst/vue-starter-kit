@@ -2,14 +2,15 @@
 import AppLogoIcon from '@/components/icon/AppLogoIcon.vue';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import type { MediaResource } from '@/types';
+import { show } from '@/routes/media';
+import type { MediaData } from '@/types';
 import { reactiveOmit } from '@vueuse/core';
-import { useAxios } from '@vueuse/integrations/useAxios.mjs';
+import { useAxios } from '@vueuse/integrations/useAxios';
 import { useForwardProps } from 'reka-ui';
 import { HTMLAttributes, ref, watch } from 'vue';
 
 type Props = {
-    media: MediaResource | null | undefined;
+    media: MediaData | null | undefined;
     class?: HTMLAttributes['class'];
 };
 const props = defineProps<Props>();
@@ -23,7 +24,7 @@ watch(
     () => props.media,
     () => {
         if (props.media) {
-            execute(props.media.url).then(({ data }) => {
+            execute(show({ media: props.media }).url).then(({ data }) => {
                 svgSrc.value = data.value;
             });
         } else {

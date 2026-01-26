@@ -2,8 +2,8 @@
 
 namespace App\Models\Scopes;
 
-use App\Facades\Services;
-use App\Traits\BelongsToTeam;
+use App\Services\TeamService;
+use App\Traits\Models\BelongsToTeam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -14,7 +14,7 @@ class BelongsToAuthTeam implements Scope
 {
     public function apply(Builder $query, Model $model): Builder
     {
-        if (! in_array(BelongsToTeam::class, class_uses_recursive($model::class))) {
+        if (! in_array(BelongsToTeam::class, class_uses_recursive($model))) {
             return $query;
         }
 
@@ -26,7 +26,7 @@ class BelongsToAuthTeam implements Scope
             return $query;
         }
 
-        $team = Services::team()->currentId();
+        $team = app(TeamService::class)->currentId();
         if (! $team) {
             return $query;
         }

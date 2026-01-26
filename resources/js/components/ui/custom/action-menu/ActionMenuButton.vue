@@ -16,7 +16,7 @@ const label = computed((): string => (!size.value?.startsWith('icon') ? action.l
 </script>
 
 <template>
-    <Button v-if="action.href" as-child :variant :size>
+    <Button v-if="action.type === 'href'" as-child :variant :size>
         <InertiaLink :href="action.href" :disabled="action.disabled">
             <component :is="action.icon" />
             <CapitalizeText v-if="label">
@@ -24,7 +24,7 @@ const label = computed((): string => (!size.value?.startsWith('icon') ? action.l
             </CapitalizeText>
         </InertiaLink>
     </Button>
-    <Button v-else-if="action.callback" :variant :size :disabled="action.disabled" @click="action.callback()">
+    <Button v-else :variant :size :disabled="action.disabled" @click="action.callback()">
         <component :is="action.icon" />
         <CapitalizeText v-if="label">
             {{ label }}

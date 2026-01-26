@@ -2,12 +2,19 @@
 
 namespace {{ namespace }};
 
+use App\Data\{{ class }\{{ class }Resource;
 {{ factoryImport }}
 use Illuminate\Database\Eloquent\Model;
+use Spatie\LaravelData\WithData;
 
 class {{ class }} extends Model
 {
     {{ factory }}
+
+    /** @use WithData<{{ class }}Resource> */
+    use WithData;
+
+    protected $dataClass = {{ class }}Resource::class;
 
     /**
      * The attributes that are mass assignable.
