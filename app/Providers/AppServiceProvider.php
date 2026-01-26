@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\TeamService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Vite;
@@ -14,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(TeamService::class, function () {
+            return (new \ReflectionClass(TeamService::class))->newInstanceWithoutConstructor();
+        });
     }
 
     /**
